@@ -12,7 +12,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-public class PagedResultVO<T> implements Serializable {
+public class PagedResult<T> implements Serializable {
     private static final long serialVersionUID = -3422814987475041137L;
 
     /**
@@ -24,7 +24,7 @@ public class PagedResultVO<T> implements Serializable {
      */
     private List<T> result;
 
-    public PagedResultVO(PageVO pageVO, List<T> result){
+    public PagedResult(PageVO pageVO, List<T> result){
         this.pageVO = pageVO;
         this.result = result;
     }
