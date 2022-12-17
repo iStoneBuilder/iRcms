@@ -4,5 +4,5 @@
 # micro.rcms.eurekahub
   注册中心
 
-# micro.rcms.gateway
+# micro.rcms.gatewayer
   网关
