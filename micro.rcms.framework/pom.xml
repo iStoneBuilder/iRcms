@@ -5,13 +5,24 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.stone.it</groupId>
-    <artifactId>micro.rcms.eurkacenter</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>micro.rcms.framework</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <modules>
+        <module>micro.rcms.base</module>
+        <module>micro.rcms.data</module>
+        <module>micro.rcms.core</module>
+        <module>micro.rcms.http</module>
+        <module>micro.rcms.xlsx</module>
+        <module>micro.rcms.ircm</module>
+    </modules>
+
 
 </project>
