@@ -40,24 +40,25 @@ public class RequestExecute extends RequestClient {
 	protected static ResponseEntity execute(HttpClient client, RequestType methodType, String url, String body,
 	                                        Map<String, String> header, Map<String, String> params) throws Exception {
 		// 请求类型
-		LOGGER.info("RCMS_REQUEST_TYPE : " + methodType);
+		LOGGER.info("RCMS_REQUEST_TYPE :  " + methodType);
 		// 处理请求参数
 		url = buildRequestUrl(url, params);
-		LOGGER.info("RCMS_REQUEST_URL : " + url);
+		LOGGER.info("RCMS_REQUEST_URL :  " + url);
 		// 获取Base
 		HttpRequestBase requestBase = getBase(methodType, url, body, header);
-		LOGGER.info("RCMS_REQUEST_HEADERS : " + JSON.toJSONString(requestBase.getAllHeaders()));
+		LOGGER.info("RCMS_REQUEST_HEADERS :  " + JSON.toJSONString(requestBase.getAllHeaders()));
+		LOGGER.info("RCMS_REQUEST_BODY :  " + body);
 		// 执行请求
 		HttpResponse httpResponse = client.execute(requestBase);
 		// 解析数据
 		ResponseEntity responseEntity = new ResponseEntity();
-		LOGGER.info("RCMS_REQUEST_RESPONSE_CODE : " + httpResponse.getStatusLine().getStatusCode());
+		LOGGER.info("RCMS_REQUEST_RESPONSE_CODE :  " + httpResponse.getStatusLine().getStatusCode());
 		// 设置响应码
 		responseEntity.setCode(String.valueOf(httpResponse.getStatusLine().getStatusCode()));
 		// 解析响应体
 		String response = EntityUtils.toString(httpResponse.getEntity(), Charsets.UTF_8);
 		responseEntity.setBody(response);
-		LOGGER.info("RCMS_REQUEST_RESPONSE_BODY : " + response);
+		LOGGER.info("RCMS_REQUEST_RESPONSE_BODY :  " + response);
 		if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 			responseEntity.setMessage("success");
 		} else {
