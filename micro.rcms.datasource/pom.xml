@@ -10,7 +10,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>micro.rcms.data</artifactId>
+    <artifactId>micro.rcms.datasource</artifactId>
 
     <properties>
         <mybatis-s-starter>2.2.2</mybatis-s-starter>
