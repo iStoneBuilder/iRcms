@@ -22,7 +22,6 @@ import java.util.Set;
  */
 public class RequestExecute extends RequestClient {
 
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(RequestExecute.class);
 
 	/**
@@ -51,10 +50,11 @@ public class RequestExecute extends RequestClient {
 		// 执行请求
 		HttpResponse httpResponse = client.execute(requestBase);
 		// 解析数据
+		int responseCode = httpResponse.getStatusLine().getStatusCode();
 		ResponseEntity responseEntity = new ResponseEntity();
-		LOGGER.info("RCMS_REQUEST_RESPONSE_CODE :  " + httpResponse.getStatusLine().getStatusCode());
+		LOGGER.info("RCMS_REQUEST_RESPONSE_CODE :  " + responseCode);
 		// 设置响应码
-		responseEntity.setCode(String.valueOf(httpResponse.getStatusLine().getStatusCode()));
+		responseEntity.setCode(String.valueOf(responseCode));
 		// 解析响应体
 		String response = EntityUtils.toString(httpResponse.getEntity(), Charsets.UTF_8);
 		responseEntity.setBody(response);
@@ -116,12 +116,12 @@ public class RequestExecute extends RequestClient {
 		}
 		// 设置请求头
 		if (base != null && header != null) {
-			setHeader(base, header);
+			buildRequestHeader(base, header);
 		}
 		return base;
 	}
 
-	private static void setHeader(HttpRequestBase base, Map<String, String> header) {
+	private static void buildRequestHeader(HttpRequestBase base, Map<String, String> header) {
 		// 设置默认请求头
 		base.setHeader("Content-Type", "application/json;charset=utf-8");
 		base.setHeader("Accept", "application/json");
