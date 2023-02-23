@@ -11,6 +11,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Set;
@@ -34,40 +35,48 @@ public class RequestExecute extends RequestClient {
 	 * @param header
 	 * @param params
 	 * @return
-	 * @throws Exception
 	 */
 	protected static ResponseEntity execute(HttpClient client, RequestType methodType, String url, String body,
-	                                        Map<String, String> header, Map<String, String> params) throws Exception {
-		// 请求类型
+	                                        Map<String, String> header, Map<String, String> params) {
 		LOGGER.info("RCMS_REQUEST_TYPE :  " + methodType);
+		ResponseEntity responseEntity = new ResponseEntity();
 		// 处理请求参数
 		url = buildRequestUrl(url, params);
 		LOGGER.info("RCMS_REQUEST_URL :  " + url);
-		// 获取Base
-		HttpRequestBase requestBase = getBase(methodType, url, body, header);
-		LOGGER.info("RCMS_REQUEST_HEADERS :  " + JSON.toJSONString(requestBase.getAllHeaders()));
-		LOGGER.info("RCMS_REQUEST_BODY :  " + body);
 		// 执行请求
-		HttpResponse httpResponse = client.execute(requestBase);
-		// 解析数据
-		int responseCode = httpResponse.getStatusLine().getStatusCode();
-		ResponseEntity responseEntity = new ResponseEntity();
-		LOGGER.info("RCMS_REQUEST_RESPONSE_CODE :  " + responseCode);
-		// 设置响应码
-		responseEntity.setCode(String.valueOf(responseCode));
-		// 解析响应体
-		String response = EntityUtils.toString(httpResponse.getEntity(), Charsets.UTF_8);
-		responseEntity.setBody(response);
-		LOGGER.info("RCMS_REQUEST_RESPONSE_BODY :  " + response);
-		if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-			responseEntity.setMessage("success");
-		} else {
-			responseEntity.setMessage("fail");
+		HttpRequestBase requestBase = null;
+		try {
+			// 构建RequestBase
+			requestBase = buildRequestBase(methodType, url, body, header);
+			LOGGER.info("RCMS_REQUEST_HEADERS :  " + JSON.toJSONString(requestBase.getAllHeaders()));
+			LOGGER.info("RCMS_REQUEST_BODY :  " + body);
+			HttpResponse httpResponse = client.execute(requestBase);
+			// 解析数据
+			int responseCode = httpResponse.getStatusLine().getStatusCode();
+			LOGGER.info("RCMS_REQUEST_RESPONSE_CODE :  " + responseCode);
+			// 设置响应码
+			responseEntity.setCode(String.valueOf(responseCode));
+			// 解析响应体
+			String response = EntityUtils.toString(httpResponse.getEntity(), Charsets.UTF_8);
+			LOGGER.info("RCMS_REQUEST_RESPONSE_BODY :  " + response);
+			responseEntity.setBody(response);
+			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				responseEntity.setMessage("success");
+			} else {
+				responseEntity.setMessage("fail");
+			}
+			requestBase.abort();
+		} catch (IOException ioException) {
+			responseEntity.setErrors(ioException.getMessage());
+		} finally {
+			if (requestBase != null) {
+				requestBase.abort();
+			}
 		}
 		return responseEntity;
 	}
 
-	protected static String buildRequestUrl(String url, Map<String, String> params) throws Exception {
+	protected static String buildRequestUrl(String url, Map<String, String> params) {
 		StringBuilder uriParams = new StringBuilder();
 		Set<Map.Entry<String, String>> paramSet = params.entrySet();
 		for (Map.Entry<String, String> next : paramSet) {
@@ -80,8 +89,8 @@ public class RequestExecute extends RequestClient {
 		return url + paramUri;
 	}
 
-	protected static HttpRequestBase getBase(RequestType methodType, String url, String body,
-	                                         Map<String, String> header) throws UnsupportedEncodingException {
+	protected static HttpRequestBase buildRequestBase(RequestType methodType, String url, String body,
+	                                                  Map<String, String> header) throws UnsupportedEncodingException {
 		HttpRequestBase base = null;
 		switch (methodType) {
 			case POST:
