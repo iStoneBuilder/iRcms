@@ -22,7 +22,7 @@ public class RequestClient {
 	private static final int CONNECT_TIMEOUT = 6000;
 
 	/**
-	 * 设置连接超时时间，单位毫秒。
+	 * 设置请求超时时间，单位毫秒。
 	 */
 	private static final int REQUEST_TIMEOUT = 6000;
 
@@ -76,7 +76,6 @@ public class RequestClient {
 					.setDefaultRequestConfig(getRequestConfig())
 					// 注释
 					.disableAutomaticRetries()
-					// 注释
 					.build();
 		}
 		return httpsClient;
@@ -84,9 +83,9 @@ public class RequestClient {
 
 	private static RequestConfig getRequestConfig() {
 		return RequestConfig.custom()
-				// CONNECT_TIMEOUT
+				// 设置连接超时时间，单位毫秒
 				.setConnectTimeout(CONNECT_TIMEOUT)
-				// REQUEST_TIMEOUT
+				// 设置请求超时时间，单位毫秒。
 				.setConnectionRequestTimeout(REQUEST_TIMEOUT)
 				// SOCKET_TIMEOUT
 				.setSocketTimeout(SOCKET_TIMEOUT)
