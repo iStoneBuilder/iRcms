@@ -1,11 +1,10 @@
 package com.stone.it.rcms.base.vo;
 
-import lombok.Data;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.Date;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import lombok.Data;
 
 /**
  * @author cj.stone
@@ -16,11 +15,11 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BaseVO implements Serializable {
 
-    static final long serialVersionUID = 1L;
+  static final long serialVersionUID = 1L;
 
-    private String createBy;
-    private String updateBy;
-    private Date createDate;
-    private Date updateDate;
+  private String createBy;
+  private String updateBy;
+  private Date createDate;
+  private Date updateDate;
 
 }

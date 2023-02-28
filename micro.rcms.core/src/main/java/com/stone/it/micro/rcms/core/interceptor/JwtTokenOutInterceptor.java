@@ -15,15 +15,15 @@ import org.slf4j.LoggerFactory;
  */
 public class JwtTokenOutInterceptor extends AbstractPhaseInterceptor<Message> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenOutInterceptor.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenOutInterceptor.class);
 
-    public JwtTokenOutInterceptor() {
-        // 这儿使用pre_stream，意思为在流关闭之前
-        super(Phase.PRE_STREAM);
-    }
+  public JwtTokenOutInterceptor() {
+    // 这儿使用pre_stream，意思为在流关闭之前
+    super(Phase.PRE_STREAM);
+  }
 
-    @Override
-    public void handleMessage(Message message) throws Fault {
-        LOGGER.info("CXF Interceptor Out ........");
-    }
+  @Override
+  public void handleMessage(Message message) throws Fault {
+    LOGGER.info("CXF Interceptor Out ........");
+  }
 }

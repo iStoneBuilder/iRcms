@@ -14,14 +14,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JwtConfig {
 
-    @Bean
-    public FilterRegistrationBean<JwtFilter> jwtFilter() {
-        final FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<JwtFilter>();
-        registrationBean.setFilter(new JwtFilter());
-        registrationBean.addUrlPatterns("/*");
-        registrationBean.setOrder(1);
-        return registrationBean;
-    }
+  @Bean
+  public FilterRegistrationBean<JwtFilter> jwtFilter() {
+    final FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<JwtFilter>();
+    registrationBean.setFilter(new JwtFilter());
+    registrationBean.addUrlPatterns("/*");
+    registrationBean.setOrder(1);
+    return registrationBean;
+  }
 
 
 }
