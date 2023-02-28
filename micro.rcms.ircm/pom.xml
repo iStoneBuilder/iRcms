@@ -14,13 +14,7 @@
   <dependencies>
     <dependency>
       <groupId>com.stone.it</groupId>
-      <artifactId>micro.rcms.base</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.stone.it</groupId>
-      <artifactId>micro.rcms.core</artifactId>
+      <artifactId>micro.rcms.framecore</artifactId>
       <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
