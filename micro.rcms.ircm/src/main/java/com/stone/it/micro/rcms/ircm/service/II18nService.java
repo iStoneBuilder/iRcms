@@ -6,4 +6,5 @@ package com.stone.it.micro.rcms.ircm.service;
  * @Desc
  */
 public interface II18nService {
+
 }

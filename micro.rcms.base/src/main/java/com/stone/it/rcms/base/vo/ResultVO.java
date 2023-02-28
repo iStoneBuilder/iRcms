@@ -1,8 +1,7 @@
 package com.stone.it.rcms.base.vo;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * @Author iMrJi
@@ -14,16 +13,16 @@ import java.io.Serializable;
 @Data
 public class ResultVO implements Serializable {
 
-    private static final long serialVersionUID = -6069252500372952744L;
+  private static final long serialVersionUID = -6069252500372952744L;
 
-    private String status;
-    private String message;
-    private String data;
-    private String meta;
+  private String status;
+  private String message;
+  private String data;
+  private String meta;
 
-    public ResultVO() {
-        status = "success";
-        message = "success";
-    }
+  public ResultVO() {
+    status = "success";
+    message = "success";
+  }
 
 }
