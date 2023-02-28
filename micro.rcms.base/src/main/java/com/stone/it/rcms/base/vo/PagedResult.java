@@ -1,9 +1,8 @@
 package com.stone.it.rcms.base.vo;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.List;
+import lombok.Data;
 
 /**
  * @Author iMrJi
@@ -13,20 +12,21 @@ import java.util.List;
  */
 @Data
 public class PagedResult<T> implements Serializable {
-    private static final long serialVersionUID = -3422814987475041137L;
 
-    /**
-     * 分页信息
-     */
-    private PageVO pageVO;
-    /**
-     * 对象list
-     */
-    private List<T> result;
+  private static final long serialVersionUID = -3422814987475041137L;
 
-    public PagedResult(PageVO pageVO, List<T> result){
-        this.pageVO = pageVO;
-        this.result = result;
-    }
+  /**
+   * 分页信息
+   */
+  private PageVO pageVO;
+  /**
+   * 对象list
+   */
+  private List<T> result;
+
+  public PagedResult(PageVO pageVO, List<T> result) {
+    this.pageVO = pageVO;
+    this.result = result;
+  }
 
 }

@@ -13,16 +13,16 @@ import org.slf4j.LoggerFactory;
  * @Date 2022/8/31 9:01 PM
  * @Version 1.0
  */
-public class JwtTokenInInterceptor extends AbstractPhaseInterceptor<Message>{
+public class JwtTokenInInterceptor extends AbstractPhaseInterceptor<Message> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenInInterceptor.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenInInterceptor.class);
 
-    public JwtTokenInInterceptor() {
-        super(Phase.RECEIVE);
-    }
+  public JwtTokenInInterceptor() {
+    super(Phase.RECEIVE);
+  }
 
-    @Override
-    public void handleMessage(Message message) throws Fault {
-        LOGGER.info("CXF Interceptor In ...........");
-    }
+  @Override
+  public void handleMessage(Message message) throws Fault {
+    LOGGER.info("CXF Interceptor In ...........");
+  }
 }

@@ -6,4 +6,5 @@ package com.stone.it.micro.rcms.ircm.dao;
  * @Desc
  */
 public interface II18nDao {
+
 }

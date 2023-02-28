@@ -11,4 +11,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @MapperScan(basePackages = "com.stone.it.**.dao")
 public class MybatisMapScan {
+
 }

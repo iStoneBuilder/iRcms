@@ -7,22 +7,22 @@ import java.util.UUID;
  */
 public class UUIDUtil {
 
-    /**
-     * UUID
-     *
-     * @return
-     */
-    public static String getUuid() {
-        return UUID.randomUUID().toString();
-    }
+  /**
+   * UUID
+   *
+   * @return
+   */
+  public static String getUuid() {
+    return UUID.randomUUID().toString();
+  }
 
-    /**
-     * TIMER + "-" + UUID
-     *
-     * @return
-     */
-    public static String getTimerUuid() {
-        return DateUtil.getYearMonthDay() + "-" + getUuid();
-    }
+  /**
+   * TIMER + "-" + UUID
+   *
+   * @return
+   */
+  public static String getTimerUuid() {
+    return DateUtil.getYearMonthDay() + "-" + getUuid();
+  }
 
 }

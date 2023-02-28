@@ -8,4 +8,5 @@ import com.stone.it.micro.rcms.ircm.service.II18nService;
  * @Desc
  */
 public class I18nService implements II18nService {
+
 }
