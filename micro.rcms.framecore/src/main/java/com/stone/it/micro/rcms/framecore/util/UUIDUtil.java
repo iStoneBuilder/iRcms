@@ -25,4 +25,9 @@ public class UUIDUtil {
     return DateUtil.getYearMonthDay() + "-" + getUuid();
   }
 
+
+  public static String getYearMonthDayUuid() {
+    return DateUtil.getYearMonthDay("yyyyMMdd") + "-" + getUuid();
+  }
+
 }

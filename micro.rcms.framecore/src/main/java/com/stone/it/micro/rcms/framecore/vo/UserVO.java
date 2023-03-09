@@ -8,6 +8,10 @@ import lombok.Data;
  * @Desc
  */
 @Data
-public class UserVO extends BaseVO{
+public class UserVO extends BaseVO {
+
+  private String userId;
+  private String userAccount;
+  private String userName;
 
 }

@@ -19,7 +19,7 @@ public class DateUtil {
     return getYearMonthDay(date, format);
   }
 
-  String getYearMonthDay(String format) {
+  static String getYearMonthDay(String format) {
     return getYearMonthDay(new Date(), format);
   }
 
