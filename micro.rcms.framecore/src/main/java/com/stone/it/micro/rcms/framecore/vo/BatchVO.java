@@ -9,20 +9,20 @@ import lombok.Data;
  * @Desc
  */
 @Data
-public class BatchVO extends BaseVO {
+public class BatchVO<T> extends BaseVO {
 
   static final long serialVersionUID = 1L;
   /**
-   * 插入
+   * 新增
    */
-  private List<Object> insertItems;
+  private List<T> createItems;
   /**
    * 更新
    */
-  private List<Object> updateItems;
+  private List<T> updateItems;
   /**
    * 删除
    */
-  private List<Object> deleteItems;
+  private List<T> deleteItems;
 
 }

@@ -9,6 +9,7 @@
   <jaxrs:server id="i18nServiceRest" address="/api">
     <jaxrs:serviceBeans>
       <ref bean="i18nService"/>
+      <ref bean="itemService"/>
     </jaxrs:serviceBeans>
     <jaxrs:providers>
       <ref bean="jsonProvider"/>

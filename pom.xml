@@ -16,12 +16,12 @@
   </properties>
 
   <modules>
-    <module>micro.rcms.ircm</module>
     <module>micro.rcms.datasource</module>
     <module>micro.rcms.httpsutils</module>
     <module>micro.rcms.download</module>
     <module>micro.rcms.upload</module>
     <module>micro.rcms.framecore</module>
+    <module>micro.rcms.framebase</module>
   </modules>
 
 

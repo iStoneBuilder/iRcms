@@ -13,24 +13,29 @@ import java.util.Set;
  */
 public class PropertiesUtil {
 
-  private static Properties properties = new Properties();
-
   private static Map<String, String> propertiesMap = new HashMap<>();
 
+  /**
+   * 默认读取配置文件
+   */
   private static final String propertiesFileName = "application.properties";
 
-  private static final String readConfig = "micro.rcms.config";
+  /**
+   * application.properties 动态需要读取的配置
+   */
+  private static final String readConfig = "micro.rcms.dynamic.config";
 
   static void propertiesReader() {
     InputStream inputStream = null;
+    Properties properties = new Properties();
     try {
       // 读取默认配置
       inputStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(propertiesFileName);
       properties.load(inputStream);
       // 读取动态配置
-      String config = properties.getProperty(readConfig);
-      if (config != null && config != "") {
-        String[] configs = config.split(",");
+      String dynamicConfig = properties.getProperty(readConfig);
+      if (dynamicConfig != null && dynamicConfig != "") {
+        String[] configs = dynamicConfig.split(",");
         for (int i = 0; i < configs.length; i++) {
           inputStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(configs[i]);
           properties.load(inputStream);
