@@ -1,5 +1,6 @@
 package com.stone.it.micro.rcms.framebase.service.impl;
 
+import com.stone.it.micro.rcms.framebase.dao.IItemDao;
 import com.stone.it.micro.rcms.framebase.service.IItemService;
 import com.stone.it.micro.rcms.framebase.vo.ClassifyVO;
 import com.stone.it.micro.rcms.framebase.vo.ItemVO;
@@ -7,6 +8,7 @@ import com.stone.it.micro.rcms.framecore.vo.PageVO;
 import com.stone.it.micro.rcms.framecore.vo.PagedResult;
 import com.stone.it.micro.rcms.framecore.vo.ResultVO;
 import java.util.List;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -17,10 +19,12 @@ import javax.inject.Named;
 @Named
 public class ItemService implements IItemService {
 
+  @Inject
+  private IItemDao itemDao;
 
   @Override
   public PagedResult<ClassifyVO> findPageResult(ClassifyVO classifyVO, PageVO pageVO) {
-    return null;
+    return itemDao.findPageResult(classifyVO,pageVO);
   }
 
   @Override

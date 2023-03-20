@@ -3,4 +3,8 @@
 <mapper namespace="com.stone.it.micro.rcms.framebase.dao.IItemDao">
 
 
+  <select id="findPageResult" resultType="com.stone.it.micro.rcms.framebase.vo.ClassifyVO">
+
+  </select>
+
 </mapper>

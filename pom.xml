@@ -16,12 +16,12 @@
   </properties>
 
   <modules>
-    <module>micro.rcms.datasource</module>
     <module>micro.rcms.framecore</module>
     <module>micro.rcms.framebase</module>
     <module>micro.rcms.framegate</module>
     <module>micro.rcms.framehttp</module>
     <module>micro.rcms.download</module>
+    <module>micro.rcms.framedata</module>
   </modules>
 
 

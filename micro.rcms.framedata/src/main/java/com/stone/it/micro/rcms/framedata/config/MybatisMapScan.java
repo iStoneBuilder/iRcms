@@ -1,11 +1,11 @@
-package com.stone.it.micro.rcms.data.config;
+package com.stone.it.micro.rcms.framedata.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * @author cj.stone
- * @Date 2022/11/13
+ * @Date 2023/3/20
  * @Desc
  */
 @Configuration
