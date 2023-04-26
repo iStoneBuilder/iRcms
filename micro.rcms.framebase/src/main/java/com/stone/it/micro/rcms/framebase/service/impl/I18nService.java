@@ -13,6 +13,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * 国际化配置
+ *
  * @author cj.stone
  * @Date 2023/3/9
  * @Desc
