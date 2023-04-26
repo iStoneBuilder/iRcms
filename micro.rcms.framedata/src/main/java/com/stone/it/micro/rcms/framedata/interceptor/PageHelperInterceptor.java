@@ -19,12 +19,13 @@ import org.apache.ibatis.session.RowBounds;
  * @Desc
  */
 @Intercepts({
-    @Signature(type = Executor.class,method = "query",
+    @Signature(type = Executor.class, method = "query",
         args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}
-    ), @Signature(type = Executor.class,method = "query",
-    args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}
+    ), @Signature(type = Executor.class, method = "query",
+    args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class,
+        CacheKey.class, BoundSql.class}
 )})
-public class PageHelperInterceptor  implements Interceptor {
+public class PageHelperInterceptor implements Interceptor {
 
   @Override
   public Object intercept(Invocation invocation) throws Throwable {
