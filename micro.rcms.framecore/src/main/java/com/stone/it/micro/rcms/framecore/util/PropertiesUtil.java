@@ -16,24 +16,17 @@ public class PropertiesUtil {
   private static Map<String, String> propertiesMap = new HashMap<>();
 
   /**
-   * 默认读取配置文件
-   */
-  private static final String propertiesFileName = "application.properties";
-
-  /**
    * application.properties 动态需要读取的配置
    */
-  private static final String readConfig = "micro.rcms.dynamic.config";
+  private static final String readConfig = "micro_rcms_dynamic_config";
+
 
   static void propertiesReader() {
     InputStream inputStream = null;
     Properties properties = new Properties();
     try {
-      // 读取默认配置
-      inputStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(propertiesFileName);
-      properties.load(inputStream);
-      // 读取动态配置
-      String dynamicConfig = properties.getProperty(readConfig);
+      // 从环境变量读取
+      String dynamicConfig = System.getenv(readConfig);
       if (dynamicConfig != null && dynamicConfig != "") {
         String[] configs = dynamicConfig.split(",");
         for (int i = 0; i < configs.length; i++) {
@@ -42,7 +35,6 @@ public class PropertiesUtil {
         }
       }
       initPropertiesMap(properties);
-      propertiesMap.remove(readConfig);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -61,7 +53,9 @@ public class PropertiesUtil {
   private static void initPropertiesMap(Properties properties) {
     Set<Map.Entry<Object, Object>> keyValues = properties.entrySet();
     for (Map.Entry<Object, Object> keyValue : keyValues) {
-      propertiesMap.put((String) keyValue.getKey(), (String) keyValue.getValue());
+      String key = (String) keyValue.getKey();
+      String value = (String) keyValue.getValue();
+      propertiesMap.put(key, value);
     }
   }
 
@@ -72,16 +66,7 @@ public class PropertiesUtil {
    * @return
    */
   public static String getValue(String key) {
-    // 初始化数据
-    if (propertiesMap.size() == 0) {
-      propertiesReader();
-    }
-    String value = propertiesMap.get(key);
-    // 没有获取到，从环境变量获取
-    if (value == null || value.isEmpty()) {
-      value = System.getenv(key);
-    }
-    return value;
+    return getValue(key, null);
   }
 
   public static String getValue(String key, String defaultValue) {

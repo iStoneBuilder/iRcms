@@ -21,8 +21,9 @@ public class ResultVO implements Serializable {
   private String meta;
 
   public ResultVO() {
-    status = "success";
-    message = "success";
+    this.status = "success";
+    this.message = "success";
   }
+
 
 }

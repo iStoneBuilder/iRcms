@@ -1,13 +1,13 @@
 server:
-  port: ${port:10000}
+  port: ${gateway_server_port:10000}
 spring:
   application:
-    name: apiGateway
+    name: micro-rcms-gateway-server
   cloud:
     gateway:
       routes:
         # 路由的ID,没有固定规则但要求唯一,建议配合服务名
-        - id: authService
+        - id: auth-service
           # 匹配后提供服务的路由地址
           uri: http://localhost:9090
           # 断言,路径相匹配的进行路由
@@ -17,7 +17,7 @@ spring:
             - PrefixPath=/lbs
             # 请求添加参数age=18
             - AddRequestParameter=t,18
-        - id: tmdbService
+        - id: tmdb-service
           # 匹配后提供服务的路由地址
           uri: http://localhost:52602
           # 断言,路径相匹配的进行路由

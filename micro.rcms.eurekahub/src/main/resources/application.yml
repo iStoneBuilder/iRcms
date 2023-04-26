@@ -1,9 +1,9 @@
 server:
-  port: 8888
+  port: ${eureka_server_port:8888}
 
 spring:
   application:
-    name: eureka-server
+    name: micro-rcms-eureka-server
 
 eureka:
   instance:

@@ -16,7 +16,7 @@ public class EurekaApplication {
   private static final Logger LOGGER = LoggerFactory.getLogger(EurekaApplication.class);
 
   public static void main(String[] args) {
-    LOGGER.info("Eureka Application start ...... ");
+    LOGGER.info("Eureka Application server start ...... ");
     SpringApplication.run(EurekaApplication.class, args);
   }
 

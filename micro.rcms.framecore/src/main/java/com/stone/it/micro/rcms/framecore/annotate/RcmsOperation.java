@@ -1,7 +1,6 @@
 package com.stone.it.micro.rcms.framecore.annotate;
 
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -14,9 +13,10 @@ import java.lang.annotation.Target;
  * @Desc
  */
 @Target(ElementType.METHOD)
-@Inherited
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RcmsOperation {
+
+
 
 }
 
@@ -43,10 +43,10 @@ public @interface RcmsOperation {
     元注解：
     java.lang.annotation 提供了四种元注解，专门注解其他的注解（在自定义注解的时候，需要使用到元注解）：
 
-@Documented – 注解是否将包含在JavaDoc中
-@Retention – 什么时候使用该注解
-@Target – 注解用于什么地方
-@Inherited – 是否允许子类继承该注解
+    @Documented – 注解是否将包含在JavaDoc中
+    @Retention – 什么时候使用该注解
+    @Target – 注解用于什么地方
+    @Inherited – 是否允许子类继承该注解
     1.@Retention – 定义该注解的生命周期
 
     RetentionPolicy.SOURCE : 在编译阶段丢弃。这些注解在编译结束之后就不再有任何意义，所以它们不会写入字节码。@Override, @SuppressWarnings都属于这类注解。
