@@ -27,12 +27,11 @@ public class MapUtil {
     Class type = bean.getClass();
     BeanInfo beanInfo = Introspector.getBeanInfo(type);
     PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-    for (int i = 0; i < propertyDescriptors.length; i++) {
-      PropertyDescriptor descriptor = propertyDescriptors[i];
+    for (PropertyDescriptor descriptor : propertyDescriptors) {
       String propertyName = descriptor.getName();
       if (!propertyName.equals("class")) {
         Method readMethod = descriptor.getReadMethod();
-        Object result = readMethod.invoke(bean, new Object[0]);
+        Object result = readMethod.invoke(bean);
         if (result != null) {
           returnMap.put(propertyName, result.toString());
         }

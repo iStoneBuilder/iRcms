@@ -13,17 +13,17 @@ import java.util.List;
  */
 public interface II18nDao {
 
-  public PagedResult<I18nVO> findPageResult(I18nVO i18nVO,
+  PagedResult<I18nVO> findPageResult(I18nVO i18nVO,
       PageVO pageVO);
 
-  public List<I18nVO> findListByLanguage(String language);
+  List<I18nVO> findListByLanguage(String language);
 
-  public int batchOperateI18n(BatchVO batchVO);
+  int batchOperateI18n(BatchVO batchVO);
 
-  public int createI18n(I18nVO i18nVO);
+  int createI18n(I18nVO i18nVO);
 
-  public int updateI18n(I18nVO i18nVO);
+  int updateI18n(I18nVO i18nVO);
 
-  public int deleteI18n(I18nVO i18nVO);
+  int deleteI18n(I18nVO i18nVO);
 
 }

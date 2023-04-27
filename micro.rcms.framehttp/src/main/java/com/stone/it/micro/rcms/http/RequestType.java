@@ -7,6 +7,6 @@ package com.stone.it.micro.rcms.http;
  */
 public enum RequestType {
 
-  GET, POST, PUT, DELETE, PATCH;
+  GET, POST, PUT, DELETE, PATCH
 
 }

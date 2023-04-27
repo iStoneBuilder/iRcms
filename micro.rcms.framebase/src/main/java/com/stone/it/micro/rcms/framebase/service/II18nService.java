@@ -35,7 +35,7 @@ public interface II18nService {
    */
   @GET
   @Path("/find/page/list/{curPage}/{pageSize}")
-  public PagedResult<I18nVO> findPageResult(@QueryParam("") I18nVO i18nVO,
+  PagedResult<I18nVO> findPageResult(@QueryParam("") I18nVO i18nVO,
       @PathParam("") PageVO pageVO);
 
   /**
@@ -46,7 +46,7 @@ public interface II18nService {
    */
   @GET
   @Path("/find/list/{language}")
-  public List<I18nVO> findListByLanguage(@PathParam("language") String language);
+  List<I18nVO> findListByLanguage(@PathParam("language") String language);
 
   /**
    * 批量操作
@@ -56,7 +56,7 @@ public interface II18nService {
    */
   @PUT
   @Path("/batch/operate")
-  public ResultVO batchOperateI18n(BatchVO batchVO);
+  ResultVO batchOperateI18n(BatchVO batchVO);
 
   /**
    * 创建
@@ -66,7 +66,7 @@ public interface II18nService {
    */
   @POST
   @Path("/create/single")
-  public ResultVO createI18n(I18nVO i18nVO);
+  ResultVO createI18n(I18nVO i18nVO);
 
   /**
    * 更新
@@ -76,7 +76,7 @@ public interface II18nService {
    */
   @PUT
   @Path("/update/single")
-  public ResultVO updateI18n(I18nVO i18nVO);
+  ResultVO updateI18n(I18nVO i18nVO);
 
   /**
    * 删除
@@ -86,6 +86,6 @@ public interface II18nService {
    */
   @DELETE
   @Path("/delete/single")
-  public ResultVO deleteI18n(I18nVO i18nVO);
+  ResultVO deleteI18n(I18nVO i18nVO);
 
 }

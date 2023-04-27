@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class PropertiesUtil {
 
-  private static Map<String, String> propertiesMap = new HashMap<>();
+  private static final Map<String, String> propertiesMap = new HashMap<>();
 
   /**
    * application.properties 动态需要读取的配置
@@ -29,8 +29,8 @@ public class PropertiesUtil {
       String dynamicConfig = System.getenv(readConfig);
       if (dynamicConfig != null && dynamicConfig != "") {
         String[] configs = dynamicConfig.split(",");
-        for (int i = 0; i < configs.length; i++) {
-          inputStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(configs[i]);
+        for (String config : configs) {
+          inputStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(config);
           properties.load(inputStream);
         }
       }

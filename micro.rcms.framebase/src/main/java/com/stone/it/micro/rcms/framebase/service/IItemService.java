@@ -27,44 +27,44 @@ public interface IItemService {
 
   @GET
   @Path("/find/page/list/{curPage}/{pageSize}")
-  public PagedResult<ClassifyVO> findPageResult(@QueryParam("") ClassifyVO classifyVO,
+  PagedResult<ClassifyVO> findPageResult(@QueryParam("") ClassifyVO classifyVO,
       @PathParam("") PageVO pageVO);
 
   @GET
   @Path("/find/{classifyCode}")
-  public ClassifyVO findClassify(@PathParam("classifyCode") String classifyCode);
+  ClassifyVO findClassify(@PathParam("classifyCode") String classifyCode);
 
   @GET
   @Path("/find/item/{classifyCode}")
-  public ClassifyVO findClassifyItemByCode(@PathParam("classifyCode") String classifyCode);
+  ClassifyVO findClassifyItemByCode(@PathParam("classifyCode") String classifyCode);
 
   @GET
   @Path("/find/item/{classifyCode}/{language}")
-  public ClassifyVO findClassifyItemByCodeLang(@PathParam("classifyCode") String classifyCode,
+  ClassifyVO findClassifyItemByCodeLang(@PathParam("classifyCode") String classifyCode,
       @PathParam("language") String language);
 
   @POST
   @Path("/create/single")
-  public ResultVO createClassify(ClassifyVO classifyVO);
+  ResultVO createClassify(ClassifyVO classifyVO);
 
   @PUT
   @Path("/update/single")
-  public ResultVO updateClassify(ClassifyVO classifyVO);
+  ResultVO updateClassify(ClassifyVO classifyVO);
 
   @DELETE
   @Path("/delete/single")
-  public ResultVO deleteClassify(ClassifyVO classifyVO);
+  ResultVO deleteClassify(ClassifyVO classifyVO);
 
   @POST
   @Path("/create/item/single")
-  public ResultVO createClassifyItem(ItemVO itemVO);
+  ResultVO createClassifyItem(ItemVO itemVO);
 
   @PUT
   @Path("/update/item/single")
-  public ResultVO updateClassifyItem(ItemVO itemVO);
+  ResultVO updateClassifyItem(ItemVO itemVO);
 
   @DELETE
   @Path("/delete/item/single")
-  public ResultVO deleteClassifyItem(ItemVO itemVO);
+  ResultVO deleteClassifyItem(ItemVO itemVO);
 
 }
