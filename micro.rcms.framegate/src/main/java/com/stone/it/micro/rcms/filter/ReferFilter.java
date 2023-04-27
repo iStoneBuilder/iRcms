@@ -1,6 +1,6 @@
 package com.stone.it.micro.rcms.filter;
 
-import com.stone.it.micro.rcms.config.RefererConfiguration;
+import com.stone.it.micro.rcms.config.ReferConfiguration;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
@@ -11,11 +11,11 @@ import reactor.core.publisher.Mono;
  * @Date 2023/4/27
  * @Desc
  */
-public class RefererFilter implements WebFilter {
+public class ReferFilter implements WebFilter {
 
-  private RefererConfiguration configuration;
+  private ReferConfiguration configuration;
 
-  public RefererFilter(RefererConfiguration configuration) {
+  public ReferFilter(ReferConfiguration configuration) {
     this.configuration = configuration;
   }
 
