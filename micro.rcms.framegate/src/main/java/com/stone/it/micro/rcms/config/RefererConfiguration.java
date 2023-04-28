@@ -1,7 +1,10 @@
 package com.stone.it.micro.rcms.config;
 
 import java.util.List;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -10,9 +13,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @Desc
  */
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @ConfigurationProperties(prefix = "security.gw.referer")
-public class ReferConfiguration {
+public class RefererConfiguration {
 
 
   /**

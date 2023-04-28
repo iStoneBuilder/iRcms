@@ -1,7 +1,7 @@
 package com.stone.it.micro.rcms.filter;
 
 import com.alibaba.fastjson2.JSON;
-import com.stone.it.micro.rcms.config.ReferConfiguration;
+import com.stone.it.micro.rcms.config.RefererConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -15,11 +15,11 @@ import reactor.core.publisher.Mono;
  */
 
 @Slf4j
-public class ReferFilter implements WebFilter {
+public class RefererFilter implements WebFilter {
 
-  private final ReferConfiguration configuration;
+  private final RefererConfiguration configuration;
 
-  public ReferFilter(ReferConfiguration configuration) {
+  public RefererFilter(RefererConfiguration configuration) {
     this.configuration = configuration;
   }
 

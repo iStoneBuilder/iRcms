@@ -11,6 +11,14 @@ eureka:
     # 使用 ip 代替实例名
     prefer-ip-address: false
 
+security:
+  gw:
+    # 请求头 referer 配置
+    referer:
+      enabled: ${security_gw_referer_enabled:true}
+      ignorePaths:
+        - ${security_gw_referer_ignorePaths}
+
 spring:
   application:
     name: micro-rcms-gateway-server
