@@ -2,7 +2,6 @@ package com.stone.it.micro.rcms.config;
 
 import com.stone.it.micro.rcms.filter.RefererFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.cloud.gateway.config.conditional.ConditionalOnEnabledFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -49,7 +48,7 @@ public class BeanConfiguration {
    */
   @Bean
   @Order(50)
-  @ConditionalOnExpression("'ser'")
+  @ConditionalOnExpression("'security.gw.referer.enabled'=='true'")
   public RefererFilter refererFilter(RefererConfiguration configuration) {
     return new RefererFilter(configuration);
   }

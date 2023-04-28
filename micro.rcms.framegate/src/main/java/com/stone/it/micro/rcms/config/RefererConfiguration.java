@@ -27,8 +27,14 @@ public class RefererConfiguration {
   private boolean enabled;
 
   /**
+   * 白名单
+   */
+  private List<String> whiteList;
+
+  /**
    * 忽略校验路径
    */
-  private List<String> ignorePaths;
+  private List<String> ignoreHosts;
+
 
 }

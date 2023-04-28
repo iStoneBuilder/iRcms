@@ -12,25 +12,20 @@ import org.apache.http.impl.client.HttpClients;
  */
 public class RequestClient {
 
-  private static HttpClient httpClient;
-
-  private static HttpClient httpsClient;
-
   /**
    * 设置连接超时时间，单位毫秒。
    */
   private static final int CONNECT_TIMEOUT = 6000;
-
   /**
    * 设置请求超时时间，单位毫秒。
    */
   private static final int REQUEST_TIMEOUT = 6000;
-
   /**
    * 请求获取数据的超时时间(即响应时间)，单位毫秒。
    */
   private static final int SOCKET_TIMEOUT = 6000;
-
+  private static HttpClient httpClient;
+  private static HttpClient httpsClient;
 
   public static synchronized HttpClient getClient() {
     return getClient(true);

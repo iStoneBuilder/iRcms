@@ -16,8 +16,10 @@ security:
     # 请求头 referer 配置
     referer:
       enabled: ${security_gw_referer_enabled:true}
-      ignorePaths:
-        - ${security_gw_referer_ignorePaths}
+      ignoreHosts:
+        - ${security_gw_referer_ignoreHosts}
+      whiteList:
+        - ${security_gw_referer_whiteList}
 
 spring:
   application:

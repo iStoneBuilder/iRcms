@@ -9,7 +9,6 @@ import java.io.Serializable;
  */
 public class RcmsConstants implements Serializable {
 
-  private static final long serialVersionUID = 7475107458067115651L;
   /**
    * 国际化语言
    */
@@ -45,9 +44,9 @@ public class RcmsConstants implements Serializable {
    * 导出excel
    */
   public static final String FILETYPE_exportExcel = "exportExcel";
-
   public static final String FILETYPE_CHM = "chm";
   public static final String FILETYPE_TXT = "txt";
   public static final String FILETYPE_XLSX = "xlsx";
+  private static final long serialVersionUID = 7475107458067115651L;
 
 }

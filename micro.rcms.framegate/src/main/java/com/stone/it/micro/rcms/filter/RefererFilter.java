@@ -9,6 +9,7 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 /**
+ * RefererFilter
  * @author cj.stone
  * @Date 2023/4/27
  * @Desc
@@ -19,6 +20,10 @@ public class RefererFilter implements WebFilter {
 
   private final RefererConfiguration configuration;
 
+  /**
+   * RefererFilter
+   * @param configuration configuration
+   */
   public RefererFilter(RefererConfiguration configuration) {
     this.configuration = configuration;
   }
@@ -26,6 +31,11 @@ public class RefererFilter implements WebFilter {
   @Override
   public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
     log.info("ReferFilter config " + JSON.toJSONString(configuration));
+    // 获取域名
+    String domain = exchange.getRequest().getURI().getHost();
+    if(configuration.getWhiteList().size()>0){
+
+    }
     return chain.filter(exchange);
   }
 }
