@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: micro-rcms-eureka-server
+  profiles:
+    active: loc
 
 eureka:
   instance:

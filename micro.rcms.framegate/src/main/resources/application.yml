@@ -24,6 +24,8 @@ security:
 spring:
   application:
     name: micro-rcms-gateway-server
+  profiles:
+    active: loc
   cloud:
     gateway:
       routes:
