@@ -2,7 +2,8 @@ package com.stone.it.micro.rcms.filter;
 
 import com.alibaba.fastjson2.JSON;
 import com.stone.it.micro.rcms.config.RefererConfiguration;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
@@ -15,8 +16,11 @@ import reactor.core.publisher.Mono;
  * @Desc
  */
 
-@Slf4j
+
 public class RefererFilter implements WebFilter {
+
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(RefererFilter.class);
 
   private final RefererConfiguration configuration;
 
@@ -30,11 +34,24 @@ public class RefererFilter implements WebFilter {
 
   @Override
   public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-    log.info("ReferFilter config " + JSON.toJSONString(configuration));
+    LOGGER.info("ReferFilter config " + JSON.toJSONString(configuration));
     // 获取域名
     String domain = exchange.getRequest().getURI().getHost();
+    // 放过白名单
     if(configuration.getWhiteList().size()>0){
-
+      for (String whiteHost : configuration.getWhiteList()) {
+          if(domain.endsWith(whiteHost)){
+            return chain.filter(exchange);
+          }
+      }
+    }
+    // 排除忽略的域名
+    if(configuration.getIgnoreHosts().size()>0){
+      for (String ignoredHost : configuration.getIgnoreHosts() ) {
+          if(domain.equals(ignoredHost)){
+            return chain.filter(exchange);
+          }
+      }
     }
     return chain.filter(exchange);
   }

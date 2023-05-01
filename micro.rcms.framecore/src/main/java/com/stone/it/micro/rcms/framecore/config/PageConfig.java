@@ -13,6 +13,7 @@ import lombok.Data;
 public class PageConfig implements Serializable {
 
   public static final PageConfig DEFAULT = new PageConfig();
+
   private static final long serialVersionUID = 8600747365376219368L;
   /**
    * 默认分页大小

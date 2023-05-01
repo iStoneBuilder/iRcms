@@ -3,6 +3,7 @@ package com.stone.it.micro.rcms.framebase.service.impl;
 import com.stone.it.micro.rcms.framebase.dao.II18nDao;
 import com.stone.it.micro.rcms.framebase.service.II18nService;
 import com.stone.it.micro.rcms.framebase.vo.I18nVO;
+import com.stone.it.micro.rcms.framecore.annotate.RcmsOperation;
 import com.stone.it.micro.rcms.framecore.util.UUIDUtil;
 import com.stone.it.micro.rcms.framecore.vo.BatchVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
@@ -26,6 +27,7 @@ public class I18nService implements II18nService {
   private II18nDao i18nDao;
 
   @Override
+  @RcmsOperation(code = "",desc = "")
   public PagedResult<I18nVO> findPageResult(I18nVO i18nVO, PageVO pageVO) {
     return i18nDao.findPageResult(i18nVO, pageVO);
   }

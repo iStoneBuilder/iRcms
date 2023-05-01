@@ -28,6 +28,7 @@ public class JwtFilter extends GenericFilterBean {
    * @throws IOException
    * @throws ServletException
    */
+  @Override
   public void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain)
       throws IOException, ServletException {
     final HttpServletRequest request = (HttpServletRequest) req;
