@@ -5,6 +5,7 @@ import com.stone.it.micro.rcms.framebase.vo.ItemVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
 import com.stone.it.micro.rcms.framecore.vo.PagedResult;
 import com.stone.it.micro.rcms.framecore.vo.ResultVO;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -31,40 +32,39 @@ public interface IItemService {
       @PathParam("") PageVO pageVO);
 
   @GET
-  @Path("/find/{classifyCode}")
+  @Path("/find/record/{classifyCode}")
   ClassifyVO findClassify(@PathParam("classifyCode") String classifyCode);
 
-  @GET
-  @Path("/find/item/{classifyCode}")
-  ClassifyVO findClassifyItemByCode(@PathParam("classifyCode") String classifyCode);
-
-  @GET
-  @Path("/find/item/{classifyCode}/{language}")
-  ClassifyVO findClassifyItemByCodeLang(@PathParam("classifyCode") String classifyCode,
-      @PathParam("language") String language);
-
   @POST
-  @Path("/create/single")
-  ResultVO createClassify(ClassifyVO classifyVO);
+  @Path("/create/record")
+  ClassifyVO createClassify(ClassifyVO classifyVO);
 
   @PUT
-  @Path("/update/single")
-  ResultVO updateClassify(ClassifyVO classifyVO);
+  @Path("/update/record")
+  ClassifyVO updateClassify(ClassifyVO classifyVO);
 
   @DELETE
-  @Path("/delete/single")
-  ResultVO deleteClassify(ClassifyVO classifyVO);
+  @Path("/delete/record")
+  ClassifyVO deleteClassify(ClassifyVO classifyVO);
+
+  @GET
+  @Path("/find/item/record/list/{classify}")
+  List<ItemVO> findItemListByCode(@PathParam("classify") String classify);
+
+  @GET
+  @Path("/find/item/record/list/{classify}/{lang}")
+  List<ItemVO> findItemListByCodeLang(@PathParam("classify") String classify,@PathParam("lang") String lang);
 
   @POST
-  @Path("/create/item/single")
-  ResultVO createClassifyItem(ItemVO itemVO);
+  @Path("/create/item/record")
+  ItemVO createClassifyItem(ItemVO itemVO);
 
   @PUT
-  @Path("/update/item/single")
-  ResultVO updateClassifyItem(ItemVO itemVO);
+  @Path("/update/item/record")
+  ItemVO updateClassifyItem(ItemVO itemVO);
 
   @DELETE
-  @Path("/delete/item/single")
-  ResultVO deleteClassifyItem(ItemVO itemVO);
+  @Path("/delete/item/record")
+  ItemVO deleteClassifyItem(ItemVO itemVO);
 
 }

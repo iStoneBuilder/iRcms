@@ -1,16 +1,16 @@
 # micro.rcms.framework
 
-基础实现
+### rcms framework
 
 # micro.rcms.eurekahub
 
-注册中心
+### 注册中心
 
 # micro.rcms.gatewayer
 
-网关
+### 网关
 
-get对应的是查询
-post对应的是保存/增加
-delete对应的是删除
-put对应的是更新
+get 对应的是查询
+post 对应的是保存/增加
+delete 对应的是删除
+put patch 对应的是更新

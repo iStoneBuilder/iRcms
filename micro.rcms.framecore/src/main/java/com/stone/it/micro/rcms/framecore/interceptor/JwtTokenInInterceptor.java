@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 入口拦截器 JwtToken认证拦截，需要接口入口配置
+ *
  * @Author iMrJi
  * @Description TODO
  * @Date 2022/8/31 9:01 PM

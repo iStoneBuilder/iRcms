@@ -70,14 +70,14 @@ public class PropertiesUtil {
   }
 
   public static String getValue(String key, String defaultValue) {
-    // 初始化数据
-    if (propertiesMap.size() == 0) {
-      propertiesReader();
-    }
-    String value = propertiesMap.get(key);
-    // 没有获取到，从环境变量获取
+    // 优先从环境变量获取
+    String value = System.getenv(key);
     if (value == null || value.isEmpty()) {
-      value = System.getenv(key);
+      // 初始化数据
+      if (propertiesMap.size() == 0) {
+        propertiesReader();
+      }
+      value = propertiesMap.get(key);
     }
     if (value == null || value.isEmpty()) {
       return defaultValue;

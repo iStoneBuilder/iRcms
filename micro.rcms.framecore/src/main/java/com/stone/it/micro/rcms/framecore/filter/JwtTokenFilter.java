@@ -17,9 +17,9 @@ import org.springframework.web.filter.GenericFilterBean;
  * @Date 2022/8/30 10:28 PM
  * @Version 1.0
  */
-public class JwtFilter extends GenericFilterBean {
+public class JwtTokenFilter extends GenericFilterBean {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(JwtFilter.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenFilter.class);
 
   /**
    * @param req

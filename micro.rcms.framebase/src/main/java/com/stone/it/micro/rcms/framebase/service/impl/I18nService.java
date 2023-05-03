@@ -27,7 +27,6 @@ public class I18nService implements II18nService {
   private II18nDao i18nDao;
 
   @Override
-  @RcmsOperation(code = "",desc = "")
   public PagedResult<I18nVO> findPageResult(I18nVO i18nVO, PageVO pageVO) {
     return i18nDao.findPageResult(i18nVO, pageVO);
   }

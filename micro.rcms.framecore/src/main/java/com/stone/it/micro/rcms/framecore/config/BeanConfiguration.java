@@ -1,7 +1,6 @@
 package com.stone.it.micro.rcms.framecore.config;
 
-import com.stone.it.micro.rcms.framecore.filter.JwtFilter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import com.stone.it.micro.rcms.framecore.filter.JwtTokenFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,10 +15,9 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfiguration {
 
   @Bean
-  @ConditionalOnExpression("security.gwt.auth.enabled'=='true'")
-  public FilterRegistrationBean<JwtFilter> jwtFilter() {
-    final FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<JwtFilter>();
-    registrationBean.setFilter(new JwtFilter());
+  public FilterRegistrationBean<JwtTokenFilter> jwtTokenFilter() {
+    final FilterRegistrationBean<JwtTokenFilter> registrationBean = new FilterRegistrationBean<JwtTokenFilter>();
+    registrationBean.setFilter(new JwtTokenFilter());
     registrationBean.addUrlPatterns("/*");
     registrationBean.setOrder(1);
     return registrationBean;

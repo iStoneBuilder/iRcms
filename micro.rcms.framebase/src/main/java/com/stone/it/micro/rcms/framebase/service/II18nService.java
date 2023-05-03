@@ -65,7 +65,7 @@ public interface II18nService {
    * @return
    */
   @POST
-  @Path("/create/single")
+  @Path("/create/record")
   ResultVO createI18n(I18nVO i18nVO);
 
   /**
@@ -75,7 +75,7 @@ public interface II18nService {
    * @return
    */
   @PUT
-  @Path("/update/single")
+  @Path("/update/record")
   ResultVO updateI18n(I18nVO i18nVO);
 
   /**
@@ -85,7 +85,7 @@ public interface II18nService {
    * @return
    */
   @DELETE
-  @Path("/delete/single")
+  @Path("/delete/record")
   ResultVO deleteI18n(I18nVO i18nVO);
 
 }

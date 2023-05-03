@@ -6,7 +6,7 @@
 						http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 						http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
-  <jaxrs:server address="/api" id="i18nServiceRest">
+  <jaxrs:server address="/api" id="rcmsBaseServiceRest">
     <jaxrs:inInterceptors>
       <ref bean="jwtInInterceptor"/>
     </jaxrs:inInterceptors>
