@@ -12,7 +12,6 @@
     <module>micro.rcms.framedata</module>
     <module>micro.rcms.framegate</module>
     <module>micro.rcms.framehttp</module>
-    <module>micro.rcms.rcmsdemo</module>
   </modules>
   <packaging>pom</packaging>
 
