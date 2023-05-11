@@ -5,6 +5,7 @@ import com.stone.it.micro.rcms.framecore.vo.BatchVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
 import com.stone.it.micro.rcms.framecore.vo.PagedResult;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author cj.stone
@@ -18,12 +19,10 @@ public interface II18nDao {
 
   List<I18nVO> findListByLanguage(String language);
 
-  int batchOperateI18n(BatchVO batchVO);
-
   int createI18n(I18nVO i18nVO);
 
   int updateI18n(I18nVO i18nVO);
 
-  int deleteI18n(I18nVO i18nVO);
+  int deleteI18n(@Param("i18nId") String i18nId);
 
 }

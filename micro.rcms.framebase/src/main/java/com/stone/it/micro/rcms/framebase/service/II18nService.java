@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -34,7 +35,7 @@ public interface II18nService {
    * @return
    */
   @GET
-  @Path("/find/page/list/{curPage}/{pageSize}")
+  @Path("/list/page/{curPage}/{pageSize}")
   PagedResult<I18nVO> findPageResult(@QueryParam("") I18nVO i18nVO,
       @PathParam("") PageVO pageVO);
 
@@ -45,18 +46,8 @@ public interface II18nService {
    * @return
    */
   @GET
-  @Path("/find/list/{language}")
+  @Path("/list/{language}")
   List<I18nVO> findListByLanguage(@PathParam("language") String language);
-
-  /**
-   * 批量操作
-   *
-   * @param batchVO
-   * @return
-   */
-  @PUT
-  @Path("/batch/operate")
-  ResultVO batchOperateI18n(BatchVO batchVO);
 
   /**
    * 创建
@@ -65,27 +56,28 @@ public interface II18nService {
    * @return
    */
   @POST
-  @Path("/create/record")
+  @Path("/record")
   ResultVO createI18n(I18nVO i18nVO);
 
   /**
    * 更新
    *
+   * @param i18nId
    * @param i18nVO
    * @return
    */
-  @PUT
-  @Path("/update/record")
-  ResultVO updateI18n(I18nVO i18nVO);
+  @PATCH
+  @Path("/record/{i18n_id}")
+  ResultVO updateI18n(@PathParam("i18n_id")String i18nId, I18nVO i18nVO);
 
   /**
    * 删除
    *
-   * @param i18nVO
+   * @param i18nId
    * @return
    */
   @DELETE
-  @Path("/delete/record")
-  ResultVO deleteI18n(I18nVO i18nVO);
+  @Path("/record/{i18n_id}")
+  ResultVO deleteI18n(@PathParam("i18n_id")String i18nId);
 
 }

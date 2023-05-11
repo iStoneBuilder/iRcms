@@ -4,7 +4,6 @@ import com.stone.it.micro.rcms.framebase.dao.II18nDao;
 import com.stone.it.micro.rcms.framebase.service.II18nService;
 import com.stone.it.micro.rcms.framebase.vo.I18nVO;
 import com.stone.it.micro.rcms.framecore.util.UUIDUtil;
-import com.stone.it.micro.rcms.framecore.vo.BatchVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
 import com.stone.it.micro.rcms.framecore.vo.PagedResult;
 import com.stone.it.micro.rcms.framecore.vo.ResultVO;
@@ -27,29 +26,12 @@ public class I18nService implements II18nService {
 
   @Override
   public PagedResult<I18nVO> findPageResult(I18nVO i18nVO, PageVO pageVO) {
-    return i18nDao.findPageResult(i18nVO, pageVO);
+    return i18nDao.findPageResult(i18nVO,pageVO);
   }
 
   @Override
   public List<I18nVO> findListByLanguage(String language) {
     return i18nDao.findListByLanguage(language);
-  }
-
-  @Override
-  public ResultVO batchOperateI18n(BatchVO batchVO) {
-    List<I18nVO> createList = batchVO.getCreateItems();
-    for (I18nVO i18nVO : createList) {
-      this.createI18n(i18nVO);
-    }
-    List<I18nVO> updateList = batchVO.getUpdateItems();
-    for (I18nVO i18nVO : updateList) {
-      this.updateI18n(i18nVO);
-    }
-    List<I18nVO> deleteList = batchVO.getDeleteItems();
-    for (I18nVO i18nVO : deleteList) {
-      this.deleteI18n(i18nVO);
-    }
-    return new ResultVO();
   }
 
   @Override
@@ -60,14 +42,15 @@ public class I18nService implements II18nService {
   }
 
   @Override
-  public ResultVO updateI18n(I18nVO i18nVO) {
+  public ResultVO updateI18n(String i18nId, I18nVO i18nVO) {
+    i18nVO.setI18nId(i18nId);
     i18nDao.updateI18n(i18nVO);
     return new ResultVO();
   }
 
   @Override
-  public ResultVO deleteI18n(I18nVO i18nVO) {
-    i18nDao.deleteI18n(i18nVO);
+  public ResultVO deleteI18n(String i18nId) {
+    i18nDao.deleteI18n(i18nId);
     return new ResultVO();
   }
 }

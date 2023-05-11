@@ -22,6 +22,6 @@ public class PageConfig implements Serializable {
   /**
    * 最大分页大小
    */
-  private Integer maxPageSize = 3000;
+  private Integer maxPageSize = 1000;
 
 }
