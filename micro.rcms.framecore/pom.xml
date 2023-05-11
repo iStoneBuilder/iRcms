@@ -3,6 +3,7 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>micro.rcms.framecore</artifactId>
+
   <dependencies>
     <dependency>
       <artifactId>lombok</artifactId>
@@ -64,12 +65,12 @@
 
   <modelVersion>4.0.0</modelVersion>
 
+
   <parent>
     <artifactId>micro.rcms.framework</artifactId>
     <groupId>com.stone.it</groupId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-
 
   <properties>
     <cxf.core.jaxrs>3.5.3</cxf.core.jaxrs>
@@ -83,5 +84,4 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tomcat.embed.core>9.0.65</tomcat.embed.core>
   </properties>
-
 </project>

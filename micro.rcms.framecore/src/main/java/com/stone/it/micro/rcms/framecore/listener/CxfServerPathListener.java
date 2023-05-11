@@ -1,5 +1,6 @@
 package com.stone.it.micro.rcms.framecore.listener;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.Set;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.model.ClassResourceInfo;
 import org.apache.cxf.jaxrs.model.OperationResourceInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -21,6 +24,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CxfServerPathListener implements ApplicationListener<ContextRefreshedEvent> {
+
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(CxfServerPathListener.class);
 
 
   private static final JSONArray allApiServerInfo = new JSONArray();
@@ -56,11 +62,12 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
     String apiPath = contextPath + (endpointPath.startsWith("/")? endpointPath : "/"+endpointPath);
     apiPath = apiPath + (servicePath.startsWith("/")? servicePath:"/"+servicePath);
     apiPath = apiPath + (methodPath.startsWith("/") ? methodPath : "/"+methodPath);
-    return apiPath;
+    return apiPath.replaceAll("//","/");
   }
 
   @Override
   public void onApplicationEvent(ContextRefreshedEvent event) {
+    LOGGER.info("RCMS cxf server listener .");
     ApplicationContext context = event.getApplicationContext();
     // 获取服务跟路径
     String contextPath = context.getEnvironment().getProperty("server.servlet.context-path");
@@ -70,6 +77,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
     for (String beanName : beanNames) {
       getCXFEndpointPaths(context.getBean(beanName, JAXRSServerFactoryBean.class),contextPath);
     }
+    LOGGER.info("RCMS cxf server path count : " + allApiServerInfo.size());
   }
 
   public JSONArray getAllApiServerInfo() {

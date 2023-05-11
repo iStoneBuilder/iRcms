@@ -3,7 +3,6 @@ package com.stone.it.micro.rcms.framebase.service.impl;
 import com.stone.it.micro.rcms.framebase.dao.II18nDao;
 import com.stone.it.micro.rcms.framebase.service.II18nService;
 import com.stone.it.micro.rcms.framebase.vo.I18nVO;
-import com.stone.it.micro.rcms.framecore.annotate.RcmsOperation;
 import com.stone.it.micro.rcms.framecore.util.UUIDUtil;
 import com.stone.it.micro.rcms.framecore.vo.BatchVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
