@@ -25,8 +25,20 @@
     </dependency>
     <dependency>
       <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+      </exclusions>
       <groupId>org.apache.cxf</groupId>
       <version>${cxf.core.jaxrs}</version>
+    </dependency>
+    <!-- 引入log4j2依赖 -->
+    <dependency>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <version>2.6.9</version>
     </dependency>
     <dependency>
       <artifactId>cxf-spring-boot-starter-jaxws</artifactId>

@@ -16,6 +16,10 @@ spring:
     password: max@756423
     driver-class-name: com.mysql.jdbc.Driver
 
+# 指定日志文件
+logging:
+  config: classpath:log4j2.xml
+
 # mybatis 配置
 mybatis:
   mapper-locations: classpath:com.stone.it.**.dao/*.mysql.xml
