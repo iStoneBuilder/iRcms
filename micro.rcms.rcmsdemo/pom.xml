@@ -4,7 +4,6 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <artifactId>micro.rcms.rcmsdemo</artifactId>
-
   <dependencies>
     <dependency>
       <artifactId>micro.rcms.framebase</artifactId>
@@ -22,6 +21,8 @@
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
+
+  <groupId>com.stone.it</groupId>
 
   <modelVersion>4.0.0</modelVersion>
 
