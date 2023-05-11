@@ -13,6 +13,7 @@ public class ItemVO extends BaseVO {
 
   private String classifyCode;
 
+  private String itemId;
   private String itemCode;
   private String itemName;
   private String language;

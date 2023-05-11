@@ -15,18 +15,21 @@ public class PagedResult<T> implements Serializable {
 
   private static final long serialVersionUID = -3422814987475041137L;
 
+  private String code = "success";
+  private String desc = "success";
+
   /**
    * 分页信息
    */
-  private PageVO pageVO;
+  private PageVO meta;
   /**
    * 对象list
    */
-  private List<T> result;
+  private List<T> data;
 
-  public PagedResult(PageVO pageVO, List<T> result) {
-    this.pageVO = pageVO;
-    this.result = result;
+  public PagedResult(PageVO meta, List<T> data) {
+    this.meta = meta;
+    this.data = data;
   }
 
 }

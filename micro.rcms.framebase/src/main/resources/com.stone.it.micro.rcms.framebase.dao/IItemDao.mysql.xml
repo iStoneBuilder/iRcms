@@ -2,10 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.stone.it.micro.rcms.framebase.dao.IItemDao">
-
-
+  <delete id="deleteClassify"></delete>
+  <delete id="deleteClassifyItem"></delete>
+  <insert id="createClassify"></insert>
+  <insert id="createClassifyItem"></insert>
   <select id="findPageResult" resultType="com.stone.it.micro.rcms.framebase.vo.ClassifyVO">
 
   </select>
+  <select id="findClassify" resultType="com.stone.it.micro.rcms.framebase.vo.ClassifyVO"></select>
+
+
+  <select id="findClassifyItemByCode"
+    resultType="com.stone.it.micro.rcms.framebase.vo.ItemVO"></select>
+  <select id="findClassifyItemByCodeLang"
+    resultType="com.stone.it.micro.rcms.framebase.vo.ItemVO"></select>
+  <update id="updateClassify"></update>
+  <update id="updateClassifyItem"></update>
 
 </mapper>

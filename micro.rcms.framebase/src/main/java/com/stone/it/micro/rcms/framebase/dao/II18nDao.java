@@ -17,7 +17,8 @@ public interface II18nDao {
   PagedResult<I18nVO> findPageResult(I18nVO i18nVO,
       PageVO pageVO);
 
-  List<I18nVO> findListByLanguage(String language);
+  List<I18nVO> findListByLanguage(@Param("lang")String lang);
+  I18nVO findI18nById(@Param("i18nId")String i18nId);
 
   int createI18n(I18nVO i18nVO);
 

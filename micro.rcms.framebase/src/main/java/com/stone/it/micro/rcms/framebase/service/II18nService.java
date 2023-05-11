@@ -35,19 +35,29 @@ public interface II18nService {
    * @return
    */
   @GET
-  @Path("/list/page/{curPage}/{pageSize}")
+  @Path("/records/page/{curPage}/{pageSize}")
   PagedResult<I18nVO> findPageResult(@QueryParam("") I18nVO i18nVO,
       @PathParam("") PageVO pageVO);
 
   /**
    * 根据语言查询列表
    *
-   * @param language
+   * @param lang
    * @return
    */
   @GET
-  @Path("/list/{language}")
-  List<I18nVO> findListByLanguage(@PathParam("language") String language);
+  @Path("/records/list/{lang}")
+  ResultVO findListByLanguage(@PathParam("lang") String lang);
+
+  /**
+   * 详情
+   *
+   * @param i18nId
+   * @return
+   */
+  @GET
+  @Path("/records/{i18n_id}")
+  ResultVO findI18nById(@PathParam("i18n_id")String i18nId);
 
   /**
    * 创建
@@ -56,7 +66,7 @@ public interface II18nService {
    * @return
    */
   @POST
-  @Path("/record")
+  @Path("/records")
   ResultVO createI18n(I18nVO i18nVO);
 
   /**
@@ -67,7 +77,7 @@ public interface II18nService {
    * @return
    */
   @PATCH
-  @Path("/record/{i18n_id}")
+  @Path("/records/{i18n_id}")
   ResultVO updateI18n(@PathParam("i18n_id")String i18nId, I18nVO i18nVO);
 
   /**
@@ -77,7 +87,7 @@ public interface II18nService {
    * @return
    */
   @DELETE
-  @Path("/record/{i18n_id}")
+  @Path("/records/{i18n_id}")
   ResultVO deleteI18n(@PathParam("i18n_id")String i18nId);
 
 }

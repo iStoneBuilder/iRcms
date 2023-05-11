@@ -1,9 +1,11 @@
 package com.stone.it.micro.rcms.framebase.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.stone.it.micro.rcms.framebase.dao.IItemDao;
 import com.stone.it.micro.rcms.framebase.service.IItemService;
 import com.stone.it.micro.rcms.framebase.vo.ClassifyVO;
 import com.stone.it.micro.rcms.framebase.vo.ItemVO;
+import com.stone.it.micro.rcms.framecore.util.UUIDUtil;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
 import com.stone.it.micro.rcms.framecore.vo.PagedResult;
 import com.stone.it.micro.rcms.framecore.vo.ResultVO;
@@ -26,52 +28,60 @@ public class ItemService implements IItemService {
 
   @Override
   public PagedResult<ClassifyVO> findPageResult(ClassifyVO classifyVO, PageVO pageVO) {
-    return itemDao.findPageResult(classifyVO, pageVO);
+    return itemDao.findPageResult(classifyVO,pageVO);
   }
 
   @Override
-  public ClassifyVO findClassify(String classifyCode) {
-    return null;
+  public ResultVO findClassify(String classifyCode) {
+    return new ResultVO(itemDao.findClassify(classifyCode));
   }
 
   @Override
-  public ClassifyVO createClassify(ClassifyVO classifyVO) {
-    return null;
+  public ResultVO createClassify(ClassifyVO classifyVO) {
+    itemDao.createClassify(classifyVO);
+    return new ResultVO(classifyVO);
   }
 
   @Override
-  public ClassifyVO updateClassify(ClassifyVO classifyVO) {
-    return null;
+  public ResultVO updateClassify(String classifyCode, ClassifyVO classifyVO) {
+    classifyVO.setClassifyCode(classifyCode);
+    itemDao.updateClassify(classifyVO);
+    return new ResultVO(classifyVO);
   }
 
   @Override
-  public ClassifyVO deleteClassify(ClassifyVO classifyVO) {
-    return null;
+  public ResultVO deleteClassify(String classifyCode) {
+    itemDao.deleteClassify(classifyCode);
+    return new ResultVO();
   }
 
   @Override
-  public List<ItemVO> findItemListByCode(String classify) {
-    return null;
+  public ResultVO findClassifyItemByCode(String classifyCode) {
+    return new ResultVO(itemDao.findClassifyItemByCode(classifyCode));
   }
 
   @Override
-  public List<ItemVO> findItemListByCodeLang(String classify, String lang) {
-    return null;
+  public ResultVO findClassifyItemByCodeLang(String classifyCode, String lang) {
+    return new ResultVO(itemDao.findClassifyItemByCodeLang(classifyCode,lang));
   }
 
   @Override
-  public ItemVO createClassifyItem(ItemVO itemVO) {
-    return null;
+  public ResultVO createClassifyItem(ItemVO itemVO) {
+    itemVO.setItemId(UUIDUtil.getUuid());
+    itemDao.createClassifyItem(itemVO);
+    return new ResultVO(itemVO);
   }
 
   @Override
-  public ItemVO updateClassifyItem(ItemVO itemVO) {
-    return null;
+  public ResultVO updateClassifyItem(String itemId, ItemVO itemVO) {
+    itemVO.setItemId(itemId);
+    itemDao.updateClassifyItem(itemVO);
+    return new ResultVO(itemVO);
   }
 
   @Override
-  public ItemVO deleteClassifyItem(ItemVO itemVO) {
-    return null;
+  public ResultVO deleteClassifyItem(String itemId) {
+    itemDao.deleteClassifyItem(itemId);
+    return new ResultVO();
   }
-
 }
