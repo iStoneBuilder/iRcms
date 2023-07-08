@@ -18,12 +18,20 @@
   <groupId>com.stone.it</groupId>
   <modelVersion>4.0.0</modelVersion>
   <modules>
+    <!-- eureka 注册中心 -->
     <module>micro.rcms.eurekahub</module>
+    <!-- RCMS 框架网关 -->
     <module>micro.rcms.framegate</module>
+    <!-- RCMS 基础配置 -->
     <module>micro.rcms.framebase</module>
+    <!-- RCMS 核心代码 -->
     <module>micro.rcms.framecore</module>
+    <!-- RCMS 数据操作 -->
     <module>micro.rcms.framedata</module>
+    <!-- RCMS 请求模块 -->
     <module>micro.rcms.framehttp</module>
+    <!-- RCMS 脚本管理 -->
+    <module>micro.rcms.rcmflyway</module>
   </modules>
 
   <packaging>pom</packaging>
