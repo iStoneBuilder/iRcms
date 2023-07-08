@@ -4,22 +4,44 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>micro.rcms.framework</artifactId>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <groupId>org.springframework.cloud</groupId>
+        <scope>import</scope>
+        <type>pom</type>
+        <version>${spring-cloud.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <groupId>com.stone.it</groupId>
   <modelVersion>4.0.0</modelVersion>
   <modules>
+    <module>micro.rcms.eurekahub</module>
+    <module>micro.rcms.framegate</module>
     <module>micro.rcms.framebase</module>
     <module>micro.rcms.framecore</module>
     <module>micro.rcms.framedata</module>
-    <module>micro.rcms.framegate</module>
     <module>micro.rcms.framehttp</module>
   </modules>
+
   <packaging>pom</packaging>
+
+  <parent>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <relativePath/>
+    <version>2.7.3</version>
+  </parent>
 
   <properties>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring-cloud.version>2021.0.3</spring-cloud.version>
   </properties>
+
 
   <version>1.0.0-SNAPSHOT</version>
 

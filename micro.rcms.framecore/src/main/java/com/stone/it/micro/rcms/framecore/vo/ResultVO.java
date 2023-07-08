@@ -27,14 +27,14 @@ public class ResultVO implements Serializable {
     this.code = code;
     this.desc = desc;
   }
-  public ResultVO(Object data) {
+  public <T> ResultVO(T data) {
     this.data = JSON.toJSONString(data);
   }
   public ResultVO(PagedResult pagedResult) {
     this.data = JSON.toJSONString(pagedResult.getData());
     this.meta = JSON.toJSONString(pagedResult.getMeta());
   }
-  public ResultVO(String code,String desc,Object data,Object meta) {
+  public <T> ResultVO(String code,String desc,T data,T meta) {
     this.code = code;
     this.desc = desc;
     this.data = JSON.toJSONString(data);

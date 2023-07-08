@@ -26,37 +26,34 @@ public class I18nService implements II18nService {
   private II18nDao i18nDao;
 
   @Override
-  public PagedResult<I18nVO> findPageResult(I18nVO i18nVO, PageVO pageVO) {
+  public PagedResult<I18nVO> findI18nPageResult(I18nVO i18nVO, PageVO pageVO) {
     return i18nDao.findPageResult(i18nVO, pageVO);
   }
 
   @Override
-  public ResultVO findListByLanguage(String lang) {
-    return new ResultVO(i18nDao.findListByLanguage(lang));
+  public List<I18nVO> findI18nListByLanguage(String lang) {
+    return i18nDao.findListByLanguage(lang);
   }
 
   @Override
-  public ResultVO findI18nById(String i18nId) {
-    return new ResultVO(i18nDao.findI18nById(i18nId));
+  public I18nVO findI18nById(String i18nId) {
+    return i18nDao.findI18nById(i18nId);
   }
 
   @Override
-  public ResultVO createI18n(I18nVO i18nVO) {
+  public int createI18n(I18nVO i18nVO) {
     i18nVO.setI18nId(UUIDUtil.getUuid());
-    i18nDao.createI18n(i18nVO);
-    return new ResultVO(i18nVO);
+    return i18nDao.createI18n(i18nVO);
   }
 
   @Override
-  public ResultVO updateI18n(String i18nId, I18nVO i18nVO) {
+  public int updateI18n(String i18nId, I18nVO i18nVO) {
     i18nVO.setI18nId(i18nId);
-    i18nDao.updateI18n(i18nVO);
-    return new ResultVO(i18nVO);
+    return i18nDao.updateI18n(i18nVO);
   }
 
   @Override
-  public ResultVO deleteI18n(String i18nId) {
-    i18nDao.deleteI18n(i18nId);
-    return new ResultVO();
+  public int deleteI18n(String i18nId) {
+    return i18nDao.deleteI18n(i18nId);
   }
 }

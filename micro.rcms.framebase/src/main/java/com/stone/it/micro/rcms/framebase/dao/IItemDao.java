@@ -36,11 +36,11 @@ public interface IItemDao {
   List<ItemVO> findClassifyItemByCodeLang(String classifyCode, String lang);
 
 
-  ItemVO createClassifyItem(ItemVO itemVO);
+  int createClassifyItem(ItemVO itemVO);
 
 
-  ItemVO updateClassifyItem(ItemVO itemVO);
+  int updateClassifyItem(ItemVO itemVO);
 
-  ItemVO deleteClassifyItem(String itemId);
+  int deleteClassifyItem(String itemId);
 
 }

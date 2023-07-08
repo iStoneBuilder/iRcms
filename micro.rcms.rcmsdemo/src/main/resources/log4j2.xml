@@ -7,7 +7,7 @@
       <PatternLayout>
         <Pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} %5p %c{1}:%L - %m%n</Pattern>
       </PatternLayout>
-      <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+      <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
     </Console>
   </Appenders>
   <Loggers>

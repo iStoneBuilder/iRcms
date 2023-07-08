@@ -2,15 +2,6 @@
 server:
   port: ${gateway_server_port:10000}
 
-# 注册中心
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8888/eureka/
-  instance:
-    # 使用 ip 代替实例名
-    prefer-ip-address: false
-
 security:
   gw:
     # 请求头 referer 配置

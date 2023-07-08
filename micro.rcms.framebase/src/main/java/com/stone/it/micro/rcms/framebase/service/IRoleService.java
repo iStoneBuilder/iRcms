@@ -33,7 +33,7 @@ public interface IRoleService {
    */
   @GET
   @Path("/records/page/{curPage}/{pageSize}")
-  PagedResult<RoleVO> findPageResult(@QueryParam("") RoleVO roleVO,
+  PagedResult<RoleVO> findRolePageResult(@QueryParam("") RoleVO roleVO,
       @PathParam("") PageVO pageVO);
   
 
@@ -45,7 +45,7 @@ public interface IRoleService {
    */
   @GET
   @Path("/records/{role_id}")
-  ResultVO findRoleById(@PathParam("role_id")String roleId);
+  RoleVO findRoleById(@PathParam("role_id")String roleId);
 
   /**
    * 创建
@@ -55,7 +55,7 @@ public interface IRoleService {
    */
   @POST
   @Path("/records")
-  ResultVO createRole(RoleVO roleVO);
+  int createRole(RoleVO roleVO);
 
   /**
    * 更新
@@ -66,7 +66,7 @@ public interface IRoleService {
    */
   @PATCH
   @Path("/records/{role_id}")
-  ResultVO updateRole(@PathParam("role_id")String roleId, RoleVO roleVO);
+  int updateRole(@PathParam("role_id")String roleId, RoleVO roleVO);
 
   /**
    * 删除
@@ -76,6 +76,6 @@ public interface IRoleService {
    */
   @DELETE
   @Path("/records/{role_id}")
-  ResultVO deleteRole(@PathParam("role_id")String roleId);
+  int deleteRole(@PathParam("role_id")String roleId);
   
 }

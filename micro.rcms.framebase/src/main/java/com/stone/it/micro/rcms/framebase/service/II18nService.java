@@ -1,17 +1,14 @@
 package com.stone.it.micro.rcms.framebase.service;
 
 import com.stone.it.micro.rcms.framebase.vo.I18nVO;
-import com.stone.it.micro.rcms.framecore.vo.BatchVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
 import com.stone.it.micro.rcms.framecore.vo.PagedResult;
-import com.stone.it.micro.rcms.framecore.vo.ResultVO;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -36,7 +33,7 @@ public interface II18nService {
    */
   @GET
   @Path("/records/page/{curPage}/{pageSize}")
-  PagedResult<I18nVO> findPageResult(@QueryParam("") I18nVO i18nVO,
+  PagedResult<I18nVO> findI18nPageResult(@QueryParam("") I18nVO i18nVO,
       @PathParam("") PageVO pageVO);
 
   /**
@@ -47,7 +44,7 @@ public interface II18nService {
    */
   @GET
   @Path("/records/list/{lang}")
-  ResultVO findListByLanguage(@PathParam("lang") String lang);
+  List<I18nVO> findI18nListByLanguage(@PathParam("lang") String lang);
 
   /**
    * 详情
@@ -57,7 +54,7 @@ public interface II18nService {
    */
   @GET
   @Path("/records/{i18n_id}")
-  ResultVO findI18nById(@PathParam("i18n_id")String i18nId);
+  I18nVO findI18nById(@PathParam("i18n_id")String i18nId);
 
   /**
    * 创建
@@ -67,7 +64,7 @@ public interface II18nService {
    */
   @POST
   @Path("/records")
-  ResultVO createI18n(I18nVO i18nVO);
+  int createI18n(I18nVO i18nVO);
 
   /**
    * 更新
@@ -78,7 +75,7 @@ public interface II18nService {
    */
   @PATCH
   @Path("/records/{i18n_id}")
-  ResultVO updateI18n(@PathParam("i18n_id")String i18nId, I18nVO i18nVO);
+  int updateI18n(@PathParam("i18n_id")String i18nId, I18nVO i18nVO);
 
   /**
    * 删除
@@ -88,6 +85,6 @@ public interface II18nService {
    */
   @DELETE
   @Path("/records/{i18n_id}")
-  ResultVO deleteI18n(@PathParam("i18n_id")String i18nId);
+  int deleteI18n(@PathParam("i18n_id")String i18nId);
 
 }

@@ -29,43 +29,43 @@ public interface IItemService {
 
   @GET
   @Path("/records/{curPage}/{pageSize}")
-  PagedResult<ClassifyVO> findPageResult(@QueryParam("") ClassifyVO classifyVO,
+  PagedResult<ClassifyVO> findClassifyPageResult(@QueryParam("") ClassifyVO classifyVO,
       @PathParam("") PageVO pageVO);
 
   @GET
   @Path("/records/{classify_code}")
-  ResultVO findClassify(@PathParam("classify_code") String classifyCode);
+  ClassifyVO findClassify(@PathParam("classify_code") String classifyCode);
 
   @POST
   @Path("/records")
-  ResultVO createClassify(ClassifyVO classifyVO);
+  int createClassify(ClassifyVO classifyVO);
 
   @PATCH
   @Path("/records/{classify_code}")
-  ResultVO updateClassify(@PathParam("classify_code") String classifyCode,ClassifyVO classifyVO);
+  int updateClassify(@PathParam("classify_code") String classifyCode,ClassifyVO classifyVO);
 
   @DELETE
   @Path("/records/{classify_code}")
-  ResultVO deleteClassify(@PathParam("classify_code") String classifyCode);
+  int deleteClassify(@PathParam("classify_code") String classifyCode);
 
   @GET
   @Path("/records/item/{classify_code}")
-  ResultVO findClassifyItemByCode(@PathParam("classify_code") String classifyCode);
+  List<ItemVO> findClassifyItemByCode(@PathParam("classify_code") String classifyCode);
 
   @GET
   @Path("/records/item/{classify_code}/{lang}")
-  ResultVO findClassifyItemByCodeLang(@PathParam("classify_code") String classifyCode,@PathParam("lang") String lang);
+  List<ItemVO> findClassifyItemByCodeLang(@PathParam("classify_code") String classifyCode,@PathParam("lang") String lang);
 
   @POST
   @Path("/records/item")
-  ResultVO createClassifyItem(ItemVO itemVO);
+  int createClassifyItem(ItemVO itemVO);
 
   @PATCH
   @Path("/records/item/{item_id}")
-  ResultVO updateClassifyItem(@PathParam("item_id") String itemId,ItemVO itemVO);
+  int updateClassifyItem(@PathParam("item_id") String itemId,ItemVO itemVO);
 
   @DELETE
   @Path("/records/item/{item_id}")
-  ResultVO deleteClassifyItem(@PathParam("item_id") String itemId);
+  int deleteClassifyItem(@PathParam("item_id") String itemId);
 
 }

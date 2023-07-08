@@ -24,32 +24,29 @@ public class RoleService implements IRoleService {
   private IRoleDao roleDao;
 
   @Override
-  public PagedResult<RoleVO> findPageResult(RoleVO roleVO, PageVO pageVO) {
+  public PagedResult<RoleVO> findRolePageResult(RoleVO roleVO, PageVO pageVO) {
     return roleDao.findPageResult(roleVO,pageVO);
   }
 
   @Override
-  public ResultVO findRoleById(String roleId) {
-    return new ResultVO(roleDao.findRoleId(roleId));
+  public RoleVO findRoleById(String roleId) {
+    return roleDao.findRoleId(roleId);
   }
 
   @Override
-  public ResultVO createRole(RoleVO roleVO) {
+  public int createRole(RoleVO roleVO) {
     roleVO.setRoleId(UUIDUtil.getUuid());
-    roleDao.createRole(roleVO);
-    return new ResultVO(roleVO);
+    return roleDao.createRole(roleVO);
   }
 
   @Override
-  public ResultVO updateRole(String roleId, RoleVO roleVO) {
+  public int updateRole(String roleId, RoleVO roleVO) {
     roleVO.setRoleId(roleId);
-    roleDao.updateRole(roleVO);
-    return new ResultVO(roleVO);
+    return roleDao.updateRole(roleVO);
   }
 
   @Override
-  public ResultVO deleteRole(String roleId) {
-    roleDao.deleteRole(roleId);
-    return new ResultVO();
+  public int deleteRole(String roleId) {
+    return roleDao.deleteRole(roleId);
   }
 }

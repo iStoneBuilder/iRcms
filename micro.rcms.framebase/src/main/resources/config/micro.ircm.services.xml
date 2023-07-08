@@ -19,6 +19,8 @@
     <jaxrs:serviceBeans>
       <ref bean="i18nService"/>
       <ref bean="itemService"/>
+      <ref bean="roleService"/>
+      <ref bean="userService"/>
     </jaxrs:serviceBeans>
   </jaxrs:server>
 

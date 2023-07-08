@@ -8,6 +8,7 @@ import com.stone.it.micro.rcms.framecore.vo.PageVO;
 import com.stone.it.micro.rcms.framecore.vo.PagedResult;
 import com.stone.it.micro.rcms.framecore.vo.ResultVO;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * 用户管理配置
@@ -16,38 +17,36 @@ import javax.inject.Inject;
  * @Date 2023/4/26
  * @Desc
  */
+@Named
 public class UserService implements IUserService {
 
   @Inject
   private IUserDao userDao;
 
   @Override
-  public PagedResult<UserVO> findPageResult(UserVO userVO, PageVO pageVO) {
+  public PagedResult<UserVO> findUserPageResult(UserVO userVO, PageVO pageVO) {
     return userDao.findPageResult(userVO,pageVO);
   }
 
   @Override
-  public ResultVO findUserById(String userId) {
-    return new ResultVO(userDao.findUserId(userId));
+  public UserVO findUserById(String userId) {
+    return userDao.findUserId(userId);
   }
 
   @Override
-  public ResultVO createUser(UserVO userVO) {
+  public int createUser(UserVO userVO) {
     userVO.setId(UUIDUtil.getUuid());
-    userDao.createUser(userVO);
-    return new ResultVO(userVO);
+    return userDao.createUser(userVO);
   }
 
   @Override
-  public ResultVO updateUser(String userId, UserVO userVO) {
+  public int updateUser(String userId, UserVO userVO) {
     userVO.setId(userId);
-    userDao.updateUser(userVO);
-    return new ResultVO(userVO);
+    return userDao.updateUser(userVO);
   }
 
   @Override
-  public ResultVO deleteUser(String userId) {
-    userDao.deleteUser(userId);
-    return new ResultVO();
+  public int deleteUser(String userId) {
+    return userDao.deleteUser(userId);
   }
 }

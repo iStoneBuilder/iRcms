@@ -3,7 +3,6 @@ package com.stone.it.micro.rcms.framebase.service;
 import com.stone.it.micro.rcms.framebase.vo.UserVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
 import com.stone.it.micro.rcms.framecore.vo.PagedResult;
-import com.stone.it.micro.rcms.framecore.vo.ResultVO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -33,7 +32,7 @@ public interface IUserService {
    */
   @GET
   @Path("/records/page/{curPage}/{pageSize}")
-  PagedResult<UserVO> findPageResult(@QueryParam("") UserVO userVO,
+  PagedResult<UserVO> findUserPageResult(@QueryParam("") UserVO userVO,
       @PathParam("") PageVO pageVO);
 
 
@@ -45,7 +44,7 @@ public interface IUserService {
    */
   @GET
   @Path("/records/{user_id}")
-  ResultVO findUserById(@PathParam("user_id")String userId);
+  UserVO findUserById(@PathParam("user_id")String userId);
 
   /**
    * 创建
@@ -55,7 +54,7 @@ public interface IUserService {
    */
   @POST
   @Path("/records")
-  ResultVO createUser(UserVO userVO);
+  int createUser(UserVO userVO);
 
   /**
    * 更新
@@ -66,7 +65,7 @@ public interface IUserService {
    */
   @PATCH
   @Path("/records/{user_id}")
-  ResultVO updateUser(@PathParam("user_id")String userId, UserVO userVO);
+  int updateUser(@PathParam("user_id")String userId, UserVO userVO);
 
   /**
    * 删除
@@ -76,6 +75,6 @@ public interface IUserService {
    */
   @DELETE
   @Path("/records/{user_id}")
-  ResultVO deleteUser(@PathParam("user_id")String userId);
+  int deleteUser(@PathParam("user_id")String userId);
 
 }
