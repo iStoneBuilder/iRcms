@@ -2,6 +2,7 @@ package com.stone.it.micro.rcms.framecore.listener;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
 import java.util.List;
 import java.util.Set;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
@@ -48,8 +49,8 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
         iApiServerInfo.put("method_type", operationResource.getHttpMethod());
         // 方法路径
         String methodPath = operationResource.getURITemplate().getValue();
-        iApiServerInfo.put("api_path", buildApiPath(contextPath,endpointPath,servicePath,methodPath));
-        LOGGER.info("RCMS cxf api services path : " + iApiServerInfo.getString("api_path")+" | " + iApiServerInfo.getString("method_type"));
+        iApiServerInfo.put("api_path", buildApiPath(contextPath+"/services",endpointPath,servicePath,methodPath));
+        LOGGER.info("RCMS api info : " + JSON.toJSONString(iApiServerInfo));
         // 存储所有服务信息
         allApiServerInfo.add(iApiServerInfo);
       }
@@ -65,7 +66,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
 
   @Override
   public void onApplicationEvent(ContextRefreshedEvent event) {
-    LOGGER.info("RCMS cxf api services scan start.");
+    LOGGER.info("RCMS api services scan start.");
     ApplicationContext context = event.getApplicationContext();
     // 获取服务跟路径
     String contextPath = context.getEnvironment().getProperty("server.servlet.context-path");
@@ -75,10 +76,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
     for (String beanName : beanNames) {
       getCXFEndpointPaths(context.getBean(beanName, JAXRSServerFactoryBean.class),contextPath);
     }
-    LOGGER.info("RCMS cxf api services count : " + allApiServerInfo.size());
+    LOGGER.info("RCMS api services count : " + allApiServerInfo.size());
   }
 
-  public JSONArray getAllApiServerInfo() {
-    return allApiServerInfo;
-  }
 }

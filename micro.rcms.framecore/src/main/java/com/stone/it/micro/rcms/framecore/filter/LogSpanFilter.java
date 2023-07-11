@@ -12,14 +12,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.GenericFilterBean;
 
 /**
+ * 日志拦截
  * @Author iMrJi
  * @Description TODO
  * @Date 2022/8/30 10:28 PM
  * @Version 1.0
  */
-public class JwtTokenFilter extends GenericFilterBean {
+public class LogSpanFilter extends GenericFilterBean {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenFilter.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(LogSpanFilter.class);
 
   /**
    * @param req
@@ -40,4 +41,5 @@ public class JwtTokenFilter extends GenericFilterBean {
     LOGGER.info("Request query {}", query);
     chain.doFilter(req, res);
   }
+
 }

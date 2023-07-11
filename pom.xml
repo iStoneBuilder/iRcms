@@ -32,6 +32,8 @@
     <module>micro.rcms.framehttp</module>
     <!-- RCMS 脚本管理 -->
     <module>micro.rcms.rcmflyway</module>
+    <!-- RCMS 前端页面 -->
+    <module>micro.rcms.resources</module>
   </modules>
 
   <packaging>pom</packaging>
