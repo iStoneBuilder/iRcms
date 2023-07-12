@@ -22,8 +22,12 @@ logging:
 
 # mybatis 配置
 mybatis:
-  mapper-locations: classpath:com.stone.it.**.dao/*.mysql.xml
+  # mybatis sql 文件扫描路径
+  mapper-locations: classpath*:com/stone/it/**/dao/*.mysql.xml
+  # 指定实体类的路径
   type-aliases-package: com.stone.it.**.vo
+  # 指定mybatis 全局配置文件
+  # config-location: classpath:mybatis-config.xml
 
 tmdb:
   api:

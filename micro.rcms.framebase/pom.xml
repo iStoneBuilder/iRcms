@@ -5,6 +5,26 @@
 
   <artifactId>micro.rcms.framebase</artifactId>
 
+  <build>
+    <!-- 如果不添加此节点src/main/java目录下的所有配置文件都会被漏掉。 -->
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.xml</include>
+          <include>**/*.properties</include>
+          <include>**/*.ini</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+
   <dependencies>
     <dependency>
       <artifactId>micro.rcms.framecore</artifactId>
@@ -27,10 +47,12 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
+  <!--在build中配置resources,来防止我们资源导出失败的问题-->
   <properties>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
 
 </project>

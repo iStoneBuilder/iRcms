@@ -5,13 +5,12 @@
   <delete id="deleteI18n"></delete>
   <insert id="createI18n"></insert>
   <select id="findPageResult" resultType="com.stone.it.micro.rcms.framebase.vo.I18nVO">
-
   </select>
-
-
   <select id="findListByLanguage" resultType="com.stone.it.micro.rcms.framebase.vo.I18nVO">
-
+    select i18n_id as i18nId,i18n_key as i18nKey from tpl_rcms_i18n_t where language = #{lang}
   </select>
-  <select id="findI18nById" resultType="com.stone.it.micro.rcms.framebase.vo.I18nVO"></select>
+  <select id="findI18nById" resultType="com.stone.it.micro.rcms.framebase.vo.I18nVO">
+    select i18n_id as i18nId,i18n_key as i18nKey from tpl_rcms_i18n_t where i18n_id = #{i18nId}
+  </select>
   <update id="updateI18n"></update>
 </mapper>

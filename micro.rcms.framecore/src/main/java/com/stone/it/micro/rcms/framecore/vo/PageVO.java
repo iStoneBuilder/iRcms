@@ -2,8 +2,6 @@ package com.stone.it.micro.rcms.framecore.vo;
 
 import com.stone.it.micro.rcms.framecore.config.PageConfig;
 import java.io.Serializable;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import lombok.Data;
 
 /**
@@ -12,8 +10,9 @@ import lombok.Data;
  * @Desc
  */
 @Data
-@XmlAccessorType(XmlAccessType.FIELD)
 public class PageVO implements Serializable {
+
+  private static final long serialVersionUID =  1L;
 
   /**
    * 总记录数
