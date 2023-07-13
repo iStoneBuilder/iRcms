@@ -18,9 +18,7 @@
         <directory>src/main/resources</directory>
         <includes>
           <include>**/*.xml</include>
-          <include>**/*.properties</include>
           <include>**/*.txt</include>
-          <include>**/*.ini</include>
         </includes>
       </resource>
     </resources>
