@@ -29,7 +29,7 @@ public class PageVO implements Serializable {
   /**
    * 每页条数
    */
-  private int pageSize;
+  private int pageSize = PageConfig.DEFAULT.getDefaultPage();
   /**
    * 起始
    */
@@ -39,8 +39,5 @@ public class PageVO implements Serializable {
    */
   private int endIndex;
 
-  PageVO() {
-    pageSize = PageConfig.DEFAULT.getDefaultPage();
-  }
 
 }

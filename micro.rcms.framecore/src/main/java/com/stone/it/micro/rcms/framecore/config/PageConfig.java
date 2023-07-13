@@ -18,10 +18,10 @@ public class PageConfig implements Serializable {
   /**
    * 默认分页大小
    */
-  private Integer defaultPage = 15;
+  private final  Integer defaultPage = 15;
   /**
    * 最大分页大小
    */
-  private Integer maxPageSize = 1000;
+  private final Integer maxPageSize = 3500;
 
 }
