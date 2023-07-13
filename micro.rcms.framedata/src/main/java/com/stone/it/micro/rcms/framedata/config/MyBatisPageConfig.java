@@ -17,6 +17,7 @@ public class MyBatisPageConfig {
   @Bean
   public ConfigurationCustomizer configurationCustomizer(){
     return configuration -> {
+      // 分页插件
       PageHelperInterceptor pageHelper = new PageHelperInterceptor();
       configuration.addInterceptor(pageHelper);
     };

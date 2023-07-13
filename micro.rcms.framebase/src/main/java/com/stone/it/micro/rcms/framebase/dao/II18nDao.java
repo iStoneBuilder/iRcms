@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Param;
 public interface II18nDao {
 
   PageResult<I18nVO> findPageResult(I18nVO i18nVO,
-      PageVO pageVO);
+     PageVO pageVO);
 
   List<I18nVO> findListByLanguage(@Param("lang")String lang);
   I18nVO findI18nById(@Param("i18nId")String i18nId);

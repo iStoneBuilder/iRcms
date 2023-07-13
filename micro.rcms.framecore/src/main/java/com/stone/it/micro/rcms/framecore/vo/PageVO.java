@@ -39,5 +39,4 @@ public class PageVO implements Serializable {
    */
   private int endIndex;
 
-
 }

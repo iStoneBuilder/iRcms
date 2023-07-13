@@ -27,6 +27,7 @@ public class PageResult<T> implements Serializable {
    */
   private List<T> data;
 
+
   public PageResult(PageVO meta, List<T> data) {
     this.meta = meta;
     this.data = data;

@@ -25,7 +25,8 @@ public class I18nService implements II18nService {
 
   @Override
   public PageResult<I18nVO> findI18nPageResult(I18nVO i18nVO, PageVO pageVO) {
-    return i18nDao.findPageResult(i18nVO, pageVO);
+    PageResult<I18nVO> result = i18nDao.findPageResult(i18nVO, pageVO);
+    return result;
   }
 
   @Override
