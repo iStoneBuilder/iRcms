@@ -2,7 +2,7 @@ package com.stone.it.micro.rcms.framebase.dao;
 
 import com.stone.it.micro.rcms.framebase.vo.UserVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PagedResult;
+import com.stone.it.micro.rcms.framecore.vo.PageResult;
 
 /**
  * @author cj.stone
@@ -11,7 +11,7 @@ import com.stone.it.micro.rcms.framecore.vo.PagedResult;
  */
 public interface IUserDao {
 
-  PagedResult<UserVO> findPageResult(UserVO UserVO, PageVO pageVO);
+  PageResult<UserVO> findPageResult(UserVO UserVO, PageVO pageVO);
 
   UserVO findUserId(String userId);
 

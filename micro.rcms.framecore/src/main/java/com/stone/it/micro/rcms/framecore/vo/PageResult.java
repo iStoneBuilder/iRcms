@@ -11,7 +11,7 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public class PagedResult<T> implements Serializable {
+public class PageResult<T> implements Serializable {
 
   private static final long serialVersionUID = -3422814987475041137L;
 
@@ -27,7 +27,7 @@ public class PagedResult<T> implements Serializable {
    */
   private List<T> data;
 
-  public PagedResult(PageVO meta, List<T> data) {
+  public PageResult(PageVO meta, List<T> data) {
     this.meta = meta;
     this.data = data;
   }

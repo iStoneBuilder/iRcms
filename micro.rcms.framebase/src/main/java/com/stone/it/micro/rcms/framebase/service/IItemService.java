@@ -3,15 +3,13 @@ package com.stone.it.micro.rcms.framebase.service;
 import com.stone.it.micro.rcms.framebase.vo.ClassifyVO;
 import com.stone.it.micro.rcms.framebase.vo.ItemVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PagedResult;
-import com.stone.it.micro.rcms.framecore.vo.ResultVO;
+import com.stone.it.micro.rcms.framecore.vo.PageResult;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -29,7 +27,7 @@ public interface IItemService {
 
   @GET
   @Path("/records/{curPage}/{pageSize}")
-  PagedResult<ClassifyVO> findClassifyPageResult(@QueryParam("") ClassifyVO classifyVO,
+  PageResult<ClassifyVO> findClassifyPageResult(@QueryParam("") ClassifyVO classifyVO,
       @PathParam("") PageVO pageVO);
 
   @GET

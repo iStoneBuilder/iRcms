@@ -1,9 +1,8 @@
 package com.stone.it.micro.rcms.framebase.dao;
 
 import com.stone.it.micro.rcms.framebase.vo.I18nVO;
-import com.stone.it.micro.rcms.framecore.vo.BatchVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PagedResult;
+import com.stone.it.micro.rcms.framecore.vo.PageResult;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface II18nDao {
 
-  PagedResult<I18nVO> findPageResult(I18nVO i18nVO,
+  PageResult<I18nVO> findPageResult(I18nVO i18nVO,
       PageVO pageVO);
 
   List<I18nVO> findListByLanguage(@Param("lang")String lang);

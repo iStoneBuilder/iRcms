@@ -5,7 +5,7 @@ import com.stone.it.micro.rcms.framebase.service.II18nService;
 import com.stone.it.micro.rcms.framebase.vo.I18nVO;
 import com.stone.it.micro.rcms.framecore.util.UUIDUtil;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PagedResult;
+import com.stone.it.micro.rcms.framecore.vo.PageResult;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,7 +24,7 @@ public class I18nService implements II18nService {
   private II18nDao i18nDao;
 
   @Override
-  public PagedResult<I18nVO> findI18nPageResult(I18nVO i18nVO, PageVO pageVO) {
+  public PageResult<I18nVO> findI18nPageResult(I18nVO i18nVO, PageVO pageVO) {
     return i18nDao.findPageResult(i18nVO, pageVO);
   }
 

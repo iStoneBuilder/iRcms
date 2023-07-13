@@ -5,8 +5,7 @@ import com.stone.it.micro.rcms.framebase.service.IUserService;
 import com.stone.it.micro.rcms.framebase.vo.UserVO;
 import com.stone.it.micro.rcms.framecore.util.UUIDUtil;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PagedResult;
-import com.stone.it.micro.rcms.framecore.vo.ResultVO;
+import com.stone.it.micro.rcms.framecore.vo.PageResult;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -24,7 +23,7 @@ public class UserService implements IUserService {
   private IUserDao userDao;
 
   @Override
-  public PagedResult<UserVO> findUserPageResult(UserVO userVO, PageVO pageVO) {
+  public PageResult<UserVO> findUserPageResult(UserVO userVO, PageVO pageVO) {
     return userDao.findPageResult(userVO,pageVO);
   }
 

@@ -2,8 +2,7 @@ package com.stone.it.micro.rcms.framebase.service;
 
 import com.stone.it.micro.rcms.framebase.vo.RoleVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PagedResult;
-import com.stone.it.micro.rcms.framecore.vo.ResultVO;
+import com.stone.it.micro.rcms.framecore.vo.PageResult;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -33,7 +32,7 @@ public interface IRoleService {
    */
   @GET
   @Path("/records/page/{curPage}/{pageSize}")
-  PagedResult<RoleVO> findRolePageResult(@QueryParam("") RoleVO roleVO,
+  PageResult<RoleVO> findRolePageResult(@QueryParam("") RoleVO roleVO,
       @PathParam("") PageVO pageVO);
   
 

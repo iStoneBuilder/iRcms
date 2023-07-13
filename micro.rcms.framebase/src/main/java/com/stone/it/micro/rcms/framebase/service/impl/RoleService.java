@@ -5,8 +5,7 @@ import com.stone.it.micro.rcms.framebase.service.IRoleService;
 import com.stone.it.micro.rcms.framebase.vo.RoleVO;
 import com.stone.it.micro.rcms.framecore.util.UUIDUtil;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PagedResult;
-import com.stone.it.micro.rcms.framecore.vo.ResultVO;
+import com.stone.it.micro.rcms.framecore.vo.PageResult;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -24,7 +23,7 @@ public class RoleService implements IRoleService {
   private IRoleDao roleDao;
 
   @Override
-  public PagedResult<RoleVO> findRolePageResult(RoleVO roleVO, PageVO pageVO) {
+  public PageResult<RoleVO> findRolePageResult(RoleVO roleVO, PageVO pageVO) {
     return roleDao.findPageResult(roleVO,pageVO);
   }
 

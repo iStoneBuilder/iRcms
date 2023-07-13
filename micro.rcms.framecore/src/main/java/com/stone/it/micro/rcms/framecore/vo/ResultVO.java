@@ -1,7 +1,6 @@
 package com.stone.it.micro.rcms.framecore.vo;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import java.io.Serializable;
 import lombok.Data;
 
@@ -30,9 +29,9 @@ public class ResultVO implements Serializable {
   public <T> ResultVO(T data) {
     this.data = JSON.toJSONString(data);
   }
-  public ResultVO(PagedResult pagedResult) {
-    this.data = JSON.toJSONString(pagedResult.getData());
-    this.meta = JSON.toJSONString(pagedResult.getMeta());
+  public ResultVO(PageResult pageResult) {
+    this.data = JSON.toJSONString(pageResult.getData());
+    this.meta = JSON.toJSONString(pageResult.getMeta());
   }
   public <T> ResultVO(String code,String desc,T data,T meta) {
     this.code = code;

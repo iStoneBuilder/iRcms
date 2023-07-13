@@ -2,7 +2,7 @@ package com.stone.it.micro.rcms.framebase.service;
 
 import com.stone.it.micro.rcms.framebase.vo.UserVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PagedResult;
+import com.stone.it.micro.rcms.framecore.vo.PageResult;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -32,7 +32,7 @@ public interface IUserService {
    */
   @GET
   @Path("/records/page/{curPage}/{pageSize}")
-  PagedResult<UserVO> findUserPageResult(@QueryParam("") UserVO userVO,
+  PageResult<UserVO> findUserPageResult(@QueryParam("") UserVO userVO,
       @PathParam("") PageVO pageVO);
 
 

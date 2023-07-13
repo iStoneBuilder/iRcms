@@ -2,7 +2,7 @@ package com.stone.it.micro.rcms.framebase.service;
 
 import com.stone.it.micro.rcms.framebase.vo.I18nVO;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PagedResult;
+import com.stone.it.micro.rcms.framecore.vo.PageResult;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -33,7 +33,7 @@ public interface II18nService {
    */
   @GET
   @Path("/records/page/{curPage}/{pageSize}")
-  PagedResult<I18nVO> findI18nPageResult(@QueryParam("") I18nVO i18nVO,
+  PageResult<I18nVO> findI18nPageResult(@QueryParam("") I18nVO i18nVO,
       @PathParam("") PageVO pageVO);
 
   /**
