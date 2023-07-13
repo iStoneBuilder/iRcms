@@ -34,10 +34,10 @@
       <version>${mysql-c-version}</version>
     </dependency>
     <dependency>
-      <groupId>com.stone.it</groupId>
       <artifactId>micro.rcms.framecore</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <groupId>com.stone.it</groupId>
       <scope>compile</scope>
+      <version>1.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

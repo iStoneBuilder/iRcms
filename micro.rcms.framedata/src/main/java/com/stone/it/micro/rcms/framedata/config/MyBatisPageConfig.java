@@ -1,6 +1,7 @@
 package com.stone.it.micro.rcms.framedata.config;
 
 import com.stone.it.micro.rcms.framedata.interceptor.PageHelperInterceptor;
+import com.stone.it.micro.rcms.framedata.interceptor.PageResultInterceptor;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +19,9 @@ public class MyBatisPageConfig {
   public ConfigurationCustomizer configurationCustomizer(){
     return configuration -> {
       // 分页插件
-      PageHelperInterceptor pageHelper = new PageHelperInterceptor();
-      configuration.addInterceptor(pageHelper);
+      configuration.addInterceptor(new PageHelperInterceptor());
+      // 结果插件
+      configuration.addInterceptor(new PageResultInterceptor());
     };
   }
 
