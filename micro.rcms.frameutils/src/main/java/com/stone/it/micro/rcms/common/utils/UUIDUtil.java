@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framecore.util;
+package com.stone.it.micro.rcms.common.utils;
 
 import java.util.UUID;
 

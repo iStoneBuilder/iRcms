@@ -1,10 +1,10 @@
 package com.stone.it.micro.rcms.framebase.service.impl;
 
+import com.stone.it.micro.rcms.common.utils.UUIDUtil;
 import com.stone.it.micro.rcms.framebase.dao.IItemDao;
 import com.stone.it.micro.rcms.framebase.service.IItemService;
 import com.stone.it.micro.rcms.framebase.vo.ClassifyVO;
 import com.stone.it.micro.rcms.framebase.vo.ItemVO;
-import com.stone.it.micro.rcms.framecore.util.UUIDUtil;
 import com.stone.it.micro.rcms.framecore.vo.PageVO;
 import com.stone.it.micro.rcms.framecore.vo.PageResult;
 import java.util.List;
