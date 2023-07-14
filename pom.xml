@@ -34,6 +34,7 @@
     <module>micro.rcms.rcmflyway</module>
     <!-- RCMS 前端页面 -->
     <module>micro.rcms.resources</module>
+    <module>micro.rcms.frameutils</module>
   </modules>
 
   <packaging>pom</packaging>
