@@ -38,7 +38,6 @@ public class PageHelperInterceptor implements Interceptor {
 
   @Override
   public Object intercept(Invocation invocation) throws Throwable {
-    LOGGER.info("PageHelperInterceptor start ... ");
     final Object[] iArgs = invocation.getArgs();
     final MappedStatement mappedStatement = (MappedStatement) iArgs[0];
     //  请求所有参数
@@ -49,6 +48,7 @@ public class PageHelperInterceptor implements Interceptor {
     if(pageVO ==null){
       return invocation.proceed();
     }
+    LOGGER.info("PageHelperInterceptor start ... ");
     // 设置新的分页参数
     buildPageQuery(params,pageVO);
     // 执行查询数据
