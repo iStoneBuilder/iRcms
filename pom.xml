@@ -35,6 +35,8 @@
     <!-- RCMS 前端页面 -->
     <module>micro.rcms.resources</module>
     <module>micro.rcms.frameutils</module>
+    <module>micro.rcms.websupport</module>
+    <module>micro.rcms.isupport</module>
   </modules>
 
   <packaging>pom</packaging>
