@@ -26,8 +26,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.stone.it</groupId>
       <artifactId>micro.rcms.framercms</artifactId>
+      <groupId>com.stone.it</groupId>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
