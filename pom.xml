@@ -35,12 +35,11 @@
     <!-- RCMS 脚本管理 -->
     <module>micro.rcms.rcmflyway</module>
     <!-- RCMS 前端页面 -->
-    <module>micro.rcms.resources</module>
+    <module>micro.rcms.frameweb</module>
     <!-- RCMS 常用工具 -->
-    <module>micro.rcms.frameutils</module>
-    <module>micro.rcms.websupport</module>
+    <module>micro.rcms.frametools</module>
     <!-- RCMS 定时任务 -->
-    <module>micro.rcms.scheduler</module>
+    <module>micro.rcms.ischeduler</module>
   </modules>
 
   <packaging>pom</packaging>
