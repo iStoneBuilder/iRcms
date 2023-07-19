@@ -28,15 +28,16 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class QuartzManager {
-  /** 注入QuartzConfig中定义的任务调度器scheduler */
+  /**
+   * 注入QuartzConfig中定义的任务调度器scheduler
+   * */
   @Resource
   private Scheduler scheduler;
 
   /**
-   * @description: 获取所有任务信息
-   * @return java.util.List<com.wwu.entity.SchedulerVO>
-   * @author 一蓑烟雨
-   * @date 2023/4/16 18:59
+   * 获取所有任务信息
+   * @return
+   * @throws SchedulerException
    */
   public List<SchedulerVO> getAllJobInfo() throws SchedulerException {
     List<SchedulerVO> jobList = new ArrayList<SchedulerVO>();
@@ -62,11 +63,10 @@ public class QuartzManager {
   }
 
   /**
-   * @description: 获取某个任务的信息
+   * 获取某个任务的信息
    * @param scheduledJob
-   * @return java.lang.String
-   * @author 一蓑烟雨
-   * @date 2023/4/16 18:07
+   * @return
+   * @throws SchedulerException
    */
   public String getJobInfo(SchedulerVO scheduledJob) throws SchedulerException {
     TriggerKey triggerKey = new TriggerKey(scheduledJob.getJobName(), scheduledJob.getJobGroup());
@@ -77,10 +77,9 @@ public class QuartzManager {
   }
 
   /**
-   * @description: 获取任务数量
-   * @return java.lang.String
-   * @author 一蓑烟雨
-   * @date 2023/4/16 18:07
+   * 获取任务数量
+   * @return
+   * @throws SchedulerException
    */
   public int getJobSize() throws SchedulerException {
     GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
@@ -89,11 +88,10 @@ public class QuartzManager {
   }
 
   /**
-   * @description: 获取触发器状态
+   * 获取触发器状态
    * @param scheduledJob
    * @return NONE:不存在;NORMAL:正常;PAUSED:暂停;COMPLETE:完成;ERROR:错误;BLOCKED:阻塞
-   * @author 一蓑烟雨
-   * @date 2023/4/17 18:56
+   * @throws SchedulerException
    */
   public String getTriggerState(SchedulerVO scheduledJob) throws SchedulerException {
     TriggerKey triggerKey = new TriggerKey(scheduledJob.getJobName(), scheduledJob.getJobGroup());
@@ -102,11 +100,9 @@ public class QuartzManager {
   }
 
   /**
-   * @description: 开启某个任务
+   * 开启某个任务
    * @param scheduledJob
-   * @return void
-   * @author 一蓑烟雨
-   * @date 2023/4/16 18:05
+   * @throws Exception
    */
   public void startJob(SchedulerVO scheduledJob) throws Exception {
     JobKey jobKey = JobKey.jobKey(scheduledJob.getJobName(), scheduledJob.getJobGroup());
@@ -119,11 +115,10 @@ public class QuartzManager {
   }
 
   /**
-   * @description: 添加某个任务
+   * 添加某个任务
    * @param scheduledJob
-   * @return void
-   * @author 一蓑烟雨
-   * @date 2023/4/16 18:01
+   * @return
+   * @throws Exception
    */
   public boolean addJobTask(SchedulerVO scheduledJob) throws Exception {
     //利用反射机制获取任务执行类
@@ -153,11 +148,10 @@ public class QuartzManager {
   }
 
   /**
-   * @description: 修改任务的Cron表达式
+   * 修改任务的Cron表达式
    * @param scheduledJob
-   * @return boolean
-   * @author 一蓑烟雨
-   * @date 2023/4/16 17:46
+   * @return
+   * @throws SchedulerException
    */
   public boolean modifyJob(SchedulerVO scheduledJob) throws SchedulerException{
     TriggerKey triggerKey = new TriggerKey(scheduledJob.getJobName(), scheduledJob.getJobGroup());
@@ -177,21 +171,17 @@ public class QuartzManager {
   }
 
   /**
-   * @description: 暂停所有任务
-   * @return void
-   * @author 一蓑烟雨
-   * @date 2023/4/16 17:41
+   * 暂停所有任务
+   * @throws SchedulerException
    */
   public void pauseAllJob()throws SchedulerException{
     scheduler.pauseAll();
   }
 
   /**
-   * @description: 暂停某个任务
+   * 暂停某个任务
    * @param scheduledJob
-   * @return void
-   * @author 一蓑烟雨
-   * @date 2023/4/16 17:41
+   * @throws SchedulerException
    */
   public void pauseJob(SchedulerVO scheduledJob)throws SchedulerException{
     JobKey jobKey = JobKey.jobKey(scheduledJob.getJobName(), scheduledJob.getJobGroup());
@@ -203,21 +193,17 @@ public class QuartzManager {
   }
 
   /**
-   * @description: 恢复所有任务
-   * @return void
-   * @author 一蓑烟雨
-   * @date 2023/4/16 17:38
+   * 恢复所有任务
+   * @throws SchedulerException
    */
   public void resumeAllJob()throws SchedulerException{
     scheduler.resumeAll();
   }
 
   /**
-   * @description: 恢复某个任务
+   * 恢复某个任务
    * @param scheduledJob
-   * @return void
-   * @author 一蓑烟雨
-   * @date 2023/4/16 17:39
+   * @throws SchedulerException
    */
   public void resumeJob(SchedulerVO scheduledJob)throws SchedulerException {
     JobKey jobKey = JobKey.jobKey(scheduledJob.getJobName(), scheduledJob.getJobGroup());
@@ -229,11 +215,9 @@ public class QuartzManager {
   }
 
   /**
-   * @description: 删除任务
+   * 删除任务
    * @param scheduledJob
-   * @return void
-   * @author 一蓑烟雨
-   * @date 2023/4/16 17:32
+   * @throws SchedulerException
    */
   public void deleteJob(SchedulerVO scheduledJob)throws SchedulerException {
     JobKey jobKey = JobKey.jobKey(scheduledJob.getJobName(), scheduledJob.getJobGroup());

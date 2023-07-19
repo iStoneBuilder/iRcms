@@ -38,7 +38,7 @@
     <dependency>
       <artifactId>spring-boot-starter-log4j2</artifactId>
       <groupId>org.springframework.boot</groupId>
-      <version>2.6.9</version>
+      <version>${spring.log4j2}</version>
     </dependency>
     <dependency>
       <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
@@ -96,6 +96,7 @@
     <maven.compiler.target>8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tomcat.embed.core>9.0.65</tomcat.embed.core>
+    <spring.log4j2>2.6.9</spring.log4j2>
   </properties>
 
 </project>
