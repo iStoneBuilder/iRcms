@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framecore.config;
+package com.stone.it.micro.rcms.framecom.vo;
 
 import java.io.Serializable;
 import lombok.Data;
@@ -9,7 +9,6 @@ import lombok.Data;
  * @Date 2022/8/26 10:16 PM
  * @Version 1.0
  */
-@Data
 public class PageConfig implements Serializable {
 
   public static final PageConfig DEFAULT = new PageConfig();
@@ -24,4 +23,11 @@ public class PageConfig implements Serializable {
    */
   private final Integer maxPageSize = 3500;
 
+  public Integer getDefaultPage() {
+    return defaultPage;
+  }
+
+  public Integer getMaxPageSize() {
+    return maxPageSize;
+  }
 }

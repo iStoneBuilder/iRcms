@@ -1,9 +1,11 @@
 package com.stone.it.micro.rcms.scheduler.config;
 
-import com.stone.it.micro.rcms.scheduler.vo.SchedulerVO;
+import com.stone.it.micro.rcms.common.utils.PropertiesUtil;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import javax.annotation.Resource;
 import lombok.Data;
 import org.quartz.Scheduler;
@@ -11,7 +13,6 @@ import org.quartz.spi.JobFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -27,21 +28,21 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 @Data
 @Configuration
 @PropertySource("classpath:quartz.properties")
-@ConfigurationProperties(prefix = "springboot.quartz")
 public class QuartzConfig {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(QuartzConfig.class);
-  /** 注入quartz.properties配置文件中的任务 */
-  private List<SchedulerVO> scheduledJobs;
+
+
   @Resource
   private JobFactory jobFactory;
 
   /**
-   * @description: SchedulerFactoryBean工厂
+   * SchedulerFactoryBean工厂
+   * @return
    */
   @Bean
   public SchedulerFactoryBean schedulerFactoryBean() {
-    LOGGER.info("QuartzConfig SchedulerFactoryBean工厂 .....");
+    LOGGER.info("创建 SchedulerFactoryBean 实例 .....");
     // 创建 SchedulerFactoryBean 实例
     SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
     try {
@@ -61,26 +62,36 @@ public class QuartzConfig {
 
   /**
    * 读取quartz配置文件中配置相关属性
+   *
    * @return
    * @throws IOException
    */
   @Bean
   public Properties quartzProperties() throws IOException {
-    LOGGER.info("QuartzConfig quartzProperties .....");
+    LOGGER.info("读取quartz配置文件中配置相关属性 .....");
     PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
     propertiesFactoryBean.setLocation(new ClassPathResource("/quartz.properties"));
     // 在quartz.properties中的属性被读取并注入后再初始化对象
     propertiesFactoryBean.afterPropertiesSet();
-    return propertiesFactoryBean.getObject();
+    Properties properties = propertiesFactoryBean.getObject();
+    Set<Entry<Object, Object>> keyValues = properties.entrySet();
+    Properties propertiesMap = new Properties();
+    // 读取用户自定义配置
+    for (Map.Entry<Object, Object> keyValue : keyValues) {
+      propertiesMap.put(keyValue.getKey(),
+          PropertiesUtil.getValue((String) keyValue.getKey(), (String) keyValue.getValue()));
+    }
+    return propertiesMap;
   }
 
   /**
    * 初始化schedule任务调度器
+   *
    * @return
    */
   @Bean
   public Scheduler scheduler() {
-    LOGGER.info("QuartzConfig scheduler .....");
+    LOGGER.info("初始化schedule任务调度器 .....");
     return schedulerFactoryBean().getScheduler();
   }
 }

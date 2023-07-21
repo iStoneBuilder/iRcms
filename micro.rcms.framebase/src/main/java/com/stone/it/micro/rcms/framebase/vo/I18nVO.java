@@ -1,6 +1,6 @@
 package com.stone.it.micro.rcms.framebase.vo;
 
-import com.stone.it.micro.rcms.framecore.vo.BaseVO;
+import com.stone.it.micro.rcms.framecom.vo.BaseVO;
 import lombok.Data;
 
 /**

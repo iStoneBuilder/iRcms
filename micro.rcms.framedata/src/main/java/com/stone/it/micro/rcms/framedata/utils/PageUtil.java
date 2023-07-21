@@ -1,6 +1,6 @@
 package com.stone.it.micro.rcms.framedata.utils;
 
-import com.stone.it.micro.rcms.framecore.vo.PageVO;
+import com.stone.it.micro.rcms.framecom.vo.PageVO;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;

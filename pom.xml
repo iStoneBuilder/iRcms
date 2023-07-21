@@ -40,6 +40,7 @@
     <module>micro.rcms.frametools</module>
     <!-- RCMS 定时任务 -->
     <module>micro.rcms.ischeduler</module>
+    <module>micro.rcms.framecom</module>
   </modules>
 
   <packaging>pom</packaging>

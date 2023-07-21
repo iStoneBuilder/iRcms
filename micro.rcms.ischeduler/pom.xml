@@ -15,8 +15,19 @@
       <groupId>org.springframework.boot</groupId>
     </dependency>
     <dependency>
-      <artifactId>micro.rcms.framercms</artifactId>
+      <artifactId>micro.rcms.framecore</artifactId>
       <groupId>com.stone.it</groupId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.stone.it</groupId>
+      <artifactId>micro.rcms.frametools</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.stone.it</groupId>
+      <artifactId>micro.rcms.framedata</artifactId>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>

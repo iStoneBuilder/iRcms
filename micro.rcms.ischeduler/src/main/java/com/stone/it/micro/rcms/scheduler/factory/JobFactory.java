@@ -1,6 +1,5 @@
 package com.stone.it.micro.rcms.scheduler.factory;
 
-import com.stone.it.micro.rcms.scheduler.config.QuartzConfig;
 import javax.annotation.Resource;
 import org.quartz.spi.TriggerFiredBundle;
 import org.slf4j.Logger;

@@ -84,7 +84,6 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-
   <properties>
     <cxf.core.jaxrs>3.5.3</cxf.core.jaxrs>
     <cxf.core.jaxws>3.5.3</cxf.core.jaxws>

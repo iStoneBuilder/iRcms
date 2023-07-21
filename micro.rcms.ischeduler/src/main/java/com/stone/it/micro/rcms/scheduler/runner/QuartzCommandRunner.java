@@ -24,8 +24,10 @@ import org.springframework.stereotype.Component;
 public class QuartzCommandRunner implements CommandLineRunner {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(QuartzCommandRunner.class);
+
   @Resource
   private QuartzManager quartzManager;
+
   @Resource
   private ISchedulerDao schedulerDao;
 

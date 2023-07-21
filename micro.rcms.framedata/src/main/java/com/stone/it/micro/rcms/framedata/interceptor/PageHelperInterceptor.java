@@ -1,7 +1,8 @@
 package com.stone.it.micro.rcms.framedata.interceptor;
 
-import com.stone.it.micro.rcms.framecore.vo.PageResult;
-import com.stone.it.micro.rcms.framecore.vo.PageVO;
+
+import com.stone.it.micro.rcms.framecom.vo.PageResult;
+import com.stone.it.micro.rcms.framecom.vo.PageVO;
 import com.stone.it.micro.rcms.framedata.utils.PageUtil;
 import java.util.Iterator;
 import java.util.List;
