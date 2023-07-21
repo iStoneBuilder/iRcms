@@ -1,8 +1,8 @@
 package com.stone.it.micro.rcms.framebase.service;
 
 import com.stone.it.micro.rcms.framebase.vo.UserVO;
-import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PageResult;
+import com.stone.it.micro.rcms.framecom.vo.PageResult;
+import com.stone.it.micro.rcms.framecom.vo.PageVO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;

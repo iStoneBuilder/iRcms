@@ -4,8 +4,8 @@ import com.stone.it.micro.rcms.common.utils.UUIDUtil;
 import com.stone.it.micro.rcms.framebase.dao.IRoleDao;
 import com.stone.it.micro.rcms.framebase.service.IRoleService;
 import com.stone.it.micro.rcms.framebase.vo.RoleVO;
-import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PageResult;
+import com.stone.it.micro.rcms.framecom.vo.PageResult;
+import com.stone.it.micro.rcms.framecom.vo.PageVO;
 import javax.inject.Inject;
 import javax.inject.Named;
 

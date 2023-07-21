@@ -20,6 +20,8 @@
   <modules>
     <!-- RCMS 核心包 -->
     <module>micro.rcms.framercms</module>
+    <!-- RCMS 公共对象-->
+    <module>micro.rcms.framecom</module>
     <!-- eureka 注册中心 -->
     <module>micro.rcms.eurekahub</module>
     <!-- RCMS 框架网关 -->
@@ -40,7 +42,6 @@
     <module>micro.rcms.frametools</module>
     <!-- RCMS 定时任务 -->
     <module>micro.rcms.ischeduler</module>
-    <module>micro.rcms.framecom</module>
   </modules>
 
   <packaging>pom</packaging>

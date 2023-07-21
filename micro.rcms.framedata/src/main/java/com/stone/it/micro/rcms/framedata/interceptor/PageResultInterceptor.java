@@ -1,13 +1,8 @@
 package com.stone.it.micro.rcms.framedata.interceptor;
 
-import com.stone.it.micro.rcms.framecore.vo.PageResult;
-import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framedata.utils.PageUtil;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Properties;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
-import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;

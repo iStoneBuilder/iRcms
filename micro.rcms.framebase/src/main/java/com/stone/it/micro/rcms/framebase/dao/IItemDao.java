@@ -2,8 +2,8 @@ package com.stone.it.micro.rcms.framebase.dao;
 
 import com.stone.it.micro.rcms.framebase.vo.ClassifyVO;
 import com.stone.it.micro.rcms.framebase.vo.ItemVO;
-import com.stone.it.micro.rcms.framecore.vo.PageVO;
-import com.stone.it.micro.rcms.framecore.vo.PageResult;
+import com.stone.it.micro.rcms.framecom.vo.PageResult;
+import com.stone.it.micro.rcms.framecom.vo.PageVO;
 import java.util.List;
 
 /**
