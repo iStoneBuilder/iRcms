@@ -42,6 +42,8 @@
     <module>micro.rcms.frametools</module>
     <!-- RCMS 定时任务 -->
     <module>micro.rcms.ischeduler</module>
+    <!-- RCMS web starter -->
+    <module>micro.rcms.webstarter</module>
   </modules>
 
   <packaging>pom</packaging>
