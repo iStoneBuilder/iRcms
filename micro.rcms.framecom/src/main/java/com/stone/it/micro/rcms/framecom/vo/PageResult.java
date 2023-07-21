@@ -2,7 +2,6 @@ package com.stone.it.micro.rcms.framecom.vo;
 
 import java.io.Serializable;
 import java.util.List;
-import lombok.Data;
 
 /**
  * @Author iMrJi
