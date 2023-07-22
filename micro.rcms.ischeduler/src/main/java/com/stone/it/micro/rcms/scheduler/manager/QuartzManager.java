@@ -47,7 +47,8 @@ public class QuartzManager {
     // 不存在则添加任务
     if(!scheduler.checkExists(jobKey)){
       // 利用反射机制获取任务执行类
-      Class<? extends Job> jobClass = (Class<? extends Job>)(Class.forName("com.stone.it.micro.rcms.scheduler.job.SchedulerJob").newInstance().getClass());
+      Class<? extends Job> jobClass = (Class<? extends Job>)(Class.forName(
+          "com.stone.it.micro.rcms.scheduler.actuator.SchedulerJob").newInstance().getClass());
       // 设置任务明细，调用定义的任务逻辑
       JobDetail jobDetail = JobBuilder.newJob(jobClass)
           // 添加认证信息(也可通过usingJobData传参数)

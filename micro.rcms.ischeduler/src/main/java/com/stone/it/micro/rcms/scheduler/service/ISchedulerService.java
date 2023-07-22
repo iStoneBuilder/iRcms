@@ -2,15 +2,8 @@ package com.stone.it.micro.rcms.scheduler.service;
 
 import com.stone.it.micro.rcms.framecom.vo.PageResult;
 import com.stone.it.micro.rcms.framecom.vo.PageVO;
-import com.stone.it.micro.rcms.scheduler.vo.SchedulerVO;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.PATCH;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import com.stone.it.micro.rcms.scheduler.vo.*;
+import javax.ws.rs.*;
 import org.quartz.SchedulerException;
 
 /**
@@ -33,7 +26,7 @@ public interface ISchedulerService {
    */
   @GET
   @Path("/records/page/{curPage}/{pageSize}")
-  PageResult<SchedulerVO> findQuartzPageResult(SchedulerVO schedulerVO, PageVO pageVO);
+  PageResult<SchedulerVO> findQuartzPageResult(@QueryParam("") SchedulerVO schedulerVO, @PathParam("") PageVO pageVO);
 
   /**
    *  创建任务
@@ -79,5 +72,15 @@ public interface ISchedulerService {
   @Path("/records/{operate}/{quartzId}")
   SchedulerVO operateQuartz(@PathParam("quartzId") String quartzId,@PathParam("operate") String operate)
       throws Exception;
+
+  /**
+   *  分页查询
+   * @param quartzJobVO
+   * @param pageVO
+   * @return
+   */
+  @GET
+  @Path("/jobs/records/page/{curPage}/{pageSize}")
+  PageResult<QuartzJobVO> findQuartzJobPageResult(@QueryParam("") QuartzJobVO quartzJobVO,@PathParam("") PageVO pageVO);
 
 }

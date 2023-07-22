@@ -1,6 +1,6 @@
 package com.stone.it.micro.rcms.http;
 
-import java.util.Map;
+import java.util.*;
 import org.apache.http.client.HttpClient;
 
 /**
@@ -12,11 +12,11 @@ public class RequestUtil extends RequestExecute {
 
 
   public static ResponseEntity doGet(String url) {
-    return doGet(url, null);
+    return doGet(url, new HashMap<>());
   }
 
   public static ResponseEntity doGet(String url, Map<String, String> params) {
-    return doGet(url, params, null);
+    return doGet(url, params, new HashMap<>());
   }
 
   public static ResponseEntity doGet(String url, Map<String, String> params,
@@ -30,7 +30,7 @@ public class RequestUtil extends RequestExecute {
   }
 
   public static ResponseEntity doPut(String url, String body) {
-    return doPut(url, body, null);
+    return doPut(url, body, new HashMap<>());
   }
 
   public static ResponseEntity doPut(String url, String body, Map<String, String> header) {
@@ -39,7 +39,7 @@ public class RequestUtil extends RequestExecute {
 
   public static ResponseEntity doPut(HttpClient client, String url, String body,
       Map<String, String> header) {
-    return execute(client, RequestType.PUT, url, body, header, null);
+    return execute(client, RequestType.PUT, url, body, header, new HashMap<>());
   }
 
   /**
@@ -51,7 +51,7 @@ public class RequestUtil extends RequestExecute {
    * @
    */
   public static ResponseEntity doPost(String url, String body) {
-    return doPost(url, body, null);
+    return doPost(url, body, new HashMap<>());
   }
 
   public static ResponseEntity doPost(String url, String body, Map<String, String> header) {
@@ -60,7 +60,7 @@ public class RequestUtil extends RequestExecute {
 
   public static ResponseEntity doPost(HttpClient client, String url, String body,
       Map<String, String> header) {
-    return execute(client, RequestType.POST, url, body, header, null);
+    return execute(client, RequestType.POST, url, body, header, new HashMap<>());
   }
 
   /**
@@ -73,7 +73,7 @@ public class RequestUtil extends RequestExecute {
   }
 
   public static ResponseEntity doDelete(String url, String body) {
-    return doDelete(url, body, null);
+    return doDelete(url, body, new HashMap<>());
   }
 
   public static ResponseEntity doDelete(String url, String body, Map<String, String> header) {
@@ -82,7 +82,7 @@ public class RequestUtil extends RequestExecute {
 
   public static ResponseEntity doDelete(HttpClient client, String url, String body,
       Map<String, String> header) {
-    return execute(client, RequestType.DELETE, url, body, header, null);
+    return execute(client, RequestType.DELETE, url, body, header, new HashMap<>());
   }
 
 }

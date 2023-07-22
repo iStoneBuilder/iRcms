@@ -4,11 +4,16 @@
 <mapper namespace="com.stone.it.micro.rcms.scheduler.dao.ISchedulerDao">
   <delete id="deleteQuartz"></delete>
   <insert id="createQuartz"></insert>
-  <insert id="createJob"></insert>
+  <insert id="createJob">
+    INSERT INTO tpl_quartz_job_t
+    ( quartz_id, job_id, job_status, start_time )
+    VALUES
+    (#{quartzId},#{jobId},#{jobStatus},#{startTime})
+  </insert>
   <select id="findQuartzList"
     resultType="com.stone.it.micro.rcms.scheduler.vo.SchedulerVO">
     <include refid="query_base_sql"></include>
-    where quartz_status = #{enabledFlag}
+    where enabled_flag = #{enabledFlag}
   </select>
   <select id="findQuartzPageResult"
     resultType="com.stone.it.micro.rcms.scheduler.vo.SchedulerVO"></select>
@@ -18,6 +23,8 @@
 
   <select id="findQuartzInfo"
     resultType="com.stone.it.micro.rcms.scheduler.vo.SchedulerVO"></select>
+  <select id="findQuartzJobPageResult"
+          resultType="com.stone.it.micro.rcms.scheduler.vo.QuartzJobVO"></select>
   <sql id="query_base_sql">
     SELECT
     quartz_id as quartzId,
@@ -26,12 +33,30 @@
     quartz_desc as quartzDesc,
     quartz_cron as quartzCron,
     quartz_cron_zh as quartzCronZh,
-    quartz_status as enabledFlag,
+    enabled_flag as enabledFlag,
+    quartz_status as quartzStatus,
     request_uri as requestPath,
-    next_exec_time as nextExecTime
+    request_type as requestType
     FROM
     tpl_quartz_t
   </sql>
   <update id="updateQuartz"></update>
-  <update id="updateJob"></update>
+  <update id="updateJob">
+    update tpl_quartz_job_t
+    <set >
+      <if test="jobStatus != null" >
+        job_status = #{jobStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="responseCode != null" >
+        response_code = #{responseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="responseBody != null" >
+        response_body = #{responseBody,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where job_id = #{jobId,jdbcType=VARCHAR}
+  </update>
 </mapper>

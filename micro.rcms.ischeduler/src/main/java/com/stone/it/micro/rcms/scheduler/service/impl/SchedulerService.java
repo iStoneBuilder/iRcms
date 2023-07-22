@@ -6,7 +6,7 @@ import com.stone.it.micro.rcms.framecom.vo.PageVO;
 import com.stone.it.micro.rcms.scheduler.dao.ISchedulerDao;
 import com.stone.it.micro.rcms.scheduler.manager.QuartzManager;
 import com.stone.it.micro.rcms.scheduler.service.ISchedulerService;
-import com.stone.it.micro.rcms.scheduler.vo.SchedulerVO;
+import com.stone.it.micro.rcms.scheduler.vo.*;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -88,6 +88,11 @@ public class SchedulerService implements ISchedulerService {
     // 更新数据
     schedulerDao.updateQuartz(schedulerVO);
     return schedulerVO;
+  }
+
+  @Override
+  public PageResult<QuartzJobVO> findQuartzJobPageResult(QuartzJobVO quartzJobVO, PageVO pageVO) {
+    return schedulerDao.findQuartzJobPageResult(quartzJobVO,pageVO);
   }
 
 

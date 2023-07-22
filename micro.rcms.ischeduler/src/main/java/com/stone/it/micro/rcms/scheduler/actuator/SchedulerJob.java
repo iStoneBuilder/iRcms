@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.scheduler.job;
+package com.stone.it.micro.rcms.scheduler.actuator;
 
 import com.alibaba.fastjson2.JSON;
 import com.stone.it.micro.rcms.common.utils.UUIDUtil;
@@ -34,7 +34,7 @@ public class SchedulerJob implements Job {
   public void execute(JobExecutionContext context) {
     // 获取触发器cronTrigger传递的参数
     JobDataMap dataMap = context.getTrigger().getJobDataMap();
-    LOGGER.info("【{}】任务执行开始，执行频率为：{}",dataMap.get("jobName"),dataMap.get("jobCron"));
+    LOGGER.info("【{}】任务执行开始 ... ",dataMap.get("jobName"));
     // 获取quartz信息
     SchedulerVO schedulerJob = JSON.parseObject((String) dataMap.get("jobData"),SchedulerVO.class);
     QuartzJobVO quartzJobVO = new QuartzJobVO();
@@ -51,12 +51,17 @@ public class SchedulerJob implements Job {
       exception.printStackTrace();
     }
     updateQuartzJob(quartzJobVO);
-    LOGGER.info("【{}】任务执行结束",dataMap.get("jobDesc"));
+    LOGGER.info("【{}】任务执行结束 ... ",dataMap.get("jobName"));
   }
 
   private void executeJob(SchedulerVO schedulerVO,QuartzJobVO jobVO){
-    ResponseEntity response = RequestUtil.doPost(
-        schedulerVO.getRequestPath(), null);
+    ResponseEntity response;
+    if("GET".equals(schedulerVO.getRequestType())){
+      response =  RequestUtil.doGet(schedulerVO.getRequestPath());
+    }else{
+      response =  RequestUtil.doPost(
+          schedulerVO.getRequestPath(), null);
+    }
     // 任务执行状态
     jobVO.setJobStatus(response.getMessage());
     // 任务响应编码
@@ -71,9 +76,9 @@ public class SchedulerJob implements Job {
   }
 
   private void createQuartzJob(SchedulerVO schedulerVO,QuartzJobVO jobVO){
-    jobVO.setJobId(UUIDUtil.getYearMonthDayUuid());
+    jobVO.setJobId(UUIDUtil.getUuid());
     jobVO.setQuartzId(schedulerVO.getQuartzId());
-    jobVO.setQuartzName(schedulerVO.getQuartzName());
+    jobVO.setJobStatus("running");
     jobVO.setStartTime(new Date());
     schedulerDao.createJob(jobVO);
   }

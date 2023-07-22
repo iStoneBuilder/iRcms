@@ -37,5 +37,7 @@ public class SchedulerVO implements Serializable {
   private String nextExecTime;
   /*** 请求URI */
   private String requestPath;
+  /** 请求类型 */
+  private String requestType;
 
 }
