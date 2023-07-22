@@ -23,6 +23,9 @@ public class PropertiesUtil {
         try {
             // 读取默认配置
             inputStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(propertiesFileName);
+            if(null == inputStream){
+                return;
+            }
             properties.load(inputStream);
             // 读取动态配置
             String config = properties.getProperty(readConfig);

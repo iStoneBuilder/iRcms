@@ -1,28 +1,20 @@
 package com.stone.it.micro.rcms.scheduler.manager;
 
 import com.alibaba.fastjson.JSON;
-import com.stone.it.micro.rcms.scheduler.config.QuartzConfig;
 import com.stone.it.micro.rcms.scheduler.vo.SchedulerVO;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 import javax.annotation.Resource;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.DateBuilder;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
-import org.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -56,17 +48,10 @@ public class QuartzManager {
     if(!scheduler.checkExists(jobKey)){
       // 利用反射机制获取任务执行类
       Class<? extends Job> jobClass = (Class<? extends Job>)(Class.forName("com.stone.it.micro.rcms.scheduler.job.SchedulerJob").newInstance().getClass());
-      // 存放数据
-      Map<String,Object> jobMap = new HashMap<String, Object>();
-      jobMap.put("jobData",scheduledJob);
-      JobDataMap jobDataMap = new JobDataMap();
-      jobDataMap.putAll(jobMap);
       // 设置任务明细，调用定义的任务逻辑
       JobDetail jobDetail = JobBuilder.newJob(jobClass)
           // 添加认证信息(也可通过usingJobData传参数)
           .withIdentity(scheduledJob.getQuartzId(), scheduledJob.getQuartzGroup())
-          // 存放数据
-          .usingJobData(jobDataMap)
           //执行
           .build();
       // 设置任务触发器，cornTrigger规则定义执行规则
@@ -74,6 +59,7 @@ public class QuartzManager {
           // 通过键值对方式向job实现业务逻辑传参数
           .usingJobData("jobName",scheduledJob.getQuartzName())
           .usingJobData("jobCron",scheduledJob.getQuartzCron())
+          .usingJobData("jobData",JSON.toJSONString(scheduledJob))
           // 添加认证信息
           .withIdentity(scheduledJob.getQuartzId(), scheduledJob.getQuartzGroup())
           // 程序启动后间隔多久开始执行任务
@@ -98,17 +84,20 @@ public class QuartzManager {
    */
   public boolean modifyQuartz(SchedulerVO scheduledJob) throws SchedulerException{
     TriggerKey triggerKey = new TriggerKey(scheduledJob.getQuartzId(), scheduledJob.getQuartzGroup());
-    CronTrigger cronTrigger= (CronTrigger) scheduler.getTrigger(triggerKey);
-    String oldTime = cronTrigger.getCronExpression();
+    CronTrigger oldCronTrigger= (CronTrigger) scheduler.getTrigger(triggerKey);
+    String oldTime = oldCronTrigger.getCronExpression();
     if (!oldTime.equalsIgnoreCase(scheduledJob.getQuartzCron())){
-      CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(scheduledJob.getQuartzCron());
-      CronTrigger trigger=TriggerBuilder.newTrigger()
+      CronTrigger cronTrigger=TriggerBuilder.newTrigger()
+          // 通过键值对方式向job实现业务逻辑传参数
+          .usingJobData("jobName",scheduledJob.getQuartzName())
+          .usingJobData("jobCron",scheduledJob.getQuartzCron())
+          .usingJobData("jobData",JSON.toJSONString(scheduledJob))
           .withIdentity(scheduledJob.getQuartzId(), scheduledJob.getQuartzGroup())
-          .withSchedule(cronScheduleBuilder)
+          .withSchedule(CronScheduleBuilder.cronSchedule(scheduledJob.getQuartzCron()))
           .build();
-      scheduler.rescheduleJob(triggerKey,trigger);
+      scheduler.rescheduleJob(triggerKey,cronTrigger);
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -174,4 +163,5 @@ public class QuartzManager {
     }
     scheduler.deleteJob(jobKey);
   }
+
 }

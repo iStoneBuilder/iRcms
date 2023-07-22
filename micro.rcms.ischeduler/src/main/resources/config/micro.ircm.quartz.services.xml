@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/beans"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+						http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+  <jaxrs:server address="/rcms" id="rcmsBaseServiceRest">
+    <jaxrs:inInterceptors>
+      <ref bean="jwtTokenInInterceptor"/>
+    </jaxrs:inInterceptors>
+    <jaxrs:outInterceptors>
+      <ref bean="jwtTokenOutInterceptor"/>
+    </jaxrs:outInterceptors>
+    <jaxrs:providers>
+      <ref bean="jsonProvider"/>
+    </jaxrs:providers>
+    <jaxrs:serviceBeans>
+      <ref bean="schedulerService"/>
+    </jaxrs:serviceBeans>
+  </jaxrs:server>
+
+</beans>

@@ -1,5 +1,5 @@
-  模块
-  
+模块
+
     <!-- RCMS 核心包 -->
     <module>micro.rcms.framercms</module>
     <!-- RCMS 公共对象-->

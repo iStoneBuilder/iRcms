@@ -34,4 +34,5 @@ public interface ISchedulerDao {
 
   int updateJob(QuartzJobVO quartzJobVO);
 
+  SchedulerVO findQuartzInfo(String quartzId);
 }

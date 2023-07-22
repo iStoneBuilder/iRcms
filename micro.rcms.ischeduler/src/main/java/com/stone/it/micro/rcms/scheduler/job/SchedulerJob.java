@@ -1,5 +1,6 @@
 package com.stone.it.micro.rcms.scheduler.job;
 
+import com.alibaba.fastjson2.JSON;
 import com.stone.it.micro.rcms.common.utils.UUIDUtil;
 import com.stone.it.micro.rcms.http.RequestUtil;
 import com.stone.it.micro.rcms.http.ResponseEntity;
@@ -34,9 +35,8 @@ public class SchedulerJob implements Job {
     // 获取触发器cronTrigger传递的参数
     JobDataMap dataMap = context.getTrigger().getJobDataMap();
     LOGGER.info("【{}】任务执行开始，执行频率为：{}",dataMap.get("jobName"),dataMap.get("jobCron"));
-    JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
     // 获取quartz信息
-    SchedulerVO schedulerJob = (SchedulerVO) jobDataMap.get("jobData");
+    SchedulerVO schedulerJob = JSON.parseObject((String) dataMap.get("jobData"),SchedulerVO.class);
     QuartzJobVO quartzJobVO = new QuartzJobVO();
     // 创建Job任务记录
     createQuartzJob(schedulerJob,quartzJobVO);
@@ -56,7 +56,7 @@ public class SchedulerJob implements Job {
 
   private void executeJob(SchedulerVO schedulerVO,QuartzJobVO jobVO){
     ResponseEntity response = RequestUtil.doPost(
-        schedulerVO.getExecUri(), null);
+        schedulerVO.getRequestPath(), null);
     // 任务执行状态
     jobVO.setJobStatus(response.getMessage());
     // 任务响应编码

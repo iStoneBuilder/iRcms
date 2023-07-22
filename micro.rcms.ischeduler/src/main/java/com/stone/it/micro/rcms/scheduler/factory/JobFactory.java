@@ -24,7 +24,7 @@ public class JobFactory extends AdaptableJobFactory {
 
   @Override
   protected Object createJobInstance(TriggerFiredBundle bundle) throws Exception {
-    LOGGER.info("JobFactory createJobInstance ...");
+    LOGGER.info("创建Quartz Job实例工厂 ...");
     //调用父类的方法
     Object jobInstance = super.createJobInstance(bundle);
     //进行注入
