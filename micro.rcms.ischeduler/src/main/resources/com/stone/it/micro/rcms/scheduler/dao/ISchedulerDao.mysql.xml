@@ -34,7 +34,6 @@
     quartz_cron as quartzCron,
     quartz_cron_zh as quartzCronZh,
     enabled_flag as enabledFlag,
-    quartz_status as quartzStatus,
     request_uri as requestPath,
     request_type as requestType
     FROM
