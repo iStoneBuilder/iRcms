@@ -34,8 +34,15 @@
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
+      <artifactId>micro.rcms.frametools</artifactId>
       <groupId>com.stone.it</groupId>
-      <artifactId>micro.rcms.framercms</artifactId>
+      <scope>compile</scope>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <artifactId>micro.rcms.framehttps</artifactId>
+      <groupId>com.stone.it</groupId>
+      <scope>compile</scope>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
