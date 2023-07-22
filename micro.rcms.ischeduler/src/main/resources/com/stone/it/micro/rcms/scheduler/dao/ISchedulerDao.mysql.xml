@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.micro.rcms.scheduler.dao.ISchedulerDao">
+  <insert id="createQuartz"></insert>
+  <insert id="createJob"></insert>
+  <update id="updateQuartz"></update>
+  <update id="updateJob"></update>
+  <delete id="deleteQuartz"></delete>
+
+  <select id="findQuartzList"
+          resultType="com.stone.it.micro.rcms.scheduler.vo.SchedulerVO"></select>
+  <select id="findQuartzPageResult"
+          resultType="com.stone.it.micro.rcms.scheduler.vo.SchedulerVO"></select>
+  <select id="findQuartzPageResultCount"
+    resultType="integer"></select>
+</mapper>

@@ -20,7 +20,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 /**
- *
+ * QuartzConfig
  * @author cj.stone
  * @Date 2023/7/18
  * @Desc

@@ -16,7 +16,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class JobFactory extends AdaptableJobFactory {
+
   private static final Logger LOGGER = LoggerFactory.getLogger(JobFactory.class);
+  
   @Resource
   private AutowireCapableBeanFactory capableBeanFactory;
 

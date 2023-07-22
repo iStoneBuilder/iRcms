@@ -39,11 +39,11 @@ public class QuartzCommandRunner implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     try {
-      List<SchedulerVO> jobList = schedulerDao.findJobList(new SchedulerVO());
-      LOGGER.info("初始化需要启动的任务列表: " + jobList.size());
+      List<SchedulerVO> jobList = schedulerDao.findQuartzList(new SchedulerVO());
+      LOGGER.info("初始化需要启用的任务列表: " + jobList.size());
       for (SchedulerVO scheduledJob : jobList) {
         // 执行任务
-        quartzManager.startJob(scheduledJob);
+        quartzManager.startQuartz(scheduledJob);
       }
     } catch (Exception exception) {
       LOGGER.error(exception.getMessage());
