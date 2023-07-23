@@ -44,8 +44,8 @@
     <module>micro.rcms.ischeduler</module>
     <!-- RCMS web starter -->
     <module>micro.rcms.webstarter</module>
-    <module>micro.rcms.apis-starter</module>
     <module>micro.rcms.frameauth</module>
+    <module>micro.rcms.api-starter</module>
   </modules>
 
   <packaging>pom</packaging>
