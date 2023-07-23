@@ -25,7 +25,6 @@ public class WebResourceFilter implements Filter {
   @Override
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
       FilterChain filterChain) throws IOException, ServletException {
-    LOGGER.info("WebResourceFilter start  ... ");
     final HttpServletRequest request = (HttpServletRequest) servletRequest;
     final HttpServletResponse response =(HttpServletResponse)servletResponse;
     // 当前请求路径
@@ -34,6 +33,7 @@ public class WebResourceFilter implements Filter {
     final String contextPath = request.getContextPath();
     // 去掉根路径
     final String path_uri = requestUri.replace(contextPath,"");
+    LOGGER.info("WebResourceFilter 请求路径 : {}  ",path_uri);
     if(""==path_uri || "/".equals(path_uri)){
       final String index = "/web/rcms/white/index.html";
       request.getRequestDispatcher(index).forward(request,response);
