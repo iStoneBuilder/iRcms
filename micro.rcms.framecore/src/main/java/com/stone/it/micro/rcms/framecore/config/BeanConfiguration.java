@@ -18,8 +18,8 @@ public class BeanConfiguration {
   public FilterRegistrationBean<LogSpanFilter> logSpanFilter() {
     final FilterRegistrationBean<LogSpanFilter> registrationBean = new FilterRegistrationBean<LogSpanFilter>();
     registrationBean.setFilter(new LogSpanFilter());
-    registrationBean.addUrlPatterns("/*");
     registrationBean.setOrder(1);
+    registrationBean.addUrlPatterns("/*");
     return registrationBean;
   }
 

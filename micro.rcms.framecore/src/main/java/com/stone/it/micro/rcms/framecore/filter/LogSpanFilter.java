@@ -32,13 +32,13 @@ public class LogSpanFilter extends GenericFilterBean {
   @Override
   public void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain)
       throws IOException, ServletException {
+    LOGGER.info("LogSpanFilter start ... ");
     final HttpServletRequest request = (HttpServletRequest) req;
     final HttpServletResponse response = (HttpServletResponse) res;
     final String authHeader = request.getHeader("authorization");
     final String reqUrl = request.getRequestURI();
-    LOGGER.info("Request url {}", reqUrl);
+    LOGGER.info("LogSpanFilter reqUrl ... {}",reqUrl);
     final String query = request.getQueryString();
-    LOGGER.info("Request query {}", query);
     chain.doFilter(req, res);
   }
 

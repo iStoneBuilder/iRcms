@@ -9,6 +9,19 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
+  <dependencies>
+    <dependency>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+  </dependencies>
+
   <artifactId>micro.rcms.framercms</artifactId>
 
   <properties>
