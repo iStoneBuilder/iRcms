@@ -15,7 +15,7 @@ import org.quartz.SchedulerException;
 @Path("/quzrtz")
 @Produces("application/json")
 @Consumes("application/json")
-public interface ISchedulerService {
+public interface ISchedulerConfigService {
 
   /**
    *  分页查询
@@ -72,15 +72,5 @@ public interface ISchedulerService {
   @Path("/records/{operate}/{quartzId}")
   SchedulerVO operateQuartz(@PathParam("quartzId") String quartzId,@PathParam("operate") String operate)
       throws Exception;
-
-  /**
-   *  分页查询
-   * @param quartzJobVO
-   * @param pageVO
-   * @return
-   */
-  @GET
-  @Path("/jobs/records/page/{curPage}/{pageSize}")
-  PageResult<QuartzJobVO> findQuartzJobPageResult(@QueryParam("") QuartzJobVO quartzJobVO,@PathParam("") PageVO pageVO);
 
 }

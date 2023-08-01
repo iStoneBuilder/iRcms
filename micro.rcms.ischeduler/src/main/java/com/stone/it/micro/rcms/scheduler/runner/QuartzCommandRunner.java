@@ -1,7 +1,7 @@
 package com.stone.it.micro.rcms.scheduler.runner;
 
 
-import com.stone.it.micro.rcms.scheduler.dao.ISchedulerDao;
+import com.stone.it.micro.rcms.scheduler.dao.ISchedulerConfigDao;
 import com.stone.it.micro.rcms.scheduler.manager.QuartzManager;
 import com.stone.it.micro.rcms.scheduler.vo.SchedulerVO;
 
@@ -29,7 +29,7 @@ public class QuartzCommandRunner implements CommandLineRunner {
   private QuartzManager quartzManager;
 
   @Resource
-  private ISchedulerDao schedulerDao;
+  private ISchedulerConfigDao schedulerDao;
 
   /**
    * 重写run方法

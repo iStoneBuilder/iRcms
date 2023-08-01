@@ -9,7 +9,7 @@ import java.util.List;
  * @Date 2022/8/26 10:22 PM
  * @Version 1.0
  */
-public class PageResult<T> implements Serializable {
+public final class PageResult<T> implements Serializable {
 
   private static final long serialVersionUID = -3422814987475041137L;
 

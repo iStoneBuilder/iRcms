@@ -4,7 +4,8 @@ import com.alibaba.fastjson2.JSON;
 import com.stone.it.micro.rcms.common.utils.UUIDUtil;
 import com.stone.it.micro.rcms.http.RequestUtil;
 import com.stone.it.micro.rcms.http.ResponseEntity;
-import com.stone.it.micro.rcms.scheduler.dao.ISchedulerDao;
+import com.stone.it.micro.rcms.scheduler.dao.ISchedulerConfigDao;
+import com.stone.it.micro.rcms.scheduler.dao.ISchedulerJobDao;
 import com.stone.it.micro.rcms.scheduler.vo.QuartzJobVO;
 import com.stone.it.micro.rcms.scheduler.vo.SchedulerVO;
 import java.util.Date;
@@ -28,7 +29,10 @@ public class SchedulerJob implements Job {
   private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerJob.class);
 
   @Inject
-  private ISchedulerDao schedulerDao;
+  private ISchedulerConfigDao schedulerDao;
+
+  @Inject
+  private ISchedulerJobDao schedulerJobDao;
 
   @Override
   public void execute(JobExecutionContext context) {
@@ -80,13 +84,13 @@ public class SchedulerJob implements Job {
     jobVO.setQuartzId(schedulerVO.getQuartzId());
     jobVO.setJobStatus("running");
     jobVO.setStartTime(new Date());
-    schedulerDao.createJob(jobVO);
+    schedulerJobDao.createJob(jobVO);
   }
 
   private void updateQuartzJob(QuartzJobVO jobVO){
     jobVO.setEndTime(new Date());
     // 执行完成更新记录
-    schedulerDao.updateJob(jobVO);
+    schedulerJobDao.updateJob(jobVO);
   }
 
 }

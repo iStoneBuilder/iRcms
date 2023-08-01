@@ -3,9 +3,9 @@ package com.stone.it.micro.rcms.scheduler.service.impl;
 import com.stone.it.micro.rcms.common.utils.UUIDUtil;
 import com.stone.it.micro.rcms.framecom.vo.PageResult;
 import com.stone.it.micro.rcms.framecom.vo.PageVO;
-import com.stone.it.micro.rcms.scheduler.dao.ISchedulerDao;
+import com.stone.it.micro.rcms.scheduler.dao.ISchedulerConfigDao;
 import com.stone.it.micro.rcms.scheduler.manager.QuartzManager;
-import com.stone.it.micro.rcms.scheduler.service.ISchedulerService;
+import com.stone.it.micro.rcms.scheduler.service.ISchedulerConfigService;
 import com.stone.it.micro.rcms.scheduler.vo.*;
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -19,13 +19,13 @@ import org.quartz.SchedulerException;
  * @Desc
  */
 @Named
-public class SchedulerService implements ISchedulerService {
+public class SchedulerConfigService implements ISchedulerConfigService {
 
   @Resource
   private QuartzManager quartzManager;
 
   @Inject
-  private ISchedulerDao schedulerDao;
+  private ISchedulerConfigDao schedulerDao;
 
   @Override
   public PageResult<SchedulerVO> findQuartzPageResult(SchedulerVO schedulerVO, PageVO pageVO) {
@@ -89,11 +89,5 @@ public class SchedulerService implements ISchedulerService {
     schedulerDao.updateQuartz(schedulerVO);
     return schedulerVO;
   }
-
-  @Override
-  public PageResult<QuartzJobVO> findQuartzJobPageResult(QuartzJobVO quartzJobVO, PageVO pageVO) {
-    return schedulerDao.findQuartzJobPageResult(quartzJobVO,pageVO);
-  }
-
 
 }

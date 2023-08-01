@@ -17,7 +17,9 @@
       <ref bean="jsonProvider"/>
     </jaxrs:providers>
     <jaxrs:serviceBeans>
-      <ref bean="schedulerService"/>
+      <ref bean="schedulerConfigService"/>
+      <ref bean="schedulerGroupService"/>
+      <ref bean="schedulerJobService"/>
     </jaxrs:serviceBeans>
   </jaxrs:server>
 

@@ -12,17 +12,11 @@ import java.util.List;
  * @Date 2023/7/19
  * @Desc
  */
-public interface ISchedulerDao {
-
-  /**
-   * 查询所有配置的任务
-   *
-   * @param schedulerVO
-   * @return
-   */
-  List<SchedulerVO> findQuartzList(SchedulerVO schedulerVO);
+public interface ISchedulerConfigDao {
 
   PageResult<SchedulerVO> findQuartzPageResult(SchedulerVO schedulerVO, PageVO pageVO);
+
+  List<SchedulerVO> findQuartzList(SchedulerVO schedulerVO);
 
   int createQuartz(SchedulerVO schedulerVO);
 
@@ -30,12 +24,6 @@ public interface ISchedulerDao {
 
   int updateQuartz(SchedulerVO schedulerVO);
 
-  int createJob(QuartzJobVO quartzJobVO);
-
-  int updateJob(QuartzJobVO quartzJobVO);
-
   SchedulerVO findQuartzInfo(String quartzId);
-
-  PageResult<QuartzJobVO> findQuartzJobPageResult(QuartzJobVO quartzJobVO, PageVO pageVO);
 
 }
