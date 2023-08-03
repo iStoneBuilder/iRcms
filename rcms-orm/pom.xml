@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.stone.it</groupId>
+    <artifactId>micro.rcms.framework</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>rcms-orm</artifactId>
+
+  <properties>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <mybatis-s-starter>2.2.2</mybatis-s-starter>
+    <mysql-c-version>8.0.30</mysql-c-version>
+  </properties>
+  <build>
+    <!-- 如果不添加此节点src/main/java目录下的所有配置文件都会被漏掉。 -->
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <artifactId>mybatis-spring-boot-starter</artifactId>
+      <groupId>org.mybatis.spring.boot</groupId>
+      <version>${mybatis-s-starter}</version>
+    </dependency>
+    <dependency>
+      <artifactId>mysql-connector-java</artifactId>
+      <groupId>mysql</groupId>
+      <version>${mysql-c-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.stone.it</groupId>
+      <artifactId>micro.rcms.framecom</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+</project>

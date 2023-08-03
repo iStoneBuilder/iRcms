@@ -18,34 +18,21 @@
   <groupId>com.stone.it</groupId>
   <modelVersion>4.0.0</modelVersion>
   <modules>
-    <!-- RCMS 核心包 -->
-    <module>micro.rcms.framercms</module>
-    <!-- RCMS 公共对象-->
-    <module>micro.rcms.framecom</module>
-    <!-- eureka 注册中心 -->
-    <module>micro.rcms.eurekahub</module>
-    <!-- RCMS 框架网关 -->
-    <module>micro.rcms.framegate</module>
-    <!-- RCMS 基础配置 -->
-    <module>micro.rcms.framebase</module>
-    <!-- RCMS 核心代码 -->
-    <module>micro.rcms.framecore</module>
-    <!-- RCMS 数据操作 -->
-    <module>micro.rcms.framedata</module>
-    <!-- RCMS 请求模块 -->
-    <module>micro.rcms.framehttps</module>
-    <!-- RCMS 脚本管理 -->
-    <module>micro.rcms.rcmflyway</module>
-    <!-- RCMS 前端页面 -->
-    <module>micro.rcms.frameweb</module>
-    <!-- RCMS 常用工具 -->
-    <module>micro.rcms.frametools</module>
-    <!-- RCMS 定时任务 -->
-    <module>micro.rcms.ischeduler</module>
-    <!-- RCMS web starter -->
-    <module>micro.rcms.webstarter</module>
-    <module>micro.rcms.frameauth</module>
-    <module>micro.rcms.api-starter</module>
+    <module>rcms-https</module>
+    <module>rcms-web-resources</module>
+    <module>rcms-web-support</module>
+    <module>rcms-quartz</module>
+    <module>rcms-eureka</module>
+    <module>rcms-core</module>
+    <module>rcms-gateway</module>
+    <module>rcms-base</module>
+    <module>rcms-flyway</module>
+    <module>rcms-orm</module>
+    <module>rcms-auth</module>
+    <module>rcms-com</module>
+    <module>rcms-starter</module>
+    <module>rcms-starter/rcms-biz-starter</module>
+    <module>rcms-starter/rcms-web-starter</module>
   </modules>
 
   <packaging>pom</packaging>
