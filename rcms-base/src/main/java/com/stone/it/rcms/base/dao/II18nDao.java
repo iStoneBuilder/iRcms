@@ -1,7 +1,7 @@
-package com.stone.it.micro.rcms.framebase.dao;
+package com.stone.it.rcms.base.dao;
 
-import com.stone.it.micro.rcms.framebase.vo.I18nVO;
-import com.stone.it.rcms.com.vo.PageResult;
+
+import com.stone.it.rcms.base.vo.I18nVO;
 import com.stone.it.rcms.com.vo.PageVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;

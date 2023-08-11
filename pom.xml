@@ -28,11 +28,11 @@
     <module>rcms-base</module>
     <module>rcms-flyway</module>
     <module>rcms-orm</module>
-    <module>rcms-auth</module>
     <module>rcms-com</module>
     <module>rcms-starter</module>
     <module>rcms-starter/rcms-biz-starter</module>
     <module>rcms-starter/rcms-web-starter</module>
+    <module>rcms-support</module>
   </modules>
 
   <packaging>pom</packaging>

@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framebase.vo;
+package com.stone.it.rcms.base.vo;
 
 
 import com.stone.it.rcms.com.vo.BaseVO;
@@ -17,6 +17,6 @@ public class ClassifyVO extends BaseVO {
   private String classifyName;
   private String description;
 
-  private List<ItemVO> items;
+  private List<com.stone.it.micro.rcms.framebase.vo.ItemVO> items;
 
 }

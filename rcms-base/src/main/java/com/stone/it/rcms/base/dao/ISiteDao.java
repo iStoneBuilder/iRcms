@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framebase.dao;
+package com.stone.it.rcms.base.dao;
 
 /**
  * @author cj.stone

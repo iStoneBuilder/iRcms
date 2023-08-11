@@ -37,20 +37,14 @@
 
   <dependencies>
     <dependency>
-      <artifactId>micro.rcms.framecore</artifactId>
+      <artifactId>rcms-core</artifactId>
       <groupId>com.stone.it</groupId>
       <scope>compile</scope>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <artifactId>micro.rcms.framedata</artifactId>
+      <artifactId>rcms-orm</artifactId>
       <groupId>com.stone.it</groupId>
-      <version>1.0.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <artifactId>micro.rcms.frametools</artifactId>
-      <groupId>com.stone.it</groupId>
-      <scope>compile</scope>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
