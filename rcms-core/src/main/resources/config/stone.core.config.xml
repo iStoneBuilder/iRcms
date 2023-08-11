@@ -6,10 +6,10 @@
 
   <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" id="jsonProvider"/>
 
-  <bean class="com.stone.it.micro.rcms.framecore.interceptor.JwtTokenInInterceptor"
+  <bean class="com.stone.it.rcms.core.interceptor.JwtTokenInInterceptor"
     id="jwtTokenInInterceptor"/>
 
-  <bean class="com.stone.it.micro.rcms.framecore.interceptor.JwtTokenOutInterceptor"
+  <bean class="com.stone.it.rcms.core.interceptor.JwtTokenOutInterceptor"
     id="jwtTokenOutInterceptor"/>
 
 </beans>

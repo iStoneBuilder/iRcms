@@ -8,7 +8,7 @@
   </delete>
 
   <insert id="createI18n"></insert>
-  <select id="findPageResult" resultType="com.stone.it.micro.rcms.framebase.vo.I18nVO">
+  <select id="findPageResult" resultType="com.stone.it.rcms.base.vo.I18nVO">
     <include refid="query_base_sql"/>
     <include refid="query_condition_sql"></include>
     limit #{param2.startIndex},#{param2.endIndex}
@@ -19,11 +19,11 @@
     <include refid="query_condition_sql"></include>
   </select>
 
-  <select id="findListByLanguage" resultType="com.stone.it.micro.rcms.framebase.vo.I18nVO">
+  <select id="findListByLanguage" resultType="com.stone.it.rcms.base.vo.I18nVO">
     <include refid="query_base_sql"/>
     where language = #{lang}
   </select>
-  <select id="findI18nById" resultType="com.stone.it.micro.rcms.framebase.vo.I18nVO">
+  <select id="findI18nById" resultType="com.stone.it.rcms.base.vo.I18nVO">
     select i18n_id as i18nId,i18n_key as i18nKey from tpl_rcms_i18n_t where i18n_id = #{i18nId}
   </select>
   <sql id="query_base_sql">

@@ -2,15 +2,12 @@ package com.stone.it.rcms.com.vo;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  * @author cj.stone
  * @Date 2022/12/12
  * @Desc
  */
-@XmlAccessorType(XmlAccessType.FIELD)
 public class BaseVO implements Serializable {
 
   static final long serialVersionUID = 1L;

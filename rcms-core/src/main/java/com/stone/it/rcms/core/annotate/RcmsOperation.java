@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framecore.annotate;
+package com.stone.it.rcms.core.annotate;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

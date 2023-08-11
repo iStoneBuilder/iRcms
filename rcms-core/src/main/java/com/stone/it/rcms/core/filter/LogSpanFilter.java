@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framecore.filter;
+package com.stone.it.rcms.core.filter;
 
 import java.io.IOException;
 import javax.servlet.FilterChain;

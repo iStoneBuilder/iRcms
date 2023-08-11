@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framebase.service.impl;
+package com.stone.it.rcms.base.service.impl;
 
 /**
  * 个性化设置配置

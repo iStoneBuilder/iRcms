@@ -1,6 +1,6 @@
-package com.stone.it.micro.rcms.framecore.config;
+package com.stone.it.rcms.core.config;
 
-import com.stone.it.micro.rcms.framecore.filter.LogSpanFilter;
+import com.stone.it.rcms.core.filter.LogSpanFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

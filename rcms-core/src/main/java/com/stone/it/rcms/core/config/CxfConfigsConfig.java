@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framecore.config;
+package com.stone.it.rcms.core.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;

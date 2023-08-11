@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framecore.exception;
+package com.stone.it.rcms.core.exception;
 
 /**
  * @author cj.stone

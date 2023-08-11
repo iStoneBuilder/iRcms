@@ -1,6 +1,6 @@
-package com.stone.it.micro.rcms.framebase.service.impl;
+package com.stone.it.rcms.base.service.impl;
 
-import com.stone.it.micro.rcms.framebase.service.ISiteService;
+import com.stone.it.rcms.base.service.ISiteService;
 import javax.inject.Named;
 
 /**

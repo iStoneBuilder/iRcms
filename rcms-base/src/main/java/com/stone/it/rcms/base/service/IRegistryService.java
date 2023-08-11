@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framebase.service;
+package com.stone.it.rcms.base.service;
 
 /**
  * 字典

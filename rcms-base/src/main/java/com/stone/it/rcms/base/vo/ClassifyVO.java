@@ -17,6 +17,6 @@ public class ClassifyVO extends BaseVO {
   private String classifyName;
   private String description;
 
-  private List<com.stone.it.micro.rcms.framebase.vo.ItemVO> items;
+  private List<com.stone.it.rcms.base.vo.ItemVO> items;
 
 }

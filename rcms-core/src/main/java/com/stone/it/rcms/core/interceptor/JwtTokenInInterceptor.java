@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framecore.interceptor;
+package com.stone.it.rcms.core.interceptor;
 
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;

@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framecore.listener;
+package com.stone.it.rcms.core.listener;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

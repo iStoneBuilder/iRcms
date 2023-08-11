@@ -1,4 +1,4 @@
-package com.stone.it.micro.rcms.framecore.constant;
+package com.stone.it.rcms.core.constant;
 
 import java.io.Serializable;
 

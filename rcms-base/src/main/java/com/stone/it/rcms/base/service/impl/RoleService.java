@@ -1,9 +1,9 @@
-package com.stone.it.micro.rcms.framebase.service.impl;
+package com.stone.it.rcms.base.service.impl;
 
 import com.stone.it.rcms.com.util.UUIDUtil;
-import com.stone.it.micro.rcms.framebase.dao.IRoleDao;
-import com.stone.it.micro.rcms.framebase.service.IRoleService;
-import com.stone.it.micro.rcms.framebase.vo.RoleVO;
+import com.stone.it.rcms.base.dao.IRoleDao;
+import com.stone.it.rcms.base.service.IRoleService;
+import com.stone.it.rcms.base.vo.RoleVO;
 import com.stone.it.rcms.com.vo.PageResult;
 import com.stone.it.rcms.com.vo.PageVO;
 import javax.inject.Inject;

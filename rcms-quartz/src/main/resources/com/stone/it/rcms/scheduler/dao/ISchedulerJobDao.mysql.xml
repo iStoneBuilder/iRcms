@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.scheduler.dao.ISchedulerJobDao">
+
+  <select id="findQuartzJobPageResult"
+    resultType="com.stone.it.rcms.scheduler.vo.QuartzJobVO">
+  </select>
+
+  <select id="findQuartzJobPageResultCount">
+
+  </select>
+
+  <insert id="createJob">
+    INSERT INTO tpl_quartz_job_t
+    ( quartz_id, job_id, job_status, start_time )
+    VALUES
+    (#{quartzId},#{jobId},#{jobStatus},#{startTime})
+  </insert>
+
+  <update id="updateJob">
+    update tpl_quartz_job_t
+    <set >
+      <if test="jobStatus != null" >
+        job_status = #{jobStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="responseCode != null" >
+        response_code = #{responseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="responseBody != null" >
+        response_body = #{responseBody,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where job_id = #{jobId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

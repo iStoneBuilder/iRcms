@@ -1,7 +1,7 @@
-package com.stone.it.micro.rcms.framebase.service;
+package com.stone.it.rcms.base.service;
 
-import com.stone.it.micro.rcms.framebase.vo.ClassifyVO;
-import com.stone.it.micro.rcms.framebase.vo.ItemVO;
+import com.stone.it.rcms.base.vo.ClassifyVO;
+import com.stone.it.rcms.base.vo.ItemVO;
 import com.stone.it.rcms.com.vo.PageResult;
 import com.stone.it.rcms.com.vo.PageVO;
 import java.util.List;
