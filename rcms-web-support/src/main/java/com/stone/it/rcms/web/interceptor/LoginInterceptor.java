@@ -1,6 +1,6 @@
 package com.stone.it.rcms.web.interceptor;
 
-import com.stone.it.micro.rcms.common.utils.YamlUtil;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,7 +28,7 @@ public class LoginInterceptor implements HandlerInterceptor {
       return true;
     }
     // 阻止，并重定向到登录页
-    response.sendRedirect(YamlUtil.getValue("rcms.sso.login")+"?redirect="+request.getRequestURL());
+    // response.sendRedirect(YamlUtil.getValue("rcms.sso.login")+"?redirect="+request.getRequestURL());
     return true;
   }
 

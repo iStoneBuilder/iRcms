@@ -1,7 +1,6 @@
 package com.stone.it.rcms.web.config;
 
-
-import com.stone.it.micro.rcms.web.filter.WebResourceFilter;
+import com.stone.it.rcms.web.filter.WebResourceFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

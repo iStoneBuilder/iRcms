@@ -30,7 +30,7 @@
     </dependency>
     <dependency>
       <groupId>com.stone.it</groupId>
-      <artifactId>micro.rcms.apis-starter</artifactId>
+      <artifactId>rcms-biz-starter</artifactId>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>

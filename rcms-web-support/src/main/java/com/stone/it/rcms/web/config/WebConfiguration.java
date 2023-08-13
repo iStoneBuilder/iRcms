@@ -1,6 +1,7 @@
 package com.stone.it.rcms.web.config;
 
-import com.stone.it.micro.rcms.web.interceptor.LoginInterceptor;
+
+import com.stone.it.rcms.web.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
