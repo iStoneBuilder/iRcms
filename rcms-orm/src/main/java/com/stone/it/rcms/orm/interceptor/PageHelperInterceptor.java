@@ -1,8 +1,7 @@
 package com.stone.it.rcms.orm.interceptor;
 
-
-import com.stone.it.micro.rcms.framecom.vo.PageResult;
-import com.stone.it.micro.rcms.framecom.vo.PageVO;
+import com.stone.it.rcms.com.vo.PageResult;
+import com.stone.it.rcms.com.vo.PageVO;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

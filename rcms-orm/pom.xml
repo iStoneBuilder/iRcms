@@ -49,7 +49,7 @@
     </dependency>
     <dependency>
       <groupId>com.stone.it</groupId>
-      <artifactId>micro.rcms.framecom</artifactId>
+      <artifactId>rcms-com</artifactId>
       <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>

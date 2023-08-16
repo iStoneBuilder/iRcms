@@ -1,7 +1,8 @@
 package com.stone.it.rcms.scheduler.service;
 
-import com.stone.it.micro.rcms.framecom.vo.PageResult;
-import com.stone.it.micro.rcms.framecom.vo.PageVO;
+
+import com.stone.it.rcms.com.vo.PageResult;
+import com.stone.it.rcms.com.vo.PageVO;
 import com.stone.it.rcms.scheduler.vo.*;
 import javax.ws.rs.*;
 import org.quartz.SchedulerException;

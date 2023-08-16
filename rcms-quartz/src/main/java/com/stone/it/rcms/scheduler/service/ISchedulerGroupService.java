@@ -1,7 +1,7 @@
 package com.stone.it.rcms.scheduler.service;
 
-import com.stone.it.micro.rcms.framecom.vo.PageResult;
-import com.stone.it.micro.rcms.framecom.vo.PageVO;
+import com.stone.it.rcms.com.vo.PageResult;
+import com.stone.it.rcms.com.vo.PageVO;
 import com.stone.it.rcms.scheduler.vo.QuartzGroupVO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;

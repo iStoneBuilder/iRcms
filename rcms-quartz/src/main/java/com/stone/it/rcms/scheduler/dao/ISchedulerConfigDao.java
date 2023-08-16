@@ -1,7 +1,8 @@
 package com.stone.it.rcms.scheduler.dao;
 
-import com.stone.it.micro.rcms.framecom.vo.PageResult;
-import com.stone.it.micro.rcms.framecom.vo.PageVO;
+
+import com.stone.it.rcms.com.vo.PageResult;
+import com.stone.it.rcms.com.vo.PageVO;
 import com.stone.it.rcms.scheduler.vo.QuartzJobVO;
 import com.stone.it.rcms.scheduler.vo.SchedulerVO;
 import java.util.List;

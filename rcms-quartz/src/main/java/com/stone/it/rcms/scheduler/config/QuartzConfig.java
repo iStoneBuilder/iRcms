@@ -1,6 +1,6 @@
 package com.stone.it.rcms.scheduler.config;
 
-import com.stone.it.micro.rcms.common.utils.PropertiesUtil;
+import com.stone.it.rcms.com.util.PropertiesUtil;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;

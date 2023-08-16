@@ -1,8 +1,9 @@
 package com.stone.it.rcms.scheduler.service.impl;
 
-import com.stone.it.micro.rcms.common.utils.UUIDUtil;
-import com.stone.it.micro.rcms.framecom.vo.PageResult;
-import com.stone.it.micro.rcms.framecom.vo.PageVO;
+
+import com.stone.it.rcms.com.util.UUIDUtil;
+import com.stone.it.rcms.com.vo.PageResult;
+import com.stone.it.rcms.com.vo.PageVO;
 import com.stone.it.rcms.scheduler.dao.ISchedulerConfigDao;
 import com.stone.it.rcms.scheduler.manager.QuartzManager;
 import com.stone.it.rcms.scheduler.service.ISchedulerConfigService;
