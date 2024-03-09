@@ -3,6 +3,7 @@ package com.stone.it.rcms.core.interceptor;
 
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +13,6 @@ import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
@@ -43,6 +43,7 @@ public class PageHelperInterceptor implements Interceptor {
 
   @Override
   public Object intercept(Invocation invocation) throws Throwable {
+
     final Object[] iArgs = invocation.getArgs();
     final MappedStatement mappedStatement = (MappedStatement) iArgs[0];
     //  请求所有参数
@@ -64,22 +65,25 @@ public class PageHelperInterceptor implements Interceptor {
     return resultList;
   }
 
-  private PageResult getQueryResultData(Invocation invocation, Object[] iArgs, MappedStatement ms, Object params, PageVO pageVO) {
+  private PageResult getQueryResultData(Invocation invocation, Object[] iArgs, MappedStatement ms, Object params, PageVO pageVO)
+    throws SQLException {
     Executor executor = (Executor) invocation.getTarget();
-    // 查询总数信息
-    MappedStatement countMs = newMappedStatement(ms, ms.getId() + SQL_ID_SUFFIX);
-
-    BoundSql boundSql = countMs.getBoundSql(params);
-    int totalSize = 1000;
-    // 设置总数
-    pageVO.setTotalRows(totalSize);
-    // 设置总页数
-    pageVO.setTotalPage((int) Math.ceil(totalSize/pageVO.getPageSize()));
-    pageVO.setStartIndex(0);
-    pageVO.setEndIndex(0);
-    PageResult pageResult = new PageResult(pageVO,new ArrayList());
-    return pageResult;
+    RowBounds rowBounds = (RowBounds) iArgs[2];
+    MappedStatement countMs = ms.getConfiguration().getMappedStatement(ms.getId() + SQL_ID_SUFFIX);
+    if(countMs!=null) {
+      // 查询总数信息
+      List<Object> countResult = executor.query(countMs, params, rowBounds, null);
+      int totalSize = (Integer) countResult.get(0);
+      // 设置总数
+      pageVO.setTotalRows(totalSize);
+      // 设置总页数
+      pageVO.setTotalPage((int) Math.ceil((double) totalSize / pageVO.getPageSize()));
+    }
+    // 查询分页数据
+    List<Object> listResult = executor.query(ms, params, rowBounds, null);
+    return new PageResult(pageVO,listResult);
   }
+
 
 
   private void buildPageQuery(Object params,PageVO pageVO) {
@@ -127,24 +131,5 @@ public class PageHelperInterceptor implements Interceptor {
     return pageVO;
   }
 
-  private MappedStatement newMappedStatement (MappedStatement ms,String sqlId) {
-    MappedStatement.Builder builder = new
-        MappedStatement.Builder(ms.getConfiguration(), sqlId, ms.getSqlSource(), ms.getSqlCommandType());
-    builder.resource(ms.getResource());
-    builder.fetchSize(ms.getFetchSize());
-    builder.statementType(ms.getStatementType());
-    builder.keyGenerator(ms.getKeyGenerator());
-    if (ms.getKeyProperties() != null && ms.getKeyProperties().length > 0) {
-      builder.keyProperty(ms.getKeyProperties()[0]);
-    }
-    builder.timeout(ms.getTimeout());
-    builder.parameterMap(ms.getParameterMap());
-    builder.resultMaps(ms.getResultMaps());
-    builder.resultSetType(ms.getResultSetType());
-    builder.cache(ms.getCache());
-    builder.flushCacheRequired(ms.isFlushCacheRequired());
-    builder.useCache(ms.isUseCache());
-    return builder.build();
-  }
 
 }

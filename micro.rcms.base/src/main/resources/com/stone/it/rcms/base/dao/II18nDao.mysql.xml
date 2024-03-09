@@ -64,7 +64,7 @@
   </select>
 
   <select id="findPageResultCount" resultType="int">
-    select count(1) from tpl_rcms_i18n_t
+    select count(1) from tpl_i18n_t
     <include refid="query_condition_sql"></include>
   </select>
 
