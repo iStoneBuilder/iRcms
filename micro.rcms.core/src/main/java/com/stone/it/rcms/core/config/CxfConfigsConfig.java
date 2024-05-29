@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ImportResource;
  * @Version 1.0
  */
 @Configuration
-@ImportResource(locations = {"classpath*:config/*.config.xml","META-INF/cxf/cxf.xml"})
+@ImportResource(locations = {"classpath*:config/*.config.xml","META-INF/cxf/cxf.xml","META-INF/cxf/cxf-servlet.xml"})
 public class CxfConfigsConfig {
 
 }
