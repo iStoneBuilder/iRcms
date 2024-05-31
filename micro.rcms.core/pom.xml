@@ -15,7 +15,6 @@
 
   <properties>
     <cxf.core.jaxrs>3.5.3</cxf.core.jaxrs>
-    <cxf.core.jaxws>3.5.3</cxf.core.jaxws>
     <jackson.annotations>2.13.4</jackson.annotations>
     <jackson.json.provider>2.13.4</jackson.json.provider>
     <lombok.version>1.18.24</lombok.version>
@@ -66,11 +65,6 @@
       <artifactId>spring-boot-starter-log4j2</artifactId>
       <groupId>org.springframework.boot</groupId>
       <version>${spring.log4j2}</version>
-    </dependency>
-    <dependency>
-      <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
-      <groupId>org.apache.cxf</groupId>
-      <version>${cxf.core.jaxws}</version>
     </dependency>
     <dependency>
       <artifactId>jackson-jaxrs-json-provider</artifactId>
