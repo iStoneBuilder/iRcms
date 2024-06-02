@@ -17,6 +17,7 @@
     <module>micro.rcms.zuul</module>
     <module>micro.rcms.post</module>
     <module>micro.rcms.iweb</module>
+    <module>micro.rcms.apis</module>
   </modules>
 
   <parent>

@@ -1,5 +1,6 @@
 package com.stone.it.rcms.core.config;
 
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 
