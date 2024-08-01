@@ -8,6 +8,7 @@ import com.stone.it.rcms.core.util.UUIDUtil;
 import com.stone.it.rcms.scheduler.dao.ISchedulerConfigDao;
 import com.stone.it.rcms.scheduler.dao.ISchedulerGroupDao;
 import com.stone.it.rcms.scheduler.dao.ISchedulerJobDao;
+import com.stone.it.rcms.scheduler.vo.QuartzGroupVO;
 import com.stone.it.rcms.scheduler.vo.QuartzJobVO;
 import com.stone.it.rcms.scheduler.vo.SchedulerVO;
 import java.util.Date;
@@ -65,8 +66,9 @@ public class SchedulerJob implements Job {
   }
 
   private void executeJob(SchedulerVO schedulerVO,QuartzJobVO jobVO){
+    // 解析定时任务的请求头参数
     Map<String, String> header = parseHeader(schedulerVO.getRequestHeaders());
-    // 创建认证请求头
+    // 构建认证请求头
     buildAuthHeader(header,schedulerVO);
     ResponseEntity response = executeRequest(schedulerVO.getRequestType(),
       schedulerVO.getRequestPath(),schedulerVO.getRequestParams(),header);
@@ -87,7 +89,7 @@ public class SchedulerJob implements Job {
     // 先判断是否需要认证
     if("Y".equals(schedulerVO.getIsAuthorized())){
       // 查询分组信息
-      SchedulerVO groupInfo = schedulerGroupDao.findQuartzGroupInfo(schedulerVO.getQuartzGroupCode());
+      QuartzGroupVO groupInfo = schedulerGroupDao.findQuartzGroupInfoByCode(schedulerVO.getQuartzGroupCode());
       // 创建请求头
       Map<String, String> groupHeader = parseHeader(groupInfo.getRequestHeaders());
       // 执行查询认证信息

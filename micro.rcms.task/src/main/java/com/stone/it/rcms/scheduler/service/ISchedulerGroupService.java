@@ -3,6 +3,7 @@ package com.stone.it.rcms.scheduler.service;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.scheduler.vo.QuartzGroupVO;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -68,6 +69,15 @@ public interface ISchedulerGroupService {
    */
   @PATCH
   @Path("/records/{groupId}")
-  QuartzGroupVO updateQuartzGroup(@PathParam("groupId") String groupId,QuartzGroupVO schedulerVO) throws Exception;
+  QuartzGroupVO updateQuartzGroup(@PathParam("groupId") String groupId,QuartzGroupVO schedulerVO) throws SchedulerException;
+
+  /**
+   *  查询任务组列表
+   *
+   * @param quartzGroupVO
+   * @return
+   * @throws SchedulerException
+   */
+  List<QuartzGroupVO> findQuartzGroupList(QuartzGroupVO quartzGroupVO) throws SchedulerException;
 
 }

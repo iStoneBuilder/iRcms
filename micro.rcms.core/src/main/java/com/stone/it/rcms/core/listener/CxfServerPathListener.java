@@ -26,9 +26,9 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CxfServerPathListener.class);
 
-  private static final JSONArray allApiServerInfo = new JSONArray();
+  private static final JSONArray ALL_API_SERVER_INFO = new JSONArray();
 
-  private static void getCXFEndpointPaths(JAXRSServerFactoryBean serverFactory,String contextPath) {
+  private static void getCxfEndpointPaths(JAXRSServerFactoryBean serverFactory,String contextPath) {
     // jaxrs:server 接口暴露配置的路径
     String endpointPath = serverFactory.getAddress();
     // 获取接口暴露下的service
@@ -49,9 +49,9 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
         // 方法路径
         String methodPath = operationResource.getURITemplate().getValue();
         iApiServerInfo.put("api_path", buildApiPath(contextPath+"/services",endpointPath,servicePath,methodPath));
-        LOGGER.info("RCMS api info : " + JSON.toJSONString(iApiServerInfo));
+        LOGGER.info("RCMS api info : {}", JSON.toJSONString(iApiServerInfo));
         // 存储所有服务信息
-        allApiServerInfo.add(iApiServerInfo);
+        ALL_API_SERVER_INFO.add(iApiServerInfo);
       }
     }
   }
@@ -73,9 +73,9 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
     String[] beanNames = context.getBeanNamesForType(JAXRSServerFactoryBean.class);
     // 循环处理 jaxrs:server
     for (String beanName : beanNames) {
-      getCXFEndpointPaths(context.getBean(beanName, JAXRSServerFactoryBean.class),contextPath);
+      getCxfEndpointPaths(context.getBean(beanName, JAXRSServerFactoryBean.class),contextPath);
     }
-    LOGGER.info("RCMS api services count : " + allApiServerInfo.size());
+    LOGGER.info("RCMS api services count : {}", ALL_API_SERVER_INFO.size());
   }
 
 }

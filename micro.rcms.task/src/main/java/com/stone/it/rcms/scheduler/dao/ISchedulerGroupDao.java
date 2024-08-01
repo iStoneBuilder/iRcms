@@ -3,7 +3,6 @@ package com.stone.it.rcms.scheduler.dao;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.scheduler.vo.QuartzGroupVO;
-import com.stone.it.rcms.scheduler.vo.SchedulerVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,7 +15,7 @@ public interface ISchedulerGroupDao {
 
   PageResult<QuartzGroupVO> findQuartzGroupPageResult(QuartzGroupVO schedulerVO, PageVO pageVO);
   
-  List<QuartzGroupVO> findQuartzGroupList(QuartzGroupVO schedulerVO);
+  List<QuartzGroupVO> findQuartzGroupList(QuartzGroupVO quartzGroupVO);
 
   int createQuartzGroup(QuartzGroupVO schedulerVO);
 
@@ -24,5 +23,12 @@ public interface ISchedulerGroupDao {
 
   int updateQuartzGroup(QuartzGroupVO schedulerVO);
 
-  SchedulerVO findQuartzGroupInfo(@Param("quartzGroupCode")String quartzGroupCode);
+  QuartzGroupVO findQuartzGroupInfoByCode(@Param("quartzGroupCode")String quartzGroupCode);
+
+  QuartzGroupVO findQuartzGroupInfoById(@Param("quartzGroupId")String quartzGroupId);
+
+  List<QuartzGroupVO> checkGroupCodeExistByCode(QuartzGroupVO schedulerVO);
+
+  List<QuartzGroupVO> checkGroupNameExistByCodeName(QuartzGroupVO schedulerVO);
+
 }

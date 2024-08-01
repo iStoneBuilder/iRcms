@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.scheduler.dao.ISchedulerConfigDao">
+
+  <delete id="deleteQuartz">
+    delete tpl_quartz_t where quartz_id = #{quartzId}
+  </delete>
+
+  <insert id="createQuartz">
+
+  </insert>
+  <update id="updateQuartz">
+
+  </update>
+
+  <select id="findQuartzPageResult"
+    resultType="com.stone.it.rcms.scheduler.vo.SchedulerVO">
+    <include refid="query_base_sql"/>
+    <include refid="query_condition_sql"/>
+    limit #{param2.startIndex},#{param2.endIndex}
+  </select>
+
+  <select id="findQuartzPageResultCount"  resultType="integer">
+    select count(1) FROM
+    tpl_quartz_t qt
+    left join tpl_quartz_group_t qgt
+    on qt.QUARTZ_GROUP_CODE = qgt.QUARTZ_GROUP_CODE
+    <include refid="query_condition_sql"/>
+  </select>
+
+  <select id="findQuartzInfoById"
+    resultType="com.stone.it.rcms.scheduler.vo.SchedulerVO">
+    <include refid="query_base_sql"/>
+    where qt.quartz_id = #{quartzId}
+  </select>
+
+  <select id="findQuartzList"
+    resultType="com.stone.it.rcms.scheduler.vo.SchedulerVO">
+    <include refid="query_base_sql"/>
+    where qt.enabled_flag = #{enabledFlag}
+  </select>
+
+  <select id="findQuartzListByGroupId"
+    resultType="com.stone.it.rcms.scheduler.vo.SchedulerVO">
+    <include refid="query_base_sql"/>
+    where qgt.QUARTZ_GROUP_ID = #{groupId}
+  </select>
+
+  <sql id="query_base_sql">
+    SELECT
+    qgt.IS_AUTHORIZED as isAuthorized,
+    qt.QUARTZ_GROUP_CODE as quartzGroupCode,
+    qt.quartz_id as quartzId,
+    qt.quartz_name as quartzName,
+    qt.quartz_desc as quartzDesc,
+    qt.quartz_cron as quartzCron,
+    qt.quartz_cron_zh as quartzCronZh,
+    qt.enabled_flag as enabledFlag,
+    qt.QUARTZ_STATUS as quartzStatus,
+    qt.NEXT_EXEC_TIME as nextExecTime,
+    qt.AUTH_KEY as authKey,
+    qt.request_type as requestType,
+    qt.REQUEST_PATH as requestPath,
+    qt.REQUEST_PARAMS as requestParams,
+    qt.REQUEST_HEADER as requestHeaders
+    FROM
+    tpl_quartz_t qt
+    left join tpl_quartz_group_t qgt
+    on qt.QUARTZ_GROUP_CODE = qgt.QUARTZ_GROUP_CODE
+  </sql>
+
+  <sql id="query_condition_sql">
+    <where>
+      1 = 1
+      <if test="param1.quartzId != null and param1.quartzId != ''">
+        and qt.quartz_id = #{param1.quartzId,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.quartzGroupCode != null and param1.quartzGroupCode != ''">
+        and qt.quartz_group_code = #{param1.quartzGroupCode,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.isAuthorized != null and param1.isAuthorized != ''">
+        and qgt.IS_AUTHORIZED = #{param1.isAuthorized,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.quartzName != null and param1.quartzName != ''">
+        and qt.quartz_name = #{param1.quartzName,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.enabledFlag != null and param1.enabledFlag != ''">
+        and qt.enabled_flag = #{param1.enabledFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.quartzStatus != null and param1.quartzStatus != ''">
+        and qt.QUARTZ_STATUS = #{param1.quartzStatus,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+</mapper>

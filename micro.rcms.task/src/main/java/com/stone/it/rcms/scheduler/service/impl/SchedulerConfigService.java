@@ -47,7 +47,7 @@ public class SchedulerConfigService implements ISchedulerConfigService {
 
   @Override
   public int deleteQuartz(String quartzId) throws SchedulerException {
-    SchedulerVO schedulerVO = schedulerDao.findQuartzInfo(quartzId);
+    SchedulerVO schedulerVO = schedulerDao.findQuartzInfoById(quartzId);
     // 删除定时任务
     quartzManager.deleteQuartz(schedulerVO);
     // 删除数据表
@@ -68,7 +68,7 @@ public class SchedulerConfigService implements ISchedulerConfigService {
   @Override
   public SchedulerVO operateQuartz(String quartzId, String operate) throws Exception {
     // 查询旧数据 (enable:启用; suspend:暂停; restore:恢复; stopped: 停用)
-    SchedulerVO schedulerVO = schedulerDao.findQuartzInfo(quartzId);
+    SchedulerVO schedulerVO = schedulerDao.findQuartzInfoById(quartzId);
     schedulerVO.setEnabledFlag(operate);
     // 定时任务启用
     if("enable".equals(operate)){

@@ -32,7 +32,7 @@ public class RefererFilter implements WebFilter {
 
   @Override
   public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-    LOGGER.info("ReferFilter config " + JSON.toJSONString(configuration));
+    LOGGER.info("ReferFilter config {}", JSON.toJSONString(configuration));
     // 获取域名
     String domain = exchange.getRequest().getURI().getHost();
     // 放过白名单

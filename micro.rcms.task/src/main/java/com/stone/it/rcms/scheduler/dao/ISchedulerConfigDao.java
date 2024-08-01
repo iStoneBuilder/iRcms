@@ -16,14 +16,16 @@ public interface ISchedulerConfigDao {
 
   PageResult<SchedulerVO> findQuartzPageResult(SchedulerVO schedulerVO, PageVO pageVO);
 
-  List<SchedulerVO> findQuartzList(SchedulerVO schedulerVO);
-
   int createQuartz(SchedulerVO schedulerVO);
 
   int deleteQuartz(String jobId);
 
   int updateQuartz(SchedulerVO schedulerVO);
 
-  SchedulerVO findQuartzInfo(@Param("quartzId")String quartzId);
+  List<SchedulerVO> findQuartzList(SchedulerVO schedulerVO);
+
+  List<SchedulerVO> findQuartzListByGroupId(@Param("groupId")String groupId);
+
+  SchedulerVO findQuartzInfoById(@Param("quartzId")String quartzId);
 
 }
