@@ -56,9 +56,15 @@ public class SchedulerConfigService implements ISchedulerConfigService {
 
   @Override
   public SchedulerVO updateQuartz(String quartzId,SchedulerVO schedulerVO) throws Exception {
+    SchedulerVO oldSchedulerVO =  schedulerDao.findQuartzInfoById(quartzId);
+    if("enable".equals(oldSchedulerVO.getEnabledFlag())){
+      throw new SchedulerException("启动中的任务禁止修改");
+    }
     schedulerVO.setQuartzId(quartzId);
     // 更新数据
     schedulerDao.updateQuartz(schedulerVO);
+    // 删除定时任务
+    quartzManager.deleteQuartz(schedulerVO);
     if("enable".equals(schedulerVO.getEnabledFlag())){
       quartzManager.startQuartz(schedulerVO);
     }
