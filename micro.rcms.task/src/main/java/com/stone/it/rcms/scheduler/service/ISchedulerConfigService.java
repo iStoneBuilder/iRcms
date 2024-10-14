@@ -13,7 +13,7 @@ import org.quartz.SchedulerException;
  * @author cj.stone
  * @Desc
  */
-@Path("/quzrtz")
+@Path("/task")
 @Produces("application/json")
 @Consumes("application/json")
 public interface ISchedulerConfigService {

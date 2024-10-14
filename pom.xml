@@ -18,6 +18,8 @@
     <module>micro.rcms.post</module>
     <module>micro.rcms.iweb</module>
     <module>micro.rcms.apis</module>
+    <module>micro.rcms.test</module>
+    <module>micro.rcms.auth</module>
   </modules>
 
   <parent>

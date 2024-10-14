@@ -4,14 +4,60 @@
 <mapper namespace="com.stone.it.rcms.scheduler.dao.ISchedulerConfigDao">
 
   <delete id="deleteQuartz">
-    delete tpl_quartz_t where quartz_id = #{quartzId}
+    delete tpl_quartz_t where quartz_id = #{quartzId,jdbcType=VARCHAR}
   </delete>
 
   <insert id="createQuartz">
-
+    insert into tpl_quartz_t (
+    quartz_group_code,quartz_id,quartz_name,quartz_desc,quartz_cron,
+    quartz_cron_zh,enabled_flag,quartz_status,next_exec_time,auth_key,
+    request_type,request_path,request_params,request_header,
+    created_time,created_by,updated_time,updated_by)
+    values (
+    #{quartzGroupCode,jdbcType=VARCHAR},
+    #{quartzId,jdbcType=VARCHAR},
+    #{quartzName,jdbcType=VARCHAR},
+    #{quartzDesc,jdbcType=VARCHAR},
+    #{quartzCron,jdbcType=VARCHAR},
+    #{quartzCronZh,jdbcType=VARCHAR},
+    #{enabledFlag,jdbcType=VARCHAR},
+    #{quartzStatus,jdbcType=VARCHAR},
+    #{nextExecTime,jdbcType=TIMESTAMP},
+    #{authKey,jdbcType=VARCHAR},
+    #{requestType,jdbcType=VARCHAR},
+    #{requestPath,jdbcType=VARCHAR},
+    #{requestParams,jdbcType=VARCHAR},
+    #{requestHeaders,jdbcType=VARCHAR},
+    #{createDate,jdbcType=TIMESTAMP},
+    #{createBy,jdbcType=VARCHAR},
+    #{updateDate,jdbcType=TIMESTAMP},
+    #{updateBy,jdbcType=VARCHAR}
+    )
   </insert>
   <update id="updateQuartz">
-
+    update tpl_quartz_t
+    set
+    <if test="quartzGroupCode != null and quartzGroupCode != ''">
+      quartz_group_code = #{quartzGroupCode,jdbcType=VARCHAR}
+    </if>
+    <if test="quartzName != null">
+      quartz_name = #{quartzName,jdbcType=VARCHAR},
+    </if>
+    <if test="quartzDesc != null">
+      quartz_desc = #{quartzDesc,jdbcType=VARCHAR},
+    </if>
+    <if test="quartzCron != null">
+      quartz_cron = #{quartzCron,jdbcType=VARCHAR},
+    </if>
+    <if test="quartzCronZh != null">
+      quartz_cron_zh = #{quartzCronZh,jdbcType=VARCHAR},
+    </if>
+    <if test="enabledFlag != null">
+      enabled_flag = #{enabledFlag,jdbcType=VARCHAR},
+    </if>
+    updateDate = sysdate,
+    updateBy = 'SYSTEM'
+    where quartzId = #{quartzId,jdbcType=VARCHAR}
   </update>
 
   <select id="findQuartzPageResult"

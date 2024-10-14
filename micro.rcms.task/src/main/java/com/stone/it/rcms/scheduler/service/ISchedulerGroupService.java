@@ -21,7 +21,7 @@ import org.quartz.SchedulerException;
  * @author cj.stone
  * @Desc
  */
-@Path("/quzrtz/group")
+@Path("/group")
 @Produces("application/json")
 @Consumes("application/json")
 public interface ISchedulerGroupService {

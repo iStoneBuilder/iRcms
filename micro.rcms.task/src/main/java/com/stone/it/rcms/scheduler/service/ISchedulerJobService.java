@@ -16,7 +16,7 @@ import javax.ws.rs.QueryParam;
  * @author cj.stone
  * @Desc
  */
-@Path("/quzrtz/job")
+@Path("/job")
 @Produces("application/json")
 @Consumes("application/json")
 public interface ISchedulerJobService {

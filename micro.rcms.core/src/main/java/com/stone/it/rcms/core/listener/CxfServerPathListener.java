@@ -48,7 +48,9 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
         iApiServerInfo.put("method_type", operationResource.getHttpMethod());
         // 方法路径
         String methodPath = operationResource.getURITemplate().getValue();
-        iApiServerInfo.put("api_path", buildApiPath(contextPath+"/services",endpointPath,servicePath,methodPath));
+        String apiPath = buildApiPath(contextPath+"/services",endpointPath,servicePath,methodPath);
+        iApiServerInfo.put("api_path", apiPath);
+        iApiServerInfo.put("api_type",apiPath.contains("/services/rcms/")?"system":"business");
         LOGGER.info("RCMS api info : {}", JSON.toJSONString(iApiServerInfo));
         // 存储所有服务信息
         ALL_API_SERVER_INFO.add(iApiServerInfo);
