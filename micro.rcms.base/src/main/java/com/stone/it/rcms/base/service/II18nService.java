@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /**
  * @author cj.stone
@@ -64,6 +65,7 @@ public interface II18nService {
    */
   @POST
   @Path("/records")
+  @RequiresPermissions("create.i18n")
   int createI18n(I18nVO i18nVO);
 
   /**

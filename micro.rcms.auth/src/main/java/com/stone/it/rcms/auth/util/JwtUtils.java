@@ -1,4 +1,4 @@
-package com.stone.it.rcms.util;
+package com.stone.it.rcms.auth.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;

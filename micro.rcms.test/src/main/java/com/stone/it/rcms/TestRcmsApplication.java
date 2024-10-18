@@ -1,6 +1,6 @@
 package com.stone.it.rcms;
 
-import com.stone.it.rcms.util.JwtUtils;
+import com.stone.it.rcms.auth.util.JwtUtils;
 import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;

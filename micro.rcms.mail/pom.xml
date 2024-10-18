@@ -9,33 +9,18 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>micro.rcms.apis</artifactId>
-  <packaging>pom</packaging>
+  <artifactId>micro.rcms.mail</artifactId>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <cxf.core.jaxrs>3.5.3</cxf.core.jaxrs>
   </properties>
 
   <dependencies>
     <dependency>
-      <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
-      <exclusions>
-        <exclusion>
-          <artifactId>spring-boot-starter-logging</artifactId>
-          <groupId>org.springframework.boot</groupId>
-        </exclusion>
-      </exclusions>
-      <groupId>org.apache.cxf</groupId>
-      <version>${cxf.core.jaxrs}</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.inject</groupId>
-      <artifactId>javax.inject</artifactId>
-      <version>1</version>
-      <scope>compile</scope>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-mail</artifactId>
     </dependency>
   </dependencies>
 

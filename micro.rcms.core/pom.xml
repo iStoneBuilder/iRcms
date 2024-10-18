@@ -60,6 +60,21 @@
       <groupId>org.apache.cxf</groupId>
       <version>${cxf.core.jaxrs}</version>
     </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.apache.shiro</groupId>-->
+<!--      <artifactId>shiro-servlet-plugin</artifactId>-->
+<!--      <version>2.0.1</version>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.apache.shiro</groupId>-->
+<!--      <artifactId>shiro-jaxrs</artifactId>-->
+<!--      <version>2.0.1</version>-->
+<!--    </dependency>-->
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-spring-boot-web-starter</artifactId>
+      <version>1.9.1</version>
+    </dependency>
     <!-- 引入log4j2依赖 -->
     <dependency>
       <artifactId>spring-boot-starter-log4j2</artifactId>
