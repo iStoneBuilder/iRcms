@@ -2,6 +2,7 @@ package com.stone.it.rcms.auth.config;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
@@ -15,23 +16,51 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ShiroConfig {
-  @Bean
-  public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager)
-  {
-    ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
-    //给filter设置安全管理
-    factoryBean.setSecurityManager(securityManager);
-    //配置系统的受限资源
-    Map<String,String> map = new HashMap<>();
-    //登录请求无需认证
-    map.put("/login", "anon");
-    //其他请求需要认证
-    map.put("/**", "authc");
-    //访问需要认证的页面如果未登录会跳转到/login
-    factoryBean.setLoginUrl("/login");
-    //访问未授权页面会自动跳转到/unAuth
-    factoryBean.setUnauthorizedUrl("/unAuth");
-    factoryBean.setFilterChainDefinitionMap(map);
-    return factoryBean;
-  }
+    @Bean
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
+        ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
+        // 给filter设置安全管理
+        factoryBean.setSecurityManager(securityManager);
+        // 配置系统的受限资源
+        Map<String, String> map = new HashMap<>();
+        // 登录请求无需认证
+        map.put("/login", "anon");
+        // 其他请求需要认证
+        map.put("/**", "authc");
+        // 访问需要认证的页面如果未登录会跳转到/login
+        factoryBean.setLoginUrl("/login");
+        // 访问未授权页面会自动跳转到/unAuth
+        factoryBean.setUnauthorizedUrl("/unAuth");
+        factoryBean.setFilterChainDefinitionMap(map);
+        return factoryBean;
+    }
+
+    // 自定义密码加密规则
+    @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        hashedCredentialsMatcher.setHashAlgorithmName("md5");
+        hashedCredentialsMatcher.setHashIterations(2);
+        // true 代表Hex编码，false代表采用base64编码
+        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
+        return hashedCredentialsMatcher;
+    }
+
+    // 自定义认证
+    @Bean
+    public CustomerRealm customerRealm() {
+        CustomerRealm customerRealm = new CustomerRealm();
+        customerRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        customerRealm.setCachingEnabled(false);
+        return customerRealm;
+    }
+
+    // 需要定义DefaultWebSecurityManager，否则会报bean冲突
+    @Bean
+    public DefaultWebSecurityManager securityManager() {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(customerRealm());
+        securityManager.setRememberMeManager(null);
+        return securityManager;
+    }
 }
