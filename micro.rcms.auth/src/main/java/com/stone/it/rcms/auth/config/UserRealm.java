@@ -24,7 +24,7 @@ import org.apache.shiro.subject.PrincipalCollection;
  * @Date 2024/10/18
  * @Desc
  */
-public class CustomerRealm extends AuthorizingRealm {
+public class UserRealm extends AuthorizingRealm {
 
     @Inject
     private IUserAuthService userAuthService;
@@ -47,7 +47,7 @@ public class CustomerRealm extends AuthorizingRealm {
         String password = new String(usernamePasswordToken.getPassword());
         // 通过用户id获取用户信息
         AuthUserVO user = userAuthService.getUserInfoByUserId(userId);
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, user.getUserName());
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, getName());
         return info;
     }
 

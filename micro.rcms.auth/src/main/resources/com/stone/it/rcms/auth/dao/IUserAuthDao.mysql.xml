@@ -15,4 +15,7 @@
   <select id="getPermissionByRoleCodes" resultType="com.stone.it.rcms.auth.vo.PermissionVO">
   </select>
 
+  <select id="getPermissionByAccountId"
+    resultType="com.stone.it.rcms.auth.vo.PermissionVO"></select>
+
 </mapper>

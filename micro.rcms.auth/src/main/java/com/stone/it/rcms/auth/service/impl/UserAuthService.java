@@ -36,4 +36,9 @@ public class UserAuthService implements IUserAuthService {
     public List<PermissionVO> getPermissionByRoleCodes(Set<String> roleSets) {
         return userAuthDao.getPermissionByRoleCodes(roleSets);
     }
+
+    @Override
+    public List<PermissionVO> getPermissionByAccountId(String accountId) {
+        return userAuthDao.getPermissionByAccountId(accountId);
+    }
 }

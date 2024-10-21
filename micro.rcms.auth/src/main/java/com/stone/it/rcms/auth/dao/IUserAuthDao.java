@@ -38,4 +38,11 @@ public interface IUserAuthDao {
      */
     List<PermissionVO> getPermissionByRoleCodes(Collection<String> roleSets);
 
+    /**
+     * 根据账号ID获取账号权限信息
+     *
+     * @param accountId
+     * @return
+     */
+    List<PermissionVO> getPermissionByAccountId(String accountId);
 }
