@@ -26,7 +26,7 @@ public class TokenFilter extends AuthenticationFilter {
         }
         String token = getRequestToken((HttpServletRequest)request);
         if (!StringUtils.isEmpty(token)) {
-            // 验证Token max@756423
+            // 验证Token
             Map<String, Object> verifyToken = JwtUtils.verifyToken(token);
             // Token验证成功
             if (Boolean.TRUE.equals(verifyToken.get("state"))) {

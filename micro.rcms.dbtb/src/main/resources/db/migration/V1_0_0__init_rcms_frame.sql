@@ -53,6 +53,8 @@ CREATE TABLE IF NOT EXISTS `tpl_item_t`(
 CREATE TABLE IF NOT EXISTS `tpl_user_t`(
     `USER_ID`      INT          NOT NULL AUTO_INCREMENT,
     `USER_ACCOUNT`    VARCHAR(100) NOT NULL COMMENT '用户账号',
+    `USER_NAME`    VARCHAR(100) NOT NULL COMMENT '用户名称',
+    `PASSWORD`    VARCHAR(100) NOT NULL COMMENT '用户密码',
     `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
     `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -109,6 +111,17 @@ CREATE TABLE IF NOT EXISTS `tpl_role_permission_t`(
     `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `UPDATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
     PRIMARY KEY (`ROLE_CODE`,`permission_code`)
+    ) ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4;
+-- 账号权限关系表
+CREATE TABLE IF NOT EXISTS `tpl_account_permission_t`(
+    `app_id`    INT NOT NULL COMMENT '账户ID',
+    `permission_code`    VARCHAR(100) NOT NULL COMMENT '权限编码',
+    `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+    `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `UPDATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+    PRIMARY KEY (`app_id`,`permission_code`)
     ) ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4;
 -- 栏目表

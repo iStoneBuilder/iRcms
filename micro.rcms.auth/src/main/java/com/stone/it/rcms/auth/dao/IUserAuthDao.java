@@ -44,5 +44,5 @@ public interface IUserAuthDao {
      * @param accountId
      * @return
      */
-    List<PermissionVO> getPermissionByAccountId(String accountId);
+    List<PermissionVO> getPermissionByAccountId(String appId);
 }

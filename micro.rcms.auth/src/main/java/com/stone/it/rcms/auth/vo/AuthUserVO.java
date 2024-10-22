@@ -12,7 +12,6 @@ public class AuthUserVO {
     private String userAccount;
     private String userName;
     private String password;
-    private String userType;
 
     public String getUserId() {
         return userId;
@@ -46,11 +45,4 @@ public class AuthUserVO {
         this.password = password;
     }
 
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
 }
