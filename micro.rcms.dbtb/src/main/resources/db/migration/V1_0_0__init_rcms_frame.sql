@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `tpl_item_t`(
 
 -- 用户主表
 CREATE TABLE IF NOT EXISTS `tpl_user_t`(
-    `USER_ID`      INT          NOT NULL AUTO_INCREMENT,
+    `USER_ID`       VARCHAR(100)     NOT NULL ,
     `USER_ACCOUNT`    VARCHAR(100) NOT NULL COMMENT '用户账号',
     `USER_NAME`    VARCHAR(100) NOT NULL COMMENT '用户名称',
     `PASSWORD`    VARCHAR(100) NOT NULL COMMENT '用户密码',
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `tpl_permission_t`(
 
  -- 用户角色关系表
 CREATE TABLE IF NOT EXISTS `tpl_user_role_t`(
-    `USER_ID`    INT NOT NULL COMMENT '用户ID',
+    `USER_ID`     VARCHAR(100) NOT NULL COMMENT '用户ID',
     `ROLE_ID`    VARCHAR(100) NOT NULL COMMENT '角色ID',
     `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `tpl_role_permission_t`(
     DEFAULT CHARSET = utf8mb4;
 -- 账号权限关系表
 CREATE TABLE IF NOT EXISTS `tpl_account_permission_t`(
-    `app_id`    INT NOT NULL COMMENT '账户ID',
+    `app_id`     VARCHAR(100) NOT NULL COMMENT '账户ID',
     `permission_code`    VARCHAR(100) NOT NULL COMMENT '权限编码',
     `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
