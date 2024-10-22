@@ -5,6 +5,8 @@ import com.stone.it.rcms.auth.service.IUserAuthService;
 import com.stone.it.rcms.auth.vo.AuthRoleVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.auth.vo.PermissionVO;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import javax.inject.Inject;
@@ -34,7 +36,9 @@ public class UserAuthService implements IUserAuthService {
 
     @Override
     public List<PermissionVO> getPermissionByRoleCodes(Set<String> roleSets) {
-        return userAuthDao.getPermissionByRoleCodes(roleSets);
+        List<String> list = new ArrayList<>();
+        list.addAll(roleSets);
+        return userAuthDao.getPermissionByRoleCodes(list);
     }
 
     @Override

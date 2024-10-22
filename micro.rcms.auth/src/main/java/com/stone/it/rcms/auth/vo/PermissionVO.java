@@ -1,4 +1,5 @@
 package com.stone.it.rcms.auth.vo;
+
 /**
  *
  * @author cj.stone
@@ -19,6 +20,7 @@ public class PermissionVO {
      * 权限名称
      */
     private String permissionName;
+    private String permissionPath;
     /**
      * 权限描述
      */
@@ -66,5 +68,13 @@ public class PermissionVO {
 
     public void setRoleCode(String roleCode) {
         this.roleCode = roleCode;
+    }
+
+    public String getPermissionPath() {
+        return permissionPath;
+    }
+
+    public void setPermissionPath(String permissionPath) {
+        this.permissionPath = permissionPath;
     }
 }

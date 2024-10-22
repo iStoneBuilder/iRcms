@@ -24,11 +24,11 @@ public class ShiroConfig {
         factoryBean.setSecurityManager(securityManager);
         // 配置系统的受限资源
         Map<String, String> map = new HashMap<>();
-        // 需要请求需要认证
-        map.put("/rcms/**", "authc");
         // 登录请求无需认证
         map.put("/auth/login", "anon");
         map.put("/auth/token", "anon");
+        // 需要请求需要认证
+        map.put("/rcms/**", "authc");
         // 访问需要认证的页面如果未登录会跳转到/login
         factoryBean.setLoginUrl("/login");
         // 访问未授权页面会自动跳转到/unAuth

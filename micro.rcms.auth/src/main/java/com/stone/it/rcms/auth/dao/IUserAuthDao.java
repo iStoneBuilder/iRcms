@@ -3,7 +3,6 @@ package com.stone.it.rcms.auth.dao;
 import com.stone.it.rcms.auth.vo.AuthRoleVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.auth.vo.PermissionVO;
-import java.util.Collection;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -37,7 +36,7 @@ public interface IUserAuthDao {
      * @param roleSets
      * @return
      */
-    List<PermissionVO> getPermissionByRoleCodes(Collection<String> roleSets);
+    List<PermissionVO> getPermissionByRoleCodes(@Param("roleSets") List<String> roleSets);
 
     /**
      * 根据账号ID获取账号权限信息
