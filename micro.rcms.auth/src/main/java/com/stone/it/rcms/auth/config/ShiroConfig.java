@@ -1,13 +1,8 @@
 package com.stone.it.rcms.auth.config;
 
-import com.stone.it.rcms.auth.filter.TokenFilter;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.Filter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
@@ -38,10 +33,6 @@ public class ShiroConfig {
         // 访问未授权页面会自动跳转到/unAuth
         factoryBean.setUnauthorizedUrl("/unAuth");
         factoryBean.setFilterChainDefinitionMap(map);
-        // 自定义filter
-        Map<String, Filter> filters = new HashMap<>();
-        filters.put("token", new TokenFilter());
-        factoryBean.setFilters(filters);
         return factoryBean;
     }
 
@@ -69,10 +60,7 @@ public class ShiroConfig {
     @Bean
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        Collection<Realm> realms = new ArrayList<>();
-        realms.add(userRealm());
-        realms.add(new AccountRealm());
-        securityManager.setRealms(realms);
+        securityManager.setRealm(userRealm());
         securityManager.setRememberMeManager(null);
         return securityManager;
     }

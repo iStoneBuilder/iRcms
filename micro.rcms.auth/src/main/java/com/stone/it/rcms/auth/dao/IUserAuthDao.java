@@ -5,6 +5,7 @@ import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.auth.vo.PermissionVO;
 import java.util.Collection;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 /**
  *
@@ -20,7 +21,7 @@ public interface IUserAuthDao {
      * @param userId
      * @return
      */
-    AuthUserVO getUserInfoByUserId(String userId);
+    AuthUserVO getUserInfoByUserId(@Param("userId") String userId);
 
     /**
      * 根据用户ID获取用户角色信息
@@ -28,7 +29,7 @@ public interface IUserAuthDao {
      * @param userId
      * @return
      */
-    List<AuthRoleVO> getUserRoleInfoByUserId(String userId);
+    List<AuthRoleVO> getUserRoleInfoByUserId(@Param("userId") String userId);
 
     /**
      * 根据角色ID获取角色权限信息
@@ -41,8 +42,8 @@ public interface IUserAuthDao {
     /**
      * 根据账号ID获取账号权限信息
      *
-     * @param accountId
+     * @param appId
      * @return
      */
-    List<PermissionVO> getPermissionByAccountId(String appId);
+    List<PermissionVO> getPermissionByAccountId(@Param("appId") String appId);
 }

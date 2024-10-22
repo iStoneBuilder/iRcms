@@ -29,14 +29,16 @@ public class AccountRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        String accountToken = (String)token.getCredentials();
-        // 验证accountToken有效性
-        Map<String, Object> verifyToken = JwtUtils.verifyToken(accountToken);
-        // 校验通过
-        if (Boolean.TRUE.equals(verifyToken.get("state"))) {
-            // 解析Token获取用户信息
-            Map<String, Object> accountInfo = JwtUtils.getTokenInfo(accountToken);
-            return new SimpleAuthenticationInfo(accountInfo, accountToken, getName());
+        if (token != null && token.getCredentials() != null) {
+            String accountToken = (String)token.getCredentials();
+            // 验证accountToken有效性
+            Map<String, Object> verifyToken = JwtUtils.verifyToken(accountToken);
+            // 校验通过
+            if (Boolean.TRUE.equals(verifyToken.get("state"))) {
+                // 解析Token获取用户信息
+                Map<String, Object> accountInfo = JwtUtils.getTokenInfo(accountToken);
+                return new SimpleAuthenticationInfo(accountInfo, accountToken, getName());
+            }
         }
         return null;
     }

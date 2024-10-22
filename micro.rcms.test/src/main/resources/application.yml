@@ -10,10 +10,10 @@ spring:
     name: testService
   # 数据库信息配置
   datasource:
-    name: rcms_tmdb
-    url: jdbc:mysql://127.0.0.1:3306/rcms_tmdb
+    name: flyway
+    url: jdbc:mysql://127.0.0.1:3306/flyway
     username: root
-    password: max@756423
+    password: max756423
     driver-class-name: com.mysql.jdbc.Driver
 
 # 指定日志文件
