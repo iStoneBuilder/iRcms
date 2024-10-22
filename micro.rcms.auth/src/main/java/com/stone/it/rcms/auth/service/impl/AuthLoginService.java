@@ -10,6 +10,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,6 +21,8 @@ import org.apache.shiro.subject.Subject;
  */
 @Named
 public class AuthLoginService implements IAuthLoginService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthLoginService.class);
 
     @Override
     public String userLogin(AuthUserVO userVO) {
@@ -40,6 +44,7 @@ public class AuthLoginService implements IAuthLoginService {
             subject.login(token);
             return true;
         } catch (AuthenticationException e) {
+            LOGGER.info(e.getMessage());
             return false;
         }
     }

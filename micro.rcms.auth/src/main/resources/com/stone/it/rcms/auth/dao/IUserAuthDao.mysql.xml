@@ -8,7 +8,8 @@
     SELECT
     user_id as userId,
     user_name as userName,
-    user_account as userAccount
+    user_account as userAccount,
+    password
     FROM
     tpl_user_t
     WHERE

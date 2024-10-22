@@ -15,8 +15,10 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 
 /**
  *
@@ -47,7 +49,8 @@ public class UserRealm extends AuthorizingRealm {
         String password = new String(usernamePasswordToken.getPassword());
         // 通过用户id获取用户信息
         AuthUserVO user = userAuthService.getUserInfoByUserId(userId);
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, getName());
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user,
+            new SimpleHash("md5", password, user.getUserId()).toHex(), ByteSource.Util.bytes(userId), getName());
         return info;
     }
 
