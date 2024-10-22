@@ -1,5 +1,6 @@
 package com.stone.it.rcms.auth.filter;
 
+import com.stone.it.rcms.auth.config.AccountToken;
 import com.stone.it.rcms.auth.util.JwtUtils;
 import java.util.Map;
 import javax.servlet.ServletRequest;
@@ -25,26 +26,22 @@ public class TokenFilter extends AuthenticationFilter {
         }
         String token = getRequestToken((HttpServletRequest)request);
         if (!StringUtils.isEmpty(token)) {
-            // 验证Token
+            // 验证Token max@756423
             Map<String, Object> verifyToken = JwtUtils.verifyToken(token);
             // Token验证成功
             if (Boolean.TRUE.equals(verifyToken.get("state"))) {
-                ((HttpServletRequest)request).getSession();
+                getSubject(request, response).login(new AccountToken(token));
                 return true;
             }
+            return false;
         }
         return true;
     }
 
-    @Override
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        return false;
-    }
-
     private String getRequestToken(HttpServletRequest request) {
-        String token = request.getHeader("token");
+        String token = request.getHeader("Authorization");
         if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("token");
+            token = request.getParameter("Authorization");
         }
         return token;
     }

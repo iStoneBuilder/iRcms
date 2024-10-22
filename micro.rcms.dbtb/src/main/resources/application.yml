@@ -24,7 +24,7 @@ spring:
     # 要迁移的数据库的 DBC url。 如果未设置，则使用主要配置的数据源。
     url: jdbc:mysql://127.0.0.1:3306/flyway?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
     # 要迁移的数据库的登录密码。
-    password: max@756423
+    password: max756423
     # 要迁移的数据库的登录用户。
     user: root
 
@@ -33,5 +33,5 @@ spring:
     name: flyway
     url: jdbc:mysql://127.0.0.1:3306/flyway
     username: root
-    password: max@756423
+    password: max756423
     driver-class-name: com.mysql.cj.jdbc.Driver

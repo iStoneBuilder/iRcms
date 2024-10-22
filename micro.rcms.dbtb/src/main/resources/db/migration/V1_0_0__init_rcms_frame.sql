@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `tpl_permission_t`(
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
     `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `UPDATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
-    PRIMARY KEY (`ROLE_ID`)
+    PRIMARY KEY (`permission_ID`)
     ) ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4;
 
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `tpl_role_permission_t`(
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
     `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `UPDATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
-    PRIMARY KEY (`ROLE_ID`,`permission_ID`)
+    PRIMARY KEY (`ROLE_CODE`,`permission_code`)
     ) ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4;
 -- 栏目表
