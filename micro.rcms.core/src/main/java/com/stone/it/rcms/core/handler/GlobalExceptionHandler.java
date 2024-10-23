@@ -1,12 +1,14 @@
 package com.stone.it.rcms.core.handler;
 
+import com.alibaba.fastjson2.JSONObject;
+import com.stone.it.rcms.core.util.ResponseUtil;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  *
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @Date 2024/10/23
  * @Desc
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
@@ -26,12 +28,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ShiroException.class)
     public ResponseEntity<String> handleShiroException(ShiroException e) {
         // 处理 Shiro 异常的逻辑
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Shiro 异常: " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase() + ": " + e.getMessage());
     }
 
     @ExceptionHandler(UnauthenticatedException.class)
     public ResponseEntity<String> handleUnauthenticatedException(UnauthenticatedException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Shiro 异常: " + e.getMessage());
+        JSONObject body = ResponseUtil.responseBuild(HttpStatus.UNAUTHORIZED.value(),
+            HttpStatus.UNAUTHORIZED.getReasonPhrase(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body.toJSONString());
     }
 
     @ExceptionHandler(AuthorizationException.class)

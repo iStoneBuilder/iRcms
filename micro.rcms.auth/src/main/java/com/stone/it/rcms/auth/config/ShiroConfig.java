@@ -30,9 +30,9 @@ public class ShiroConfig {
         // 配置系统的受限资源
         Map<String, String> map = new LinkedHashMap<>();
         // 登录请求无需认证
-        map.put("/auth/login", "anon");
-        map.put("/auth/logout", "anon");
-        map.put("/auth/token", "anon");
+        map.put("/user/login", "anon");
+        map.put("/user/logout", "anon");
+        map.put("/user/token", "anon");
         // 需要请求需要认证
         map.put("/test/**", "authc");
         factoryBean.setFilterChainDefinitionMap(map);

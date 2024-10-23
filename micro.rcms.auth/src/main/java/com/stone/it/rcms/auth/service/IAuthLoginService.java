@@ -25,11 +25,11 @@ public interface IAuthLoginService {
     JSONObject userLogin(AuthUserVO userVO);
 
     @POST
-    @Path("token")
-    JSONObject userToken(AccountVO accountVO);
-
-    @POST
     @Path("logout")
     JSONObject userLogout();
+
+    @POST
+    @Path("token")
+    JSONObject userToken(AccountVO accountVO);
 
 }
