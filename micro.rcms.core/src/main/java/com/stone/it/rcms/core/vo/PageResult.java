@@ -10,55 +10,55 @@ import java.util.List;
  */
 public final class PageResult<T> implements Serializable {
 
-  private static final long serialVersionUID = -3422814987475041137L;
+    private static final long serialVersionUID = -3422814987475041137L;
 
-  private String code = "success";
-  private String desc = "success";
+    private int code = 200;
 
-  /**
-   * 分页信息
-   */
-  private PageVO meta;
-  /**
-   * 对象list
-   */
-  private List<T> data;
+    private String message = "success";
 
+    /**
+     * 分页信息
+     */
+    private PageVO meta;
+    /**
+     * 对象list
+     */
+    private List<T> data;
 
-  public PageResult(PageVO meta, List<T> data) {
-    this.meta = meta;
-    this.data = data;
-  }
+    public PageResult(PageVO meta, List<T> data) {
+        this.meta = meta;
+        this.data = data;
+    }
 
-  public String getCode() {
-    return code;
-  }
+    public int getCode() {
+        return code;
+    }
 
-  public void setCode(String code) {
-    this.code = code;
-  }
+    public void setCode(int code) {
+        this.code = code;
+    }
 
-  public String getDesc() {
-    return desc;
-  }
+    public String getMessage() {
+        return message;
+    }
 
-  public void setDesc(String desc) {
-    this.desc = desc;
-  }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-  public PageVO getMeta() {
-    return meta;
-  }
+    public PageVO getMeta() {
+        return meta;
+    }
 
-  public void setMeta(PageVO meta) {
-    this.meta = meta;
-  }
+    public void setMeta(PageVO meta) {
+        this.meta = meta;
+    }
 
-  public List<T> getData() {
-    return data;
-  }
+    public List<T> getData() {
+        return data;
+    }
 
-  public void setData(List<T> data) {
-    this.data = data;
-  }
+    public void setData(List<T> data) {
+        this.data = data;
+    }
 }
