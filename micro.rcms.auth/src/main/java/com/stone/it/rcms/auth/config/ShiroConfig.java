@@ -32,6 +32,7 @@ public class ShiroConfig {
         // 登录请求无需认证
         map.put("/user/login", "anon");
         map.put("/user/logout", "anon");
+        map.put("/user/register", "anon");
         map.put("/user/token", "anon");
         // 需要请求需要认证
         map.put("/test/**", "authc");

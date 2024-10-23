@@ -61,6 +61,16 @@ public class AuthLoginService implements IAuthLoginService {
         }
     }
 
+    @Override
+    public JSONObject userRegister(AuthUserVO userVO) {
+        return null;
+    }
+
+    @Override
+    public JSONObject userLogOff() {
+        return null;
+    }
+
     private boolean subjectLogin(AuthUserVO userVO) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userVO.getUserId(), userVO.getPassword());
