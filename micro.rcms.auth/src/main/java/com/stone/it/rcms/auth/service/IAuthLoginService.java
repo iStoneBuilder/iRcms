@@ -1,5 +1,6 @@
 package com.stone.it.rcms.auth.service;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.auth.vo.AccountVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
 import javax.ws.rs.Consumes;
@@ -21,14 +22,14 @@ public interface IAuthLoginService {
 
     @POST
     @Path("login")
-    String userLogin(AuthUserVO userVO);
+    JSONObject userLogin(AuthUserVO userVO);
 
     @POST
     @Path("token")
-    String userToken(AccountVO accountVO);
+    JSONObject userToken(AccountVO accountVO);
 
     @POST
     @Path("logout")
-    String userLogout();
+    JSONObject userLogout();
 
 }

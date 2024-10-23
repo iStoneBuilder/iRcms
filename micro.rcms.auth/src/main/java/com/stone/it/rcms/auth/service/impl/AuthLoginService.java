@@ -1,9 +1,11 @@
 package com.stone.it.rcms.auth.service.impl;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.auth.service.IAuthLoginService;
 import com.stone.it.rcms.auth.util.JwtUtils;
 import com.stone.it.rcms.auth.vo.AccountVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
+import com.stone.it.rcms.core.util.ResponseUtil;
 import java.util.Map;
 import javax.inject.Named;
 import org.apache.shiro.SecurityUtils;
@@ -26,32 +28,34 @@ public class AuthLoginService implements IAuthLoginService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthLoginService.class);
 
     @Override
-    public String userLogin(AuthUserVO userVO) {
-        return subjectLogin(userVO) ? "登录成功" : "用户名或密码错误";
+    public JSONObject userLogin(AuthUserVO userVO) {
+        boolean login = subjectLogin(userVO);
+        return ResponseUtil.responseBuild(login ? 200 : 500, login ? "登录成功！" : "登录失败！");
     }
 
     @Override
-    public String userToken(AccountVO accountVO) {
+    public JSONObject userToken(AccountVO accountVO) {
         Map<String, String> map = new java.util.HashMap<>();
         map.put("appId", accountVO.getAppId());
         map.put("secret", accountVO.getSecret());
-        return JwtUtils.generateToken(map);
+        String token = JwtUtils.generateToken(map);
+        return ResponseUtil.responseBuild(new JSONObject().fluentPut("Authorization", token));
     }
 
     @Override
-    public String userLogout() {
+    public JSONObject userLogout() {
         Subject currentUser = SecurityUtils.getSubject();
         try {
             PrincipalCollection principals = currentUser.getPrincipals();
             if (principals == null) {
-                return "用户未登录！";
+                return ResponseUtil.responseBuild(500, "您当前未登录！");
             }
             AuthUserVO user = (AuthUserVO)principals.getPrimaryPrincipal();
             // 数据库记录日志，执行退出
             currentUser.logout();
-            return "退出成功！";
+            return ResponseUtil.responseBuild(200, "退出成功！");
         } catch (Exception e) {
-            return "退出失败！";
+            return ResponseUtil.responseBuild(500, "退出失败！", e.getMessage());
         }
     }
 
