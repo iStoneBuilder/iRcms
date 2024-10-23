@@ -9,6 +9,7 @@ import javax.inject.Named;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,23 @@ public class AuthLoginService implements IAuthLoginService {
         map.put("appId", accountVO.getAppId());
         map.put("secret", accountVO.getSecret());
         return JwtUtils.generateToken(map);
+    }
+
+    @Override
+    public String userLogout() {
+        Subject currentUser = SecurityUtils.getSubject();
+        try {
+            PrincipalCollection principals = currentUser.getPrincipals();
+            if (principals == null) {
+                return "用户未登录！";
+            }
+            AuthUserVO user = (AuthUserVO)principals.getPrimaryPrincipal();
+            // 数据库记录日志，执行退出
+            currentUser.logout();
+            return "退出成功！";
+        } catch (Exception e) {
+            return "退出失败！";
+        }
     }
 
     private boolean subjectLogin(AuthUserVO userVO) {

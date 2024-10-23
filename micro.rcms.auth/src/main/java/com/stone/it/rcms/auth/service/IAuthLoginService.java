@@ -27,4 +27,8 @@ public interface IAuthLoginService {
     @Path("token")
     String userToken(AccountVO accountVO);
 
+    @POST
+    @Path("logout")
+    String userLogout();
+
 }
