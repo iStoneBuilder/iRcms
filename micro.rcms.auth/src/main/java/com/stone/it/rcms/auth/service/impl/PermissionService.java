@@ -1,11 +1,14 @@
 package com.stone.it.rcms.auth.service.impl;
 
+import com.stone.it.rcms.auth.dao.IPermissionDao;
 import com.stone.it.rcms.auth.service.IPermissionService;
 import com.stone.it.rcms.auth.vo.PermissionVO;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -16,6 +19,9 @@ import javax.inject.Named;
  */
 @Named
 public class PermissionService implements IPermissionService {
+
+    @Inject
+    private IPermissionDao permissionDao;
 
     @Override
     public PageResult<PermissionVO> findI18nPageResult(PermissionVO permissionVO, PageVO pageVO) {
@@ -28,18 +34,26 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public PermissionVO getPermission(String permission_id) {
+    public PermissionVO findPermissionById(String permission_id) {
         return null;
     }
 
     @Override
-    public List<PermissionVO> getPermissionByPaths(Set<String> apiPaths) {
-        return List.of();
+    public List<PermissionVO> findPermissionByPaths(Set<String> apiPaths) {
+        List<String> list = new ArrayList<>();
+        list.addAll(apiPaths);
+        return permissionDao.findPermissionByPaths(list);
     }
 
     @Override
     public void createPermission(List<PermissionVO> permissionList) {
-
+        permissionDao.createPermission(permissionList);
     }
 
+    @Override
+    public void deletePermissionNotInList(Set<String> permissinPathSet) {
+        List<String> list = new ArrayList<>();
+        list.addAll(permissinPathSet);
+        permissionDao.deletePermissionNotInList(list);
+    }
 }

@@ -6,10 +6,8 @@ import com.stone.it.rcms.core.vo.PageVO;
 import java.util.List;
 import java.util.Set;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PATCH;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -39,9 +37,11 @@ public interface IPermissionService {
 
     @GET
     @Path("/records/{permission_id}")
-    PermissionVO getPermission(@PathParam("permission_id") String permission_id);
+    PermissionVO findPermissionById(@PathParam("permission_id") String permission_id);
 
-    List<PermissionVO> getPermissionByPaths(Set<String> apiPaths);
+    List<PermissionVO> findPermissionByPaths(Set<String> apiPaths);
 
     void createPermission(List<PermissionVO> permissionList);
+
+    void deletePermissionNotInList(Set<String> permissinPathSet);
 }

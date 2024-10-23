@@ -130,7 +130,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
 
     private void storePermission() {
         // 根据路径判断数据库是否存在（接口路径唯一）
-        List<PermissionVO> existPermission = permissionService.getPermissionByPaths(permissinPathSet);
+        List<PermissionVO> existPermission = permissionService.findPermissionByPaths(permissinPathSet);
         List<PermissionVO> newPermissionList = new ArrayList<>();
         for (int i = 0; i < permissionList.size(); i++) {
             boolean isExist = false;
@@ -144,7 +144,10 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
                 newPermissionList.add(permissionList.get(i));
             }
         }
+        // 创建新增接口
         permissionService.createPermission(newPermissionList);
+        // 清理已删除接口
+        permissionService.deletePermissionNotInList(permissinPathSet);
     }
 
 }
