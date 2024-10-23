@@ -8,6 +8,7 @@ import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.core.util.ResponseUtil;
 import java.util.Map;
 import javax.inject.Named;
+import org.apache.http.HttpStatus;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -30,7 +31,8 @@ public class AuthLoginService implements IAuthLoginService {
     @Override
     public JSONObject userLogin(AuthUserVO userVO) {
         boolean login = subjectLogin(userVO);
-        return ResponseUtil.responseBuild(login ? 200 : 500, login ? "登录成功！" : "登录失败！");
+        return ResponseUtil.responseBuild(login ? HttpStatus.SC_OK : HttpStatus.SC_INTERNAL_SERVER_ERROR,
+            login ? "登录成功！" : "登录失败！");
     }
 
     @Override
@@ -48,14 +50,14 @@ public class AuthLoginService implements IAuthLoginService {
         try {
             PrincipalCollection principals = currentUser.getPrincipals();
             if (principals == null) {
-                return ResponseUtil.responseBuild(500, "您当前未登录！");
+                return ResponseUtil.responseBuild(HttpStatus.SC_INTERNAL_SERVER_ERROR, "您当前未登录！");
             }
             AuthUserVO user = (AuthUserVO)principals.getPrimaryPrincipal();
             // 数据库记录日志，执行退出
             currentUser.logout();
-            return ResponseUtil.responseBuild(200, "退出成功！");
+            return ResponseUtil.responseBuild(HttpStatus.SC_OK, "退出成功！");
         } catch (Exception e) {
-            return ResponseUtil.responseBuild(500, "退出失败！", e.getMessage());
+            return ResponseUtil.responseBuild(HttpStatus.SC_INTERNAL_SERVER_ERROR, "退出失败！", e.getMessage());
         }
     }
 

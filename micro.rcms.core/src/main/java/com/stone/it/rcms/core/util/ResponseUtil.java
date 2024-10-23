@@ -2,6 +2,7 @@ package com.stone.it.rcms.core.util;
 
 import com.alibaba.fastjson2.JSONObject;
 import java.util.Date;
+import org.apache.http.HttpStatus;
 
 /**
  *
@@ -12,11 +13,11 @@ import java.util.Date;
 public class ResponseUtil {
 
     public static JSONObject responseBuild(JSONObject data) {
-        return responseBuild(200, "success", data);
+        return responseBuild(HttpStatus.SC_OK, "success", data);
     }
 
     public static JSONObject responseBuild(int code, String desc) {
-        if (code != 200) {
+        if (code != HttpStatus.SC_OK) {
             return responseBuild(code, desc, "");
         }
         JSONObject result = new JSONObject();
@@ -32,7 +33,7 @@ public class ResponseUtil {
         result.put("message", desc);
         result.put("timestamp", System.currentTimeMillis());
         JSONObject data = new JSONObject();
-        data.put("timestamp", new Date());
+        data.put("timestamp", String.valueOf(new Date()));
         data.put("status", code);
         data.put("error", error);
         return responseBuild(code, desc, data);
