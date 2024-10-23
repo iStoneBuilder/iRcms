@@ -22,6 +22,17 @@ import org.springframework.context.annotation.DependsOn;
  */
 @Configuration
 public class ShiroConfig {
+
+    private static final String[] ANON_PATHS = {"/user/login", "/user/register", "/user/token"};
+
+    private static final String[] AUTHC_PATHS = {"/rcms/**"};
+
+    private final ShiroConfiguration shiroConfiguration;
+
+    public ShiroConfig(ShiroConfiguration shiroConfiguration) {
+        this.shiroConfiguration = shiroConfiguration;
+    }
+
     @Bean("shiroFilterFactoryBean")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
@@ -30,12 +41,24 @@ public class ShiroConfig {
         // 配置系统的受限资源
         Map<String, String> map = new LinkedHashMap<>();
         // 登录请求无需认证
-        map.put("/user/login", "anon");
-        map.put("/user/logout", "anon");
-        map.put("/user/register", "anon");
-        map.put("/user/token", "anon");
+        if (shiroConfiguration.getIgnorePaths().size() > 0) {
+            for (String path : shiroConfiguration.getIgnorePaths()) {
+                map.put(path, "anon");
+            }
+        }
+        // 设置框架默认配置
+        for (String path : ANON_PATHS) {
+            map.put(path, "anon");
+        }
         // 需要请求需要认证
-        map.put("/test/**", "authc");
+        if (shiroConfiguration.getAuthcPaths().size() > 0) {
+            for (String path : shiroConfiguration.getAuthcPaths()) {
+                map.put(path, "authc");
+            }
+        }
+        for (String path : AUTHC_PATHS) {
+            map.put(path, "authc");
+        }
         factoryBean.setFilterChainDefinitionMap(map);
         return factoryBean;
     }
