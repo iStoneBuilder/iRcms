@@ -1,6 +1,7 @@
 package com.stone.it.rcms.auth.config;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authc.pam.FirstSuccessfulStrategy;
@@ -10,6 +11,7 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -27,11 +29,16 @@ public class ShiroConfig {
 
     private static final String[] AUTHC_PATHS = {"/rcms/**"};
 
-    private final ShiroConfiguration shiroConfiguration;
-
-    public ShiroConfig(ShiroConfiguration shiroConfiguration) {
-        this.shiroConfiguration = shiroConfiguration;
-    }
+    /**
+     * 不需要认证授权的路径
+     */
+    @Value("rcms.auth.anon-paths")
+    private List<String> anonPaths;
+    /**
+     * 需要认证授权的路径
+     */
+    @Value("rcms.auth.authc-paths")
+    private List<String> authcPaths;
 
     @Bean("shiroFilterFactoryBean")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
@@ -41,8 +48,8 @@ public class ShiroConfig {
         // 配置系统的受限资源
         Map<String, String> map = new LinkedHashMap<>();
         // 登录请求无需认证
-        if (shiroConfiguration.getIgnorePaths().size() > 0) {
-            for (String path : shiroConfiguration.getIgnorePaths()) {
+        if (anonPaths != null && anonPaths.size() > 0) {
+            for (String path : anonPaths) {
                 map.put(path, "anon");
             }
         }
@@ -51,8 +58,8 @@ public class ShiroConfig {
             map.put(path, "anon");
         }
         // 需要请求需要认证
-        if (shiroConfiguration.getAuthcPaths().size() > 0) {
-            for (String path : shiroConfiguration.getAuthcPaths()) {
+        if (authcPaths != null && authcPaths.size() > 0) {
+            for (String path : authcPaths) {
                 map.put(path, "authc");
             }
         }

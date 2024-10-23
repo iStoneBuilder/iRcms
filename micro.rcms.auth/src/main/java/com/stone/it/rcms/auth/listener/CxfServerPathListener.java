@@ -126,7 +126,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             getCxfEndpointPaths(context.getBean(beanName, JAXRSServerFactoryBean.class), contextPath);
         }
         // 存储权限信息
-        storePermission();
+        // storePermission();
     }
 
     private void storePermission() {
