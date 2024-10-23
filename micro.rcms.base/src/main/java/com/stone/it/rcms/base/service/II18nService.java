@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /**
@@ -23,6 +24,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 @Path("/i18n")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes(MediaType.APPLICATION_JSON)
+@RequiresAuthentication
 public interface II18nService {
 
     /**
