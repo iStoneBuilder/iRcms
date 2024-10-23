@@ -7,6 +7,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.cxf.common.util.StringUtils;
+import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.AuthenticationFilter;
 
 /**
@@ -30,11 +31,21 @@ public class TokenFilter extends AuthenticationFilter {
             Map<String, Object> verifyToken = JwtUtils.verifyToken(token);
             // Token验证成功
             if (Boolean.TRUE.equals(verifyToken.get("state"))) {
-                getSubject(request, response).login(new AccountToken(token));
-                return true;
+                return executeLogin(request, response, token);
             }
             return false;
         }
+        return true;
+    }
+
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        return false;
+    }
+
+    private boolean executeLogin(ServletRequest request, ServletResponse response, String token) {
+        AuthenticationToken authToken = new AccountToken(token);
+        getSubject(request, response).login(authToken);
         return true;
     }
 

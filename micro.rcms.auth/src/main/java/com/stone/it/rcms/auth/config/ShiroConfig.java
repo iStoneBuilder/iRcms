@@ -1,8 +1,11 @@
 package com.stone.it.rcms.auth.config;
 
+import com.stone.it.rcms.auth.filter.TokenFilter;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.Filter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authc.pam.FirstSuccessfulStrategy;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
@@ -64,9 +67,14 @@ public class ShiroConfig {
             }
         }
         for (String path : AUTHC_PATHS) {
+            map.put(path, "token");
             map.put(path, "authc");
         }
         factoryBean.setFilterChainDefinitionMap(map);
+        // 注册自定义过滤器
+        Map<String, Filter> filters = new HashMap<>();
+        filters.put("token", new TokenFilter());
+        factoryBean.setFilters(filters);
         return factoryBean;
     }
 
@@ -90,6 +98,14 @@ public class ShiroConfig {
         return userRealm;
     }
 
+    @Bean
+    public AccountRealm accountRealm() {
+        AccountRealm accountRealm = new AccountRealm();
+        accountRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        accountRealm.setCachingEnabled(false);
+        return accountRealm;
+    }
+
     // 需要定义DefaultWebSecurityManager，否则会报bean冲突
     @Bean
     public DefaultWebSecurityManager securityManager() {
@@ -97,6 +113,7 @@ public class ShiroConfig {
         // 创建认证对象 并设置认证策略
         ModularRealmAuthenticator modularRealmAuthenticator = new ModularRealmAuthenticator();
         modularRealmAuthenticator.setAuthenticationStrategy(new FirstSuccessfulStrategy());
+        securityManager.setRealm(accountRealm());
         securityManager.setRealm(userRealm());
         return securityManager;
     }
