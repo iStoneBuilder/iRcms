@@ -1,8 +1,9 @@
-package com.stone.it.rcms.core.listener;
+package com.stone.it.rcms.auth.listener;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson2.JSON;
+import com.stone.it.rcms.auth.vo.PermissionVO;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CxfServerPathListener.class);
 
-    private static final JSONArray ALL_API_SERVER_INFO = new JSONArray();
+    private static final List<PermissionVO> ALL_API_SERVER_INFO = new ArrayList<>();
 
     private static void getCxfEndpointPaths(JAXRSServerFactoryBean serverFactory, String contextPath) {
         // jaxrs:server 接口暴露配置的路径
@@ -43,26 +44,26 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             // 获取接口所有方法
             Set<OperationResourceInfo> opera = classResource.getMethodDispatcher().getOperationResourceInfos();
             for (OperationResourceInfo operationResource : opera) {
-                JSONObject iApiServerInfo = new JSONObject();
+                PermissionVO permissionVO = new PermissionVO();
                 // 方法名称
-                iApiServerInfo.put("api_name", operationResource.getAnnotatedMethod().getName());
+                permissionVO.setApiName(operationResource.getAnnotatedMethod().getName());
                 // 方法请求类型
-                iApiServerInfo.put("method_type", operationResource.getHttpMethod());
+                permissionVO.setRequestType(operationResource.getHttpMethod());
                 // 方法路径
                 String methodPath = operationResource.getURITemplate().getValue();
                 String apiPath = buildApiPath(contextPath + "/services", endpointPath, servicePath, methodPath);
-                iApiServerInfo.put("api_path", apiPath);
-                iApiServerInfo.put("api_type", apiPath.contains("/services/rcms/") ? "system" : "business");
+                permissionVO.setApiPath(apiPath);
+                permissionVO.setApiType(apiPath.contains("/services/rcms/") ? "system" : "business");
                 // 获取是否需要权限验证
-                buildPermission(operationResource, iApiServerInfo);
-                LOGGER.info("RCMS api info : {}", JSON.toJSONString(iApiServerInfo));
+                buildPermission(operationResource, permissionVO);
+                LOGGER.info("RCMS api info : {}", JSON.toJSONString(permissionVO));
                 // 存储所有服务信息
-                ALL_API_SERVER_INFO.add(iApiServerInfo);
+                ALL_API_SERVER_INFO.add(permissionVO);
             }
         }
     }
 
-    private static void buildPermission(OperationResourceInfo operationResource, JSONObject iApiServerInfo) {
+    private static void buildPermission(OperationResourceInfo operationResource, PermissionVO permissionVO) {
         // 获取权限注解
         Annotation[] annotationList = operationResource.getOutAnnotations();
         for (int i = 0; i < annotationList.length; i++) {
@@ -79,7 +80,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
                         // 打印注解属性的名称和值
                         if ("value".equals(method.getName())) {
                             String[] permission = (String[])value;
-                            iApiServerInfo.put("api_permission", permission[0]);
+                            permissionVO.setPermissionCode(permission[0]);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

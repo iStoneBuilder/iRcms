@@ -1,5 +1,7 @@
 package com.stone.it.rcms.auth.vo;
 
+import com.stone.it.rcms.core.util.UUIDUtil;
+
 /**
  *
  * @author cj.stone
@@ -16,19 +18,17 @@ public class PermissionVO {
      * 权限编码
      */
     private String permissionCode;
-    /**
-     * 权限名称
-     */
-    private String permissionName;
-    private String permissionPath;
-    /**
-     * 权限描述
-     */
-    private String permissionDesc;
-    /**
-     * 角色编码
-     */
-    private String roleCode;
+
+    private String apiName;
+    private String apiPath;
+    private String apiType;
+    private String requestType;
+
+    private String description;
+
+    public PermissionVO() {
+        this.permissionId = UUIDUtil.getUuid();
+    }
 
     public String getPermissionId() {
         return permissionId;
@@ -46,35 +46,43 @@ public class PermissionVO {
         this.permissionCode = permissionCode;
     }
 
-    public String getPermissionName() {
-        return permissionName;
+    public String getApiName() {
+        return apiName;
     }
 
-    public void setPermissionName(String permissionName) {
-        this.permissionName = permissionName;
+    public void setApiName(String apiName) {
+        this.apiName = apiName;
     }
 
-    public String getPermissionDesc() {
-        return permissionDesc;
+    public String getApiPath() {
+        return apiPath;
     }
 
-    public void setPermissionDesc(String permissionDesc) {
-        this.permissionDesc = permissionDesc;
+    public void setApiPath(String apiPath) {
+        this.apiPath = apiPath;
     }
 
-    public String getRoleCode() {
-        return roleCode;
+    public String getApiType() {
+        return apiType;
     }
 
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
+    public void setApiType(String apiType) {
+        this.apiType = apiType;
     }
 
-    public String getPermissionPath() {
-        return permissionPath;
+    public String getRequestType() {
+        return requestType;
     }
 
-    public void setPermissionPath(String permissionPath) {
-        this.permissionPath = permissionPath;
+    public void setRequestType(String requestType) {
+        this.requestType = requestType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

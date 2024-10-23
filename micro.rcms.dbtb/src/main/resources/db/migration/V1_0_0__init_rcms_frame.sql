@@ -78,9 +78,12 @@ CREATE TABLE IF NOT EXISTS `tpl_role_t`(
     DEFAULT CHARSET = utf8mb4;
 -- 权限表
 CREATE TABLE IF NOT EXISTS `tpl_permission_t`(
-    `permission_ID`    VARCHAR(100) NOT NULL COMMENT '权限ID',
-    `permission_CODE`    VARCHAR(100) NOT NULL COMMENT '权限编码',
-    `permission_path`    VARCHAR(100) NOT NULL COMMENT '接口权限地址',
+    `permission_id`    VARCHAR(100) NOT NULL COMMENT '权限ID',
+    `permission_code`    VARCHAR(100) NOT NULL COMMENT '权限编码',
+    `api_path`    VARCHAR(100) NOT NULL COMMENT '接口地址',
+    `api_name`    VARCHAR(100) NOT NULL COMMENT '接口名称',
+    `api_type`    VARCHAR(100) NOT NULL COMMENT '接口类型',
+    `request_type`    VARCHAR(100) NOT NULL COMMENT '请求方式',
     `DESCRIPTION`    VARCHAR(100) NOT NULL COMMENT '描述',
     `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
