@@ -63,7 +63,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
                             permissionVO.setPermissionCode(permission[0]);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        LOGGER.error("Get permission annotation value error.", e);
                     }
                 }
             }
