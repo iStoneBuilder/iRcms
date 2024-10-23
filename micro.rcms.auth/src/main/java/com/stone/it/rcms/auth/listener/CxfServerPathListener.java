@@ -23,7 +23,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 /**
- *
+ * 应用启动注册接口
+ * 
  * @author cj.stone
  * @Desc
  */
