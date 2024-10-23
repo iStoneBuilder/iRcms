@@ -28,6 +28,11 @@ public class AccountRealm extends AuthorizingRealm {
     private IUserAuthService userAuthService;
 
     @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof AccountToken;
+    }
+
+    @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         if (token != null && token.getCredentials() != null) {
             String accountToken = (String)token.getCredentials();
