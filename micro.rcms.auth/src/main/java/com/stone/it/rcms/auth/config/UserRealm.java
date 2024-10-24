@@ -1,9 +1,7 @@
 package com.stone.it.rcms.auth.config;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.auth.service.IUserAuthService;
 import com.stone.it.rcms.auth.vo.AuthRoleVO;
-import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.auth.vo.PermissionVO;
 import com.stone.it.rcms.core.util.JwtUtils;
 import java.util.HashSet;

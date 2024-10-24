@@ -31,7 +31,7 @@ public class JwtUtils {
         // 获取当前时间并创建日历实例
         Calendar instance = Calendar.getInstance();
         // 设置令牌默认7天后过期
-        instance.add(Calendar.SECOND, 60 * 5);
+        instance.add(Calendar.SECOND, 60 * 60 * 5);
         // 生成带有过期时间的令牌，并使用HMAC256算法进行签名
         // 这里使用了HMAC256算法对令牌进行签名，确保其安全性和完整性
         return generateToken(map, instance);
