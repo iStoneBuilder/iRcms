@@ -4,6 +4,8 @@ server:
     context-path: /test
 
 spring:
+  cache:
+    type: caffeine
   profiles:
     active: loc
   application:

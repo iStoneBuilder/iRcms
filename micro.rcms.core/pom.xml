@@ -4,6 +4,23 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>micro.rcms.core</artifactId>
   <dependencies>
+    <!-- Spring Boot Cache Starter -->
+    <dependency>
+      <artifactId>spring-boot-starter-cache</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+
+    <!-- Caffeine Cache Provider -->
+    <dependency>
+      <artifactId>caffeine</artifactId>
+      <groupId>com.github.ben-manes.caffeine</groupId>
+    </dependency>
     <dependency>
       <artifactId>java-jwt</artifactId>
       <groupId>com.auth0</groupId>

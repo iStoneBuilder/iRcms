@@ -3,6 +3,7 @@ package com.stone.it.rcms.auth.config;
 import com.stone.it.rcms.auth.service.IUserAuthService;
 import com.stone.it.rcms.auth.vo.AuthRoleVO;
 import com.stone.it.rcms.auth.vo.PermissionVO;
+import com.stone.it.rcms.core.config.CacheService;
 import com.stone.it.rcms.core.util.JwtUtils;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -31,6 +33,9 @@ public class UserRealm extends AuthorizingRealm {
 
     @Inject
     private IUserAuthService userAuthService;
+
+    @Autowired
+    private CacheService cacheService;
 
     /**
      * 授权认证
@@ -69,22 +74,32 @@ public class UserRealm extends AuthorizingRealm {
         // 权限信息
         Set<String> authSets = new HashSet<>();
         // 查找用户角色
-        if ("app".equals(userInfo.get("type"))) {
-            roleSets.add(userInfo.get("userId"));
+        if (cacheService.getDataFromCache(userInfo.get("userId") + "_roleSets") != null) {
+            roleSets.addAll((Set<String>)cacheService.getDataFromCache(userInfo.get("userId") + "_roleSets"));
         } else {
-            List<AuthRoleVO> roles = userAuthService.getUserRoleInfoByUserId(userInfo.get("userId"));
-            if (roles != null && !roles.isEmpty()) {
-                roles.stream().forEach(t -> {
-                    roleSets.add(t.getRoleCode());
+            if ("app".equals(userInfo.get("type"))) {
+                roleSets.add(userInfo.get("userId"));
+            } else {
+                List<AuthRoleVO> roles = userAuthService.getUserRoleInfoByUserId(userInfo.get("userId"));
+                if (roles != null && !roles.isEmpty()) {
+                    roles.stream().forEach(t -> {
+                        roleSets.add(t.getRoleCode());
+                    });
+                }
+            }
+            cacheService.addDataToCache(userInfo.get("userId") + "_roleSets", roleSets);
+        }
+        if (cacheService.getDataFromCache(userInfo.get("userId") + "_authSets") != null) {
+            authSets.addAll((Set<String>)cacheService.getDataFromCache(userInfo.get("userId") + "_authSets"));
+        } else {
+            // 查找用户角色权限
+            List<PermissionVO> permissions = userAuthService.getPermissionByRoleCodes(roleSets);
+            if (permissions != null && !permissions.isEmpty()) {
+                permissions.stream().forEach(t -> {
+                    authSets.add(t.getPermissionCode());
                 });
             }
-        }
-        // 查找用户角色权限
-        List<PermissionVO> permissions = userAuthService.getPermissionByRoleCodes(roleSets);
-        if (permissions != null && !permissions.isEmpty()) {
-            permissions.stream().forEach(t -> {
-                authSets.add(t.getPermissionCode());
-            });
+            cacheService.addDataToCache(userInfo.get("userId") + "_authSets", authSets);
         }
         info.setRoles(roleSets);
         info.setStringPermissions(authSets);
