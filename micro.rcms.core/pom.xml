@@ -1,36 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.stone.it</groupId>
-    <artifactId>micro.rcms.framework</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
-
   <artifactId>micro.rcms.core</artifactId>
-
-  <packaging>jar</packaging>
-
-  <properties>
-    <cxf.core.jaxrs>3.5.3</cxf.core.jaxrs>
-    <jackson.annotations>2.13.4</jackson.annotations>
-    <jackson.json.provider>2.13.4</jackson.json.provider>
-    <lombok.version>1.18.24</lombok.version>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <tomcat.embed.core>9.0.65</tomcat.embed.core>
-    <spring.log4j2>2.6.9</spring.log4j2>
-    <fastjson.version>2.0.15</fastjson.version>
-    <httpclient.version>4.5.13</httpclient.version>
-    <slf4j-api.version>1.7.36</slf4j-api.version>
-    <mybatis-s-starter>2.3.0</mybatis-s-starter>
-    <mysql-c-version>8.0.30</mysql-c-version>
-  </properties>
-
   <dependencies>
+    <dependency>
+      <artifactId>java-jwt</artifactId>
+      <groupId>com.auth0</groupId>
+      <version>4.4.0</version>
+    </dependency>
     <dependency>
       <artifactId>lombok</artifactId>
       <groupId>org.projectlombok</groupId>
@@ -60,19 +38,19 @@
       <groupId>org.apache.cxf</groupId>
       <version>${cxf.core.jaxrs}</version>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.apache.shiro</groupId>-->
-<!--      <artifactId>shiro-servlet-plugin</artifactId>-->
-<!--      <version>2.0.1</version>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.shiro</groupId>-->
-<!--      <artifactId>shiro-jaxrs</artifactId>-->
-<!--      <version>2.0.1</version>-->
-<!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.apache.shiro</groupId>-->
+    <!--      <artifactId>shiro-servlet-plugin</artifactId>-->
+    <!--      <version>2.0.1</version>-->
+    <!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.apache.shiro</groupId>-->
+    <!--      <artifactId>shiro-jaxrs</artifactId>-->
+    <!--      <version>2.0.1</version>-->
+    <!--    </dependency>-->
     <dependency>
-      <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-spring-boot-web-starter</artifactId>
+      <groupId>org.apache.shiro</groupId>
       <version>1.9.1</version>
     </dependency>
     <!-- 引入log4j2依赖 -->
@@ -129,14 +107,14 @@
     </dependency>
     <dependency>
       <artifactId>mybatis-spring-boot-starter</artifactId>
-      <groupId>org.mybatis.spring.boot</groupId>
-      <version>${mybatis-s-starter}</version>
       <exclusions>
         <exclusion>
-          <groupId>org.springframework</groupId>
           <artifactId>spring-core</artifactId>
+          <groupId>org.springframework</groupId>
         </exclusion>
       </exclusions>
+      <groupId>org.mybatis.spring.boot</groupId>
+      <version>${mybatis-s-starter}</version>
     </dependency>
     <dependency>
       <artifactId>mysql-connector-java</artifactId>
@@ -144,11 +122,38 @@
       <version>${mysql-c-version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
-      <version>1</version>
+      <groupId>javax.inject</groupId>
       <scope>compile</scope>
+      <version>1</version>
     </dependency>
   </dependencies>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <packaging>jar</packaging>
+
+  <parent>
+    <artifactId>micro.rcms.framework</artifactId>
+    <groupId>com.stone.it</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <cxf.core.jaxrs>3.5.3</cxf.core.jaxrs>
+    <fastjson.version>2.0.15</fastjson.version>
+    <httpclient.version>4.5.13</httpclient.version>
+    <jackson.annotations>2.13.4</jackson.annotations>
+    <jackson.json.provider>2.13.4</jackson.json.provider>
+    <lombok.version>1.18.24</lombok.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <mybatis-s-starter>2.3.0</mybatis-s-starter>
+    <mysql-c-version>8.0.30</mysql-c-version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <slf4j-api.version>1.7.36</slf4j-api.version>
+    <spring.log4j2>2.6.9</spring.log4j2>
+    <tomcat.embed.core>9.0.65</tomcat.embed.core>
+  </properties>
 
 </project>

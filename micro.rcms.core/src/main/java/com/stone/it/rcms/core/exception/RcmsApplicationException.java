@@ -6,7 +6,7 @@ package com.stone.it.rcms.core.exception;
  */
 public class RcmsApplicationException extends RuntimeException {
 
-    public int code;
+    public int code = 500;
     public String message;
     public Object error;
 

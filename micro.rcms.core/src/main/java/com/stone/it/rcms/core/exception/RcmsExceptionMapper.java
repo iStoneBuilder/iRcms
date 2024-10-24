@@ -30,6 +30,12 @@ public class RcmsExceptionMapper implements ExceptionMapper<Exception> {
                     RcmsExceptionEnum.valueOf(name).getMessage(), exception.getMessage()))
                 .type("application/json").build();
         }
+        if (name.equals("RcmsApplicationException")) {
+            RcmsApplicationException rae = (RcmsApplicationException)exception;
+            return Response.status(rae.getCode())
+                .entity(ResponseUtil.responseBuild(rae.getCode(), rae.getMessage(), rae.getMessage()))
+                .type("application/json").build();
+        }
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
             .entity(ResponseUtil.responseBuild(500, "Internal Server Error", exception.getMessage()))
             .type("application/json").build();
