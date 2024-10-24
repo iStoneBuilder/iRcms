@@ -6,7 +6,6 @@ import com.stone.it.rcms.auth.vo.AuthRoleVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.auth.vo.PermissionVO;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import javax.inject.Inject;

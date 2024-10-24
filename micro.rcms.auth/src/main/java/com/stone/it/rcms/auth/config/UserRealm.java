@@ -1,11 +1,14 @@
 package com.stone.it.rcms.auth.config;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.auth.service.IUserAuthService;
 import com.stone.it.rcms.auth.vo.AuthRoleVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.auth.vo.PermissionVO;
+import com.stone.it.rcms.core.util.JwtUtils;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
 import org.apache.shiro.authc.AuthenticationException;
@@ -44,13 +47,12 @@ public class UserRealm extends AuthorizingRealm {
         throws AuthenticationException {
         // 采用用户名和密码方式
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)authenticationToken;
+        // 用户id/account
         String userId = usernamePasswordToken.getUsername();
-        // 密码
+        // token密码
         String password = new String(usernamePasswordToken.getPassword());
-        // 通过用户id获取用户信息
-        AuthUserVO user = userAuthService.getUserInfoByUserId(userId);
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user,
-            new SimpleHash("md5", password, user.getUserId()).toHex(), ByteSource.Util.bytes(userId), getName());
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(JwtUtils.getTokenInfo(password),
+            new SimpleHash("md5", password, userId).toHex(), ByteSource.Util.bytes(userId), getName());
         return info;
     }
 
@@ -63,17 +65,21 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        AuthUserVO user = (AuthUserVO)principalCollection.getPrimaryPrincipal();
+        Map<String, String> userInfo = (Map<String, String>)principalCollection.getPrimaryPrincipal();
         // 用户角色
         Set<String> roleSets = new HashSet<>();
         // 权限信息
         Set<String> authSets = new HashSet<>();
         // 查找用户角色
-        List<AuthRoleVO> roles = userAuthService.getUserRoleInfoByUserId(user.getUserId());
-        if (roles != null && !roles.isEmpty()) {
-            roles.stream().forEach(t -> {
-                roleSets.add(t.getRoleCode());
-            });
+        if ("app".equals(userInfo.get("type"))) {
+            roleSets.add(userInfo.get("userId"));
+        } else {
+            List<AuthRoleVO> roles = userAuthService.getUserRoleInfoByUserId(userInfo.get("userId"));
+            if (roles != null && !roles.isEmpty()) {
+                roles.stream().forEach(t -> {
+                    roleSets.add(t.getRoleCode());
+                });
+            }
         }
         // 查找用户角色权限
         List<PermissionVO> permissions = userAuthService.getPermissionByRoleCodes(roleSets);

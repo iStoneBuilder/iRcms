@@ -32,13 +32,20 @@ public class JwtUtils {
         Calendar instance = Calendar.getInstance();
         // 设置令牌默认7天后过期
         instance.add(Calendar.SECOND, 60 * 5);
+        // 生成带有过期时间的令牌，并使用HMAC256算法进行签名
+        // 这里使用了HMAC256算法对令牌进行签名，确保其安全性和完整性
+        return generateToken(map, instance);
+    }
+
+    public static String generateToken(Map<String, String> map, Calendar instance) {
         // 创建JWT构建器
         JWTCreator.Builder builder = JWT.create();
         // 设置payload中的claim，使用传入的Map进行遍历设置
         map.forEach(builder::withClaim);
         // 生成带有过期时间的令牌，并使用HMAC256算法进行签名
         // 这里使用了HMAC256算法对令牌进行签名，确保其安全性和完整性
-        return builder.withExpiresAt(instance.getTime()).sign(Algorithm.HMAC256(SING));
+        return instance != null ? builder.withExpiresAt(instance.getTime()).sign(Algorithm.HMAC256(SING))
+            : builder.sign(Algorithm.HMAC256(SING));
     }
 
     /**
@@ -51,7 +58,9 @@ public class JwtUtils {
         Map<String, Object> infoMap = new HashMap<>();
         DecodedJWT verify = JWT.require(Algorithm.HMAC256(SING)).build().verify(token);
         verify.getClaims().forEach((k, v) -> infoMap.put(k, v.asString()));
-        infoMap.put("exp", verify.getExpiresAt());
+        if (verify.getExpiresAt() != null) {
+            infoMap.put("exp", verify.getExpiresAt());
+        }
         return infoMap;
     }
 

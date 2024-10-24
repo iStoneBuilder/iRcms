@@ -15,6 +15,7 @@
     </jaxrs:outInterceptors>
     <jaxrs:providers>
       <ref bean="jsonProvider"/>
+      <ref bean="rcmsExceptionMapper"/>
     </jaxrs:providers>
     <jaxrs:serviceBeans>
       <ref bean="authLoginService"/>

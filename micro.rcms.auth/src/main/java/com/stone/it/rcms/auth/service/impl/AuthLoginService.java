@@ -1,16 +1,19 @@
 package com.stone.it.rcms.auth.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.stone.it.rcms.auth.dao.IUserAuthDao;
 import com.stone.it.rcms.auth.service.IAuthLoginService;
 import com.stone.it.rcms.auth.vo.AccountVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
+import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.util.JwtUtils;
 import com.stone.it.rcms.core.util.ResponseUtil;
+import java.util.HashMap;
 import java.util.Map;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
@@ -27,6 +30,9 @@ import org.slf4j.LoggerFactory;
 public class AuthLoginService implements IAuthLoginService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthLoginService.class);
+
+    @Inject
+    private IUserAuthDao userAuthDao;
 
     @Override
     public JSONObject userLogin(AuthUserVO userVO) {
@@ -72,14 +78,21 @@ public class AuthLoginService implements IAuthLoginService {
     }
 
     private boolean subjectLogin(AuthUserVO userVO) {
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(userVO.getUserId(), userVO.getPassword());
-        try {
-            subject.login(token);
-            return true;
-        } catch (AuthenticationException e) {
-            LOGGER.info(e.getMessage());
-            return false;
+        // 查询数据库用户信息
+        AuthUserVO dbUser = userAuthDao.getUserInfoByUserId(userVO.getUserId());
+        if (dbUser == null) {
+            throw new RcmsApplicationException(500, "用户账号/密码错误！");
         }
+        if (!dbUser.getPassword().equals(userVO.getPassword())) {
+            throw new RcmsApplicationException(500, "用户账号/密码错误！");
+        }
+        Subject subject = SecurityUtils.getSubject();
+        Map<String, String> user = new HashMap<>();
+        user.put("userId", dbUser.getUserId());
+        user.put("password", dbUser.getPassword());
+        user.put("type", "user");
+        UsernamePasswordToken token = new UsernamePasswordToken(userVO.getUserId(), JwtUtils.generateToken(user, null));
+        subject.login(token);
+        return true;
     }
 }

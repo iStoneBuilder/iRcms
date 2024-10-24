@@ -3,12 +3,17 @@ package com.stone.it.rcms.core.interceptor;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.util.JwtUtils;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.inject.Inject;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +46,17 @@ public class JwtTokenInInterceptor extends AbstractPhaseInterceptor<Message> {
                 throw new RcmsApplicationException(401, verify.get("msg").toString());
             } else {
                 // 转化为账号登录
+                Map<String, Object> accountInfo = JwtUtils.getTokenInfo(token.get(0).toString());
+                Subject subject = SecurityUtils.getSubject();
+
+                Map<String, String> account = new HashMap<>();
+                account.put("userId", accountInfo.get("appId").toString());
+                account.put("password", accountInfo.get("secret").toString());
+                account.put("type", "app");
+
+                UsernamePasswordToken upToken = new UsernamePasswordToken(accountInfo.get("appId").toString(),
+                    JwtUtils.generateToken(account, null));
+                subject.login(upToken);
             }
         }
     }
