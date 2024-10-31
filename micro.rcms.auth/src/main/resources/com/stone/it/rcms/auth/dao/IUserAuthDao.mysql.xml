@@ -43,6 +43,19 @@
     <foreach close=")" collection="roleSets" item="roleCode" open="(" separator=",">
       #{roleCode}
     </foreach>
+    UNION
+    SELECT
+    t1.permission_id as permissionId,
+    t1.permission_code as permissionCode,
+    t1.permission_path as permissionPath
+    FROM
+    tpl_permission_t t1
+    LEFT JOIN tpl_account_permission_t t2 ON t1.permission_code = t2.permission_code
+    WHERE
+    t2.app_id IN
+    <foreach close=")" collection="roleSets" item="roleCode" open="(" separator=",">
+      #{roleCode}
+    </foreach>
   </select>
 
   <select id="getPermissionByAccountId"
