@@ -51,9 +51,14 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public void deletePermissionNotInList(Set<String> permissinPathSet) {
+    public void deletePermissionNotInList(Set<String> permissionPathSet) {
         List<String> list = new ArrayList<>();
-        list.addAll(permissinPathSet);
+        list.addAll(permissionPathSet);
         permissionDao.deletePermissionNotInList(list);
+    }
+
+    @Override
+    public void deletePermissionRelation() {
+        permissionDao.deletePermissionRelation();
     }
 }

@@ -58,11 +58,12 @@ public class AuthLoginService implements IAuthLoginService {
             if (principals == null) {
                 return ResponseUtil.responseBuild(HttpStatus.SC_INTERNAL_SERVER_ERROR, "您当前未登录！");
             }
-            AuthUserVO user = (AuthUserVO)principals.getPrimaryPrincipal();
+            Map<String, String> user = (Map<String, String>)principals.getPrimaryPrincipal();
             // 数据库记录日志，执行退出
             currentUser.logout();
             return ResponseUtil.responseBuild(HttpStatus.SC_OK, "退出成功！");
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseUtil.responseBuild(HttpStatus.SC_INTERNAL_SERVER_ERROR, "退出失败！", e.getMessage());
         }
     }

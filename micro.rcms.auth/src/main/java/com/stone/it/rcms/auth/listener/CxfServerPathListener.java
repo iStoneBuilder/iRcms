@@ -149,6 +149,8 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
         permissionService.createPermission(newPermissionList);
         // 清理已删除接口
         permissionService.deletePermissionNotInList(permissinPathSet);
+        // 清理不存在的授权关系
+        permissionService.deletePermissionRelation();
     }
 
 }

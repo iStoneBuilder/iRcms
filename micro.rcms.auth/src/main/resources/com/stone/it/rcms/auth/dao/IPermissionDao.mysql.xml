@@ -5,6 +5,8 @@
 
   <delete id="deletePermissionNotInList"></delete>
 
+  <delete id="deletePermissionRelation"></delete>
+
   <insert id="createPermission"></insert>
 
   <select id="findPermissionByPaths" resultType="com.stone.it.rcms.auth.vo.PermissionVO"></select>

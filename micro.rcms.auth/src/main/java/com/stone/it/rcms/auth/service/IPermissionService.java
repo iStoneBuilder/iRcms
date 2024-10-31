@@ -39,9 +39,31 @@ public interface IPermissionService {
     @Path("/records/{permission_id}")
     PermissionVO findPermissionById(@PathParam("permission_id") String permission_id);
 
+    /**
+     * 查询已存在的服务信息
+     * 
+     * @param apiPaths
+     * @return
+     */
     List<PermissionVO> findPermissionByPaths(Set<String> apiPaths);
 
+    /**
+     * 创建新增的权限路径
+     * 
+     * @param permissionList
+     */
     void createPermission(List<PermissionVO> permissionList);
 
-    void deletePermissionNotInList(Set<String> permissinPathSet);
+    /**
+     * 删除不存在的权限信息
+     * 
+     * @param permissionPathSet
+     */
+    void deletePermissionNotInList(Set<String> permissionPathSet);
+
+    /**
+     * 清理不存在授权关系
+     * 
+     */
+    void deletePermissionRelation();
 }

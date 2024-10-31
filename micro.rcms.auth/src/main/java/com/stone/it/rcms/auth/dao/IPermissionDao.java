@@ -17,5 +17,7 @@ public interface IPermissionDao {
 
     void createPermission(@Param("list") List<PermissionVO> list);
 
-    void deletePermissionNotInList(List<String> permissionPathSet);
+    void deletePermissionNotInList(@Param("list") List<String> permissionPathSet);
+
+    void deletePermissionRelation();
 }
