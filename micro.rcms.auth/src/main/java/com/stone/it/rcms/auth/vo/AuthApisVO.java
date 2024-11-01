@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 public class AuthApisVO extends BaseVO {
     private String authCode;
+    private String apiCode;
     private String apiName;
     private String apiPath;
     private String apiMethod;

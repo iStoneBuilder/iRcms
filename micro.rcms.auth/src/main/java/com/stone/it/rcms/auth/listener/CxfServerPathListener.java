@@ -2,6 +2,7 @@ package com.stone.it.rcms.auth.listener;
 
 import com.alibaba.fastjson2.JSON;
 import com.stone.it.rcms.auth.service.IAuthSettingService;
+import com.stone.it.rcms.core.util.UUIDUtil;
 import com.stone.it.rcms.auth.vo.AuthApisVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import java.lang.annotation.Annotation;
@@ -16,7 +17,6 @@ import org.apache.cxf.jaxrs.model.ClassResourceInfo;
 import org.apache.cxf.jaxrs.model.OperationResourceInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -39,9 +39,6 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
     private static final Set<String> authCodeSet = new HashSet<>();
     // 接口路径集合
     private static final Set<String> apiPathSet = new HashSet<>();
-
-    @Autowired
-    private static IAuthSettingService authSettingService;
 
     private static void buildPermission(OperationResourceInfo operationResource, AuthApisVO AuthApisVO) {
         // 获取权限注解
@@ -93,21 +90,24 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             // 获取接口所有方法
             Set<OperationResourceInfo> opera = classResource.getMethodDispatcher().getOperationResourceInfos();
             for (OperationResourceInfo operationResource : opera) {
-                AuthApisVO AuthApisVO = new AuthApisVO();
+                AuthApisVO authApisVO = new AuthApisVO();
                 // 方法名称
-                AuthApisVO.setApiName(operationResource.getAnnotatedMethod().getName());
+                authApisVO.setApiName(operationResource.getAnnotatedMethod().getName());
                 // 方法请求类型
-                AuthApisVO.setApiMethod(operationResource.getHttpMethod());
+                authApisVO.setApiMethod(operationResource.getHttpMethod());
                 // 方法路径
                 String methodPath = operationResource.getURITemplate().getValue();
                 String apiPath = buildApiPath(contextPath + "/services", endpointPath, servicePath, methodPath);
-                AuthApisVO.setApiPath(apiPath);
-                AuthApisVO.setApiType(apiPath.contains("/services/rcms/") ? "system" : "business");
+                authApisVO.setApiPath(apiPath);
+                authApisVO.setApiType(apiPath.contains("/services/rcms/") ? "system" : "business");
                 // 获取是否需要权限验证
-                buildPermission(operationResource, AuthApisVO);
-                LOGGER.info("RCMS api info : {}", JSON.toJSONString(AuthApisVO));
+                buildPermission(operationResource, authApisVO);
+                LOGGER.info("RCMS api info : {}", JSON.toJSONString(authApisVO));
                 apiPathSet.add(operationResource.getHttpMethod() + "_" + apiPath);
-                currentApiList.add(AuthApisVO);
+                authApisVO.setCreateBy("system");
+                authApisVO.setUpdateBy("system");
+                authApisVO.setApiCode(UUIDUtil.getUuid());
+                currentApiList.add(authApisVO);
             }
         }
     }
@@ -125,12 +125,13 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             getCxfEndpointPaths(context.getBean(beanName, JAXRSServerFactoryBean.class), contextPath);
         }
         // 存储权限信息
-        storePermission();
+        storePermission(event);
     }
 
-    private void storePermission() {
+    private void storePermission(ContextRefreshedEvent event) {
         LOGGER.info("RCMS api services scan end.apiPathSet:{},currentApiList:  {}", apiPathSet.size(),
             currentApiList.size());
+        IAuthSettingService authSettingService = event.getApplicationContext().getBean(IAuthSettingService.class);
         // 根据路径判断数据库是否存在（接口路径唯一）
         List<AuthApisVO> dbExistApis = authSettingService.findApiPathsByPaths(apiPathSet);
         List<AuthApisVO> dbNotExistApiList = new ArrayList<>();
@@ -147,11 +148,13 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             }
         }
         // 创建新增接口
-        authSettingService.createApiPaths(dbNotExistApiList);
+        if (dbNotExistApiList.size() > 0) {
+            authSettingService.createApiPaths(dbNotExistApiList);
+        }
         // 清理已删除接口
-        authSettingService.deleteApiPathsNotInList(apiPathSet);
+        // authSettingService.deleteApiPathsNotInList(apiPathSet);
         // 清理不存在的授权关系
-        authSettingService.deleteApisRelationAuth();
+        // authSettingService.deleteApisRelationAuth();
     }
 
 }

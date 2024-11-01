@@ -12,8 +12,8 @@ spring:
     name: testService
   # 数据库信息配置
   datasource:
-    name: flyway
-    url: jdbc:mysql://127.0.0.1:3306/flyway
+    name: rcms
+    url: jdbc:mysql://127.0.0.1:3306/rcms
     username: root
     password: max756423
     driver-class-name: com.mysql.jdbc.Driver

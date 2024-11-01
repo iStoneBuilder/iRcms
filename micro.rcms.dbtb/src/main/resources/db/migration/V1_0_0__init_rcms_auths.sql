@@ -30,16 +30,17 @@ CREATE TABLE IF NOT EXISTS `tpl_role_t`(
 
 -- 权限表 done
 CREATE TABLE IF NOT EXISTS `tpl_permission_t`(
-    `auth_code`    VARCHAR(100) NOT NULL COMMENT '权限编码',
+    `api_code`    VARCHAR(100) NOT NULL  COMMENT '接口编码',
+    `auth_code`    VARCHAR(100)  COMMENT '权限编码',
     `api_path`    VARCHAR(100) NOT NULL COMMENT '接口地址',
-    `api_name`    VARCHAR(100)  COMMENT '接口名称',
+    `api_name`    VARCHAR(100) NOT NULL  COMMENT '接口名称',
     `api_type`    VARCHAR(100) NOT NULL COMMENT '接口类型：system/custom',
     `api_method`    VARCHAR(100) NOT NULL COMMENT '请求方式',
     `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
     `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `UPDATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
-    PRIMARY KEY (`auth_code`)
+    PRIMARY KEY (`api_code`)
     ) ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4;
 

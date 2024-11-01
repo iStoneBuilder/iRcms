@@ -22,11 +22,11 @@
 
   <insert id="createApiPaths">
     insert into
-    tpl_permission_t(auth_code,api_name,api_path,api_method,api_type,create_time,update_time,created_by,updated_by)
+    tpl_permission_t(auth_code,api_code,api_name,api_path,api_method,api_type,created_time,updated_time,created_by,updated_by)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.authCode},#{item.apiName},#{item.apiPath},#{item.apiMethod},
-      #{item.apiType}，sysdate(),sysdate(),#{item.createBy},#{item.updateBy})
+      (#{item.authCode},#{item.apiCode},#{item.apiName},#{item.apiPath,jdbcType=VARCHAR},#{item.apiMethod},
+      #{item.apiType},now(),now(),#{item.createBy},#{item.updateBy})
     </foreach>
   </insert>
 
