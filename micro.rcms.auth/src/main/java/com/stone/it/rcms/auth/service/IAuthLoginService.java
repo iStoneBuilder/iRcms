@@ -29,14 +29,6 @@ public interface IAuthLoginService {
     JSONObject userLogout();
 
     @POST
-    @Path("register")
-    JSONObject userRegister(AuthUserVO userVO);
-
-    @POST
-    @Path("logOff")
-    JSONObject userLogOff();
-
-    @POST
     @Path("token")
     JSONObject userToken(AccountVO accountVO);
 

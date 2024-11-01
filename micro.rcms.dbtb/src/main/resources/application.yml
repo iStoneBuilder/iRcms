@@ -22,7 +22,7 @@ spring:
     # JDBC 驱动程序的完全限定名称。 默认根据 URL 自动检测。
     driver-class-name:
     # 要迁移的数据库的 DBC url。 如果未设置，则使用主要配置的数据源。
-    url: jdbc:mysql://127.0.0.1:3306/flyway?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+    url: jdbc:mysql://127.0.0.1:3306/rcms?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
     # 要迁移的数据库的登录密码。
     password: max756423
     # 要迁移的数据库的登录用户。
@@ -30,8 +30,8 @@ spring:
 
   # 数据库信息配置
   datasource:
-    name: flyway
-    url: jdbc:mysql://127.0.0.1:3306/flyway
+    name: rcms
+    url: jdbc:mysql://127.0.0.1:3306/rcms
     username: root
     password: max756423
     driver-class-name: com.mysql.cj.jdbc.Driver

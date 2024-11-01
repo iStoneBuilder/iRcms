@@ -1,8 +1,8 @@
 package com.stone.it.rcms.auth.config;
 
-import com.stone.it.rcms.auth.service.IUserAuthService;
-import com.stone.it.rcms.auth.vo.AuthRoleVO;
-import com.stone.it.rcms.auth.vo.PermissionVO;
+import com.stone.it.rcms.auth.service.IAuthSettingService;
+import com.stone.it.rcms.auth.vo.AccountVO;
+import com.stone.it.rcms.auth.vo.AuthApisVO;
 import com.stone.it.rcms.core.config.CacheService;
 import com.stone.it.rcms.core.util.JwtUtils;
 import java.util.HashSet;
@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserRealm extends AuthorizingRealm {
 
     @Inject
-    private IUserAuthService userAuthService;
+    private IAuthSettingService authSettingService;
 
     @Autowired
     private CacheService cacheService;
@@ -80,10 +80,11 @@ public class UserRealm extends AuthorizingRealm {
             if ("app".equals(userInfo.get("type"))) {
                 roleSets.add(userInfo.get("userId"));
             } else {
-                List<AuthRoleVO> roles = userAuthService.getUserRoleInfoByUserId(userInfo.get("userId"));
+                AccountVO accountVO = authSettingService.getUserInfoByUserId(userInfo.get("userId"));
+                List<String> roles = List.of(accountVO.getAccountRoles().split(","));
                 if (roles != null && !roles.isEmpty()) {
                     roles.stream().forEach(t -> {
-                        roleSets.add(t.getRoleCode());
+                        roleSets.add(t);
                     });
                 }
             }
@@ -93,10 +94,10 @@ public class UserRealm extends AuthorizingRealm {
             authSets.addAll((Set<String>)cacheService.getDataFromCache(userInfo.get("userId") + "_authSets"));
         } else {
             // 查找用户角色权限
-            List<PermissionVO> permissions = userAuthService.getPermissionByRoleCodes(roleSets);
+            List<AuthApisVO> permissions = authSettingService.getApiPathByRoleCodes(roleSets);
             if (permissions != null && !permissions.isEmpty()) {
                 permissions.stream().forEach(t -> {
-                    authSets.add(t.getPermissionCode());
+                    authSets.add(t.getAuthCode());
                 });
             }
             cacheService.addDataToCache(userInfo.get("userId") + "_authSets", authSets);

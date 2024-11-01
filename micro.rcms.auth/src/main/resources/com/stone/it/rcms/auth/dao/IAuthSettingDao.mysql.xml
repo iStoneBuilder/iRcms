@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.auth.dao.IAuthSettingDao">
+
+  <delete id="deleteApiPathsNotInList">
+    delete from tpl_permission_t where api_path not in
+    <foreach close=")" collection="list" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </delete>
+
+  <delete id="deleteApisRelationAuth">
+    delete from tpl_role_permission_t where auth_code not in
+    (
+    select auth_code from tpl_permission_t where api_path in
+    <foreach close=")" collection="list" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+    )
+  </delete>
+
+  <insert id="createApiPaths">
+    insert into
+    tpl_permission_t(auth_code,api_name,api_path,api_method,api_type,create_time,update_time,created_by,updated_by)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.authCode},#{item.apiName},#{item.apiPath},#{item.apiMethod},
+      #{item.apiType}，sysdate(),sysdate(),#{item.createBy},#{item.updateBy})
+    </foreach>
+  </insert>
+
+  <select id="findApiPathsByPaths" resultType="com.stone.it.rcms.auth.vo.AuthApisVO">
+    select auth_code as authCode,api_name as apiName,api_path as apiPath,api_method as
+    apiMethod,api_type as apiType
+    from tpl_permission_t where api_path in
+    <foreach close=")" collection="list" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="getUserInfoByUserId" resultType="com.stone.it.rcms.auth.vo.AccountVO">
+    SELECT
+    account_code as accountCode,
+    account_name as accountName,
+    account_type as accountType,
+    password as password,
+    account_role as accountRoles
+    FROM
+    tpl_account_t
+    WHERE
+    account_code = #{accountCode}
+  </select>
+
+  <select id="getApiPathByRoleCodes" resultType="com.stone.it.rcms.auth.vo.AuthApisVO">
+    select
+    api_path as apiPath,api_name as apiName,api_method as apiMethod,api_type as apiType,auth_code as
+    authCode
+    from tpl_permission_t t1
+    join tpl_role_permission_t t2 on t1.auth_code=t2.auth_code
+    where t2.role_code in
+    <foreach close=")" collection="list" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </select>
+
+</mapper>

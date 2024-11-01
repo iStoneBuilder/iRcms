@@ -27,7 +27,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 public interface IEnterpriseService {
 
     /**
-     * 分页查询企业信息
+     * 分页查询企业(商户)列表
      *
      * @param enterpriseVO
      * @param pageVO
@@ -35,19 +35,19 @@ public interface IEnterpriseService {
      */
     @GET
     @Path("/records/page/{curPage}/{pageSize}")
-    @RequiresPermissions("permission:enterprise:page:query")
+    @RequiresPermissions("permission:enterprise&merchant:page:query")
     PageResult<EnterpriseVO> findI18nPageResult(@QueryParam("") EnterpriseVO enterpriseVO,
         @PathParam("") PageVO pageVO);
 
     /**
-     * 根据id查询企业(商户)信息
+     * 企业(商户)详情
      *
      * @param enterprise_id
      * @return
      */
     @GET
     @Path("/records/{enterprise_id}")
-    @RequiresPermissions("permission:enterprise:record:query")
+    @RequiresPermissions("permission:enterprise&merchant:record:query")
     EnterpriseVO findEnterpriseMerchantById(@PathParam("enterprise_id") String enterprise_id);
 
     /**

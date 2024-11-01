@@ -1,29 +1,20 @@
 package com.stone.it.rcms.auth.vo;
 
+import lombok.Data;
+
 /**
  *
  * @author cj.stone
  * @Date 2024/10/21
  * @Desc
  */
+@Data
 public class AccountVO {
-    private String appId;
-    private String secret;
 
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
+    private String accountCode;
+    private String accountName;
+    private String accountType;
+    private String password;
+    private String accountRoles;
 
 }

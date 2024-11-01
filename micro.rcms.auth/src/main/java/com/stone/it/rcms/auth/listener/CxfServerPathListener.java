@@ -1,8 +1,8 @@
 package com.stone.it.rcms.auth.listener;
 
 import com.alibaba.fastjson2.JSON;
-import com.stone.it.rcms.auth.service.IPermissionService;
-import com.stone.it.rcms.auth.vo.PermissionVO;
+import com.stone.it.rcms.auth.service.IAuthSettingService;
+import com.stone.it.rcms.auth.vo.AuthApisVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -33,17 +33,17 @@ import org.springframework.stereotype.Component;
 public class CxfServerPathListener implements ApplicationListener<ContextRefreshedEvent> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CxfServerPathListener.class);
-
-    private static final List<PermissionVO> permissionList = new ArrayList<>();
-
-    private static final Set<String> permissinSet = new HashSet<>();
-
-    private static final Set<String> permissinPathSet = new HashSet<>();
+    // 接口信息集合
+    private static final List<AuthApisVO> currentApiList = new ArrayList<>();
+    // 权限编码集合 用于判断是否重复添加
+    private static final Set<String> authCodeSet = new HashSet<>();
+    // 接口路径集合
+    private static final Set<String> apiPathSet = new HashSet<>();
 
     @Inject
-    private static IPermissionService permissionService;
+    private static IAuthSettingService authSettingService;
 
-    private static void buildPermission(OperationResourceInfo operationResource, PermissionVO permissionVO) {
+    private static void buildPermission(OperationResourceInfo operationResource, AuthApisVO AuthApisVO) {
         // 获取权限注解
         Annotation[] annotationList = operationResource.getOutAnnotations();
         for (int i = 0; i < annotationList.length; i++) {
@@ -60,7 +60,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
                         // 打印注解属性的名称和值
                         if ("value".equals(method.getName())) {
                             String[] permission = (String[])value;
-                            permissionVO.setPermissionCode(permission[0]);
+                            AuthApisVO.setAuthCode(permission[0]);
                         }
                     } catch (Exception e) {
                         LOGGER.error("Get permission annotation value error.", e);
@@ -69,9 +69,8 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             }
         }
         // 判断权限编码是否重复添加
-        if (!StringUtils.isEmpty(permissionVO.getPermissionCode())
-            && !permissinSet.add(permissionVO.getPermissionCode())) {
-            throw new RcmsApplicationException(500, "Duplicate permission code : " + permissionVO.getPermissionCode());
+        if (!StringUtils.isEmpty(AuthApisVO.getAuthCode()) && !authCodeSet.add(AuthApisVO.getAuthCode())) {
+            throw new RcmsApplicationException(500, "Duplicate permission code : " + AuthApisVO.getAuthCode());
         }
     }
 
@@ -94,21 +93,21 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             // 获取接口所有方法
             Set<OperationResourceInfo> opera = classResource.getMethodDispatcher().getOperationResourceInfos();
             for (OperationResourceInfo operationResource : opera) {
-                PermissionVO permissionVO = new PermissionVO();
+                AuthApisVO AuthApisVO = new AuthApisVO();
                 // 方法名称
-                permissionVO.setApiName(operationResource.getAnnotatedMethod().getName());
+                AuthApisVO.setApiName(operationResource.getAnnotatedMethod().getName());
                 // 方法请求类型
-                permissionVO.setRequestType(operationResource.getHttpMethod());
+                AuthApisVO.setApiMethod(operationResource.getHttpMethod());
                 // 方法路径
                 String methodPath = operationResource.getURITemplate().getValue();
                 String apiPath = buildApiPath(contextPath + "/services", endpointPath, servicePath, methodPath);
-                permissionVO.setApiPath(apiPath);
-                permissinPathSet.add(apiPath);
-                permissionVO.setApiType(apiPath.contains("/services/rcms/") ? "system" : "business");
+                AuthApisVO.setApiPath(apiPath);
+                apiPathSet.add(apiPath);
+                AuthApisVO.setApiType(apiPath.contains("/services/rcms/") ? "system" : "business");
                 // 获取是否需要权限验证
-                buildPermission(operationResource, permissionVO);
-                LOGGER.info("RCMS api info : {}", JSON.toJSONString(permissionVO));
-                permissionList.add(permissionVO);
+                buildPermission(operationResource, AuthApisVO);
+                LOGGER.info("RCMS api info : {}", JSON.toJSONString(AuthApisVO));
+                currentApiList.add(AuthApisVO);
             }
         }
     }
@@ -126,31 +125,31 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             getCxfEndpointPaths(context.getBean(beanName, JAXRSServerFactoryBean.class), contextPath);
         }
         // 存储权限信息
-        // storePermission();
+        storePermission();
     }
 
     private void storePermission() {
         // 根据路径判断数据库是否存在（接口路径唯一）
-        List<PermissionVO> existPermission = permissionService.findPermissionByPaths(permissinPathSet);
-        List<PermissionVO> newPermissionList = new ArrayList<>();
-        for (int i = 0; i < permissionList.size(); i++) {
+        List<AuthApisVO> dbExistApis = authSettingService.findApiPathsByPaths(apiPathSet);
+        List<AuthApisVO> dbNotExistApiList = new ArrayList<>();
+        for (int i = 0; i < currentApiList.size(); i++) {
             boolean isExist = false;
-            for (int j = 0; j < existPermission.size(); j++) {
-                if (permissionList.get(i).getApiPath().equals(existPermission.get(j).getApiPath())) {
+            for (int j = 0; j < dbExistApis.size(); j++) {
+                if (currentApiList.get(i).getApiPath().equals(dbExistApis.get(j).getApiPath())) {
                     isExist = true;
                     break;
                 }
             }
             if (!isExist) {
-                newPermissionList.add(permissionList.get(i));
+                dbNotExistApiList.add(currentApiList.get(i));
             }
         }
         // 创建新增接口
-        permissionService.createPermission(newPermissionList);
+        authSettingService.createApiPaths(dbNotExistApiList);
         // 清理已删除接口
-        permissionService.deletePermissionNotInList(permissinPathSet);
+        authSettingService.deleteApiPathsNotInList(apiPathSet);
         // 清理不存在的授权关系
-        permissionService.deletePermissionRelation();
+        authSettingService.deleteApisRelationAuth();
     }
 
 }

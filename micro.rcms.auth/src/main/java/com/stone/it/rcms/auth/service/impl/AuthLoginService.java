@@ -1,8 +1,8 @@
 package com.stone.it.rcms.auth.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.stone.it.rcms.auth.dao.IUserAuthDao;
 import com.stone.it.rcms.auth.service.IAuthLoginService;
+import com.stone.it.rcms.auth.service.IAuthSettingService;
 import com.stone.it.rcms.auth.vo.AccountVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
@@ -32,7 +32,7 @@ public class AuthLoginService implements IAuthLoginService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthLoginService.class);
 
     @Inject
-    private IUserAuthDao userAuthDao;
+    private IAuthSettingService authSettingService;
 
     @Override
     public JSONObject userLogin(AuthUserVO userVO) {
@@ -44,8 +44,8 @@ public class AuthLoginService implements IAuthLoginService {
     @Override
     public JSONObject userToken(AccountVO accountVO) {
         Map<String, String> map = new java.util.HashMap<>();
-        map.put("appId", accountVO.getAppId());
-        map.put("secret", accountVO.getSecret());
+        map.put("appId", accountVO.getAccountCode());
+        map.put("secret", accountVO.getPassword());
         String token = JwtUtils.generateToken(map);
         return ResponseUtil.responseBuild(new JSONObject().fluentPut("Authorization", token));
     }
@@ -68,19 +68,9 @@ public class AuthLoginService implements IAuthLoginService {
         }
     }
 
-    @Override
-    public JSONObject userRegister(AuthUserVO userVO) {
-        return null;
-    }
-
-    @Override
-    public JSONObject userLogOff() {
-        return null;
-    }
-
     private boolean subjectLogin(AuthUserVO userVO) {
         // 查询数据库用户信息
-        AuthUserVO dbUser = userAuthDao.getUserInfoByUserId(userVO.getUserId());
+        AccountVO dbUser = authSettingService.getUserInfoByUserId(userVO.getUserId());
         if (dbUser == null) {
             throw new RcmsApplicationException(500, "用户账号/密码错误！");
         }
@@ -89,7 +79,7 @@ public class AuthLoginService implements IAuthLoginService {
         }
         Subject subject = SecurityUtils.getSubject();
         Map<String, String> user = new HashMap<>();
-        user.put("userId", dbUser.getUserId());
+        user.put("userId", dbUser.getAccountCode());
         user.put("password", dbUser.getPassword());
         user.put("type", "user");
         UsernamePasswordToken token = new UsernamePasswordToken(userVO.getUserId(), JwtUtils.generateToken(user, null));
