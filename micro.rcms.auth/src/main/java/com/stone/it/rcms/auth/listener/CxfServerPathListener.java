@@ -40,28 +40,42 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
     // 接口路径集合
     private static final Set<String> apiPathSet = new HashSet<>();
 
+    private static String getAnnotationValue(String annotationName, Class<?> annotationType, Annotation iAnnotation) {
+        // 获取注解定义的所有方法
+        Method[] methods = annotationType.getDeclaredMethods();
+        for (Method method : methods) {
+            try {
+                // 获取每个方法的返回值
+                Object value = method.invoke(iAnnotation);
+                // 打印注解属性的名称和值
+                if ("value".equals(method.getName())) {
+                    return ((String[])value)[0];
+                }
+            } catch (Exception e) {
+                LOGGER.error("Get permission annotation value error.", e);
+            }
+        }
+        return null;
+    }
+
     private static void buildPermission(OperationResourceInfo operationResource, AuthApisVO AuthApisVO) {
         // 获取权限注解
         Annotation[] annotationList = operationResource.getOutAnnotations();
         for (int i = 0; i < annotationList.length; i++) {
             Annotation iAnnotation = annotationList[i];
             Class<?> annotationType = iAnnotation.annotationType();
-            String annotationName = annotationType.getName();//
+            String annotationName = annotationType.getName();
+            // 判断是否需要权限验证
             if ("org.apache.shiro.authz.annotation.RequiresPermissions".equals(annotationName)) {
-                // 获取注解定义的所有方法
-                Method[] methods = annotationType.getDeclaredMethods();
-                for (Method method : methods) {
-                    try {
-                        // 获取每个方法的返回值
-                        Object value = method.invoke(iAnnotation);
-                        // 打印注解属性的名称和值
-                        if ("value".equals(method.getName())) {
-                            String[] permission = (String[])value;
-                            AuthApisVO.setAuthCode(permission[0]);
-                        }
-                    } catch (Exception e) {
-                        LOGGER.error("Get permission annotation value error.", e);
-                    }
+                String permission = getAnnotationValue(annotationName, annotationType, iAnnotation);
+                if (permission != null) {
+                    AuthApisVO.setAuthCode(permission);
+                }
+            }
+            if ("com.stone.it.rcms.core.annotate.RcmsMethodName".equals(annotationName)) {
+                String apiName = getAnnotationValue(annotationName, annotationType, iAnnotation);
+                if (apiName != null) {
+                    AuthApisVO.setApiName(apiName);
                 }
             }
         }

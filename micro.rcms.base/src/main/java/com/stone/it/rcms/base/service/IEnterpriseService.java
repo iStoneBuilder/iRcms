@@ -1,6 +1,7 @@
 package com.stone.it.rcms.base.service;
 
 import com.stone.it.rcms.base.vo.EnterpriseVO;
+import com.stone.it.rcms.core.annotate.RcmsMethodName;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import javax.ws.rs.Consumes;
@@ -13,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /**
@@ -24,6 +26,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 @Path("/enterprise")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes(MediaType.APPLICATION_JSON)
+@RequiresAuthentication
 public interface IEnterpriseService {
 
     /**
@@ -35,7 +38,8 @@ public interface IEnterpriseService {
      */
     @GET
     @Path("/records/page/{curPage}/{pageSize}")
-    @RequiresPermissions("permission:enterprise&merchant:page:query")
+    @RcmsMethodName("企业分页查询")
+    @RequiresPermissions("permission:enterprise:page:query")
     PageResult<EnterpriseVO> findI18nPageResult(@QueryParam("") EnterpriseVO enterpriseVO,
         @PathParam("") PageVO pageVO);
 
@@ -47,7 +51,8 @@ public interface IEnterpriseService {
      */
     @GET
     @Path("/records/{enterprise_id}")
-    @RequiresPermissions("permission:enterprise&merchant:record:query")
+    @RcmsMethodName("企业详情查询")
+    @RequiresPermissions("permission:enterprise:record:query")
     EnterpriseVO findEnterpriseMerchantById(@PathParam("enterprise_id") String enterprise_id);
 
     /**
@@ -58,7 +63,8 @@ public interface IEnterpriseService {
      */
     @POST
     @Path("/records")
-    @RequiresPermissions("permission:enterprise&merchant:create")
+    @RcmsMethodName("新增企业信息")
+    @RequiresPermissions("permission:enterprise:create")
     int createEnterpriseMerchant(EnterpriseVO enterpriseVO);
 
     /**
@@ -69,7 +75,8 @@ public interface IEnterpriseService {
      */
     @PATCH
     @Path("/records/{enterprise_id}")
-    @RequiresPermissions("permission:enterprise&merchant:update")
+    @RcmsMethodName("修改企业信息")
+    @RequiresPermissions("permission:enterprise:update")
     int updateEnterpriseMerchant(@PathParam("enterprise_id") String enterprise_id, EnterpriseVO enterpriseVO);
 
     /**
@@ -80,7 +87,8 @@ public interface IEnterpriseService {
      */
     @DELETE
     @Path("/records/{enterprise_id}")
-    @RequiresPermissions("permission:enterprise&merchant:delete")
+    @RcmsMethodName("删除企业信息")
+    @RequiresPermissions("permission:enterprise:delete")
     int deleteEnterpriseMerchant(@PathParam("enterprise_id") String enterprise_id);
 
 }

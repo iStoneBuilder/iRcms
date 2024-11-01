@@ -1,5 +1,6 @@
 package com.stone.it.rcms.core.annotate;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,13 +12,12 @@ import java.lang.annotation.Target;
  * @author cj.stone
  * @Desc
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RcmsOperation {
+@Documented
+public @interface RcmsMethodName {
 
-  String code() default "";
-
-  String desc() default "";
+    String[] value();
 
 }
 

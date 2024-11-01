@@ -15,7 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /**
  * @author cj.stone
@@ -36,7 +35,6 @@ public interface II18nService {
      */
     @GET
     @Path("/records/page/{curPage}/{pageSize}")
-    @RequiresPermissions("find.i18n.page")
     PageResult<I18nVO> findI18nPageResult(@QueryParam("") I18nVO i18nVO, @PathParam("") PageVO pageVO);
 
     /**
@@ -67,7 +65,6 @@ public interface II18nService {
      */
     @POST
     @Path("/records")
-    @RequiresPermissions("create.i18n")
     int createI18n(I18nVO i18nVO);
 
     /**
