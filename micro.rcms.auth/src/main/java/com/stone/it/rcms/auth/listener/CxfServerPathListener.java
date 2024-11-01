@@ -124,8 +124,13 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
         for (String beanName : beanNames) {
             getCxfEndpointPaths(context.getBean(beanName, JAXRSServerFactoryBean.class), contextPath);
         }
-        // 存储权限信息
-        storePermission(event);
+        try {
+            // 存储权限信息
+            storePermission(event);
+        } catch (Exception e) {
+            LOGGER.error("RCMS api services store apis error.");
+            e.printStackTrace();
+        }
     }
 
     private void storePermission(ContextRefreshedEvent event) {
@@ -152,9 +157,9 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             authSettingService.createApiPaths(dbNotExistApiList);
         }
         // 清理已删除接口
-        // authSettingService.deleteApiPathsNotInList(apiPathSet);
+        authSettingService.deleteApiPathsNotInList(apiPathSet);
         // 清理不存在的授权关系
-        // authSettingService.deleteApisRelationAuth();
+        authSettingService.deleteApisRelationAuth();
     }
 
 }
