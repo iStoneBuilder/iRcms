@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.inject.Inject;
 import org.apache.cxf.common.util.StringUtils;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.model.ClassResourceInfo;
 import org.apache.cxf.jaxrs.model.OperationResourceInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -40,7 +40,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
     // 接口路径集合
     private static final Set<String> apiPathSet = new HashSet<>();
 
-    @Inject
+    @Autowired
     private static IAuthSettingService authSettingService;
 
     private static void buildPermission(OperationResourceInfo operationResource, AuthApisVO AuthApisVO) {
@@ -102,11 +102,11 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
                 String methodPath = operationResource.getURITemplate().getValue();
                 String apiPath = buildApiPath(contextPath + "/services", endpointPath, servicePath, methodPath);
                 AuthApisVO.setApiPath(apiPath);
-                apiPathSet.add(apiPath);
                 AuthApisVO.setApiType(apiPath.contains("/services/rcms/") ? "system" : "business");
                 // 获取是否需要权限验证
                 buildPermission(operationResource, AuthApisVO);
                 LOGGER.info("RCMS api info : {}", JSON.toJSONString(AuthApisVO));
+                apiPathSet.add(operationResource.getHttpMethod() + "_" + apiPath);
                 currentApiList.add(AuthApisVO);
             }
         }
@@ -129,6 +129,8 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
     }
 
     private void storePermission() {
+        LOGGER.info("RCMS api services scan end.apiPathSet:{},currentApiList:  {}", apiPathSet.size(),
+            currentApiList.size());
         // 根据路径判断数据库是否存在（接口路径唯一）
         List<AuthApisVO> dbExistApis = authSettingService.findApiPathsByPaths(apiPathSet);
         List<AuthApisVO> dbNotExistApiList = new ArrayList<>();

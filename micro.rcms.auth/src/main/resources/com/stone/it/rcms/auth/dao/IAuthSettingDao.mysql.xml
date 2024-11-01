@@ -33,7 +33,7 @@
   <select id="findApiPathsByPaths" resultType="com.stone.it.rcms.auth.vo.AuthApisVO">
     select auth_code as authCode,api_name as apiName,api_path as apiPath,api_method as
     apiMethod,api_type as apiType
-    from tpl_permission_t where api_path in
+    from tpl_permission_t where CONCAT_WS('_', api_method, api_path) in
     <foreach close=")" collection="list" item="item" open="(" separator=",">
       #{item}
     </foreach>

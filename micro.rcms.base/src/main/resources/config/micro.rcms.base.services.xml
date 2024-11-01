@@ -22,6 +22,7 @@
       <ref bean="itemService"/>
       <ref bean="roleService"/>
       <ref bean="userService"/>
+      <ref bean="enterpriseService"/>
     </jaxrs:serviceBeans>
   </jaxrs:server>
 
