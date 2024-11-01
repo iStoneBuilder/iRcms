@@ -9,42 +9,51 @@ import java.util.Date;
  */
 public class BaseVO implements Serializable {
 
-  static final long serialVersionUID = 1L;
+    static final long serialVersionUID = 1L;
 
-  private String createBy;
-  private String updateBy;
-  private Date createDate;
-  private Date updateDate;
+    private String enterpriseId;
+    private String createBy;
+    private String updateBy;
+    private Date createDate;
+    private Date updateDate;
 
-  public String getCreateBy() {
-    return createBy;
-  }
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
 
-  public void setCreateBy(String createBy) {
-    this.createBy = createBy;
-  }
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
 
-  public String getUpdateBy() {
-    return updateBy;
-  }
+    public String getCreateBy() {
+        return createBy;
+    }
 
-  public void setUpdateBy(String updateBy) {
-    this.updateBy = updateBy;
-  }
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
 
-  public Date getCreateDate() {
-    return createDate;
-  }
+    public String getUpdateBy() {
+        return updateBy;
+    }
 
-  public void setCreateDate(Date createDate) {
-    this.createDate = createDate;
-  }
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
 
-  public Date getUpdateDate() {
-    return updateDate;
-  }
+    public Date getCreateDate() {
+        return createDate;
+    }
 
-  public void setUpdateDate(Date updateDate) {
-    this.updateDate = updateDate;
-  }
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
 }

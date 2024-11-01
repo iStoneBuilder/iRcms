@@ -55,16 +55,6 @@
       <groupId>org.apache.cxf</groupId>
       <version>${cxf.core.jaxrs}</version>
     </dependency>
-    <!--    <dependency>-->
-    <!--      <groupId>org.apache.shiro</groupId>-->
-    <!--      <artifactId>shiro-servlet-plugin</artifactId>-->
-    <!--      <version>2.0.1</version>-->
-    <!--    </dependency>-->
-    <!--    <dependency>-->
-    <!--      <groupId>org.apache.shiro</groupId>-->
-    <!--      <artifactId>shiro-jaxrs</artifactId>-->
-    <!--      <version>2.0.1</version>-->
-    <!--    </dependency>-->
     <dependency>
       <artifactId>shiro-spring-boot-web-starter</artifactId>
       <groupId>org.apache.shiro</groupId>
