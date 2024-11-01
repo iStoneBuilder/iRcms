@@ -40,7 +40,7 @@
     account_name as accountName,
     account_type as accountType,
     password as password,
-    account_role as accountRoles
+    account_roles as accountRoles
     FROM
     tpl_account_t
     WHERE

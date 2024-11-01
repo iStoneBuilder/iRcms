@@ -22,7 +22,7 @@ public interface IAuthSettingDao {
 
     void deleteApisRelationAuth();
 
-    AccountVO getUserInfoByUserId(@Param("userCode") String accountCode);
+    AccountVO getUserInfoByUserId(@Param("accountCode") String accountCode);
 
     List<AuthApisVO> getApiPathByRoleCodes(@Param("list") List<String> list);
 }
