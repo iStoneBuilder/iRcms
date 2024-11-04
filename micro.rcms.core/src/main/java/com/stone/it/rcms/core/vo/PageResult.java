@@ -11,11 +11,6 @@ import java.util.List;
 public final class PageResult<T> implements Serializable {
 
     private static final long serialVersionUID = -3422814987475041137L;
-
-    private int code = 200;
-
-    private String message = "success";
-
     /**
      * 分页信息
      */
@@ -28,22 +23,6 @@ public final class PageResult<T> implements Serializable {
     public PageResult(PageVO meta, List<T> data) {
         this.meta = meta;
         this.data = data;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public PageVO getMeta() {

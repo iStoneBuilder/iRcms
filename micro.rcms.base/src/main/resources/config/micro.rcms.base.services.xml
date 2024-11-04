@@ -11,7 +11,7 @@
       <ref bean="jwtTokenInInterceptor"/>
     </jaxrs:inInterceptors>
     <jaxrs:outInterceptors>
-      <ref bean="jwtTokenOutInterceptor"/>
+      <ref bean="responseOutInterceptor"/>
     </jaxrs:outInterceptors>
     <jaxrs:providers>
       <ref bean="jsonProvider"/>

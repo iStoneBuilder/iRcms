@@ -12,8 +12,8 @@
   <bean class="com.stone.it.rcms.core.interceptor.JwtTokenInInterceptor"
     id="jwtTokenInInterceptor"/>
 
-  <bean class="com.stone.it.rcms.core.interceptor.JwtTokenOutInterceptor"
-    id="jwtTokenOutInterceptor"/>
+  <bean class="com.stone.it.rcms.core.interceptor.ResponseOutInterceptor"
+    id="responseOutInterceptor"/>
 
   <bean class="com.stone.it.rcms.core.exception.RcmsExceptionProvider" id="exceptionProvider"/>
 
