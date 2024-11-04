@@ -9,23 +9,23 @@ import java.util.Date;
  */
 public class DateUtil {
 
-  private static final String format = "yyyyMMddhhmmssSSS";
+    private static final String format = "yyyyMMddhhmmssSSS";
 
-  static String getYearMonthDay() {
-    return getYearMonthDay(new Date());
-  }
+    public static String formatDate() {
+        return formatDate(new Date());
+    }
 
-  static String getYearMonthDay(Date date) {
-    return getYearMonthDay(date, format);
-  }
+    public static String formatDate(Date date) {
+        return formatDate(date, format);
+    }
 
-  static String getYearMonthDay(String format) {
-    return getYearMonthDay(new Date(), format);
-  }
+    public static String formatDate(String format) {
+        return formatDate(new Date(), format);
+    }
 
-  static String getYearMonthDay(Date date, String format) {
-    DateFormat formatter = new SimpleDateFormat(format);
-    return formatter.format(date);
-  }
+    public static String formatDate(Date date, String format) {
+        DateFormat formatter = new SimpleDateFormat(format);
+        return formatter.format(date);
+    }
 
 }

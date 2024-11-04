@@ -19,5 +19,5 @@ public class LoginResVO {
     private ArrayList<String> permissions;
     private String accessToken;
     private String refreshToken;
-    private Date expires;
+    private String expires;
 }

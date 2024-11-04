@@ -8,6 +8,7 @@ import com.stone.it.rcms.auth.vo.AccountVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.auth.vo.LoginResVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
+import com.stone.it.rcms.core.util.DateUtil;
 import com.stone.it.rcms.core.util.JwtUtils;
 import com.stone.it.rcms.core.util.ResponseUtil;
 import java.util.ArrayList;
@@ -53,7 +54,12 @@ public class AuthLoginService implements IAuthLoginService {
         ArrayList<String> roleList = new ArrayList<>();
         Collections.addAll(roleList, roles);
         loginResVO.setRoles(roleList);
-        loginResVO.setExpires(loginInfo.getDate("expireTime"));
+        ArrayList<String> permissions = new ArrayList<String>();
+        if (accountVO.getAccountRoles().contains("platformAdmin")) {
+            permissions.add("*:*:*");
+        }
+        loginResVO.setPermissions(permissions);
+        loginResVO.setExpires(DateUtil.formatDate(loginInfo.getDate("expireTime"), "yyyy-MM-dd HH:mm:ss"));
         return loginResVO;
     }
 
