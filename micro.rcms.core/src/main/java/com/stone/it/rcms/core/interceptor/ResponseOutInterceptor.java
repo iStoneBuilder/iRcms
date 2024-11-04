@@ -1,9 +1,12 @@
 package com.stone.it.rcms.core.interceptor;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
@@ -29,7 +32,7 @@ public class ResponseOutInterceptor extends AbstractPhaseInterceptor<Message> {
 
     @Override
     public void handleMessage(Message message) throws Fault {
-        LOGGER.info("CXF Interceptor Out ........");
+        LOGGER.info("ResponseOutInterceptor ........");
         // 获取响应输出流
         OutputStream os = message.getContent(OutputStream.class);
         if (os != null) {
@@ -40,7 +43,6 @@ public class ResponseOutInterceptor extends AbstractPhaseInterceptor<Message> {
             message.getInterceptorChain().doIntercept(message);
             // 获取原始响应内容
             String originalResponse = baos.toString();
-            LOGGER.info("Original Response: {}", originalResponse);
             // 将修改后的内容写回输出流
             try {
                 JSONObject responseJson = new JSONObject();
