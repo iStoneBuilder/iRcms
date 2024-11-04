@@ -1,6 +1,7 @@
 package com.stone.it.rcms.auth.vo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import lombok.Data;
 
 /**
@@ -18,5 +19,5 @@ public class LoginResVO {
     private ArrayList<String> permissions;
     private String accessToken;
     private String refreshToken;
-    private Data expires;
+    private Date expires;
 }

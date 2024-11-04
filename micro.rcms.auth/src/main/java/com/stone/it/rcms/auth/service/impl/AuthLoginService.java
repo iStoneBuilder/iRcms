@@ -1,13 +1,18 @@
 package com.stone.it.rcms.auth.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.auth.service.IAuthLoginService;
 import com.stone.it.rcms.auth.service.IAuthSettingService;
 import com.stone.it.rcms.auth.vo.AccountVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
+import com.stone.it.rcms.auth.vo.LoginResVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.util.JwtUtils;
 import com.stone.it.rcms.core.util.ResponseUtil;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
@@ -15,6 +20,7 @@ import javax.inject.Named;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -35,10 +41,20 @@ public class AuthLoginService implements IAuthLoginService {
     private IAuthSettingService authSettingService;
 
     @Override
-    public JSONObject userLogin(AuthUserVO userVO) {
-        boolean login = subjectLogin(userVO);
-        return ResponseUtil.responseBuild(login ? HttpStatus.SC_OK : HttpStatus.SC_INTERNAL_SERVER_ERROR,
-            login ? "登录成功！" : "登录失败！");
+    public LoginResVO userLogin(AuthUserVO userVO) {
+        JSONObject loginInfo = subjectLogin(userVO, "account");
+        LoginResVO loginResVO = new LoginResVO();
+        loginResVO.setAccessToken(loginInfo.getString("accessToken"));
+        loginResVO.setRefreshToken(loginInfo.getString("refreshToken"));
+        AccountVO accountVO = JSON.toJavaObject(loginInfo.getJSONObject("userInfo"), AccountVO.class);
+        loginResVO.setUsername(accountVO.getAccountCode());
+        loginResVO.setNickname(accountVO.getAccountName());
+        String[] roles = (accountVO.getAccountRoles()).split(",");
+        ArrayList<String> roleList = new ArrayList<>();
+        Collections.addAll(roleList, roles);
+        loginResVO.setRoles(roleList);
+        loginResVO.setExpires(loginInfo.getDate("expireTime"));
+        return loginResVO;
     }
 
     @Override
@@ -68,22 +84,45 @@ public class AuthLoginService implements IAuthLoginService {
         }
     }
 
-    private boolean subjectLogin(AuthUserVO userVO) {
+    private JSONObject subjectLogin(AuthUserVO userVO, String type) {
         // 查询数据库用户信息
         AccountVO dbUser = authSettingService.getUserInfoByUserId(userVO.getUserId());
         if (dbUser == null) {
-            throw new RcmsApplicationException(500, "用户账号/密码错误！");
+            throw new RcmsApplicationException(500, "账号/密码错误！");
         }
         if (!dbUser.getPassword().equals(userVO.getPassword())) {
-            throw new RcmsApplicationException(500, "用户账号/密码错误！");
+            throw new RcmsApplicationException(500, "账号/密码错误！");
         }
+        if (!dbUser.getAccountType().equals(type)) {
+            throw new RcmsApplicationException(500, "账号/密码错误！");
+        }
+        JSONObject result = new JSONObject();
         Subject subject = SecurityUtils.getSubject();
         Map<String, String> user = new HashMap<>();
         user.put("userId", dbUser.getAccountCode());
         user.put("password", dbUser.getPassword());
-        user.put("type", "user");
-        UsernamePasswordToken token = new UsernamePasswordToken(userVO.getUserId(), JwtUtils.generateToken(user, null));
-        subject.login(token);
-        return true;
+        user.put("type", type);
+        user.put("sessionId", getSessionId(subject));
+        Calendar instance = JwtUtils.getExpireTime(type.equals("account") ? 60 * 5 * 1000 : 60 * 30 * 1000);
+        String token = JwtUtils.generateToken(user, instance);
+        result.put("refreshToken", JwtUtils.generateToken(user, JwtUtils.getExpireTime(60 * 6 * 1000)));
+        subject.login(new UsernamePasswordToken(userVO.getUserId(), token));
+        result.put("accessToken", token);
+        result.put("userInfo", dbUser);
+        result.put("expireTime", instance.getTime());
+        return result;
+    }
+
+    private String getSessionId(Subject subject) {
+        // 如果当前Subject已经认证，即已经有会话
+        if (subject.isAuthenticated()) {
+            // 获取当前会话
+            Session session = subject.getSession(false);
+            if (session != null) {
+                // 获取会话ID
+                return (String)session.getId();
+            }
+        }
+        return null;
     }
 }

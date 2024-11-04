@@ -39,7 +39,7 @@ public class RcmsExceptionProvider implements ExceptionMapper<Exception> {
         }
         // 未知异常
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-            .entity(ResponseUtil.responseBuild(500, "Internal Server Error", exception.getMessage()))
-            .type("application/json").build();
+            .entity(ResponseUtil.responseBuild(500, "System Error", exception.getMessage())).type("application/json")
+            .build();
     }
 }
