@@ -28,7 +28,7 @@ public class JwtUtils {
      * @return 返回生成的JWT令牌字符串
      */
     public static String generateToken(Map<String, String> map) {
-        return generateToken(map, 60 * 30 * 1000);
+        return generateToken(map, 60 * 30);
     }
 
     public static String generateToken(Map<String, String> map, int expireTime) {

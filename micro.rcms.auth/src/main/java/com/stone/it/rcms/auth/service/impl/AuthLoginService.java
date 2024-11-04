@@ -109,9 +109,9 @@ public class AuthLoginService implements IAuthLoginService {
         user.put("password", dbUser.getPassword());
         user.put("type", type);
         user.put("sessionId", getSessionId(subject));
-        Calendar instance = JwtUtils.getExpireTime(type.equals("account") ? 60 * 5 * 1000 : 60 * 30 * 1000);
+        Calendar instance = JwtUtils.getExpireTime(type.equals("account") ? 60 * 5 : 60 * 30);
         String token = JwtUtils.generateToken(user, instance);
-        result.put("refreshToken", JwtUtils.generateToken(user, JwtUtils.getExpireTime(60 * 6 * 1000)));
+        result.put("refreshToken", JwtUtils.generateToken(user, JwtUtils.getExpireTime(60 * 6)));
         subject.login(new UsernamePasswordToken(userVO.getUserId(), token));
         result.put("accessToken", token);
         result.put("userInfo", dbUser);
