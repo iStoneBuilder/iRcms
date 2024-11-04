@@ -1,6 +1,5 @@
 package com.stone.it.rcms.core.exception;
 
-import com.stone.it.rcms.core.interceptor.JwtTokenOutInterceptor;
 import com.stone.it.rcms.core.util.ResponseUtil;
 import java.util.Arrays;
 import javax.ws.rs.core.Response;
@@ -16,9 +15,9 @@ import org.slf4j.LoggerFactory;
  * @Desc
  */
 @Provider
-public class RcmsExceptionMapper implements ExceptionMapper<Exception> {
+public class RcmsExceptionProvider implements ExceptionMapper<Exception> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RcmsExceptionMapper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RcmsExceptionProvider.class);
 
     @Override
     public Response toResponse(Exception exception) {
