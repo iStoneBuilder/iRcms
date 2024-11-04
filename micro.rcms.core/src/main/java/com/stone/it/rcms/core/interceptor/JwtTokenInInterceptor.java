@@ -45,17 +45,8 @@ public class JwtTokenInInterceptor extends AbstractPhaseInterceptor<Message> {
                 throw new RcmsApplicationException(401, verify.get("msg").toString());
             } else {
                 // 转化为账号登录
-                Map<String, Object> accountInfo = JwtUtils.getTokenInfo(token.get(0).toString());
-                Subject subject = SecurityUtils.getSubject();
-
-                Map<String, String> account = new HashMap<>();
-                account.put("userId", accountInfo.get("appId").toString());
-                account.put("password", accountInfo.get("secret").toString());
-                account.put("type", "app");
-
-                UsernamePasswordToken upToken = new UsernamePasswordToken(accountInfo.get("appId").toString(),
-                    JwtUtils.generateToken(account, null));
-                subject.login(upToken);
+                Map<String, String> accountInfo = JwtUtils.getTokenInfo(token.get(0).toString());
+                LOGGER.info("accountInfo:{}", accountInfo);
             }
         }
     }

@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.auth.service.IAuthLoginService;
 import com.stone.it.rcms.auth.service.IAuthSettingService;
 import com.stone.it.rcms.auth.vo.AccountVO;
+import com.stone.it.rcms.auth.vo.AppSecretVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.auth.vo.LoginResVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
@@ -14,6 +15,7 @@ import com.stone.it.rcms.core.util.ResponseUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
@@ -64,12 +66,18 @@ public class AuthLoginService implements IAuthLoginService {
     }
 
     @Override
-    public JSONObject userToken(AccountVO accountVO) {
-        Map<String, String> map = new java.util.HashMap<>();
-        map.put("appId", accountVO.getAccountCode());
-        map.put("secret", accountVO.getPassword());
-        String token = JwtUtils.generateToken(map);
-        return ResponseUtil.responseBuild(new JSONObject().fluentPut("Authorization", token));
+    public JSONObject appToken(AppSecretVO appSecretVO) {
+        AuthUserVO authUserVO = new AuthUserVO();
+        authUserVO.setUserId(appSecretVO.getAppId());
+        authUserVO.setPassword(appSecretVO.getSecret());
+        JSONObject subJson = subjectLogin(authUserVO, "app");
+        JSONObject result = new JSONObject();
+        Map<String, String> info = JwtUtils.getTokenInfo(subJson.getString("accessToken"));
+        long exp = Long.valueOf(info.get("exp"));
+        info.put("sessionId", result.getString("sessionId"));
+        info.remove("exp");
+        result.put("Authorization", JwtUtils.generateTokenDate(info, new Date(exp)));
+        return result;
     }
 
     @Override
@@ -108,11 +116,11 @@ public class AuthLoginService implements IAuthLoginService {
         user.put("userId", dbUser.getAccountCode());
         user.put("password", dbUser.getPassword());
         user.put("type", type);
-        user.put("sessionId", getSessionId(subject));
         Calendar instance = JwtUtils.getExpireTime(type.equals("account") ? 60 * 5 : 60 * 30);
         String token = JwtUtils.generateToken(user, instance);
         result.put("refreshToken", JwtUtils.generateToken(user, JwtUtils.getExpireTime(60 * 6)));
         subject.login(new UsernamePasswordToken(userVO.getUserId(), token));
+        result.put("sessionId", getSessionId(subject));
         result.put("accessToken", token);
         result.put("userInfo", dbUser);
         result.put("expireTime", instance.getTime());

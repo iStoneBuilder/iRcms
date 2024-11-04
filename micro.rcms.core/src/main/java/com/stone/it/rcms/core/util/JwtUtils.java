@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +45,12 @@ public class JwtUtils {
         return instance;
     }
 
+    public static String generateTokenDate(Map<String, String> info, Date date) {
+        Calendar instance = Calendar.getInstance();
+        instance.setTime(date);
+        return generateToken(info, instance);
+    }
+
     public static String generateToken(Map<String, String> map, Calendar instance) {
         // 创建JWT构建器
         JWTCreator.Builder builder = JWT.create();
@@ -60,13 +67,13 @@ public class JwtUtils {
      *
      * @param token JWT令牌字符串
      */
-    public static Map<String, Object> getTokenInfo(String token) {
+    public static Map<String, String> getTokenInfo(String token) {
         // 验证token是否有效
-        Map<String, Object> infoMap = new HashMap<>();
+        Map<String, String> infoMap = new HashMap<>();
         DecodedJWT verify = JWT.require(Algorithm.HMAC256(SING)).build().verify(token);
         verify.getClaims().forEach((k, v) -> infoMap.put(k, v.asString()));
         if (verify.getExpiresAt() != null) {
-            infoMap.put("exp", verify.getExpiresAt());
+            infoMap.put("exp", verify.getExpiresAt().getTime() + "");
         }
         return infoMap;
     }
