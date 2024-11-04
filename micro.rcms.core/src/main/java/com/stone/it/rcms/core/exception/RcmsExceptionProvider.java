@@ -25,7 +25,7 @@ public class RcmsExceptionProvider implements ExceptionMapper<Exception> {
         String name = exception.getClass().getName().replace(exception.getClass().getPackageName() + ".", "");
         // 匹配枚举类型异常
         if (Arrays.stream(RcmsExceptionEnum.values()).anyMatch(e -> e.name().equals(name))) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+            return Response.status(RcmsExceptionEnum.valueOf(name).getCode())
                 .entity(ResponseUtil.responseBuild(RcmsExceptionEnum.valueOf(name).getCode(),
                     RcmsExceptionEnum.valueOf(name).getMessage(), exception.getMessage()))
                 .type("application/json").build();
