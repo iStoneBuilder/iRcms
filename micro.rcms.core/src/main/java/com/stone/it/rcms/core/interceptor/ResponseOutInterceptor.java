@@ -1,5 +1,6 @@
 package com.stone.it.rcms.core.interceptor;
 
+import com.alibaba.fastjson2.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -32,23 +33,38 @@ public class ResponseOutInterceptor extends AbstractPhaseInterceptor<Message> {
         // 获取响应输出流
         OutputStream os = message.getContent(OutputStream.class);
         if (os != null) {
-            // 创建一个新的输出流来捕获响应内容
+            // 创建一个新输出流来捕获响应内容
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             message.setContent(OutputStream.class, baos);
-
             // 继续处理消息
             message.getInterceptorChain().doIntercept(message);
-
             // 获取原始响应内容
             String originalResponse = baos.toString();
-
             LOGGER.info("Original Response: {}", originalResponse);
-
             // 将修改后的内容写回输出流
             try {
-                os.write(originalResponse.getBytes());
+                JSONObject responseJson = new JSONObject();
+                JSONObject originalResJson = JSONObject.parseObject(originalResponse);
+                if (originalResJson.containsKey("code")) {
+                    int code = originalResJson.getIntValue("code");
+                    if (code == 200) {
+                        responseJson.put("success", true);
+                    } else {
+                        responseJson.put("success", false);
+                    }
+                } else {
+                    responseJson.put("success", true);
+                }
+                responseJson.put("data", originalResJson);
+                os.write(JSONObject.toJSONString(responseJson).getBytes());
             } catch (IOException e) {
                 throw new Fault(e);
+            } finally {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
