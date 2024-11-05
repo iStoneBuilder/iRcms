@@ -1,7 +1,13 @@
-package com.stone.it.rcms.core.exception;
+package com.stone.it.rcms.core.provider;
 
+import com.stone.it.rcms.core.exception.RcmsApplicationException;
+import com.stone.it.rcms.core.exception.RcmsExceptionEnum;
 import com.stone.it.rcms.core.util.ResponseUtil;
+import java.io.IOException;
 import java.util.Arrays;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -15,10 +21,16 @@ import org.slf4j.LoggerFactory;
  * @Desc
  */
 @Provider
-public class RcmsExceptionProvider implements ExceptionMapper<Exception> {
+public class RcmsCoreProvider implements ExceptionMapper<Exception>, ContainerResponseFilter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RcmsExceptionProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RcmsCoreProvider.class);
 
+    /**
+     * 拦截所有异常，并转换为自定义的异常类型
+     *
+     * @param exception the exception to map to a response.
+     * @return
+     */
     @Override
     public Response toResponse(Exception exception) {
         LOGGER.error("Exception occurred: ", exception);
@@ -41,5 +53,21 @@ public class RcmsExceptionProvider implements ExceptionMapper<Exception> {
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
             .entity(ResponseUtil.responseBuild(500, "System Error", exception.getMessage())).type("application/json")
             .build();
+    }
+
+    /**
+     * 自定义响应过滤器，添加自定义的Header
+     *
+     * @param requestContext the request context.
+     * @param responseContext the response context.
+     * @throws IOException if an I/O error occurs.
+     */
+
+    @Override
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
+        throws IOException {
+        LOGGER.info("Request: {}, Response: {}", responseContext.getHeaders().toString());
+        responseContext.getHeaders().add("Custom-Header", "HeaderValue");
+        responseContext.getHeaders().remove("Set-Cookie");
     }
 }

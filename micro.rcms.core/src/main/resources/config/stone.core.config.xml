@@ -15,7 +15,7 @@
   <bean class="com.stone.it.rcms.core.interceptor.ResponseOutInterceptor"
     id="responseOutInterceptor"/>
 
-  <bean class="com.stone.it.rcms.core.exception.RcmsExceptionProvider" id="exceptionProvider"/>
+  <bean class="com.stone.it.rcms.core.provider.RcmsCoreProvider" id="rcmsCoreProvider"/>
 
   <!-- 开启组件扫描，自动发现和注册其他的Spring Bean -->
   <context:component-scan base-package="com.stone.it"/>

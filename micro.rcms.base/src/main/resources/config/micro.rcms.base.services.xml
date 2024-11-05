@@ -15,7 +15,7 @@
     </jaxrs:outInterceptors>
     <jaxrs:providers>
       <ref bean="jsonProvider"/>
-      <ref bean="exceptionProvider"/>
+      <ref bean="rcmsCoreProvider"/>
     </jaxrs:providers>
     <jaxrs:serviceBeans>
       <ref bean="i18nService"/>
