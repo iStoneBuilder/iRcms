@@ -31,9 +31,6 @@ public class ResponseBodyInterceptor extends AbstractPhaseInterceptor<Message> {
     @Override
     public void handleMessage(Message message) throws Fault {
         LOGGER.info("Response Body Interceptor ........");
-        // 动态添加第二个拦截器
-        InterceptorChain chain = message.getInterceptorChain();
-        chain.add(new ResponseHeaderInterceptor());
 
         // 获取响应输出流
         OutputStream os = message.getContent(OutputStream.class);
