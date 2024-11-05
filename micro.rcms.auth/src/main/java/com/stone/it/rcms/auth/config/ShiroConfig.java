@@ -1,5 +1,6 @@
 package com.stone.it.rcms.auth.config;
 
+import com.stone.it.rcms.auth.manager.RcmsWebSessionManager;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -99,6 +101,13 @@ public class ShiroConfig {
         ModularRealmAuthenticator modularRealmAuthenticator = new ModularRealmAuthenticator();
         modularRealmAuthenticator.setAuthenticationStrategy(new FirstSuccessfulStrategy());
         securityManager.setRealm(userRealm());
+        // 修改web环境下的默认sessionManager
+        DefaultWebSessionManager sessionManager = new RcmsWebSessionManager();
+        // 60分钟(此设置会覆盖容器（tomcat）的会话过期时间设置)
+        sessionManager.setGlobalSessionTimeout(60 * 60 * 1000);
+        securityManager.setSessionManager(sessionManager);
+        // 禁用cookie来存sessionID(我们这里不用禁用，如果不传Token，则会使用原方式认证)
+        // sessionManager.setSessionIdCookieEnabled(false);
         return securityManager;
     }
 
