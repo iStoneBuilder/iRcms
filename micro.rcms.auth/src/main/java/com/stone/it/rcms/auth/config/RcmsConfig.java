@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RcmsConfig {
     @Bean
-    public FilterRegistrationBean<HeaderFilter> removeSetCookieFilter() {
+    public FilterRegistrationBean<HeaderFilter> headerFilter() {
         FilterRegistrationBean<HeaderFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new HeaderFilter());
         registrationBean.addUrlPatterns("/*"); // 适用于所有请求
