@@ -38,7 +38,7 @@ public class UserRealm extends AuthorizingRealm {
     private CacheService cacheService;
 
     /**
-     * 授权认证
+     * 授权认证（生成Token会进入此方法）
      * 
      * @param authenticationToken
      * @return
@@ -60,7 +60,7 @@ public class UserRealm extends AuthorizingRealm {
     }
 
     /**
-     * 获取用户角色和权限信息
+     * 获取用户角色和权限信息(接口需要权限认证时进入此方法)
      * 
      * @param principalCollection
      * @return
