@@ -3,11 +3,7 @@ package com.stone.it.rcms.core.provider;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.exception.RcmsExceptionEnum;
 import com.stone.it.rcms.core.util.ResponseUtil;
-import java.io.IOException;
 import java.util.Arrays;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -21,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * @Desc
  */
 @Provider
-public class RcmsCoreProvider implements ExceptionMapper<Exception>, ContainerResponseFilter {
+public class RcmsCoreProvider implements ExceptionMapper<Exception> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RcmsCoreProvider.class);
 
@@ -55,17 +51,4 @@ public class RcmsCoreProvider implements ExceptionMapper<Exception>, ContainerRe
             .build();
     }
 
-    /**
-     * 自定义响应过滤器，添加自定义的Header
-     *
-     * @param requestContext the request context.
-     * @param responseContext the response context.
-     * @throws IOException if an I/O error occurs.
-     */
-
-    @Override
-    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
-        throws IOException {
-        LOGGER.info("filter: responseContext: {}", responseContext.getHeaders());
-    }
 }

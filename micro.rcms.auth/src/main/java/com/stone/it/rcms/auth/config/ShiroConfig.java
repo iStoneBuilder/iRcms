@@ -104,7 +104,7 @@ public class ShiroConfig {
         sessionManager.setGlobalSessionTimeout(60 * 60 * 1000);
         securityManager.setSessionManager(sessionManager);
         // 禁用cookie来存sessionID(我们这里不用禁用，如果不传Token，则会使用原方式认证)
-        // sessionManager.setSessionIdCookieEnabled(false);
+        sessionManager.setSessionIdCookieEnabled(false);
         return securityManager;
     }
 
