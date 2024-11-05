@@ -65,9 +65,5 @@ public class RcmsCoreProvider implements ExceptionMapper<Exception>, ContainerRe
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
-        throws IOException {
-        LOGGER.info("Request: {}, Response: {}", responseContext.getHeaders().toString());
-        responseContext.getHeaders().add("Custom-Header", "HeaderValue");
-        responseContext.getHeaders().remove("Set-Cookie");
-    }
+        throws IOException {}
 }
