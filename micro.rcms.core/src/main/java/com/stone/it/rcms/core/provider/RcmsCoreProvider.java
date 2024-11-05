@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * @Desc
  */
 @Provider
-public class RcmsCoreProvider implements ExceptionMapper<Exception> {
+public class RcmsCoreProvider implements ExceptionMapper<Throwable> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RcmsCoreProvider.class);
 
@@ -28,7 +28,7 @@ public class RcmsCoreProvider implements ExceptionMapper<Exception> {
      * @return
      */
     @Override
-    public Response toResponse(Exception exception) {
+    public Response toResponse(Throwable exception) {
         LOGGER.error("Exception occurred: ", exception);
         String name = exception.getClass().getName().replace(exception.getClass().getPackageName() + ".", "");
         // 匹配枚举类型异常
