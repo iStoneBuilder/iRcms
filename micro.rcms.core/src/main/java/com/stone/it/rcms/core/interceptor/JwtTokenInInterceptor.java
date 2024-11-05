@@ -47,6 +47,9 @@ public class JwtTokenInInterceptor extends AbstractPhaseInterceptor<Message> {
                 // 转化为账号登录
                 Map<String, String> accountInfo = JwtUtils.getTokenInfo(token.get(0).toString());
                 LOGGER.info("accountInfo:{}", accountInfo);
+                if (accountInfo.containsKey("sessionId")) {
+
+                }
             }
         }
     }

@@ -74,7 +74,7 @@ public class AuthLoginService implements IAuthLoginService {
         JSONObject result = new JSONObject();
         Map<String, String> info = JwtUtils.getTokenInfo(subJson.getString("accessToken"));
         long exp = Long.valueOf(info.get("exp"));
-        info.put("sessionId", result.getString("sessionId"));
+        info.put("sessionId", subJson.getString("sessionId"));
         info.remove("exp");
         result.put("Authorization", JwtUtils.generateTokenDate(info, new Date(exp)));
         return result;
