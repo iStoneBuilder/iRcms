@@ -47,7 +47,6 @@ public class ShiroConfig {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         // 给filter设置安全管理
         factoryBean.setSecurityManager(securityManager);
-        // 配置系统的受限资源
         Map<String, String> map = new LinkedHashMap<>();
         // 登录请求无需认证
         if (anonPaths != null && anonPaths.size() > 0) {
@@ -68,8 +67,6 @@ public class ShiroConfig {
         for (String path : AUTHC_PATHS) {
             map.put(path, "authc");
         }
-        factoryBean.setFilterChainDefinitionMap(map);
-
         return factoryBean;
     }
 
