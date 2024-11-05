@@ -1,13 +1,11 @@
 package com.stone.it.rcms.core.interceptor;
 
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
 import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.interceptor.InterceptorChain;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
@@ -21,18 +19,22 @@ import org.slf4j.LoggerFactory;
  * @Description TODO
  * @Version 1.0
  */
-public class ResponseOutInterceptor extends AbstractPhaseInterceptor<Message> {
+public class ResponseBodyInterceptor extends AbstractPhaseInterceptor<Message> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ResponseOutInterceptor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResponseBodyInterceptor.class);
 
-    public ResponseOutInterceptor() {
+    public ResponseBodyInterceptor() {
         // 这儿使用pre_stream，意思为在流关闭之前
         super(Phase.PRE_STREAM);
     }
 
     @Override
     public void handleMessage(Message message) throws Fault {
-        LOGGER.info("ResponseOutInterceptor ........");
+        LOGGER.info("Response Body Interceptor ........");
+        // 动态添加第二个拦截器
+        InterceptorChain chain = message.getInterceptorChain();
+        chain.add(new ResponseHeaderInterceptor());
+
         // 获取响应输出流
         OutputStream os = message.getContent(OutputStream.class);
         if (os != null) {

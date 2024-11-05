@@ -12,7 +12,7 @@
   <bean class="com.stone.it.rcms.core.interceptor.JwtTokenInInterceptor"
     id="jwtTokenInInterceptor"/>
 
-  <bean class="com.stone.it.rcms.core.interceptor.ResponseOutInterceptor"
+  <bean class="com.stone.it.rcms.core.interceptor.ResponseBodyInterceptor"
     id="responseOutInterceptor"/>
 
   <bean class="com.stone.it.rcms.core.provider.RcmsCoreProvider" id="rcmsCoreProvider"/>
