@@ -40,6 +40,8 @@ public class JwtTokenInInterceptor extends AbstractPhaseInterceptor<Message> {
                 // Token 校验失败
                 throw new RcmsApplicationException(401, "请求认证已失效", verify.get("msg"));
             }
+        } else {
+            throw new RcmsApplicationException(401, "请求认证已失效", "未传递Authorization");
         }
     }
 }
