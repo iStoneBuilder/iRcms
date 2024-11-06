@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `tpl_enterprise_t`(
     `phone`    int(11)  COMMENT '电话',
     `remark`    VARCHAR(100) COMMENT '备注',
     `sort`        INT(11) NOT NULL COMMENT '排序',
-    `status`    VARCHAR(4) NOT NULL COMMENT '状态Y/N',
+    `status`    int(4) NOT NULL COMMENT '状态0/1',
     `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
     `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,

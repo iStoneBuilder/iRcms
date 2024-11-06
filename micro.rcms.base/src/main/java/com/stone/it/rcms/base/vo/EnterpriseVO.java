@@ -22,6 +22,6 @@ public class EnterpriseVO extends BaseVO {
     // '企业类型:platform/enterprise/merchant'
     private String type;
     private int sort;
-    private String status;
+    private int status;
 
 }
