@@ -20,12 +20,12 @@ public @interface RcmsMethod {
     /**
      * 方法名，不设置时使用接口方法名
      */
-    String name();
+    String[] name();
 
     /**
      * 是否为openApi N（默认）：不为openApi Y：为openApi
      */
-    String type() default "";
+    String[] type() default "";
 
 }
 

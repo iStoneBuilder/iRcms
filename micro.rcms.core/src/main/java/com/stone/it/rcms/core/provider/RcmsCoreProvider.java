@@ -1,5 +1,6 @@
 package com.stone.it.rcms.core.provider;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.exception.RcmsExceptionEnum;
 import com.stone.it.rcms.core.util.ResponseUtil;
@@ -31,24 +32,25 @@ public class RcmsCoreProvider implements ExceptionMapper<Throwable> {
     public Response toResponse(Throwable exception) {
         LOGGER.error("Exception occurred: ", exception);
         String name = exception.getClass().getName().replace(exception.getClass().getPackageName() + ".", "");
+        JSONObject response;
         // 匹配枚举类型异常
         if (Arrays.stream(RcmsExceptionEnum.values()).anyMatch(e -> e.name().equals(name))) {
+            response = ResponseUtil.responseBuild(RcmsExceptionEnum.valueOf(name).getCode(),
+                RcmsExceptionEnum.valueOf(name).getMessage(), exception.getMessage());
             return Response.status(RcmsExceptionEnum.valueOf(name).getCode())
-                .entity(ResponseUtil.responseBuild(RcmsExceptionEnum.valueOf(name).getCode(),
-                    RcmsExceptionEnum.valueOf(name).getMessage(), exception.getMessage()))
-                .type("application/json").build();
+                .entity(ResponseUtil.response(false, response)).type("application/json").build();
         }
         // 匹配自定义异常
         if (name.equals("RcmsApplicationException")) {
             RcmsApplicationException rae = (RcmsApplicationException)exception;
-            return Response.status(rae.getCode())
-                .entity(ResponseUtil.responseBuild(rae.getCode(), rae.getMessage(), rae.getMessage()))
+            response = ResponseUtil.responseBuild(rae.getCode(), rae.getMessage(), rae.getError().toString());
+            return Response.status(rae.getCode()).entity(ResponseUtil.response(false, response))
                 .type("application/json").build();
         }
+        response = ResponseUtil.responseBuild(500, "System Error", exception.getMessage());
         // 未知异常
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-            .entity(ResponseUtil.responseBuild(500, "System Error", exception.getMessage())).type("application/json")
-            .build();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ResponseUtil.response(false, response))
+            .type("application/json").build();
     }
 
 }

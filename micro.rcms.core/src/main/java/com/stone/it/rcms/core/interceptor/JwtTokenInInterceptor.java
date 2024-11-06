@@ -38,7 +38,7 @@ public class JwtTokenInInterceptor extends AbstractPhaseInterceptor<Message> {
             Map<String, Object> verify = JwtUtils.verifyToken(token.get(0).toString());
             if (Boolean.FALSE.equals(verify.get("state"))) {
                 // Token 校验失败
-                throw new RcmsApplicationException(401, verify.get("msg").toString());
+                throw new RcmsApplicationException(401, "请求认证已失效", verify.get("msg"));
             }
         }
     }

@@ -38,4 +38,12 @@ public class ResponseUtil {
         result.put("data", data);
         return result;
     }
+
+    public static JSONObject response(boolean success, JSONObject data) {
+        JSONObject result = new JSONObject();
+        result.put("success", success);
+        result.put("data", data);
+        return result;
+    }
+
 }
