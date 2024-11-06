@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `tpl_permission_t`(
     `api_name`    VARCHAR(100) NOT NULL  COMMENT '接口名称',
     `api_type`    VARCHAR(100) NOT NULL COMMENT '接口类型：system/custom',
     `api_method`    VARCHAR(100) NOT NULL COMMENT '请求方式',
+    `open_api`    VARCHAR(100)  COMMENT '是否为openApi，程序账户授权时可选',
     `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
     `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
