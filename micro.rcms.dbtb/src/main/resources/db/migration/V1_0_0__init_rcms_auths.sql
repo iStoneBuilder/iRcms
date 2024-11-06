@@ -1,7 +1,7 @@
 -- 企业表 done
 CREATE TABLE IF NOT EXISTS `tpl_enterprise_t`(
-    `parent_id`      VARCHAR(100)  COMMENT '父节点ID，为空表示根节点',
-    `id`      VARCHAR(100) NOT NULL COMMENT '企业ID',
+    `parent_id`      int NOT NULL  COMMENT '父节点ID，为空表示根节点',
+    `id`      int NOT NULL  COMMENT '企业ID',
     `code`    VARCHAR(100) NOT NULL COMMENT '企业编码',
     `name`    VARCHAR(100) NOT NULL COMMENT '企业名称',
     `type`   VARCHAR(30) NOT NULL COMMENT '企业类型:platform/enterprise/merchant',
@@ -21,10 +21,11 @@ CREATE TABLE IF NOT EXISTS `tpl_enterprise_t`(
 
 -- 角色表 done
 CREATE TABLE IF NOT EXISTS `tpl_role_t`(
-    `enterprise_id`      VARCHAR(100) NOT NULL COMMENT '企业ID',
-    `parent_code`    VARCHAR(100) NOT NULL COMMENT '父节点ID，为空表示根节点',
-    `ROLE_CODE`    VARCHAR(100) NOT NULL COMMENT '角色CODE',
-    `ROLE_NAME`    VARCHAR(100) NOT NULL COMMENT '角色名',
+    `enterprise_id`      int(100) NOT NULL COMMENT '企业ID',
+    `parent_id`    int(100) NOT NULL COMMENT '父节点ID，为空表示根节点',
+    `id`    int(100) NOT NULL COMMENT '角色ID',
+    `code`    VARCHAR(100) NOT NULL COMMENT '角色CODE',
+    `name`    VARCHAR(100) NOT NULL COMMENT '角色名',
     `DESCRIPTION`    VARCHAR(100) NOT NULL COMMENT '描述',
     `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
