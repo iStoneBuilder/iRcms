@@ -11,9 +11,17 @@ import lombok.Data;
  */
 @Data
 public class EnterpriseVO extends BaseVO {
-    private String parentId;
-    private String enterpriseId;
-    private String enterpriseCode;
-    private String enterpriseName;
-    private String enterpriseType;
+    private long parentId;
+    private long id;
+    private String code;
+    private String name;
+    private String principal;
+    private String email;
+    private String phone;
+    private String remark;
+    // '企业类型:platform/enterprise/merchant'
+    private String type;
+    private int sort;
+    private String status;
+
 }
