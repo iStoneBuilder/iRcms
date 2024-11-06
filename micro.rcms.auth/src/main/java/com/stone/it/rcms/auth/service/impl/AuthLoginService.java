@@ -127,7 +127,10 @@ public class AuthLoginService implements IAuthLoginService {
         user.put("userId", dbUser.getAccountCode());
         user.put("password", dbUser.getPassword());
         user.put("type", type);
-        subject.login(new UsernamePasswordToken(account, JwtUtils.generateToken(user)));
+        UsernamePasswordToken token = new UsernamePasswordToken(account, JwtUtils.generateToken(user));
+        // 禁用记住我
+        token.setRememberMe(false);
+        subject.login(token);
         return getSessionId(subject);
     }
 

@@ -22,7 +22,7 @@ public class RcmsWebSessionManager extends DefaultWebSessionManager {
 
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
-        LOGGER.info("Handle token authentication .....");
+        LOGGER.info("Handle authentication sessionId .....");
         HttpServletRequest req = (HttpServletRequest)request;
         Serializable authorization = req.getHeader("Authorization");
         if (authorization != null) {
