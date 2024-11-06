@@ -37,8 +37,8 @@ public class RcmsCoreProvider implements ExceptionMapper<Throwable> {
         if (Arrays.stream(RcmsExceptionEnum.values()).anyMatch(e -> e.name().equals(name))) {
             response = ResponseUtil.responseBuild(RcmsExceptionEnum.valueOf(name).getCode(),
                 RcmsExceptionEnum.valueOf(name).getMessage(), exception.getMessage());
-            return Response.status(RcmsExceptionEnum.valueOf(name).getCode())
-                .entity(ResponseUtil.response(false, response)).type("application/json").build();
+            return Response.status(RcmsExceptionEnum.valueOf(name).getCode()).entity(response).type("application/json")
+                .build();
         }
         // 匹配自定义异常
         if (name.equals("RcmsApplicationException")) {
