@@ -1,7 +1,7 @@
 package com.stone.it.rcms.base.service;
 
 import com.stone.it.rcms.base.vo.EnterpriseVO;
-import com.stone.it.rcms.core.annotate.RcmsMethodName;
+import com.stone.it.rcms.core.annotate.RcmsMethod;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import javax.ws.rs.Consumes;
@@ -38,9 +38,9 @@ public interface IEnterpriseService {
      */
     @GET
     @Path("/records/page/{curPage}/{pageSize}")
-    @RcmsMethodName("企业分页查询")
+    @RcmsMethod(name = "企业分页查询")
     @RequiresPermissions("permission:enterprise:page:query")
-    PageResult<EnterpriseVO> findI18nPageResult(@QueryParam("") EnterpriseVO enterpriseVO,
+    PageResult<EnterpriseVO> findEnterprisePageResult(@QueryParam("") EnterpriseVO enterpriseVO,
         @PathParam("") PageVO pageVO);
 
     /**
@@ -51,7 +51,7 @@ public interface IEnterpriseService {
      */
     @GET
     @Path("/records/{enterprise_id}")
-    @RcmsMethodName("企业详情查询")
+    @RcmsMethod(name = "企业详情查询")
     @RequiresPermissions("permission:enterprise:record:query")
     EnterpriseVO findEnterpriseMerchantById(@PathParam("enterprise_id") String enterprise_id);
 
@@ -63,7 +63,7 @@ public interface IEnterpriseService {
      */
     @POST
     @Path("/records")
-    @RcmsMethodName("新增企业信息")
+    @RcmsMethod(name = "新增企业信息")
     @RequiresPermissions("permission:enterprise:create")
     int createEnterpriseMerchant(EnterpriseVO enterpriseVO);
 
@@ -75,7 +75,7 @@ public interface IEnterpriseService {
      */
     @PATCH
     @Path("/records/{enterprise_id}")
-    @RcmsMethodName("修改企业信息")
+    @RcmsMethod(name = "修改企业信息")
     @RequiresPermissions("permission:enterprise:update")
     int updateEnterpriseMerchant(@PathParam("enterprise_id") String enterprise_id, EnterpriseVO enterpriseVO);
 
@@ -87,7 +87,7 @@ public interface IEnterpriseService {
      */
     @DELETE
     @Path("/records/{enterprise_id}")
-    @RcmsMethodName("删除企业信息")
+    @RcmsMethod(name = "删除企业信息")
     @RequiresPermissions("permission:enterprise:delete")
     int deleteEnterpriseMerchant(@PathParam("enterprise_id") String enterprise_id);
 

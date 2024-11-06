@@ -49,8 +49,8 @@
 
   <select id="getApiPathByRoleCodes" resultType="com.stone.it.rcms.auth.vo.AuthApisVO">
     select
-    api_path as apiPath,api_name as apiName,api_method as apiMethod,api_type as apiType,auth_code as
-    authCode
+    t1.api_path as apiPath,t1.api_name as apiName,t1.api_method as apiMethod,t1.api_type as
+    apiType,t1.auth_code as authCode
     from tpl_permission_t t1
     join tpl_role_permission_t t2 on t1.auth_code=t2.auth_code
     where t2.role_code in

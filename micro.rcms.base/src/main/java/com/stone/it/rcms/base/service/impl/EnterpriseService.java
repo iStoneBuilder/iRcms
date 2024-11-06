@@ -17,7 +17,7 @@ import javax.inject.Named;
 public class EnterpriseService implements IEnterpriseService {
 
     @Override
-    public PageResult<EnterpriseVO> findI18nPageResult(EnterpriseVO enterpriseVO, PageVO pageVO) {
+    public PageResult<EnterpriseVO> findEnterprisePageResult(EnterpriseVO enterpriseVO, PageVO pageVO) {
         return null;
     }
 

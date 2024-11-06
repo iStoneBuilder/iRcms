@@ -15,9 +15,17 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface RcmsMethodName {
+public @interface RcmsMethod {
 
-    String[] value();
+    /**
+     * 方法名，不设置时使用接口方法名
+     */
+    String name();
+
+    /**
+     * 是否为openApi N（默认）：不为openApi Y：为openApi
+     */
+    String type() default "";
 
 }
 

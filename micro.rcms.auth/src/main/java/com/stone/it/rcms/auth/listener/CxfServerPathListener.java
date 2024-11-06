@@ -40,7 +40,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
     // 接口路径集合
     private static final Set<String> apiPathSet = new HashSet<>();
 
-    private static String getAnnotationValue(String annotationName, Class<?> annotationType, Annotation iAnnotation) {
+    private static String getAnnotationValue(String name, Class<?> annotationType, Annotation iAnnotation) {
         // 获取注解定义的所有方法
         Method[] methods = annotationType.getDeclaredMethods();
         for (Method method : methods) {
@@ -48,7 +48,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
                 // 获取每个方法的返回值
                 Object value = method.invoke(iAnnotation);
                 // 打印注解属性的名称和值
-                if ("value".equals(method.getName())) {
+                if (name.equals(method.getName())) {
                     return ((String[])value)[0];
                 }
             } catch (Exception e) {
@@ -67,15 +67,19 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             String annotationName = annotationType.getName();
             // 判断是否需要权限验证
             if ("org.apache.shiro.authz.annotation.RequiresPermissions".equals(annotationName)) {
-                String permission = getAnnotationValue(annotationName, annotationType, iAnnotation);
+                String permission = getAnnotationValue("value", annotationType, iAnnotation);
                 if (permission != null) {
                     AuthApisVO.setAuthCode(permission);
                 }
             }
-            if ("com.stone.it.rcms.core.annotate.RcmsMethodName".equals(annotationName)) {
-                String apiName = getAnnotationValue(annotationName, annotationType, iAnnotation);
+            if ("com.stone.it.rcms.core.annotate.RcmsMethod".equals(annotationName)) {
+                String apiName = getAnnotationValue("name", annotationType, iAnnotation);
                 if (apiName != null) {
                     AuthApisVO.setApiName(apiName);
+                }
+                String apiType = getAnnotationValue("type", annotationType, iAnnotation);
+                if (apiType != null) {
+                    AuthApisVO.setOpenApi(apiType);
                 }
             }
         }
