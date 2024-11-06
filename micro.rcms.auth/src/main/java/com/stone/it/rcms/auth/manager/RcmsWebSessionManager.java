@@ -1,6 +1,5 @@
 package com.stone.it.rcms.auth.manager;
 
-import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.util.JwtUtils;
 import java.io.Serializable;
 import java.util.Map;
@@ -27,12 +26,6 @@ public class RcmsWebSessionManager extends DefaultWebSessionManager {
         HttpServletRequest req = (HttpServletRequest)request;
         Serializable authorization = req.getHeader("Authorization");
         if (authorization != null) {
-            // 校验Token合法性
-            Map<String, Object> verify = JwtUtils.verifyToken(authorization.toString());
-            if (Boolean.FALSE.equals(verify.get("state"))) {
-                // Token 校验失败
-                throw new RcmsApplicationException(401, verify.get("msg").toString());
-            }
             Map<String, String> accountInfo = JwtUtils.getTokenInfo(authorization.toString());
             if (accountInfo.containsKey("sessionId")) {
                 return accountInfo.get("sessionId");

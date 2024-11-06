@@ -70,6 +70,9 @@ public class JwtUtils {
     public static Map<String, String> getTokenInfo(String token) {
         // 验证token是否有效
         Map<String, String> infoMap = new HashMap<>();
+        if (!((boolean)verifyToken(token).get("state"))) {
+            return infoMap;
+        }
         DecodedJWT verify = JWT.require(Algorithm.HMAC256(SING)).build().verify(token);
         verify.getClaims().forEach((k, v) -> infoMap.put(k, v.asString()));
         if (verify.getExpiresAt() != null) {
