@@ -50,4 +50,21 @@ public class TreeUtil {
         }
     }
 
+    public static <T> JSONObject treeToList(T root) {
+        JSONArray itemList = new JSONArray();
+        traverseTreeToList((JSONObject)root, itemList);
+        JSONObject result = new JSONObject();
+        result.put("children", itemList);
+        return result;
+    }
+
+    private static void traverseTreeToList(JSONObject node, JSONArray itemList) {
+        JSONArray children = node.getJSONArray("children");
+        node.remove("children");
+        itemList.add(node);
+        for (Object root : children) {
+            traverseTreeToList((JSONObject)root, itemList);
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.stone.it.rcms.base.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.base.dao.IEnterpriseDao;
@@ -27,7 +28,10 @@ public class EnterpriseService implements IEnterpriseService {
 
     @Override
     public List<EnterpriseVO> findEnterpriseList(EnterpriseVO enterpriseVO) {
-        return enterpriseDao.findEnterpriseList(enterpriseVO);
+        EnterpriseVO tree = findEnterpriseTreeById(enterpriseVO);
+        JSONObject node = TreeUtil.treeToList(tree);
+        EnterpriseVO nodeVO = JSONObject.parseObject(JSONObject.toJSONString(node), EnterpriseVO.class);
+        return nodeVO.getChildren();
     }
 
     @Override
