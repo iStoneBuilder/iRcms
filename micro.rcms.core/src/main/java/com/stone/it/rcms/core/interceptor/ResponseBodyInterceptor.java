@@ -60,8 +60,10 @@ public class ResponseBodyInterceptor extends AbstractPhaseInterceptor<Message> {
                         } else {
                             responseJson.put("success", true);
                         }
+                        responseJson.put("data", originalResJson);
+                    } else {
+                        responseJson = originalResJson;
                     }
-                    responseJson.put("data", originalResJson);
                 } else if (originalResponse.startsWith("[") && originalResponse.endsWith("]")) {
                     JSONArray originalResJson = JSONArray.parseArray(originalResponse);
                     responseJson.put("success", true);

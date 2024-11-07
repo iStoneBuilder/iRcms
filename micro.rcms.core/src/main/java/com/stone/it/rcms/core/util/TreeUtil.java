@@ -1,5 +1,6 @@
 package com.stone.it.rcms.core.util;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 
@@ -12,8 +13,8 @@ import com.alibaba.fastjson2.JSONObject;
 public class TreeUtil {
 
     public static <T> JSONObject buildTree(T root, T list) {
-        JSONObject rootNode = (JSONObject)root;
-        JSONArray listArray = (JSONArray)list;
+        JSONObject rootNode = JSONObject.parseObject(JSONObject.toJSONString(root));
+        JSONArray listArray = JSONArray.parseArray(JSONArray.toJSONString(list));
         for (int i = 0; i < listArray.size(); i++) {
             JSONObject item = listArray.getJSONObject(i);
             if (item.getLong("parentId") == rootNode.getLong("id")) {
@@ -52,7 +53,7 @@ public class TreeUtil {
 
     public static <T> JSONObject treeToList(T root) {
         JSONArray itemList = new JSONArray();
-        traverseTreeToList((JSONObject)root, itemList);
+        traverseTreeToList(JSONObject.parseObject(JSONObject.toJSONString(root)), itemList);
         JSONObject result = new JSONObject();
         result.put("children", itemList);
         return result;
@@ -62,8 +63,10 @@ public class TreeUtil {
         JSONArray children = node.getJSONArray("children");
         node.remove("children");
         itemList.add(node);
-        for (Object root : children) {
-            traverseTreeToList((JSONObject)root, itemList);
+        if (children != null && children.size() > 0) {
+            for (Object root : children) {
+                traverseTreeToList((JSONObject)root, itemList);
+            }
         }
     }
 

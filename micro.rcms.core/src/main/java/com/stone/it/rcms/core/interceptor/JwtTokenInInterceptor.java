@@ -8,9 +8,7 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
-import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * @Description TODO
  * @Version 1.0
  */
-public class JwtTokenInInterceptor extends AbstractPhaseInterceptor<Message> {
+public class JwtTokenInInterceptor extends RequestParamsInterceptor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenInInterceptor.class);
 
@@ -33,6 +31,7 @@ public class JwtTokenInInterceptor extends AbstractPhaseInterceptor<Message> {
 
     @Override
     public void handleMessage(Message message) throws Fault {
+        super.handleMessage(message);
         LOGGER.info("CXF Interceptor In ...........");
         HttpServletRequest request = (HttpServletRequest)message.get("HTTP.REQUEST");
         // 不需要认证的接口
@@ -51,6 +50,8 @@ public class JwtTokenInInterceptor extends AbstractPhaseInterceptor<Message> {
                 // Token 校验失败
                 throw new RcmsApplicationException(401, "请求认证已失效", verify.get("msg"));
             }
+            String requestUri = (String)message.get(Message.REQUEST_URI);
+            LOGGER.info("requestUri:{},token:{}", requestUri, token.get(0).toString());
         } else {
             throw new RcmsApplicationException(401, "请求认证已失效", "未传递Authorization Token");
         }
