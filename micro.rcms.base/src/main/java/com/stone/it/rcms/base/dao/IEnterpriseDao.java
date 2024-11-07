@@ -14,6 +14,12 @@ public interface IEnterpriseDao {
 
     List<EnterpriseVO> findEnterpriseList(EnterpriseVO enterpriseVO);
 
+    /**
+     * 根据企业ID查询企业信息
+     * 
+     * @param enterpriseId
+     * @return
+     */
     EnterpriseVO findEnterpriseMerchantById(@Param("enterpriseId") long enterpriseId);
 
     int createEnterpriseMerchant(EnterpriseVO enterpriseVO);
@@ -21,8 +27,6 @@ public interface IEnterpriseDao {
     int updateEnterpriseMerchant(EnterpriseVO enterpriseVO);
 
     int deleteEnterpriseMerchant(@Param("enterpriseId") long enterpriseId);
-
-    List<EnterpriseVO> findEnterpriseById(long parentId);
 
     EnterpriseVO findMaxEnterpriseId();
 }

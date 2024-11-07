@@ -45,15 +45,16 @@ public class AuthLoginService implements IAuthLoginService {
     public LoginResVO userLogin(AuthUserVO userVO) {
         // 登录认证
         String sessionId = subjectLogin(userVO.getUserId(), userVO.getPassword(), "account");
+        // 获取用户信息
+        AccountVO dbUser = authSettingService.getUserInfoByUserId(userVO.getUserId());
         Calendar expTime = JwtUtils.getExpireTime(60 * 5);
-        String accessToken = buildJwtToken(sessionId, userVO.getUserId(), userVO.getPassword(), "app", expTime);
-        String refreshToken =
-            buildJwtToken(sessionId, userVO.getUserId(), userVO.getPassword(), "app", JwtUtils.getExpireTime(60 * 6));
+        String accessToken = buildJwtToken(sessionId, userVO.getUserId(), userVO.getPassword(), "app", expTime,
+            dbUser.getEnterpriseId());
+        String refreshToken = buildJwtToken(sessionId, userVO.getUserId(), userVO.getPassword(), "app",
+            JwtUtils.getExpireTime(60 * 6), dbUser.getEnterpriseId());
         LoginResVO loginResVO = new LoginResVO();
         loginResVO.setAccessToken(accessToken);
         loginResVO.setRefreshToken(refreshToken);
-        // 获取用户信息
-        AccountVO dbUser = authSettingService.getUserInfoByUserId(userVO.getUserId());
         loginResVO.setUsername(dbUser.getAccountCode());
         loginResVO.setNickname(dbUser.getAccountName());
         String[] roles = (dbUser.getAccountRoles()).split(",");
@@ -66,6 +67,7 @@ public class AuthLoginService implements IAuthLoginService {
         }
         loginResVO.setPermissions(permissions);
         loginResVO.setExpires(DateUtil.formatDate(expTime.getTime(), "yyyy-MM-dd HH:mm:ss"));
+        loginResVO.setEnterpriseId(dbUser.getEnterpriseId());
         return loginResVO;
     }
 
@@ -75,17 +77,21 @@ public class AuthLoginService implements IAuthLoginService {
         if (sessionId == null) {
             return null;
         }
+        AccountVO dbUser = authSettingService.getUserInfoByUserId(appSecretVO.getAppId());
         JSONObject result = new JSONObject();
         Calendar expTime = JwtUtils.getExpireTime(60 * 30);
-        String accessToken = buildJwtToken(sessionId, appSecretVO.getAppId(), appSecretVO.getSecret(), "app", expTime);
+        String accessToken = buildJwtToken(sessionId, appSecretVO.getAppId(), appSecretVO.getSecret(), "app", expTime,
+            dbUser.getEnterpriseId());
         result.put("Authorization", accessToken);
         result.put("expires", DateUtil.formatDate(expTime.getTime(), "yyyy-MM-dd HH:mm:ss"));
         return result;
     }
 
-    private String buildJwtToken(String sessionId, String account, String password, String type, Calendar instance) {
+    private String buildJwtToken(String sessionId, String account, String password, String type, Calendar instance,
+        long enterpriseId) {
         Map<String, String> map = new HashMap<>();
         map.put("sessionId", sessionId);
+        map.put("enterpriseId", String.valueOf(enterpriseId));
         map.put("account", account);
         map.put("password", password);
         map.put("type", type);
@@ -126,6 +132,7 @@ public class AuthLoginService implements IAuthLoginService {
         Map<String, String> user = new HashMap<>();
         user.put("userId", dbUser.getAccountCode());
         user.put("password", dbUser.getPassword());
+        user.put("enterpriseId", String.valueOf(dbUser.getEnterpriseId()));
         user.put("type", type);
         UsernamePasswordToken token = new UsernamePasswordToken(account, JwtUtils.generateToken(user));
         // 禁用记住我

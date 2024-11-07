@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.base.dao.IEnterpriseDao">
+
+  <delete id="deleteEnterpriseMerchant"></delete>
+
+  <insert id="createEnterpriseMerchant"></insert>
+
+  <select id="findEnterpriseList" resultType="com.stone.it.rcms.base.vo.EnterpriseVO">
+    <include refid="query_sql"/>
+  </select>
+
+  <select id="findEnterpriseMerchantById"
+    resultType="com.stone.it.rcms.base.vo.EnterpriseVO">
+    <include refid="query_sql"/>
+    where id = #{enterpriseId,jdbcType=BIGINT}
+  </select>
+
+
+  <select id="findMaxEnterpriseId" resultType="com.stone.it.rcms.base.vo.EnterpriseVO"></select>
+
+  <sql id="query_sql">
+    select id, name, code, parent_id as parentId, level, type, sort, status,
+    remark, principal, email, phone, created_time as createDate, created_by as createBy,
+    updated_time as updateDate, updated_by as updateBy
+    from tpl_enterprise_t
+  </sql>
+
+  <update id="updateEnterpriseMerchant"></update>
+</mapper>

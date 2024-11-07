@@ -15,6 +15,7 @@ public class RcmsApplicationException extends RuntimeException {
     public RcmsApplicationException(int code, String desc) {
         this.code = code;
         this.message = desc;
+        this.error = new Object();
     }
 
     public RcmsApplicationException(int code, String desc, Object error) {
