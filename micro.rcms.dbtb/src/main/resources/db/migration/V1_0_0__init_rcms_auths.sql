@@ -1,16 +1,16 @@
 -- 企业表 done
 CREATE TABLE IF NOT EXISTS `tpl_enterprise_t`(
-    `parent_id`      int NOT NULL  COMMENT '父节点ID，为空表示根节点',
-    `id`      int NOT NULL  COMMENT '企业ID',
+    `parent_id`      bigint NOT NULL  COMMENT '父节点ID，为空表示根节点',
+    `id`      bigint NOT NULL  COMMENT '企业ID',
     `code`    VARCHAR(100) NOT NULL COMMENT '企业编码',
     `name`    VARCHAR(100) NOT NULL COMMENT '企业名称',
     `type`   VARCHAR(30) NOT NULL COMMENT '企业类型:platform/enterprise/merchant',
     `principal`    VARCHAR(100)  COMMENT '企业负责人',
     `email`    VARCHAR(100)  COMMENT '邮箱',
-    `phone`    int(11)  COMMENT '电话',
+    `phone`    VARCHAR(30)  COMMENT '电话',
     `remark`    VARCHAR(100) COMMENT '备注',
     `sort`        INT(11) NOT NULL COMMENT '排序',
-    `status`    int(4) NOT NULL COMMENT '状态Y/N',
+    `status`    varchar(2) NOT NULL COMMENT '状态Y/N',
     `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
     `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS `tpl_enterprise_t`(
 
 -- 角色表 done
 CREATE TABLE IF NOT EXISTS `tpl_role_t`(
-    `enterprise_id`      int(100) NOT NULL COMMENT '企业ID',
-    `parent_id`    int(100) NOT NULL COMMENT '父节点ID，为空表示根节点',
-    `id`    int(100) NOT NULL COMMENT '角色ID',
+    `enterprise_id`      bigint NOT NULL COMMENT '企业ID',
+    `parent_id`    bigint NOT NULL COMMENT '父节点ID，为空表示根节点',
+    `id`    int NOT NULL COMMENT '角色ID',
     `code`    VARCHAR(100) NOT NULL COMMENT '角色CODE',
     `name`    VARCHAR(100) NOT NULL COMMENT '角色名',
     `DESCRIPTION`    VARCHAR(100) NOT NULL COMMENT '描述',
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `tpl_role_t`(
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
     `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `UPDATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
-    PRIMARY KEY (`ROLE_CODE`)
+    PRIMARY KEY (`code`)
     ) ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4;
 
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `tpl_role_permission_t`(
 
 -- 账户表 done
 CREATE TABLE IF NOT EXISTS `tpl_account_t`(
-   `enterprise_id`      VARCHAR(100) NOT NULL COMMENT '企业ID',
+   `enterprise_id`      bigint NOT NULL COMMENT '企业ID',
     `account_code`    VARCHAR(100) NOT NULL COMMENT '账户登录',
     `account_name`    VARCHAR(100) NOT NULL COMMENT '账户名称',
     `account_type`    VARCHAR(100) NOT NULL COMMENT '账户类型：user/app',
