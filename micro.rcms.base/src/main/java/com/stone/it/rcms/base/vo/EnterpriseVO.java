@@ -1,6 +1,8 @@
 package com.stone.it.rcms.base.vo;
 
 import com.stone.it.rcms.core.vo.BaseVO;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -22,6 +24,9 @@ public class EnterpriseVO extends BaseVO {
     // '企业类型:platform/enterprise/merchant'
     private String type;
     private int sort;
-    private int status;
+    private String status;
+    // '企业层级:1/2/3/4/5'
+    private int level;
+    private List<EnterpriseVO> children;
 
 }

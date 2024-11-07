@@ -24,4 +24,5 @@ public interface IEnterpriseDao {
 
     List<EnterpriseVO> findEnterpriseById(long parentId);
 
+    EnterpriseVO findMaxEnterpriseId();
 }

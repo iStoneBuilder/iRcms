@@ -43,6 +43,17 @@ public interface IEnterpriseService {
     List<EnterpriseVO> findEnterpriseList(@QueryParam("") EnterpriseVO enterpriseVO);
 
     /**
+     * 查询企业(商户)列表
+     *
+     * @return
+     */
+    @GET
+    @Path("/records/tree")
+    @RcmsMethod(name = "企业Tree查询")
+    @RequiresPermissions("permission:enterprise:tree:query")
+    EnterpriseVO findEnterpriseTreeById(@QueryParam("") EnterpriseVO enterpriseVO);
+
+    /**
      * 企业(商户)详情
      *
      * @param enterprise_id
