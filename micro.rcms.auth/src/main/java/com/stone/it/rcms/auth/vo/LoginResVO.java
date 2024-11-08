@@ -21,4 +21,12 @@ public class LoginResVO {
     private String accessToken;
     private String refreshToken;
     private String expires;
+
+    public LoginResVO() {}
+
+    public LoginResVO(String accessToken, String refreshToken, String expires) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.expires = expires;
+    }
 }

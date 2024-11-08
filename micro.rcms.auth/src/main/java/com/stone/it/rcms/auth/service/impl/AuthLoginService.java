@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.core.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -69,6 +70,29 @@ public class AuthLoginService implements IAuthLoginService {
         loginResVO.setExpires(DateUtil.formatDate(expTime.getTime(), "yyyy-MM-dd HH:mm:ss"));
         loginResVO.setEnterpriseId(dbUser.getEnterpriseId());
         return loginResVO;
+    }
+
+    @Override
+    public LoginResVO userLoginRefresh(LoginResVO loginResVO) {
+        LoginResVO newLoginResVO;
+        try {
+            Map<String, Object> verify = JwtUtils.verifyToken(loginResVO.getRefreshToken());
+            if (!(boolean)verify.get("state")) {
+                throw new RcmsApplicationException(401, "请求认证已失效", verify.get("msg"));
+            }
+            Map<String, String> user = JwtUtils.getTokenInfo(loginResVO.getRefreshToken());
+            AuthUserVO userVO = new AuthUserVO();
+            userVO.setUserId(user.get("account"));
+            userVO.setPassword(user.get("password"));
+            // 先退出上次登录
+            userLogout();
+            // 重新登录
+            LoginResVO resVO = userLogin(userVO);
+            newLoginResVO = new LoginResVO(resVO.getAccessToken(), resVO.getRefreshToken(), resVO.getExpires());
+        } catch (Exception e) {
+            throw new RcmsApplicationException(500, "System error", e.getMessage());
+        }
+        return newLoginResVO;
     }
 
     @Override
