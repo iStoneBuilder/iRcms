@@ -25,14 +25,14 @@
     </foreach>
   </insert>
 
-  <select id="findApiPathsByPaths" resultType="com.stone.it.rcms.auth.vo.AuthApisVO">
-    select auth_code as authCode,api_name as apiName,api_path as apiPath,api_method as
-    apiMethod,api_type as apiType
-    from tpl_permission_t where concat_ws('_', api_method, api_path) in
-    <foreach close=")" collection="list" item="item" open="(" separator=",">
-      #{item}
+  <insert id="createSuperAdminAuth">
+    insert into
+    tpl_role_permission_t(role_code,auth_code,created_time,updated_time,created_by,updated_by)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{roleCode},#{item},now(),now(),'system','system')
     </foreach>
-  </select>
+  </insert>
 
   <select id="getUserInfoByUserId" resultType="com.stone.it.rcms.auth.vo.AccountVO">
     SELECT
@@ -54,6 +54,15 @@
     from tpl_permission_t t1
     join tpl_role_permission_t t2 on t1.auth_code=t2.auth_code
     where t2.role_code in
+    <foreach close=")" collection="list" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="findApiPathsByPaths" resultType="com.stone.it.rcms.auth.vo.AuthApisVO">
+    select auth_code as authCode,api_name as apiName,api_path as apiPath,api_method as
+    apiMethod,api_type as apiType
+    from tpl_permission_t where concat_ws('_', api_method, api_path) in
     <foreach close=")" collection="list" item="item" open="(" separator=",">
       #{item}
     </foreach>

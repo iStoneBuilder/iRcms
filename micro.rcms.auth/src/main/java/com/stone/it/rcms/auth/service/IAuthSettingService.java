@@ -44,4 +44,6 @@ public interface IAuthSettingService {
     AccountVO getUserInfoByUserId(String accountCode);
 
     List<AuthApisVO> getApiPathByRoleCodes(Set<String> roleSets);
+
+    void createSuperAdminAuth(Set<String> authCodeSet, String roleCode);
 }

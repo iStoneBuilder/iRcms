@@ -178,6 +178,8 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
         authSettingService.deleteApiPathsNotInList(apiPathSet);
         // 清理不存在的授权关系
         authSettingService.deleteApisRelationAuth();
+        // 创建超级管理员权限
+        authSettingService.createSuperAdminAuth(authCodeSet, "platformAdmin");
     }
 
 }

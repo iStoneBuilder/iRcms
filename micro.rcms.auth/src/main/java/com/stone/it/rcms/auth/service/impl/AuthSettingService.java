@@ -57,4 +57,11 @@ public class AuthSettingService implements IAuthSettingService {
         list.addAll(roleSets);
         return authSettingDao.getApiPathByRoleCodes(list);
     }
+
+    @Override
+    public void createSuperAdminAuth(Set<String> authCodeSet, String roleCode) {
+        List<String> list = new ArrayList<>();
+        list.addAll(authCodeSet);
+        authSettingDao.createSuperAdminAuth(list, roleCode);
+    }
 }

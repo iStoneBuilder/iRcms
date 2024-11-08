@@ -48,11 +48,11 @@ public class AuthLoginService implements IAuthLoginService {
         String sessionId = subjectLogin(userVO.getUserId(), userVO.getPassword(), "account");
         // 获取用户信息
         AccountVO dbUser = authSettingService.getUserInfoByUserId(userVO.getUserId());
-        Calendar expTime = JwtUtils.getExpireTime(60 * 5);
+        Calendar expTime = JwtUtils.getExpireTime(60);
         String accessToken = buildJwtToken(sessionId, userVO.getUserId(), userVO.getPassword(), "app", expTime,
             dbUser.getEnterpriseId());
         String refreshToken = buildJwtToken(sessionId, userVO.getUserId(), userVO.getPassword(), "app",
-            JwtUtils.getExpireTime(60 * 6), dbUser.getEnterpriseId());
+            JwtUtils.getExpireTime(60 * 2), dbUser.getEnterpriseId());
         LoginResVO loginResVO = new LoginResVO();
         loginResVO.setAccessToken(accessToken);
         loginResVO.setRefreshToken(refreshToken);
@@ -90,7 +90,7 @@ public class AuthLoginService implements IAuthLoginService {
             LoginResVO resVO = userLogin(userVO);
             newLoginResVO = new LoginResVO(resVO.getAccessToken(), resVO.getRefreshToken(), resVO.getExpires());
         } catch (Exception e) {
-            throw new RcmsApplicationException(500, "System error", e.getMessage());
+            throw e;
         }
         return newLoginResVO;
     }

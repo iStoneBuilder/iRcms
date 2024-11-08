@@ -24,4 +24,6 @@ public interface IAuthSettingDao {
     AccountVO getUserInfoByUserId(@Param("accountCode") String accountCode);
 
     List<AuthApisVO> getApiPathByRoleCodes(@Param("list") List<String> list);
+
+    void createSuperAdminAuth(@Param("list") List<String> list, @Param("roleCode") String roleCode);
 }

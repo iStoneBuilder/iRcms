@@ -1,5 +1,6 @@
 package com.stone.it.rcms.core.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.Data;
  * @Desc
  */
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BaseVO implements Serializable {
 
     static final long serialVersionUID = 1L;

@@ -18,7 +18,10 @@
   </select>
 
 
-  <select id="findMaxEnterpriseId" resultType="com.stone.it.rcms.base.vo.EnterpriseVO"></select>
+  <select id="findMaxEnterpriseId" resultType="com.stone.it.rcms.base.vo.EnterpriseVO">
+    <include refid="query_sql"/>
+    where id = (select max(id) from tpl_enterprise_t)
+  </select>
 
   <sql id="query_sql">
     select id, name, code, parent_id as parentId, level, type, sort, status,
