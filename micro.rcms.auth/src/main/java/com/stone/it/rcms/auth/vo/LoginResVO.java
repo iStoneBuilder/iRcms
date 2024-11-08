@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 public class LoginResVO {
-    private long enterpriseId;
+    private String enterpriseId;
     private String avatar;
     private String username;
     private String nickname;

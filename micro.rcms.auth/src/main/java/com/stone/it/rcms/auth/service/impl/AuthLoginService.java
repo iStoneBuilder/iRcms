@@ -68,7 +68,7 @@ public class AuthLoginService implements IAuthLoginService {
         }
         loginResVO.setPermissions(permissions);
         loginResVO.setExpires(DateUtil.formatDate(expTime.getTime(), "yyyy-MM-dd HH:mm:ss"));
-        loginResVO.setEnterpriseId(dbUser.getEnterpriseId());
+        loginResVO.setEnterpriseId(String.valueOf(dbUser.getEnterpriseId()));
         return loginResVO;
     }
 

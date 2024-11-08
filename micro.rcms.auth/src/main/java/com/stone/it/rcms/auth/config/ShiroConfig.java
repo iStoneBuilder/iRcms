@@ -27,7 +27,7 @@ import org.springframework.context.annotation.DependsOn;
 @Configuration
 public class ShiroConfig {
 
-    private static final String[] ANON_PATHS = {"/user/login", "/user/register", "/user/token"};
+    private static final String[] ANON_PATHS = {"/user/login", "/user/refresh/login", "/user/register", "/user/token"};
 
     private static final String[] AUTHC_PATHS = {"/rcms/**"};
 

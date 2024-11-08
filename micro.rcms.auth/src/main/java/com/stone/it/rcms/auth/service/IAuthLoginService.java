@@ -28,7 +28,7 @@ public interface IAuthLoginService {
     LoginResVO userLogin(AuthUserVO userVO);
 
     @POST
-    @Path("login/refresh")
+    @Path("refresh/login")
     LoginResVO userLoginRefresh(LoginResVO loginResVO);
 
     @POST
