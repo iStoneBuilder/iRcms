@@ -1,7 +1,6 @@
 package com.stone.it.rcms.base.vo;
 
 import com.stone.it.rcms.core.vo.BaseVO;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 
