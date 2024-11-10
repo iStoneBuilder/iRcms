@@ -17,7 +17,7 @@ public class TreeUtil {
         JSONArray listArray = JSONArray.parseArray(JSONArray.toJSONString(list));
         for (int i = 0; i < listArray.size(); i++) {
             JSONObject item = listArray.getJSONObject(i);
-            if (item.getLong("parentId") == rootNode.getLong("id")) {
+            if (item.getString("parentId").equals(rootNode.getString("id"))) {
                 JSONArray children = rootNode.getJSONArray("children");
                 if (children == null) {
                     children = new JSONArray();
@@ -37,7 +37,7 @@ public class TreeUtil {
         }
         for (Object object : parent.getJSONArray("children")) {
             JSONObject child = (JSONObject)object;
-            if (child.getLong("id") == item.getLong("parentId")) {
+            if (child.getString("id").equals(item.getString("parentId"))) {
                 JSONArray children = child.getJSONArray("children");
                 if (children == null) {
                     children = new JSONArray();

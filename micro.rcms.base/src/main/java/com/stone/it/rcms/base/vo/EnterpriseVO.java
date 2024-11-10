@@ -13,8 +13,8 @@ import lombok.Data;
  */
 @Data
 public class EnterpriseVO extends BaseVO {
-    private long parentId;
-    private long id;
+    private String parentId;
+    private String id;
     private String code;
     private String name;
     private String principal;

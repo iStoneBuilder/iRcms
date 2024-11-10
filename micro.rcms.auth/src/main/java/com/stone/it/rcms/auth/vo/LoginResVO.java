@@ -1,7 +1,6 @@
 package com.stone.it.rcms.auth.vo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import lombok.Data;
 
 /**
@@ -21,6 +20,7 @@ public class LoginResVO {
     private String accessToken;
     private String refreshToken;
     private String expires;
+    private ResDetailVO extraInfo;
 
     public LoginResVO() {}
 

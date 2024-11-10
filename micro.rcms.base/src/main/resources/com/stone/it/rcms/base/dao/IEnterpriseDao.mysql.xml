@@ -5,7 +5,17 @@
 
   <delete id="deleteEnterpriseMerchant"></delete>
 
-  <insert id="createEnterpriseMerchant"></insert>
+  <insert id="createEnterpriseMerchant">
+    insert into tpl_enterprise_t(id, name, code, parent_id, level, type, sort, status,
+    remark, principal, email, phone, created_by, created_time, updated_by, updated_time)
+    values(#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+    #{parentId,jdbcType=BIGINT}, #{level,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR},
+    #{sort,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+    #{principal,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+    'system',now(), 'system',
+    now()
+    )
+  </insert>
 
   <select id="findEnterpriseList" resultType="com.stone.it.rcms.base.vo.EnterpriseVO">
     <include refid="query_sql"/>

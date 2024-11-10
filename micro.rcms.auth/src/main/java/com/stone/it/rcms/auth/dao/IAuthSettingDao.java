@@ -2,6 +2,7 @@ package com.stone.it.rcms.auth.dao;
 
 import com.stone.it.rcms.auth.vo.AccountVO;
 import com.stone.it.rcms.auth.vo.AuthApisVO;
+import com.stone.it.rcms.auth.vo.ResDetailVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,6 @@ public interface IAuthSettingDao {
     List<AuthApisVO> getApiPathByRoleCodes(@Param("list") List<String> list);
 
     void createSuperAdminAuth(@Param("list") List<String> list, @Param("roleCode") String roleCode);
+
+    ResDetailVO findAccountEnterpriseById(@Param("enterpriseId") String enterpriseId);
 }

@@ -26,7 +26,7 @@ public class EnterpriseService implements IEnterpriseService {
 
     @Override
     public List<EnterpriseVO> findEnterpriseList(EnterpriseVO enterpriseVO) {
-        EnterpriseVO tree = findEnterpriseTreeById(enterpriseVO);
+        EnterpriseVO tree = this.findEnterpriseTreeById(enterpriseVO);
         JSONObject node = TreeUtil.treeToList(tree);
         EnterpriseVO nodeVO = JSONObject.parseObject(JSONObject.toJSONString(node), EnterpriseVO.class);
         return nodeVO.getChildren();
@@ -44,7 +44,7 @@ public class EnterpriseService implements IEnterpriseService {
     }
 
     @Override
-    public EnterpriseVO findEnterpriseMerchantById(long enterprise_id) {
+    public EnterpriseVO findEnterpriseMerchantById(String enterprise_id) {
         return enterpriseDao.findEnterpriseMerchantById(enterprise_id);
     }
 
@@ -54,18 +54,18 @@ public class EnterpriseService implements IEnterpriseService {
         enterpriseVO.setCode(UUIDUtil.getUuid());
         // 查询最大的企业ID
         EnterpriseVO maxEnterpriseVO = enterpriseDao.findMaxEnterpriseId();
-        enterpriseVO.setId(maxEnterpriseVO.getId() + 1);
+        enterpriseVO.setId(String.valueOf(Long.valueOf(maxEnterpriseVO.getId()) + 1));
         return enterpriseDao.createEnterpriseMerchant(enterpriseVO);
     }
 
     @Override
-    public int updateEnterpriseMerchant(long enterprise_id, EnterpriseVO enterpriseVO) {
+    public int updateEnterpriseMerchant(String enterprise_id, EnterpriseVO enterpriseVO) {
         enterpriseVO.setId(enterprise_id);
         return enterpriseDao.updateEnterpriseMerchant(enterpriseVO);
     }
 
     @Override
-    public int deleteEnterpriseMerchant(long enterprise_id) throws RcmsApplicationException {
+    public int deleteEnterpriseMerchant(String enterprise_id) throws RcmsApplicationException {
         return enterpriseDao.deleteEnterpriseMerchant(enterprise_id);
     }
 }

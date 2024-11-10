@@ -1,12 +1,14 @@
 package com.stone.it.rcms.auth.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.stone.it.rcms.auth.dao.IAuthSettingDao;
 import com.stone.it.rcms.auth.service.IAuthLoginService;
 import com.stone.it.rcms.auth.service.IAuthSettingService;
 import com.stone.it.rcms.auth.vo.AccountVO;
 import com.stone.it.rcms.auth.vo.AppSecretVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.auth.vo.LoginResVO;
+import com.stone.it.rcms.auth.vo.ResDetailVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.util.DateUtil;
 import com.stone.it.rcms.core.util.JwtUtils;
@@ -42,6 +44,9 @@ public class AuthLoginService implements IAuthLoginService {
     @Inject
     private IAuthSettingService authSettingService;
 
+    @Inject
+    private IAuthSettingDao authSettingDao;
+
     @Override
     public LoginResVO userLogin(AuthUserVO userVO) {
         // 登录认证
@@ -52,7 +57,7 @@ public class AuthLoginService implements IAuthLoginService {
         String accessToken = buildJwtToken(sessionId, userVO.getUserId(), userVO.getPassword(), "app", expTime,
             dbUser.getEnterpriseId());
         String refreshToken = buildJwtToken(sessionId, userVO.getUserId(), userVO.getPassword(), "app",
-            JwtUtils.getExpireTime(60 * 2), dbUser.getEnterpriseId());
+            JwtUtils.getExpireTime(60 * 8), dbUser.getEnterpriseId());
         LoginResVO loginResVO = new LoginResVO();
         loginResVO.setAccessToken(accessToken);
         loginResVO.setRefreshToken(refreshToken);
@@ -68,7 +73,10 @@ public class AuthLoginService implements IAuthLoginService {
         }
         loginResVO.setPermissions(permissions);
         loginResVO.setExpires(DateUtil.formatDate(expTime.getTime(), "yyyy-MM-dd HH:mm:ss"));
-        loginResVO.setEnterpriseId(String.valueOf(dbUser.getEnterpriseId()));
+        loginResVO.setEnterpriseId(dbUser.getEnterpriseId());
+        // 查询当前登录用户的企业信息
+        ResDetailVO extraInfo = authSettingDao.findAccountEnterpriseById(dbUser.getEnterpriseId());
+        loginResVO.setExtraInfo(extraInfo);
         return loginResVO;
     }
 
@@ -112,10 +120,10 @@ public class AuthLoginService implements IAuthLoginService {
     }
 
     private String buildJwtToken(String sessionId, String account, String password, String type, Calendar instance,
-        long enterpriseId) {
+        String enterpriseId) {
         Map<String, String> map = new HashMap<>();
         map.put("sessionId", sessionId);
-        map.put("enterpriseId", String.valueOf(enterpriseId));
+        map.put("enterpriseId", enterpriseId);
         map.put("account", account);
         map.put("password", password);
         map.put("type", type);

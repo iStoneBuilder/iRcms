@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class AccountVO {
 
-    private long enterpriseId;
+    private String enterpriseId;
     private String accountCode;
     private String accountName;
     private String accountType;

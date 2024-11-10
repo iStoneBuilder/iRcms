@@ -20,13 +20,13 @@ public interface IEnterpriseDao {
      * @param enterpriseId
      * @return
      */
-    EnterpriseVO findEnterpriseMerchantById(@Param("enterpriseId") long enterpriseId);
+    EnterpriseVO findEnterpriseMerchantById(@Param("enterpriseId") String enterpriseId);
 
     int createEnterpriseMerchant(EnterpriseVO enterpriseVO);
 
     int updateEnterpriseMerchant(EnterpriseVO enterpriseVO);
 
-    int deleteEnterpriseMerchant(@Param("enterpriseId") long enterpriseId);
+    int deleteEnterpriseMerchant(@Param("enterpriseId") String enterpriseId);
 
     EnterpriseVO findMaxEnterpriseId();
 }

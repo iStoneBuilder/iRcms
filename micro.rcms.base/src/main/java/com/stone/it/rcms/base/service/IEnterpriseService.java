@@ -63,7 +63,7 @@ public interface IEnterpriseService {
     @Path("/records/{enterprise_id}")
     @RcmsMethod(name = "企业详情查询")
     @RequiresPermissions("permission:enterprise:record:query")
-    EnterpriseVO findEnterpriseMerchantById(@PathParam("enterprise_id") long enterprise_id);
+    EnterpriseVO findEnterpriseMerchantById(@PathParam("enterprise_id") String enterprise_id);
 
     /**
      * 新增企业(商户)信息
@@ -87,7 +87,7 @@ public interface IEnterpriseService {
     @Path("/records/{enterprise_id}")
     @RcmsMethod(name = "修改企业信息")
     @RequiresPermissions("permission:enterprise:update")
-    int updateEnterpriseMerchant(@PathParam("enterprise_id") long enterprise_id, EnterpriseVO enterpriseVO);
+    int updateEnterpriseMerchant(@PathParam("enterprise_id") String enterprise_id, EnterpriseVO enterpriseVO);
 
     /**
      * 删除企业(商户)信息
@@ -99,6 +99,6 @@ public interface IEnterpriseService {
     @Path("/records/{enterprise_id}")
     @RcmsMethod(name = "删除企业信息")
     @RequiresPermissions("permission:enterprise:delete")
-    int deleteEnterpriseMerchant(@PathParam("enterprise_id") long enterprise_id) throws RcmsApplicationException;
+    int deleteEnterpriseMerchant(@PathParam("enterprise_id") String enterprise_id) throws RcmsApplicationException;
 
 }
