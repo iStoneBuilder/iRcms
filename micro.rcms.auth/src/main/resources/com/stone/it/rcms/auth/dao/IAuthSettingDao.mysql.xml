@@ -81,4 +81,11 @@
     where id = #{enterpriseId}
   </select>
 
+  <select id="findPermissionsByRoleList" resultType="java.lang.String">
+    select auth_code from tpl_role_permission_t where role_code in
+    <foreach close=")" collection="list" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </select>
+
 </mapper>
