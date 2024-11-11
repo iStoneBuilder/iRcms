@@ -2,7 +2,7 @@ package com.stone.it.rcms.auth.service.impl;
 
 import com.stone.it.rcms.auth.dao.IAuthSettingDao;
 import com.stone.it.rcms.auth.service.IAuthSettingService;
-import com.stone.it.rcms.auth.vo.AccountVO;
+import com.stone.it.rcms.auth.vo.AuthAccountVO;
 import com.stone.it.rcms.auth.vo.AuthApisVO;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class AuthSettingService implements IAuthSettingService {
     }
 
     @Override
-    public AccountVO getUserInfoByUserId(String accountCode) {
+    public AuthAccountVO getUserInfoByUserId(String accountCode) {
         return authSettingDao.getUserInfoByUserId(accountCode);
     }
 

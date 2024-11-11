@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.auth.dao.IAuthSettingDao;
 import com.stone.it.rcms.auth.service.IAuthLoginService;
 import com.stone.it.rcms.auth.service.IAuthSettingService;
-import com.stone.it.rcms.auth.vo.AccountVO;
+import com.stone.it.rcms.auth.vo.AuthAccountVO;
 import com.stone.it.rcms.auth.vo.AppSecretVO;
 import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.auth.vo.LoginResVO;
@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.core.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -52,7 +51,7 @@ public class AuthLoginService implements IAuthLoginService {
         // 登录认证
         String sessionId = subjectLogin(userVO.getUserId(), userVO.getPassword(), "account");
         // 获取用户信息
-        AccountVO dbUser = authSettingService.getUserInfoByUserId(userVO.getUserId());
+        AuthAccountVO dbUser = authSettingService.getUserInfoByUserId(userVO.getUserId());
         Calendar expTime = JwtUtils.getExpireTime(60);
         String accessToken = buildJwtToken(sessionId, userVO.getUserId(), userVO.getPassword(), "app", expTime,
             dbUser.getEnterpriseId());
@@ -109,7 +108,7 @@ public class AuthLoginService implements IAuthLoginService {
         if (sessionId == null) {
             return null;
         }
-        AccountVO dbUser = authSettingService.getUserInfoByUserId(appSecretVO.getAppId());
+        AuthAccountVO dbUser = authSettingService.getUserInfoByUserId(appSecretVO.getAppId());
         JSONObject result = new JSONObject();
         Calendar expTime = JwtUtils.getExpireTime(60 * 30);
         String accessToken = buildJwtToken(sessionId, appSecretVO.getAppId(), appSecretVO.getSecret(), "app", expTime,
@@ -150,7 +149,7 @@ public class AuthLoginService implements IAuthLoginService {
 
     private String subjectLogin(String account, String password, String type) {
         // 查询数据库用户信息
-        AccountVO dbUser = authSettingService.getUserInfoByUserId(account);
+        AuthAccountVO dbUser = authSettingService.getUserInfoByUserId(account);
         if (dbUser == null) {
             throw new RcmsApplicationException(500, "账号/密码错误！");
         }

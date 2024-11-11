@@ -1,6 +1,6 @@
 package com.stone.it.rcms.auth.dao;
 
-import com.stone.it.rcms.auth.vo.AccountVO;
+import com.stone.it.rcms.auth.vo.AuthAccountVO;
 import com.stone.it.rcms.auth.vo.AuthApisVO;
 import com.stone.it.rcms.auth.vo.ResDetailVO;
 import java.util.List;
@@ -22,7 +22,7 @@ public interface IAuthSettingDao {
 
     void deleteApisRelationAuth();
 
-    AccountVO getUserInfoByUserId(@Param("accountCode") String accountCode);
+    AuthAccountVO getUserInfoByUserId(@Param("accountCode") String accountCode);
 
     List<AuthApisVO> getApiPathByRoleCodes(@Param("list") List<String> list);
 

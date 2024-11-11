@@ -9,7 +9,7 @@ import lombok.Data;
  * @Desc
  */
 @Data
-public class AccountVO {
+public class AuthAccountVO {
 
     private String enterpriseId;
     private String accountCode;

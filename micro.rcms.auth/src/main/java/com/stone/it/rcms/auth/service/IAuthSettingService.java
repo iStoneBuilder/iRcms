@@ -1,6 +1,6 @@
 package com.stone.it.rcms.auth.service;
 
-import com.stone.it.rcms.auth.vo.AccountVO;
+import com.stone.it.rcms.auth.vo.AuthAccountVO;
 import com.stone.it.rcms.auth.vo.AuthApisVO;
 import java.util.List;
 import java.util.Set;
@@ -41,7 +41,7 @@ public interface IAuthSettingService {
      */
     void deleteApisRelationAuth();
 
-    AccountVO getUserInfoByUserId(String accountCode);
+    AuthAccountVO getUserInfoByUserId(String accountCode);
 
     List<AuthApisVO> getApiPathByRoleCodes(Set<String> roleSets);
 

@@ -4,13 +4,9 @@ import com.stone.it.rcms.base.dao.IAccountDao;
 import com.stone.it.rcms.base.service.IAccountService;
 import com.stone.it.rcms.base.service.IEnterpriseService;
 import com.stone.it.rcms.base.vo.AccountVO;
-import com.stone.it.rcms.base.vo.EnterpriseVO;
-import com.stone.it.rcms.core.util.UserUtil;
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.cxf.common.util.StringUtils;
 import org.apache.shiro.SecurityUtils;
 
 /**
@@ -29,18 +25,9 @@ public class AccountService implements IAccountService {
 
   @Override
   public List<AccountVO> getAccountList(AccountVO accountVO) {
-    EnterpriseVO enterpriseVO = new EnterpriseVO();
-    List<EnterpriseVO> list;
-    // 如果没有查询企业ID，则获取当前登录用户的企业ID
-    if (StringUtils.isEmpty(accountVO.getEnterpriseId())) {
-      enterpriseVO.setId(UserUtil.getEnterpriseId(SecurityUtils.getSubject()));
-      list = enterpriseService.findEnterpriseList(enterpriseVO);
-    } else {
-      list = new ArrayList<>();
-      enterpriseVO.setId(accountVO.getEnterpriseId());
-      list.add(enterpriseVO);
-    }
-    return accountDao.findAccountList(accountVO, list);
+    return accountDao.findAccountList(accountVO,
+      enterpriseService.findEnterpriseList(accountVO.getEnterpriseId(),
+        SecurityUtils.getSubject()));
   }
 
   @Override

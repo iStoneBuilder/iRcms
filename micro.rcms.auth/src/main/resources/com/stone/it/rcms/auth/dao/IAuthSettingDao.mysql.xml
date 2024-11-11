@@ -35,7 +35,7 @@
     </foreach>
   </insert>
 
-  <select id="getUserInfoByUserId" resultType="com.stone.it.rcms.auth.vo.AccountVO">
+  <select id="getUserInfoByUserId" resultType="com.stone.it.rcms.auth.vo.AuthAccountVO">
     SELECT
     account_code as accountCode,
     account_name as accountName,

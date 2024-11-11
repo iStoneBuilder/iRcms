@@ -1,7 +1,7 @@
 package com.stone.it.rcms.auth.config;
 
 import com.stone.it.rcms.auth.service.IAuthSettingService;
-import com.stone.it.rcms.auth.vo.AccountVO;
+import com.stone.it.rcms.auth.vo.AuthAccountVO;
 import com.stone.it.rcms.auth.vo.AuthApisVO;
 import com.stone.it.rcms.core.util.JwtUtils;
 import java.util.HashSet;
@@ -73,8 +73,8 @@ public class UserRealm extends AuthorizingRealm {
             // 应用账户直接应用ID关联接口权限
             roleSets.add(userInfo.get("userId"));
         } else {
-            AccountVO accountVO = authSettingService.getUserInfoByUserId(userInfo.get("userId"));
-            List<String> roles = List.of(accountVO.getAccountRoles().split(","));
+            AuthAccountVO authAccountVO = authSettingService.getUserInfoByUserId(userInfo.get("userId"));
+            List<String> roles = List.of(authAccountVO.getAccountRoles().split(","));
             if (roles != null && !roles.isEmpty()) {
                 roles.stream().forEach(t -> {
                     roleSets.add(t);
