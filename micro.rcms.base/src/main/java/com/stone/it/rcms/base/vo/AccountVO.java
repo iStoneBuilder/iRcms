@@ -19,5 +19,6 @@ public class AccountVO extends BaseVO {
     private String roles;
     private String status;
     private String merchant;
+    private String description;
 
 }

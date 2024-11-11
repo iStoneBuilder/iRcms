@@ -1,8 +1,9 @@
 package com.stone.it.rcms.base.service;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.base.vo.AccountVO;
 import com.stone.it.rcms.core.annotate.RcmsMethod;
+import com.stone.it.rcms.core.vo.PageResult;
+import com.stone.it.rcms.core.vo.PageVO;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -12,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -29,6 +31,19 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 @RequiresAuthentication
 public interface IAccountService {
 
+
+  /**
+   * 获取应用账户分页列表
+   *
+   * @param accountVO
+   * @return
+   */
+  @GET
+  @Path("/records/page/{curPage}/{pageSize}")
+  @RequiresPermissions("permission:account:page:query")
+  PageResult<AccountVO> findAccountPageResult(@QueryParam("") AccountVO accountVO,
+    @PathParam("") PageVO pageVO);
+
   /**
    * 获取应用账户列表
    *
@@ -39,7 +54,7 @@ public interface IAccountService {
   @Path("/records")
   @RcmsMethod(name = "获取账户列表")
   @RequiresPermissions("permission:account:list:query")
-  List<AccountVO> getAccountList(@PathParam("accountVO") AccountVO accountVO);
+  List<AccountVO> findAccountList(@PathParam("accountVO") AccountVO accountVO);
 
   /**
    * 新增应用账户
