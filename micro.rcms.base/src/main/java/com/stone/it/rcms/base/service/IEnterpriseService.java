@@ -49,7 +49,7 @@ public interface IEnterpriseService {
   @Path("/records/tree")
   @RcmsMethod(name = "企业(商户)管理.Tree查询")
   @RequiresPermissions("permission:enterprise:tree:query")
-  EnterpriseVO findEnterpriseTreeById(@QueryParam("") EnterpriseVO enterpriseVO);
+  EnterpriseVO findEnterpriseTree(@QueryParam("") EnterpriseVO enterpriseVO);
 
   /**
    * 企业(商户)详情

@@ -38,4 +38,14 @@ public class UserUtil {
         "无法获取登录用户的企业ID！");
     }
   }
+
+  public static String getCurrentByKey(Subject subject, String key) {
+    JSONObject loginInfo = getLoginInfo(subject);
+    if (loginInfo.containsKey(key) && loginInfo.get(key) != null) {
+      return loginInfo.getString(key);
+    } else {
+      throw new RcmsApplicationException(500, "服务异常，请联系管理员！",
+        "无法获取登录用户的" + key + "信息！");
+    }
+  }
 }

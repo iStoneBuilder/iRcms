@@ -1,8 +1,7 @@
 package com.stone.it.rcms.base.service;
 
 import com.stone.it.rcms.base.vo.RoleVO;
-import com.stone.it.rcms.core.vo.PageResult;
-import com.stone.it.rcms.core.vo.PageVO;
+import com.stone.it.rcms.core.annotate.RcmsMethod;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -26,71 +25,65 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 @RequiresAuthentication
 public interface IRoleService {
 
-    /**
-     * 分页查询角色列表
-     *
-     * @param roleVO
-     * @param pageVO
-     * @return
-     */
-    @GET
-    @Path("/records/page/{curPage}/{pageSize}")
-    @RequiresPermissions("permission:role:page:query")
-    PageResult<RoleVO> findRolePageResult(@QueryParam("") RoleVO roleVO, @PathParam("") PageVO pageVO);
 
-    /**
-     * 角色列表
-     *
-     * @return
-     */
-    @GET
-    @Path("/records/list/{parent_code}")
-    @RequiresPermissions("permission:role:list:query")
-    List<RoleVO> findRoleList(@PathParam("parent_code") String parent_code);
+  /**
+   * 角色列表
+   *
+   * @return
+   */
+  @GET
+  @Path("/records")
+  @RcmsMethod(name = "角色管理.列表查询")
+  @RequiresPermissions("permission:role:list:query")
+  List<RoleVO> findRoleList(@PathParam("") RoleVO roleVO);
 
-    /**
-     * 角色详情
-     *
-     * @param roleId
-     * @return
-     */
-    @GET
-    @Path("/records/{role_id}")
-    @RequiresPermissions("permission:role:query")
-    RoleVO findRoleById(@PathParam("role_id") String roleId);
 
-    /**
-     * 创建角色
-     *
-     * @param roleVO
-     * @return
-     */
-    @POST
-    @Path("/records")
-    @RequiresPermissions("permission:role:create")
-    int createRole(RoleVO roleVO);
+  /**
+   * 查询企业(商户)列表
+   *
+   * @return
+   */
+  @GET
+  @Path("/records/tree")
+  @RcmsMethod(name = "角色管理.Tree查询")
+  @RequiresPermissions("permission:role:tree:query")
+  List<RoleVO> findRoleTree(@QueryParam("") RoleVO roleVO);
 
-    /**
-     * 更新角色
-     *
-     * @param roleId
-     * @param roleVO
-     * @return
-     */
-    @PATCH
-    @Path("/records/{role_id}")
-    @RequiresPermissions("permission:role:update")
-    int updateRole(@PathParam("role_id") String roleId, RoleVO roleVO);
+  /**
+   * 创建角色
+   *
+   * @param roleVO
+   * @return
+   */
+  @POST
+  @Path("/records")
+  @RcmsMethod(name = "角色管理.创建")
+  @RequiresPermissions("permission:role:create")
+  int createRole(RoleVO roleVO);
 
-    /**
-     * 删除角色
-     *
-     * @param roleId
-     * @return
-     */
-    @DELETE
-    @Path("/records/{role_id}")
-    @RequiresPermissions("permission:role:delete")
-    int deleteRole(@PathParam("role_id") String roleId);
+  /**
+   * 更新角色
+   *
+   * @param roleId
+   * @param roleVO
+   * @return
+   */
+  @PATCH
+  @Path("/records/{role_id}")
+  @RcmsMethod(name = "角色管理.更新")
+  @RequiresPermissions("permission:role:update")
+  int updateRole(@PathParam("role_id") String roleId, RoleVO roleVO);
+
+  /**
+   * 删除角色
+   *
+   * @param roleId
+   * @return
+   */
+  @DELETE
+  @Path("/records/{role_id}")
+  @RcmsMethod(name = "角色管理.删除")
+  @RequiresPermissions("permission:role:delete")
+  int deleteRole(@PathParam("role_id") String roleId);
 
 }

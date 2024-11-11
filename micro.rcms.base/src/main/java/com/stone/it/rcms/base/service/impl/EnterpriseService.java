@@ -29,14 +29,14 @@ public class EnterpriseService implements IEnterpriseService {
 
   @Override
   public List<EnterpriseVO> findEnterpriseList(EnterpriseVO enterpriseVO) {
-    EnterpriseVO tree = this.findEnterpriseTreeById(enterpriseVO);
+    EnterpriseVO tree = this.findEnterpriseTree(enterpriseVO);
     JSONObject node = TreeUtil.treeToList(tree);
     EnterpriseVO nodeVO = JSONObject.parseObject(JSONObject.toJSONString(node), EnterpriseVO.class);
     return nodeVO.getChildren();
   }
 
   @Override
-  public EnterpriseVO findEnterpriseTreeById(EnterpriseVO enterpriseVO) {
+  public EnterpriseVO findEnterpriseTree(EnterpriseVO enterpriseVO) {
     // 查询根节点数据
     EnterpriseVO root = enterpriseDao.findEnterpriseMerchantById(enterpriseVO.getId());
     // 查询所有子节点数据

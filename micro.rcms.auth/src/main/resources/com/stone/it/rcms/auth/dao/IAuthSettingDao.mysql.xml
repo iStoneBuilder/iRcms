@@ -59,6 +59,7 @@
     <foreach close=")" collection="list" item="item" open="(" separator=",">
       #{item}
     </foreach>
+    order by t1.auth_code
   </select>
 
   <select id="findApiPathsByPaths" resultType="com.stone.it.rcms.auth.vo.AuthApisVO">
