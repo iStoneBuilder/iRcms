@@ -40,6 +40,7 @@ public interface IAccountService {
    */
   @GET
   @Path("/records/page/{curPage}/{pageSize}")
+  @RcmsMethod(name = "账户管理.分页查询")
   @RequiresPermissions("permission:account:page:query")
   PageResult<AccountVO> findAccountPageResult(@QueryParam("") AccountVO accountVO,
     @PathParam("") PageVO pageVO);
@@ -52,7 +53,7 @@ public interface IAccountService {
    */
   @GET
   @Path("/records")
-  @RcmsMethod(name = "获取账户列表")
+  @RcmsMethod(name = "账户管理.列表查询")
   @RequiresPermissions("permission:account:list:query")
   List<AccountVO> findAccountList(@PathParam("accountVO") AccountVO accountVO);
 
@@ -64,7 +65,7 @@ public interface IAccountService {
    */
   @POST
   @Path("/records")
-  @RcmsMethod(name = "新增账户")
+  @RcmsMethod(name = "账户管理.新增")
   @RequiresPermissions("permission:account:create")
   int createAccount(AccountVO accountVO);
 
@@ -76,7 +77,7 @@ public interface IAccountService {
    */
   @DELETE
   @Path("/records/{code}")
-  @RcmsMethod(name = "删除账户")
+  @RcmsMethod(name = "账户管理.删除")
   @RequiresPermissions("permission:account:delete")
   int deleteAccount(@PathParam("code") String code);
 
@@ -88,7 +89,7 @@ public interface IAccountService {
    */
   @PATCH
   @Path("/records/{code}")
-  @RcmsMethod(name = "更新账户")
+  @RcmsMethod(name = "账户管理.更新")
   @RequiresPermissions("permission:account:update")
   int updateAccount(@PathParam("code") String code, AccountVO accountVO);
 
