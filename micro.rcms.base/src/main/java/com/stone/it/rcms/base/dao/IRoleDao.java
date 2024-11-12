@@ -16,7 +16,7 @@ public interface IRoleDao {
 
   int updateRole(RoleVO roleVO);
 
-  int deleteRole(String roleId);
+  int deleteRole(@Param("roleId") String roleId);
 
   List<RoleVO> findRoleByEnterpriseId(@Param("enterpriseId") String enterpriseId);
 

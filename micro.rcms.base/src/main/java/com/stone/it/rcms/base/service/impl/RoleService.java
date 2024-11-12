@@ -5,6 +5,7 @@ import com.stone.it.rcms.base.dao.IRoleDao;
 import com.stone.it.rcms.base.service.IRoleService;
 import com.stone.it.rcms.base.vo.RoleVO;
 import com.stone.it.rcms.core.util.TreeUtil;
+import com.stone.it.rcms.core.util.UUIDUtil;
 import com.stone.it.rcms.core.util.UserUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +34,14 @@ public class RoleService implements IRoleService {
     treeList.forEach(role -> {
       JSONObject node = TreeUtil.treeToList(role);
       RoleVO nodeVO = JSONObject.parseObject(JSONObject.toJSONString(node), RoleVO.class);
-      resultList.add(nodeVO);
+      resultList.addAll(nodeVO.getChildren());
     });
     return resultList;
   }
 
   @Override
   public List<RoleVO> findRoleTree(RoleVO roleVO) {
-    String enterpriseId = roleVO.getCode();
+    String enterpriseId = roleVO.getId();
     if (StringUtils.isEmpty(enterpriseId)) {
       enterpriseId = UserUtil.getCurrentByKey(SecurityUtils.getSubject(), "enterpriseId");
     }
@@ -58,13 +59,13 @@ public class RoleService implements IRoleService {
 
   @Override
   public int createRole(RoleVO roleVO) {
-    //roleVO.setRoleId(UUIDUtil.getUuid());
+    roleVO.setId(UUIDUtil.getUuid());
     return roleDao.createRole(roleVO);
   }
 
   @Override
   public int updateRole(String roleId, RoleVO roleVO) {
-    //roleVO.setRoleId(roleId);
+    roleVO.setId(roleId);
     return roleDao.updateRole(roleVO);
   }
 

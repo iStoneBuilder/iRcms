@@ -36,6 +36,11 @@ public class EnterpriseService implements IEnterpriseService {
   }
 
   @Override
+  public List<EnterpriseVO> findEnterpriseListByPid(EnterpriseVO enterpriseVO) {
+    return enterpriseDao.findEnterpriseListByPid(enterpriseVO);
+  }
+
+  @Override
   public EnterpriseVO findEnterpriseTree(EnterpriseVO enterpriseVO) {
     // 查询根节点数据
     EnterpriseVO root = enterpriseDao.findEnterpriseMerchantById(enterpriseVO.getId());
@@ -55,9 +60,8 @@ public class EnterpriseService implements IEnterpriseService {
   public int createEnterpriseMerchant(EnterpriseVO enterpriseVO) {
     // 生成唯一标识码
     enterpriseVO.setCode(UUIDUtil.getUuid());
-    // 查询最大的企业ID
-    EnterpriseVO maxEnterpriseVO = enterpriseDao.findMaxEnterpriseId();
-    enterpriseVO.setId(String.valueOf(Long.valueOf(maxEnterpriseVO.getId()) + 1));
+    // 设置企业ID
+    enterpriseVO.setId(UUIDUtil.getUuid());
     return enterpriseDao.createEnterpriseMerchant(enterpriseVO);
   }
 

@@ -4,23 +4,41 @@
 <mapper namespace="com.stone.it.rcms.base.dao.IRoleDao">
   <sql id="query_base">
     select
-    parent_id as parentId,
-    id,
-    code,
-    name,
-    description,
-    enterprise_id as enterpriseId,
-    created_time as createDate,
-    updated_time as updateDate,
-    created_by as createBy,
-    updated_by as updateBy
-    from tpl_role_t
+    r.parent_id as parentId,
+    r.id,
+    r.code,
+    r.name,
+    r.description,
+    e.name as merchant,
+    r.enterprise_id as enterpriseId,
+    r.created_time as createDate,
+    r.updated_time as updateDate,
+    r.created_by as createBy,
+    r.updated_by as updateBy
+    from tpl_role_t r left join tpl_enterprise_t e
+    on r.enterprise_id = e.id
   </sql>
-  <delete id="deleteRole"></delete>
-  <insert id="createRole"></insert>
+  <delete id="deleteRole">
+    delete from tpl_role_t where id = #{roleId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="createRole">
+    insert into tpl_role_t(
+    id, parent_id, code, name, description, enterprise_id, created_by, created_time, updated_by, updated_time)
+    values (#{id,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+    #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{enterpriseId,jdbcType=VARCHAR},
+    'system', now(), 'system', now())
+  </insert>
   <select id="findPageResult" resultType="com.stone.it.rcms.base.vo.RoleVO"></select>
 
-  <update id="updateRole"></update>
+  <update id="updateRole">
+    update tpl_role_t
+    set
+    <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+    <if test="description != null">description = #{description,jdbcType=VARCHAR},</if>
+    updated_by = 'system',
+    updated_time = now()
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
 
   <select id="findAllRoles" resultType="com.stone.it.rcms.base.vo.RoleVO">
     <include refid="query_base"/>
@@ -28,6 +46,6 @@
 
   <select id="findRoleByEnterpriseId" resultType="com.stone.it.rcms.base.vo.RoleVO">
     <include refid="query_base"/>
-    where enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+    where r.enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
   </select>
 </mapper>

@@ -22,12 +22,12 @@ CREATE TABLE IF NOT EXISTS `tpl_enterprise_t`(
 
 -- 角色表 done
 CREATE TABLE IF NOT EXISTS `tpl_role_t`(
-    `enterprise_id`      bigint NOT NULL COMMENT '企业ID',
-    `parent_id`    bigint NOT NULL COMMENT '父节点ID，为空表示根节点',
-    `id`    int NOT NULL COMMENT '角色ID',
+    `enterprise_id`      VARCHAR(100) NOT NULL COMMENT '企业ID',
+    `parent_id`    VARCHAR(100) NOT NULL COMMENT '父节点ID，为空表示根节点',
+    `id`    VARCHAR(100) NOT NULL COMMENT '角色ID',
     `code`    VARCHAR(100) NOT NULL COMMENT '角色CODE',
     `name`    VARCHAR(100) NOT NULL COMMENT '角色名',
-    `DESCRIPTION`    VARCHAR(100) NOT NULL COMMENT '描述',
+    `DESCRIPTION`    VARCHAR(100)  COMMENT '描述',
     `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
     `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,

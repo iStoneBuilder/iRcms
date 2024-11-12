@@ -16,6 +16,7 @@ public class RoleVO extends BaseVO {
   private String code;
   private String name;
   private String description;
+  private String merchant;
 
   private List<RoleVO> children;
 

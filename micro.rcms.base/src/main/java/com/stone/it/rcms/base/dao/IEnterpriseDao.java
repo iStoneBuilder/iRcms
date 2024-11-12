@@ -29,4 +29,6 @@ public interface IEnterpriseDao {
     int deleteEnterpriseMerchant(@Param("enterpriseId") String enterpriseId);
 
     EnterpriseVO findMaxEnterpriseId();
+
+    List<EnterpriseVO> findEnterpriseListByPid(EnterpriseVO enterpriseVO);
 }

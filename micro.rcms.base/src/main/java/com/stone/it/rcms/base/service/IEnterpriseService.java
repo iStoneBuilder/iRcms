@@ -7,8 +7,8 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -39,6 +39,17 @@ public interface IEnterpriseService {
   @RcmsMethod(name = "企业(商户)管理.列表查询")
   @RequiresPermissions("permission:enterprise:list:query")
   List<EnterpriseVO> findEnterpriseList(@QueryParam("") EnterpriseVO enterpriseVO);
+
+  /**
+   * 查询企业(商户)列表
+   *
+   * @return
+   */
+  @GET
+  @Path("/records/list")
+  @RcmsMethod(name = "企业(商户)管理.列表查询")
+  @RequiresPermissions("permission:enterprise:list2:query")
+  List<EnterpriseVO> findEnterpriseListByPid(@QueryParam("") EnterpriseVO enterpriseVO);
 
   /**
    * 查询企业(商户)列表
@@ -81,7 +92,7 @@ public interface IEnterpriseService {
    * @param enterpriseVO
    * @return
    */
-  @PATCH
+  @PUT
   @Path("/records/{enterprise_id}")
   @RcmsMethod(name = "企业(商户)管理.修改")
   @RequiresPermissions("permission:enterprise:update")
@@ -102,4 +113,5 @@ public interface IEnterpriseService {
     throws RcmsApplicationException;
 
   List<EnterpriseVO> findEnterpriseList(String enterpriseId, Subject subject);
+
 }
