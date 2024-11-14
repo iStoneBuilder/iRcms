@@ -17,5 +17,5 @@ public class AuthApisVO extends BaseVO {
     private String apiPath;
     private String apiMethod;
     private String apiType;
-    private String openApi;
+    private String openApi = "N";
 }

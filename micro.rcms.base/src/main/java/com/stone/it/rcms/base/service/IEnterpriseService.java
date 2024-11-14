@@ -47,7 +47,7 @@ public interface IEnterpriseService {
    */
   @GET
   @Path("/records/list")
-  @RcmsMethod(name = "企业(商户)管理.列表查询")
+  @RcmsMethod(name = "企业(商户)管理.下级查询")
   @RequiresPermissions("permission:enterprise:list2:query")
   List<EnterpriseVO> findEnterpriseListByPid(@QueryParam("") EnterpriseVO enterpriseVO);
 

@@ -35,7 +35,19 @@ public interface IRoleService {
   @Path("/records")
   @RcmsMethod(name = "角色管理.列表查询")
   @RequiresPermissions("permission:role:list:query")
-  List<RoleVO> findRoleList(@PathParam("") RoleVO roleVO);
+  List<RoleVO> findRoleList(@QueryParam("") RoleVO roleVO);
+
+
+  /**
+   * 角色列表
+   *
+   * @return
+   */
+  @GET
+  @Path("/records/list")
+  @RcmsMethod(name = "角色管理.下级查询")
+  @RequiresPermissions("permission:role:list2:query")
+  List<RoleVO> findEnterPriseRoleList(@QueryParam("") RoleVO roleVO);
 
 
   /**

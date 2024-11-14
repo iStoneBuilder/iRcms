@@ -48,4 +48,5 @@
     <include refid="query_base"/>
     where r.enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
   </select>
+
 </mapper>

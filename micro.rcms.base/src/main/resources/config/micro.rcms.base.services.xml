@@ -24,6 +24,7 @@
       <ref bean="userService"/>
       <ref bean="enterpriseService"/>
       <ref bean="accountService"/>
+      <ref bean="permissionService"/>
     </jaxrs:serviceBeans>
   </jaxrs:server>
 

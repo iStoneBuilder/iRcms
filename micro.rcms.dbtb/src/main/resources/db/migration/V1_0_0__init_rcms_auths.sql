@@ -67,13 +67,13 @@ CREATE TABLE IF NOT EXISTS `tpl_role_permission_t`(
 
 -- 账户表 done
 CREATE TABLE IF NOT EXISTS `tpl_account_t`(
-   `enterprise_id`      bigint NOT NULL COMMENT '企业ID',
+   `enterprise_id`      VARCHAR(100) NOT NULL COMMENT '企业ID',
     `account_code`    VARCHAR(100) NOT NULL COMMENT '账户登录',
     `account_name`    VARCHAR(100) NOT NULL COMMENT '账户名称',
     `account_type`    VARCHAR(100) NOT NULL COMMENT '账户类型：user/app',
     `password`    VARCHAR(100) NOT NULL COMMENT '账户密码',
     `status`    VARCHAR(10) NOT NULL COMMENT '账户状态：Y/N',
-    `account_roles`    VARCHAR(100) NOT NULL COMMENT '账户角色',
+    `account_roles`    VARCHAR(100)  COMMENT '账户角色',
     `description`    VARCHAR(100)  COMMENT '备注',
     `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',

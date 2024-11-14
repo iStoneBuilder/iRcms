@@ -38,11 +38,65 @@
     </where>
   </select>
 
-  <update id="updateAccount"></update>
+  <update id="updateAccount">
+    update tpl_account_t
+    set
+    <if test="name !=null and name !=''">
+      account_name = #{name,jdbcType=VARCHAR},
+    </if>
+    <if test="password !=null and password !=''">
+      password = #{password,jdbcType=VARCHAR},
+    </if>
+    <if test="roles !=null and roles !=''">
+      account_roles = #{roles,jdbcType=VARCHAR},
+    </if>
+    <if test="status !=null and status !=''">
+      status = #{status,jdbcType=VARCHAR},
+    </if>
+    <if test="description !=null and description !=''">
+      description = #{description,jdbcType=VARCHAR},
+    </if>
+    UPDATED_BY = 'system',
+    UPDATED_TIME = now()
+    where account_code = #{code,jdbcType=VARCHAR}
 
-  <delete id="deleteAccount"></delete>
+  </update>
 
-  <insert id="createAccount"></insert>
+  <delete id="deleteAccount">
+    delete from tpl_account_t
+    where account_code = #{code,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="createAccount">
+    insert into tpl_account_t(
+    account_code,
+    account_name,
+    account_type,
+    password,
+    account_roles,
+    status,
+    enterprise_id,
+    description,
+    CREATED_BY,
+    UPDATED_BY,
+    CREATED_TIME,
+    UPDATED_TIME
+    )
+    values(
+    #{code,jdbcType=VARCHAR},
+    #{name,jdbcType=VARCHAR},
+    #{type,jdbcType=VARCHAR},
+    #{password,jdbcType=VARCHAR},
+    #{roles,jdbcType=VARCHAR},
+    #{status,jdbcType=VARCHAR},
+    #{enterpriseId,jdbcType=VARCHAR},
+    #{description,jdbcType=VARCHAR},
+    'system',
+    'system',
+    now(),
+    now()
+    )
+  </insert>
 
   <sql id="query_page_condition">
     <where>

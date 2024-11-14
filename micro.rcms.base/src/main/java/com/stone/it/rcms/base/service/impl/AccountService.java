@@ -7,6 +7,7 @@ import com.stone.it.rcms.base.vo.AccountVO;
 import com.stone.it.rcms.base.vo.EnterpriseVO;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
+import java.util.Base64;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -43,6 +44,8 @@ public class AccountService implements IAccountService {
 
   @Override
   public int createAccount(AccountVO accountVO) {
+    // 创建设置默认密码
+    accountVO.setPassword(Base64.getEncoder().encodeToString("Ms@12345678".getBytes()));
     return accountDao.createAccount(accountVO);
   }
 

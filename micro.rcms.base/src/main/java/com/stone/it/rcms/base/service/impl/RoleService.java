@@ -40,6 +40,11 @@ public class RoleService implements IRoleService {
   }
 
   @Override
+  public List<RoleVO> findEnterPriseRoleList(RoleVO roleVO) {
+    return  roleDao.findRoleByEnterpriseId(roleVO.getEnterpriseId());
+  }
+
+  @Override
   public List<RoleVO> findRoleTree(RoleVO roleVO) {
     String enterpriseId = roleVO.getId();
     if (StringUtils.isEmpty(enterpriseId)) {

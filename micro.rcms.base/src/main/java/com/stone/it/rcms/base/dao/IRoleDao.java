@@ -1,8 +1,6 @@
 package com.stone.it.rcms.base.dao;
 
 import com.stone.it.rcms.base.vo.RoleVO;
-import com.stone.it.rcms.core.vo.PageResult;
-import com.stone.it.rcms.core.vo.PageVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,5 +19,4 @@ public interface IRoleDao {
   List<RoleVO> findRoleByEnterpriseId(@Param("enterpriseId") String enterpriseId);
 
   List<RoleVO> findAllRoles();
-
 }

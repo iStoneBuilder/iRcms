@@ -1,6 +1,7 @@
 package com.stone.it.rcms.base.service;
 
 import com.stone.it.rcms.base.vo.PermissionVO;
+import com.stone.it.rcms.core.annotate.RcmsMethod;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import javax.ws.rs.Consumes;
@@ -13,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /**
- *
  * @author cj.stone
  * @Date 2024/11/1
  * @Desc
@@ -23,10 +23,11 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 @Consumes(MediaType.APPLICATION_JSON)
 public interface IPermissionService {
 
-    @GET
-    @Path("/records/page/{curPage}/{pageSize}")
-    @RequiresPermissions("permission:permission:page:query")
-    PageResult<PermissionVO> findI18nPageResult(@QueryParam("") PermissionVO permissionVO,
-        @PathParam("") PageVO pageVO);
+  @GET
+  @Path("/records/page/{curPage}/{pageSize}")
+  @RcmsMethod(name = "接口管理.分页查询")
+  @RequiresPermissions("permission:permission:page:query")
+  PageResult<PermissionVO> findPermissionPageResult(@QueryParam("") PermissionVO permissionVO,
+    @PathParam("") PageVO pageVO);
 
 }

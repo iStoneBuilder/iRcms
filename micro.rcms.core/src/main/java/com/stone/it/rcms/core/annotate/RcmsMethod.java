@@ -25,7 +25,7 @@ public @interface RcmsMethod {
     /**
      * 是否为openApi N（默认）：不为openApi Y：为openApi
      */
-    String[] type() default "";
+    String[] type() default "N";
 
 }
 
