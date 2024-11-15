@@ -9,8 +9,17 @@
     values
     (#{classifyCode},#{classifyName},#{description},'system','system',now(),now())
   </insert>
-  <update id="updateClassify"></update>
-  <delete id="deleteClassify"></delete>
+  <update id="updateClassify">
+    update tpl_classify_t
+    set classify_name = #{classifyName},
+    description = #{description},
+    updated_by ='system',
+    updated_time = now()
+    where classify_code = #{classifyCode}
+  </update>
+  <delete id="deleteClassify">
+    delete from tpl_classify_t where classify_code = #{classifyCode}
+  </delete>
   <sql id="query_base">
     select classify_code as classifyCode,
     classify_name as classifyName,
@@ -22,7 +31,7 @@
   <sql id="query_condition">
     <where>
       <if test="param1.classifyCode!= null and param1.classifyCode!= ''">
-        and classify_code  like concat('%',#{param1.classifyCode},'%')
+        and classify_code like concat('%',#{param1.classifyCode},'%')
       </if>
       <if test="param1.classifyName!= null and param1.classifyName!= ''">
         and classify_name like concat('%',#{param1.classifyName},'%')
@@ -47,9 +56,69 @@
   <insert id="createClassifyItem"></insert>
   <delete id="deleteClassifyItem"></delete>
   <update id="updateClassifyItem"></update>
-  <select id="findClassifyItemByCode" resultType="com.stone.it.rcms.base.vo.ItemVO"></select>
+  <sql id="query_item_base">
+    select
+    item_id as itemId,
+    item_code as itemCode,
+    item_name as itemName,
+    item_index as itemIndex,
+    is_enabled as isEnabled,
+    description,
+    item_attr1 as itemAttr1,
+    item_attr2 as itemAttr2,
+    item_attr3 as itemAttr3
+    item_attr4 as itemAttr4,
+    item_attr5 as itemAttr5,
+    created_time as createDate,
+    updated_time as updateDate,
+    created_by as createBy,
+    updated_by as updateBy
+    from tpl_item_t
+    where classify_code = #{classifyCode,jdbcType=VARCHAR}
+  </sql>
+  <sql id="query_item_condition">
+    <if test="itemName!= null and itemName!= ''">
+      and item_name like concat('%',#{itemName},'%')
+    </if>
+    <if test="itemCode!= null and itemCode!= ''">
+      and item_code = like concat('%',#{itemCode},'%')
+    </if>
+    <if test="isEnabled!= null and isEnabled!= ''">
+      and is_enabled = #{isEnabled}
+    </if>
+  </sql>
   <select id="findClassifyItemByCodeLang" resultType="com.stone.it.rcms.base.vo.ItemVO">
-
+    <include refid="query_item_base"/>
+    <include refid="query_item_condition"/>
+    and language = #{language}
+    order by item_index
+  </select>
+  <sql id="query_item_page_condition">
+    <where>
+      classify_code = #{param1.classifyCode,jdbcType=VARCHAR}
+      <if test="param1.itemName!= null and param1.itemName!= ''">
+        and item_name like concat('%',#{param1.itemName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="param1.itemCode!= null and param1.itemCode!= ''">
+        and item_code like concat('%',#{param1.itemCode,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="param1.isEnabled != null and param1.isEnabled != ''">
+        and is_enabled = #{param1.isEnabled,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.language != null and param1.language != ''">
+        and language = #{param1.language,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  <select id="findClassifyItemPageResult" resultType="com.stone.it.rcms.base.vo.ItemVO">
+    <include refid="query_item_base"/>
+    <include refid="query_item_page_condition"/>
+    limit #{param2.startIndex}, #{param2.endIndex}
+    order by item_index
+  </select>
+  <select id="findClassifyItemPageResultCount" resultType="int">
+    select count(1) from tpl_item_t
+    <include refid="query_item_page_condition"/>
   </select>
 
 </mapper>

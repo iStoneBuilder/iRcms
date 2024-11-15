@@ -113,6 +113,9 @@
       <if test="param1.status !=null and param1.status !=''">
         and a.status = #{param1.status,jdbcType=VARCHAR}
       </if>
+      <if test="param1.type !=null and param1.type !=''">
+        and a.account_type = #{param1.type,jdbcType=VARCHAR}
+      </if>
     </where>
   </sql>
 

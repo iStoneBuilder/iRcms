@@ -25,7 +25,7 @@ public class ItemService implements IItemService {
 
   @Override
   public PageResult<ClassifyVO> findClassifyPageResult(ClassifyVO classifyVO, PageVO pageVO) {
-    return itemDao.findPageResult(classifyVO,pageVO);
+    return itemDao.findPageResult(classifyVO, pageVO);
   }
 
   @Override
@@ -50,13 +50,13 @@ public class ItemService implements IItemService {
   }
 
   @Override
-  public List<ItemVO> findClassifyItemByCode(String classifyCode) {
-    return itemDao.findClassifyItemByCode(classifyCode);
+  public PageResult<ItemVO> findClassifyItemPageResult(ItemVO itemVO, PageVO pageVO) {
+    return itemDao.findClassifyItemPageResult(itemVO, pageVO);
   }
 
   @Override
   public List<ItemVO> findClassifyItemByCodeLang(String classifyCode, String lang) {
-    return itemDao.findClassifyItemByCodeLang(classifyCode,lang);
+    return itemDao.findClassifyItemByCodeLang(classifyCode, lang);
   }
 
   @Override
