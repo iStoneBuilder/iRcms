@@ -4,6 +4,10 @@
 <mapper namespace="com.stone.it.rcms.base.dao.IItemDao">
 
   <insert id="createClassify">
+    insert into tpl_classify_t
+    (classify_code,classify_name,description,created_by,updated_by,created_time,updated_time)
+    values
+    (#{classifyCode},#{classifyName},#{description},'system','system',now(),now())
   </insert>
   <update id="updateClassify"></update>
   <delete id="deleteClassify"></delete>
