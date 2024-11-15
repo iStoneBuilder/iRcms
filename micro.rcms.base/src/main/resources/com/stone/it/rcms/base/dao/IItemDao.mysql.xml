@@ -4,14 +4,38 @@
 <mapper namespace="com.stone.it.rcms.base.dao.IItemDao">
 
   <insert id="createClassify">
-    insert into tpl_classify_t
-    ()
-    values
-    ()
   </insert>
   <update id="updateClassify"></update>
   <delete id="deleteClassify"></delete>
+  <sql id="query_base">
+    select classify_code as classifyCode,
+    classify_name as classifyName,
+    description,
+    created_time as createDate,updated_time as updateDate,
+    created_by as createBy,updated_by as updateBy
+    from tpl_classify_t
+  </sql>
+  <sql id="query_condition">
+    <where>
+      <if test="param1.classifyCode!= null and param1.classifyCode!= ''">
+        and classify_code  like concat('%',#{param1.classifyCode},'%')
+      </if>
+      <if test="param1.classifyName!= null and param1.classifyName!= ''">
+        and classify_name like concat('%',#{param1.classifyName},'%')
+      </if>
+      <if test="param1.description!= null and param1.description!= ''">
+        and description like concat('%',#{param1.description},'%')
+      </if>
+    </where>
+  </sql>
   <select id="findPageResult" resultType="com.stone.it.rcms.base.vo.ClassifyVO">
+    <include refid="query_base"/>
+    <include refid="query_condition"/>
+    limit #{param2.startIndex}, #{param2.endIndex}
+  </select>
+  <select id="findPageResultCount" resultType="int">
+    select count(1) from tpl_classify_t
+    <include refid="query_condition"/>
   </select>
 
   <select id="findClassify" resultType="com.stone.it.rcms.base.vo.ClassifyVO"></select>

@@ -27,7 +27,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 public interface IItemService {
 
     @GET
-    @Path("/records/{curPage}/{pageSize}")
+    @Path("/records/page/{curPage}/{pageSize}")
     PageResult<ClassifyVO> findClassifyPageResult(@QueryParam("") ClassifyVO classifyVO, @PathParam("") PageVO pageVO);
 
     @GET
