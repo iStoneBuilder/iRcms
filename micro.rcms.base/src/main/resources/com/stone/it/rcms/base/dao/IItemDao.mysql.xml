@@ -66,7 +66,7 @@
     description,
     item_attr1 as itemAttr1,
     item_attr2 as itemAttr2,
-    item_attr3 as itemAttr3
+    item_attr3 as itemAttr3,
     item_attr4 as itemAttr4,
     item_attr5 as itemAttr5,
     created_time as createDate,
@@ -74,18 +74,20 @@
     created_by as createBy,
     updated_by as updateBy
     from tpl_item_t
-    where classify_code = #{classifyCode,jdbcType=VARCHAR}
   </sql>
   <sql id="query_item_condition">
-    <if test="itemName!= null and itemName!= ''">
-      and item_name like concat('%',#{itemName},'%')
-    </if>
-    <if test="itemCode!= null and itemCode!= ''">
-      and item_code = like concat('%',#{itemCode},'%')
-    </if>
-    <if test="isEnabled!= null and isEnabled!= ''">
-      and is_enabled = #{isEnabled}
-    </if>
+    <where>
+      classify_code = #{classifyCode,jdbcType=VARCHAR}
+      <if test="itemName!= null and itemName!= ''">
+        and item_name like concat('%',#{itemName},'%')
+      </if>
+      <if test="itemCode!= null and itemCode!= ''">
+        and item_code = like concat('%',#{itemCode},'%')
+      </if>
+      <if test="isEnabled!= null and isEnabled!= ''">
+        and is_enabled = #{isEnabled}
+      </if>
+    </where>
   </sql>
   <select id="findClassifyItemByCodeLang" resultType="com.stone.it.rcms.base.vo.ItemVO">
     <include refid="query_item_base"/>
@@ -113,8 +115,8 @@
   <select id="findClassifyItemPageResult" resultType="com.stone.it.rcms.base.vo.ItemVO">
     <include refid="query_item_base"/>
     <include refid="query_item_page_condition"/>
-    limit #{param2.startIndex}, #{param2.endIndex}
     order by item_index
+    limit #{param2.startIndex}, #{param2.endIndex}
   </select>
   <select id="findClassifyItemPageResultCount" resultType="int">
     select count(1) from tpl_item_t
