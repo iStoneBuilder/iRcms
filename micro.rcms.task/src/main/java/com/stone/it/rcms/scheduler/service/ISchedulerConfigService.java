@@ -58,7 +58,7 @@ public interface ISchedulerConfigService {
    * @return
    * @throws Exception
    */
-  @PATCH
+  @PUT
   @Path("/records/{quartzId}")
   SchedulerVO updateQuartz(@PathParam("quartzId") String quartzId,SchedulerVO schedulerVO) throws Exception;
 

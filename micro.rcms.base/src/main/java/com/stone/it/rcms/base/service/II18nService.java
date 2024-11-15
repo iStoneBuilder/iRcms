@@ -7,8 +7,8 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -76,7 +76,7 @@ public interface II18nService {
      * @param i18nVO
      * @return
      */
-    @PATCH
+    @PUT
     @Path("/records/{i18n_id}")
     int updateI18n(@PathParam("i18n_id") String i18nId, I18nVO i18nVO);
 

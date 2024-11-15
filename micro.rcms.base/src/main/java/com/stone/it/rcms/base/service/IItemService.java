@@ -8,8 +8,8 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -38,7 +38,7 @@ public interface IItemService {
     @Path("/records")
     int createClassify(ClassifyVO classifyVO);
 
-    @PATCH
+    @PUT
     @Path("/records/{classify_code}")
     int updateClassify(@PathParam("classify_code") String classifyCode, ClassifyVO classifyVO);
 
@@ -59,7 +59,7 @@ public interface IItemService {
     @Path("/records/item")
     int createClassifyItem(ItemVO itemVO);
 
-    @PATCH
+    @PUT
     @Path("/records/item/{item_id}")
     int updateClassifyItem(@PathParam("item_id") String itemId, ItemVO itemVO);
 
