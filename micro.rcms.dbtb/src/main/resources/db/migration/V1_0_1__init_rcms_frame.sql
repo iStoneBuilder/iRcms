@@ -65,18 +65,26 @@ CREATE TABLE IF NOT EXISTS `tpl_user_t`(
     DEFAULT CHARSET = utf8mb4;
 
 -- 栏目表
-CREATE TABLE IF NOT EXISTS `tpl_site_t`(
-   `SITE_ID`    VARCHAR(100) NOT NULL COMMENT '栏目ID',
-   `SITE_CODE`    VARCHAR(100) NOT NULL COMMENT '栏目编码用于关联国际化',
-   `SITE_NAME`    VARCHAR(1000) NOT NULL COMMENT '默认栏目名称',
-   `SITE_URL`    VARCHAR(100) NOT NULL COMMENT '访问URL',
-   `IS_PUBLISH`    VARCHAR(100) NOT NULL COMMENT '是否发布',
-   `OPEN_WAY`    VARCHAR(100) NOT NULL COMMENT '打开方式',
+CREATE TABLE IF NOT EXISTS `tpl_menu_t`(
+   `parent_id` VARCHAR(100) NOT NULL COMMENT '父栏目ID',
+   `id`    VARCHAR(100) NOT NULL COMMENT '菜单ID',
+   `title`    VARCHAR(100) NOT NULL COMMENT '菜单名称',
+   `name`    VARCHAR(100) NOT NULL COMMENT '路由名称',
+   `path`    VARCHAR(100) NOT NULL COMMENT '路由地址',
+   `component`    VARCHAR(100)  COMMENT '组件路径',
+   `rank`    INT  COMMENT '排序',
+   `redirect`    VARCHAR(100) COMMENT '重定向地址',
+   `icon`    VARCHAR(100)  COMMENT '图标',
+   `extra_icon`    VARCHAR(100)  COMMENT '额外图标',
+   `active_path`    VARCHAR(100)  COMMENT '菜单不显示时激活路由地址',
+   `roles`    VARCHAR(100)  COMMENT '菜单权限',
+   `auths`    VARCHAR(100)  COMMENT '按钮权限',
+   `show_link` VARCHAR(10)  COMMENT '是否在菜单中显示 （false：显示，true：不显示）',
    `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
    `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `UPDATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
-   PRIMARY KEY (`SITE_ID`)
+   PRIMARY KEY (`id`)
    ) ENGINE = InnoDB
    DEFAULT CHARSET = utf8mb4;
 
