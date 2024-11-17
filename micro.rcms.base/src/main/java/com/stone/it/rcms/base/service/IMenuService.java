@@ -28,34 +28,34 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 @RequiresAuthentication
 public interface IMenuService {
 
-  @GET
-  @Path("/records")
-  @RcmsMethod(name = "栏目管理.列表查询")
-  @RequiresPermissions("permission:menu:list:query")
-  List<MenuVO> getMenuList(@QueryParam("") MenuVO menuVO);
+    @GET
+    @Path("/records")
+    @RcmsMethod(name = "栏目管理.列表查询")
+    @RequiresPermissions("permission:menu:list:query")
+    List<MenuVO> getMenuList(@QueryParam("") MenuVO menuVO);
 
-  @GET
-  @Path("/records/tree")
-  @RcmsMethod(name = "栏目管理.Tree查询")
-  @RequiresPermissions("permission:menu:tree:query")
-  List<MenuVO> getMenuTreeList();
+    @GET
+    @Path("/records/tree")
+    @RcmsMethod(name = "栏目管理.Tree查询")
+    @RequiresPermissions("permission:menu:tree:query")
+    List<MenuVO> getMenuTreeList();
 
-  @POST
-  @Path("/records")
-  @RcmsMethod(name = "栏目管理.新增")
-  @RequiresPermissions("permission:menu:create")
-  int createMenu(MenuVO menuVO);
+    @POST
+    @Path("/records")
+    @RcmsMethod(name = "栏目管理.新增")
+    @RequiresPermissions("permission:menu:create")
+    int createMenu(MenuVO menuVO);
 
-  @PUT
-  @Path("/records/{id}")
-  @RcmsMethod(name = "栏目管理.新增")
-  @RequiresPermissions("permission:menu:update")
-  int updateMenu(@PathParam("id") String id, MenuVO menuVO);
+    @PUT
+    @Path("/records/{id}")
+    @RcmsMethod(name = "栏目管理.新增")
+    @RequiresPermissions("permission:menu:update")
+    int updateMenu(@PathParam("id") String id, MenuVO menuVO);
 
-  @DELETE
-  @Path("/records/{id}")
-  @RcmsMethod(name = "栏目管理.删除")
-  @RequiresPermissions("permission:menu:update")
-  int deleteMenu(@PathParam("id") String id);
+    @DELETE
+    @Path("/records/{id}")
+    @RcmsMethod(name = "栏目管理.删除")
+    @RequiresPermissions("permission:menu:delete")
+    int deleteMenu(@PathParam("id") String id);
 
 }

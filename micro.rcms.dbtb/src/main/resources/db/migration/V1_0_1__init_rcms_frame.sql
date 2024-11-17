@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `tpl_menu_t`(
    `name`    VARCHAR(100) NOT NULL COMMENT '路由名称',
    `path`    VARCHAR(100) NOT NULL COMMENT '路由地址',
    `component`    VARCHAR(100)  COMMENT '组件路径',
-   `rank`    INT  COMMENT '排序',
+   `rank_sort`    INT  COMMENT '排序',
    `redirect`    VARCHAR(100) COMMENT '重定向地址',
    `icon`    VARCHAR(100)  COMMENT '图标',
    `extra_icon`    VARCHAR(100)  COMMENT '额外图标',
