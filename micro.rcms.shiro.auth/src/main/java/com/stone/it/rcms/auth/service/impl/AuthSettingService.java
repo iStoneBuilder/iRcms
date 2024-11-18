@@ -23,28 +23,6 @@ public class AuthSettingService implements IAuthSettingService {
     private IAuthSettingDao authSettingDao;
 
     @Override
-    public List<SystemApiVO> findApiPathsByPaths(Set<String> apiPaths) {
-        List<String> list = new ArrayList<>(apiPaths);
-        return authSettingDao.findApiPathsByPaths(list);
-    }
-
-    @Override
-    public void createApiPaths(List<SystemApiVO> permissionList) {
-        authSettingDao.createApiPaths(permissionList);
-    }
-
-    @Override
-    public void deleteApiPathsNotInList(Set<String> permissionPathSet) {
-        List<String> list = new ArrayList<>(permissionPathSet);
-        authSettingDao.deleteApiPathsNotInList(list);
-    }
-
-    @Override
-    public void deleteApisRelationAuth() {
-        authSettingDao.deleteApisRelationAuth();
-    }
-
-    @Override
     public AuthAccountVO getUserInfoByUserId(String accountCode) {
         return authSettingDao.getUserInfoByUserId(accountCode);
     }
@@ -55,9 +33,4 @@ public class AuthSettingService implements IAuthSettingService {
         return authSettingDao.getApiPathByRoleCodes(list);
     }
 
-    @Override
-    public void createSuperAdminAuth(Set<String> authCodeSet, String roleCode) {
-        List<String> list = new ArrayList<>(authCodeSet);
-        authSettingDao.createSuperAdminAuth(list, roleCode);
-    }
 }

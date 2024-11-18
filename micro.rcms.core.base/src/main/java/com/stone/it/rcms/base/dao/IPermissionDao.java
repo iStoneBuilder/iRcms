@@ -1,8 +1,10 @@
 package com.stone.it.rcms.base.dao;
 
-import com.stone.it.rcms.base.vo.PermissionVO;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
+import com.stone.it.rcms.core.vo.PermissionVO;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author cj.stone
@@ -11,5 +13,15 @@ import com.stone.it.rcms.core.vo.PageVO;
  */
 public interface IPermissionDao {
 
-  PageResult<PermissionVO> findPermissionPageResult(PermissionVO permissionVO, PageVO pageVO);
+    PageResult<PermissionVO> findPermissionPageResult(PermissionVO permissionVO, PageVO pageVO);
+
+    List<PermissionVO> findPermissionListByPaths(@Param("apis") List<String> apis);
+
+    int createPermission(List<PermissionVO> dbNotExistApiList);
+
+    int deletePermissionNotInList(List<String> apis, String contextPath);
+
+    int deleteApisRelationAuth();
+
+    void createSuperAdminAuth(@Param("list") List<String> list, @Param("roleCode") String roleCode);
 }

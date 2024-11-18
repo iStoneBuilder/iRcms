@@ -13,19 +13,9 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface IAuthSettingDao {
 
-    List<SystemApiVO> findApiPathsByPaths(@Param("list") List<String> list);
-
-    void createApiPaths(@Param("list") List<SystemApiVO> list);
-
-    void deleteApiPathsNotInList(@Param("list") List<String> permissionPathSet);
-
-    void deleteApisRelationAuth();
-
     AuthAccountVO getUserInfoByUserId(@Param("accountCode") String accountCode);
 
     List<SystemApiVO> getApiPathByRoleCodes(@Param("list") List<String> list);
-
-    void createSuperAdminAuth(@Param("list") List<String> list, @Param("roleCode") String roleCode);
 
     EnterpriseDetailVO findAccountEnterpriseById(@Param("enterpriseId") String enterpriseId);
 

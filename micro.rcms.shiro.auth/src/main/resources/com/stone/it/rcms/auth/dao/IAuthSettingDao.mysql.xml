@@ -3,37 +3,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.stone.it.rcms.auth.dao.IAuthSettingDao">
 
-  <delete id="deleteApiPathsNotInList">
-    delete from tpl_permission_t where concat_ws('_', api_method, api_path) not in
-    <foreach close=")" collection="list" item="item" open="(" separator=",">
-      #{item}
-    </foreach>
-  </delete>
-
-  <delete id="deleteApisRelationAuth">
-    delete from tpl_role_permission_t rp where (rp.auth_code not in
-    (select auth_code from tpl_permission_t p where p.auth_code is not null) or rp.role_code =
-    'platformAdmin')
-  </delete>
-
-  <insert id="createApiPaths">
-    insert into
-    tpl_permission_t(auth_code,api_code,api_name,api_path,api_method,api_type,open_api,created_time,updated_time,created_by,updated_by)
-    values
-    <foreach collection="list" item="item" separator=",">
-      (#{item.authCode},#{item.apiCode},#{item.apiName},#{item.apiPath,jdbcType=VARCHAR},#{item.apiMethod},
-      #{item.apiType},#{item.openApi},now(),now(),#{item.createBy},#{item.updateBy})
-    </foreach>
-  </insert>
-
-  <insert id="createSuperAdminAuth">
-    insert into
-    tpl_role_permission_t(role_code,auth_code,created_time,updated_time,created_by,updated_by)
-    values
-    <foreach collection="list" item="item" separator=",">
-      (#{roleCode},#{item},now(),now(),'system','system')
-    </foreach>
-  </insert>
 
   <select id="getUserInfoByUserId" resultType="com.stone.it.rcms.auth.vo.AuthAccountVO">
     SELECT
@@ -62,14 +31,6 @@
     order by t1.auth_code
   </select>
 
-  <select id="findApiPathsByPaths" resultType="com.stone.it.rcms.auth.vo.SystemApiVO">
-    select auth_code as authCode,api_name as apiName,api_path as apiPath,api_method as
-    apiMethod,api_type as apiType
-    from tpl_permission_t where concat_ws('_', api_method, api_path) in
-    <foreach close=")" collection="list" item="item" open="(" separator=",">
-      #{item}
-    </foreach>
-  </select>
 
   <select id="findAccountEnterpriseById"
     resultType="com.stone.it.rcms.auth.vo.EnterpriseDetailVO">

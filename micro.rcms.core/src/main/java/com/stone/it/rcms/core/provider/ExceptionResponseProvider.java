@@ -18,15 +18,15 @@ import org.slf4j.LoggerFactory;
  * @Desc
  */
 @Provider
-public class RcmsCoreProvider implements ExceptionMapper<Throwable> {
+public class ExceptionResponseProvider implements ExceptionMapper<Throwable> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RcmsCoreProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionResponseProvider.class);
 
     /**
      * 拦截所有异常，并转换为自定义的异常类型
      *
      * @param exception the exception to map to a response.
-     * @return
+     * @return Response mapped from the supplied Exception.
      */
     @Override
     public Response toResponse(Throwable exception) {
@@ -41,7 +41,7 @@ public class RcmsCoreProvider implements ExceptionMapper<Throwable> {
                 .build();
         }
         // 匹配自定义异常
-        if (name.equals("RcmsApplicationException")) {
+        if ("RcmsApplicationException".equals(name)) {
             RcmsApplicationException rae = (RcmsApplicationException)exception;
             response = ResponseUtil.responseBuild(rae.getCode(), rae.getMessage(), rae.getError().toString());
             return Response.status(rae.getCode()).entity(ResponseUtil.response(false, response))
