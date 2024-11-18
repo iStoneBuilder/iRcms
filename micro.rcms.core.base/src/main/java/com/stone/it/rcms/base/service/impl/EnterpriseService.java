@@ -24,72 +24,72 @@ import org.apache.shiro.subject.Subject;
 @Named
 public class EnterpriseService implements IEnterpriseService {
 
-  @Inject
-  private IEnterpriseDao enterpriseDao;
+    @Inject
+    private IEnterpriseDao enterpriseDao;
 
-  @Override
-  public List<EnterpriseVO> findEnterpriseList(EnterpriseVO enterpriseVO) {
-    EnterpriseVO tree = this.findEnterpriseTree(enterpriseVO);
-    JSONObject node = TreeUtil.treeToList(tree);
-    EnterpriseVO nodeVO = JSONObject.parseObject(JSONObject.toJSONString(node), EnterpriseVO.class);
-    return nodeVO.getChildren();
-  }
-
-  @Override
-  public List<EnterpriseVO> findEnterpriseListByPid(EnterpriseVO enterpriseVO) {
-    return enterpriseDao.findEnterpriseListByPid(enterpriseVO);
-  }
-
-  @Override
-  public EnterpriseVO findEnterpriseTree(EnterpriseVO enterpriseVO) {
-    // 查询根节点数据
-    EnterpriseVO root = enterpriseDao.findEnterpriseMerchantById(enterpriseVO.getId());
-    // 查询所有子节点数据
-    List<EnterpriseVO> list = enterpriseDao.findEnterpriseList(new EnterpriseVO());
-    // 构建树形结构数据
-    JSONObject tree = TreeUtil.buildTree(root, list);
-    return JSONObject.parseObject(tree.toJSONString(), EnterpriseVO.class);
-  }
-
-  @Override
-  public EnterpriseVO findEnterpriseMerchantById(String enterprise_id) {
-    return enterpriseDao.findEnterpriseMerchantById(enterprise_id);
-  }
-
-  @Override
-  public int createEnterpriseMerchant(EnterpriseVO enterpriseVO) {
-    // 生成唯一标识码
-    enterpriseVO.setCode(UUIDUtil.getUuid());
-    // 设置企业ID
-    enterpriseVO.setId(UUIDUtil.getUuid());
-    return enterpriseDao.createEnterpriseMerchant(enterpriseVO);
-  }
-
-  @Override
-  public int updateEnterpriseMerchant(String enterprise_id, EnterpriseVO enterpriseVO) {
-    enterpriseVO.setId(enterprise_id);
-    return enterpriseDao.updateEnterpriseMerchant(enterpriseVO);
-  }
-
-  @Override
-  public int deleteEnterpriseMerchant(String enterprise_id) throws RcmsApplicationException {
-    return enterpriseDao.deleteEnterpriseMerchant(enterprise_id);
-  }
-
-  @Override
-  public List<EnterpriseVO> findEnterpriseList(String enterpriseId, Subject subject) {
-    EnterpriseVO enterpriseVO = new EnterpriseVO();
-    List<EnterpriseVO> list;
-    // 如果没有查询企业ID，则获取当前登录用户的企业ID
-    if (StringUtils.isEmpty(enterpriseId)) {
-      enterpriseVO.setId(UserUtil.getEnterpriseId(subject));
-      list = this.findEnterpriseList(enterpriseVO);
-    } else {
-      list = new ArrayList<>();
-      enterpriseVO.setId(enterpriseId);
-      list.add(enterpriseVO);
+    @Override
+    public List<EnterpriseVO> findEnterpriseList(EnterpriseVO enterpriseVO) {
+        EnterpriseVO tree = this.findEnterpriseTree(enterpriseVO);
+        JSONObject node = TreeUtil.treeToList(tree);
+        EnterpriseVO nodeVO = JSONObject.parseObject(JSONObject.toJSONString(node), EnterpriseVO.class);
+        return nodeVO.getChildren();
     }
-    return list;
-  }
+
+    @Override
+    public List<EnterpriseVO> findEnterpriseListByPid(EnterpriseVO enterpriseVO) {
+        return enterpriseDao.findEnterpriseListByPid(enterpriseVO);
+    }
+
+    @Override
+    public EnterpriseVO findEnterpriseTree(EnterpriseVO enterpriseVO) {
+        // 查询根节点数据
+        EnterpriseVO root = enterpriseDao.findEnterpriseMerchantById(enterpriseVO.getId());
+        // 查询所有子节点数据
+        List<EnterpriseVO> list = enterpriseDao.findEnterpriseList(new EnterpriseVO());
+        // 构建树形结构数据
+        JSONObject tree = TreeUtil.buildTree(root, list);
+        return JSONObject.parseObject(tree.toJSONString(), EnterpriseVO.class);
+    }
+
+    @Override
+    public EnterpriseVO findEnterpriseMerchantById(String enterprise_id) {
+        return enterpriseDao.findEnterpriseMerchantById(enterprise_id);
+    }
+
+    @Override
+    public int createEnterpriseMerchant(EnterpriseVO enterpriseVO) {
+        // 生成唯一标识码
+        enterpriseVO.setCode(UUIDUtil.getUuid());
+        // 设置企业ID
+        enterpriseVO.setId(UUIDUtil.getUuid());
+        return enterpriseDao.createEnterpriseMerchant(enterpriseVO);
+    }
+
+    @Override
+    public int updateEnterpriseMerchant(String enterprise_id, EnterpriseVO enterpriseVO) {
+        enterpriseVO.setId(enterprise_id);
+        return enterpriseDao.updateEnterpriseMerchant(enterpriseVO);
+    }
+
+    @Override
+    public int deleteEnterpriseMerchant(String enterprise_id) throws RcmsApplicationException {
+        return enterpriseDao.deleteEnterpriseMerchant(enterprise_id);
+    }
+
+    @Override
+    public List<EnterpriseVO> findEnterpriseList(String enterpriseId, Subject subject) {
+        EnterpriseVO enterpriseVO = new EnterpriseVO();
+        List<EnterpriseVO> list;
+        // 如果没有查询企业ID，则获取当前登录用户的企业ID
+        if (StringUtils.isEmpty(enterpriseId)) {
+            enterpriseVO.setId(UserUtil.getEnterpriseId(subject));
+            list = this.findEnterpriseList(enterpriseVO);
+        } else {
+            list = new ArrayList<>();
+            enterpriseVO.setId(enterpriseId);
+            list.add(enterpriseVO);
+        }
+        return list;
+    }
 
 }

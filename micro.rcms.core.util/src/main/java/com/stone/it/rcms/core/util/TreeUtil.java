@@ -2,7 +2,6 @@ package com.stone.it.rcms.core.util;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import org.apache.cxf.common.util.StringUtils;
 
 /**
  * @author cj.stone
@@ -82,7 +81,7 @@ public class TreeUtil {
 
     private static JSONObject buildRouterNode(JSONObject node, JSONObject routerNode) {
         for (String key : NODE_KEYS) {
-            if (node.containsKey(key) && !StringUtils.isEmpty(node.getString(key))) {
+            if (node.containsKey(key) && node.get(key) != null && node.get(key) != "") {
                 routerNode.put(key, node.get(key));
             }
         }
@@ -94,7 +93,7 @@ public class TreeUtil {
     private static void buildRouterMeta(JSONObject routerNode, JSONObject node) {
         JSONObject meta = new JSONObject();
         for (String key : META_KEYS) {
-            if (node.containsKey(key) && !StringUtils.isEmpty(node.getString(key))) {
+            if (node.containsKey(key) && node.get(key) != null && node.get(key) != "") {
                 if (key.equals("roles") || key.equals("auths")) {
                     meta.put(key, (node.getString(key)).split(","));
                     continue;

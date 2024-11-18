@@ -23,59 +23,57 @@ import org.apache.shiro.SecurityUtils;
 @Named
 public class RoleService implements IRoleService {
 
-  @Inject
-  private IRoleDao roleDao;
+    @Inject
+    private IRoleDao roleDao;
 
-
-  @Override
-  public List<RoleVO> findRoleList(RoleVO roleVO) {
-    List<RoleVO> treeList = this.findRoleTree(roleVO);
-    List<RoleVO> resultList = new ArrayList<>();
-    treeList.forEach(role -> {
-      JSONObject node = TreeUtil.treeToList(role);
-      RoleVO nodeVO = JSONObject.parseObject(JSONObject.toJSONString(node), RoleVO.class);
-      resultList.addAll(nodeVO.getChildren());
-    });
-    return resultList;
-  }
-
-  @Override
-  public List<RoleVO> findEnterPriseRoleList(RoleVO roleVO) {
-    return  roleDao.findRoleByEnterpriseId(roleVO.getEnterpriseId());
-  }
-
-  @Override
-  public List<RoleVO> findRoleTree(RoleVO roleVO) {
-    String enterpriseId = roleVO.getId();
-    if (StringUtils.isEmpty(enterpriseId)) {
-      enterpriseId = UserUtil.getCurrentByKey(SecurityUtils.getSubject(), "enterpriseId");
+    @Override
+    public List<RoleVO> findRoleList(RoleVO roleVO) {
+        List<RoleVO> treeList = this.findRoleTree(roleVO);
+        List<RoleVO> resultList = new ArrayList<>();
+        treeList.forEach(role -> {
+            JSONObject node = TreeUtil.treeToList(role);
+            RoleVO nodeVO = JSONObject.parseObject(JSONObject.toJSONString(node), RoleVO.class);
+            resultList.addAll(nodeVO.getChildren());
+        });
+        return resultList;
     }
-    List<RoleVO> rootList = roleDao.findRoleByEnterpriseId(enterpriseId);
-    List<RoleVO> allRoles = roleDao.findAllRoles();
-    List<RoleVO> treeList = new ArrayList<>();
-    rootList.forEach(role -> {
-      JSONObject tree = TreeUtil.buildTree(role, allRoles);
-      RoleVO iRole = JSONObject.parseObject(tree.toJSONString(), RoleVO.class);
-      treeList.add(iRole);
-    });
-    return treeList;
-  }
 
+    @Override
+    public List<RoleVO> findEnterPriseRoleList(RoleVO roleVO) {
+        return roleDao.findRoleByEnterpriseId(roleVO.getEnterpriseId());
+    }
 
-  @Override
-  public int createRole(RoleVO roleVO) {
-    roleVO.setId(UUIDUtil.getUuid());
-    return roleDao.createRole(roleVO);
-  }
+    @Override
+    public List<RoleVO> findRoleTree(RoleVO roleVO) {
+        String enterpriseId = roleVO.getId();
+        if (StringUtils.isEmpty(enterpriseId)) {
+            enterpriseId = UserUtil.getCurrentByKey(SecurityUtils.getSubject(), "enterpriseId");
+        }
+        List<RoleVO> rootList = roleDao.findRoleByEnterpriseId(enterpriseId);
+        List<RoleVO> allRoles = roleDao.findAllRoles();
+        List<RoleVO> treeList = new ArrayList<>();
+        rootList.forEach(role -> {
+            JSONObject tree = TreeUtil.buildTree(role, allRoles);
+            RoleVO iRole = JSONObject.parseObject(tree.toJSONString(), RoleVO.class);
+            treeList.add(iRole);
+        });
+        return treeList;
+    }
 
-  @Override
-  public int updateRole(String roleId, RoleVO roleVO) {
-    roleVO.setId(roleId);
-    return roleDao.updateRole(roleVO);
-  }
+    @Override
+    public int createRole(RoleVO roleVO) {
+        roleVO.setId(UUIDUtil.getUuid());
+        return roleDao.createRole(roleVO);
+    }
 
-  @Override
-  public int deleteRole(String roleId) {
-    return roleDao.deleteRole(roleId);
-  }
+    @Override
+    public int updateRole(String roleId, RoleVO roleVO) {
+        roleVO.setId(roleId);
+        return roleDao.updateRole(roleVO);
+    }
+
+    @Override
+    public int deleteRole(String roleId) {
+        return roleDao.deleteRole(roleId);
+    }
 }

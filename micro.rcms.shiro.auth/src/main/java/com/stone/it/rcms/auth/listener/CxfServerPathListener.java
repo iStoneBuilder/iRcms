@@ -2,9 +2,9 @@ package com.stone.it.rcms.auth.listener;
 
 import com.alibaba.fastjson2.JSON;
 import com.stone.it.rcms.auth.service.IAuthSettingService;
-import com.stone.it.rcms.core.util.UUIDUtil;
 import com.stone.it.rcms.auth.vo.AuthApisVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
+import com.stone.it.rcms.core.util.UUIDUtil;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;

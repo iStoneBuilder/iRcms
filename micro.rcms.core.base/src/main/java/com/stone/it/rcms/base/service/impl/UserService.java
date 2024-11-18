@@ -18,33 +18,33 @@ import javax.inject.Named;
 @Named
 public class UserService implements IUserService {
 
-  @Inject
-  private IUserDao userDao;
+    @Inject
+    private IUserDao userDao;
 
-  @Override
-  public PageResult<UserVO> findUserPageResult(UserVO userVO, PageVO pageVO) {
-    return userDao.findPageResult(userVO,pageVO);
-  }
+    @Override
+    public PageResult<UserVO> findUserPageResult(UserVO userVO, PageVO pageVO) {
+        return userDao.findPageResult(userVO, pageVO);
+    }
 
-  @Override
-  public UserVO findUserById(String userId) {
-    return userDao.findUserId(userId);
-  }
+    @Override
+    public UserVO findUserById(String userId) {
+        return userDao.findUserId(userId);
+    }
 
-  @Override
-  public int createUser(UserVO userVO) {
-    userVO.setUserId(UUIDUtil.getUuid());
-    return userDao.createUser(userVO);
-  }
+    @Override
+    public int createUser(UserVO userVO) {
+        userVO.setUserId(UUIDUtil.getUuid());
+        return userDao.createUser(userVO);
+    }
 
-  @Override
-  public int updateUser(String userId, UserVO userVO) {
-    userVO.setUserId(userId);
-    return userDao.updateUser(userVO);
-  }
+    @Override
+    public int updateUser(String userId, UserVO userVO) {
+        userVO.setUserId(userId);
+        return userDao.updateUser(userVO);
+    }
 
-  @Override
-  public int deleteUser(String userId) {
-    return userDao.deleteUser(userId);
-  }
+    @Override
+    public int deleteUser(String userId) {
+        return userDao.deleteUser(userId);
+    }
 }
