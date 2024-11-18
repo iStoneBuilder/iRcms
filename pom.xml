@@ -47,7 +47,6 @@
     <module>micro.rcms.scheduler</module>
     <module>micro.rcms.web.support</module>
     <module>micro.rcms.web.console</module>
-    <module>micro.rcms.shiro.auth</module>
     <module>micro.rcms.core.base</module>
     <module>micro.rcms.core.pay</module>
     <module>micro.rcms.starter.api</module>
@@ -55,6 +54,7 @@
     <module>micro.rcms.core.util</module>
     <module>micro.rcms.api.start</module>
     <module>micro.rcms.core.user</module>
+    <module>micro.rcms.core.shiro</module>
   </modules>
 
   <packaging>pom</packaging>

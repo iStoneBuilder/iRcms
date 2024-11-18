@@ -72,14 +72,19 @@ public class UserRealm extends AuthorizingRealm {
             }
         }
         // 查找用户角色权限
+        handleRolePermission(roleSets, authSets);
+        info.setRoles(roleSets);
+        info.setStringPermissions(authSets);
+        return info;
+    }
+
+    private void handleRolePermission(Set<String> roleSets, Set<String> authSets) {
         List<SystemApiVO> permissions = authSettingService.getApiPathByRoleCodes(roleSets);
         if (permissions != null && !permissions.isEmpty()) {
             permissions.forEach(t -> {
                 authSets.add(t.getAuthCode());
             });
         }
-        info.setRoles(roleSets);
-        info.setStringPermissions(authSets);
-        return info;
     }
+
 }

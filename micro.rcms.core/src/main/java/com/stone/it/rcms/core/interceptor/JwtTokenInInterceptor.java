@@ -50,8 +50,6 @@ public class JwtTokenInInterceptor extends RequestParamsInterceptor {
                 // Token 校验失败
                 throw new RcmsApplicationException(401, "请求认证已失效", verify.get("msg"));
             }
-            String requestUri = (String)message.get(Message.REQUEST_URI);
-            LOGGER.info("requestUri:{},token:{}", requestUri, token.get(0).toString());
         } else {
             throw new RcmsApplicationException(401, "请求认证已失效", "未传递Authorization Token");
         }
