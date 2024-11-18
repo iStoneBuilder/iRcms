@@ -3,23 +3,51 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.stone.it.rcms.base.dao.IItemDao">
 
+  <delete id="deleteClassify">
+    delete from tpl_classify_t where classify_code = #{classifyCode}
+  </delete>
+  <delete id="deleteClassifyItem"></delete>
   <insert id="createClassify">
     insert into tpl_classify_t
     (classify_code,classify_name,description,created_by,updated_by,created_time,updated_time)
     values
     (#{classifyCode},#{classifyName},#{description},'system','system',now(),now())
   </insert>
-  <update id="updateClassify">
-    update tpl_classify_t
-    set classify_name = #{classifyName},
-    description = #{description},
-    updated_by ='system',
-    updated_time = now()
-    where classify_code = #{classifyCode}
-  </update>
-  <delete id="deleteClassify">
-    delete from tpl_classify_t where classify_code = #{classifyCode}
-  </delete>
+  <insert id="createClassifyItem">
+    insert into tpl_item_t
+    (item_id,item_code,item_name,item_index,is_enabled,description,item_attr1,item_attr2,item_attr3,item_attr4,item_attr5,
+    classify_code,created_by,updated_by,created_time,updated_time)
+    values
+    (#{itemId},#{itemCode},#{itemName},#{itemIndex},#{isEnabled},#{description},#{itemAttr1},#{itemAttr2},#{itemAttr3},#{itemAttr4},#{itemAttr5},
+    #{classifyCode},'system','system',now(),now())
+  </insert>
+  <select id="findPageResult" resultType="com.stone.it.rcms.base.vo.ClassifyVO">
+    <include refid="query_base"/>
+    <include refid="query_condition"/>
+    limit #{param2.startIndex}, #{param2.endIndex}
+  </select>
+  <select id="findPageResultCount" resultType="int">
+    select count(1) from tpl_classify_t
+    <include refid="query_condition"/>
+  </select>
+
+  <select id="findClassifyItemByCodeLang" resultType="com.stone.it.rcms.base.vo.ItemVO">
+    <include refid="query_item_base"/>
+    <include refid="query_item_condition"/>
+    and language = #{language}
+    order by item_index
+  </select>
+
+  <select id="findClassifyItemPageResult" resultType="com.stone.it.rcms.base.vo.ItemVO">
+    <include refid="query_item_base"/>
+    <include refid="query_item_page_condition"/>
+    order by item_index
+    limit #{param2.startIndex}, #{param2.endIndex}
+  </select>
+  <select id="findClassifyItemPageResultCount" resultType="int">
+    select count(1) from tpl_item_t
+    <include refid="query_item_page_condition"/>
+  </select>
   <sql id="query_base">
     select classify_code as classifyCode,
     classify_name as classifyName,
@@ -41,21 +69,6 @@
       </if>
     </where>
   </sql>
-  <select id="findPageResult" resultType="com.stone.it.rcms.base.vo.ClassifyVO">
-    <include refid="query_base"/>
-    <include refid="query_condition"/>
-    limit #{param2.startIndex}, #{param2.endIndex}
-  </select>
-  <select id="findPageResultCount" resultType="int">
-    select count(1) from tpl_classify_t
-    <include refid="query_condition"/>
-  </select>
-
-  <select id="findClassify" resultType="com.stone.it.rcms.base.vo.ClassifyVO"></select>
-
-  <insert id="createClassifyItem"></insert>
-  <delete id="deleteClassifyItem"></delete>
-  <update id="updateClassifyItem"></update>
   <sql id="query_item_base">
     select
     item_id as itemId,
@@ -89,12 +102,6 @@
       </if>
     </where>
   </sql>
-  <select id="findClassifyItemByCodeLang" resultType="com.stone.it.rcms.base.vo.ItemVO">
-    <include refid="query_item_base"/>
-    <include refid="query_item_condition"/>
-    and language = #{language}
-    order by item_index
-  </select>
   <sql id="query_item_page_condition">
     <where>
       classify_code = #{param1.classifyCode,jdbcType=VARCHAR}
@@ -112,15 +119,14 @@
       </if>
     </where>
   </sql>
-  <select id="findClassifyItemPageResult" resultType="com.stone.it.rcms.base.vo.ItemVO">
-    <include refid="query_item_base"/>
-    <include refid="query_item_page_condition"/>
-    order by item_index
-    limit #{param2.startIndex}, #{param2.endIndex}
-  </select>
-  <select id="findClassifyItemPageResultCount" resultType="int">
-    select count(1) from tpl_item_t
-    <include refid="query_item_page_condition"/>
-  </select>
+  <update id="updateClassify">
+    update tpl_classify_t
+    set classify_name = #{classifyName},
+    description = #{description},
+    updated_by ='system',
+    updated_time = now()
+    where classify_code = #{classifyCode}
+  </update>
+  <update id="updateClassifyItem"></update>
 
 </mapper>

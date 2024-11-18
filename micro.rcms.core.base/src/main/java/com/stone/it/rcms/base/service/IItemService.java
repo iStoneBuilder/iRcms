@@ -26,47 +26,41 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 @RequiresAuthentication
 public interface IItemService {
 
-  @GET
-  @Path("/records/page/{curPage}/{pageSize}")
-  PageResult<ClassifyVO> findClassifyPageResult(@QueryParam("") ClassifyVO classifyVO,
-    @PathParam("") PageVO pageVO);
+    @GET
+    @Path("/records/page/{curPage}/{pageSize}")
+    PageResult<ClassifyVO> findClassifyPageResult(@QueryParam("") ClassifyVO classifyVO, @PathParam("") PageVO pageVO);
 
-  @GET
-  @Path("/records/{classify_code}")
-  ClassifyVO findClassify(@PathParam("classify_code") String classifyCode);
+    @POST
+    @Path("/records")
+    int createClassify(ClassifyVO classifyVO);
 
-  @POST
-  @Path("/records")
-  int createClassify(ClassifyVO classifyVO);
+    @PUT
+    @Path("/records/{classify_code}")
+    int updateClassify(@PathParam("classify_code") String classifyCode, ClassifyVO classifyVO);
 
-  @PUT
-  @Path("/records/{classify_code}")
-  int updateClassify(@PathParam("classify_code") String classifyCode, ClassifyVO classifyVO);
+    @DELETE
+    @Path("/records/{classify_code}")
+    int deleteClassify(@PathParam("classify_code") String classifyCode);
 
-  @DELETE
-  @Path("/records/{classify_code}")
-  int deleteClassify(@PathParam("classify_code") String classifyCode);
+    @GET
+    @Path("/item/records/page/{curPage}/{pageSize}")
+    PageResult<ItemVO> findClassifyItemPageResult(@QueryParam("") ItemVO itemVO, @PathParam("") PageVO pageVO);
 
-  @GET
-  @Path("/records/item/page/{curPage}/{pageSize}")
-  PageResult<ItemVO> findClassifyItemPageResult(@QueryParam("") ItemVO itemVO,
-    @PathParam("") PageVO pageVO);
+    @GET
+    @Path("/item/records/{classify_code}/{lang}")
+    List<ItemVO> findClassifyItemByCodeLang(@PathParam("classify_code") String classifyCode,
+        @PathParam("lang") String lang);
 
-  @GET
-  @Path("/records/item/{classify_code}/{lang}")
-  List<ItemVO> findClassifyItemByCodeLang(@PathParam("classify_code") String classifyCode,
-    @PathParam("lang") String lang);
+    @POST
+    @Path("/item/records")
+    int createClassifyItem(ItemVO itemVO);
 
-  @POST
-  @Path("/records/item")
-  int createClassifyItem(ItemVO itemVO);
+    @PUT
+    @Path("/item/records/{item_id}")
+    int updateClassifyItem(@PathParam("item_id") String itemId, ItemVO itemVO);
 
-  @PUT
-  @Path("/records/item/{item_id}")
-  int updateClassifyItem(@PathParam("item_id") String itemId, ItemVO itemVO);
-
-  @DELETE
-  @Path("/records/item/{item_id}")
-  int deleteClassifyItem(@PathParam("item_id") String itemId);
+    @DELETE
+    @Path("/item/records/{item_id}")
+    int deleteClassifyItem(@PathParam("item_id") String itemId);
 
 }

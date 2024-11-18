@@ -29,11 +29,6 @@ public class ItemService implements IItemService {
     }
 
     @Override
-    public ClassifyVO findClassify(String classifyCode) {
-        return itemDao.findClassify(classifyCode);
-    }
-
-    @Override
     public int createClassify(ClassifyVO classifyVO) {
         return itemDao.createClassify(classifyVO);
     }
