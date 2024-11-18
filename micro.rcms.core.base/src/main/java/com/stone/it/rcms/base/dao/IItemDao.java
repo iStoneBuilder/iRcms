@@ -1,6 +1,5 @@
 package com.stone.it.rcms.base.dao;
 
-
 import com.stone.it.rcms.base.vo.ClassifyVO;
 import com.stone.it.rcms.base.vo.ItemVO;
 import com.stone.it.rcms.core.vo.PageResult;
@@ -14,23 +13,21 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface IItemDao {
 
-  PageResult<ClassifyVO> findPageResult(ClassifyVO classifyVO, PageVO pageVO);
+    PageResult<ClassifyVO> findPageResult(ClassifyVO classifyVO, PageVO pageVO);
 
-  ClassifyVO findClassify(String classifyCode);
+    int createClassify(ClassifyVO classifyVO);
 
-  int createClassify(ClassifyVO classifyVO);
+    int updateClassify(ClassifyVO classifyVO);
 
-  int updateClassify(ClassifyVO classifyVO);
+    int deleteClassify(@Param("classifyCode") String classifyCode);
 
-  int deleteClassify(@Param("classifyCode") String classifyCode);
+    List<ItemVO> findClassifyItemByCodeLang(String classifyCode, String lang);
 
-  List<ItemVO> findClassifyItemByCodeLang(String classifyCode, String lang);
+    int createClassifyItem(ItemVO itemVO);
 
-  int createClassifyItem(ItemVO itemVO);
+    int updateClassifyItem(ItemVO itemVO);
 
-  int updateClassifyItem(ItemVO itemVO);
+    int deleteClassifyItem(@Param("itemId") String itemId);
 
-  int deleteClassifyItem(String itemId);
-
-  PageResult<ItemVO> findClassifyItemPageResult(ItemVO itemVO, PageVO pageVO);
+    PageResult<ItemVO> findClassifyItemPageResult(ItemVO itemVO, PageVO pageVO);
 }

@@ -6,7 +6,9 @@
   <delete id="deleteClassify">
     delete from tpl_classify_t where classify_code = #{classifyCode}
   </delete>
-  <delete id="deleteClassifyItem"></delete>
+  <delete id="deleteClassifyItem">
+    delete from tpl_item_t where item_id = #{itemId,jdbcType=VARCHAR}
+  </delete>
   <insert id="createClassify">
     insert into tpl_classify_t
     (classify_code,classify_name,description,created_by,updated_by,created_time,updated_time)
@@ -16,10 +18,10 @@
   <insert id="createClassifyItem">
     insert into tpl_item_t
     (item_id,item_code,item_name,item_index,is_enabled,description,item_attr1,item_attr2,item_attr3,item_attr4,item_attr5,
-    classify_code,created_by,updated_by,created_time,updated_time)
+    classify_code,language,created_by,updated_by,created_time,updated_time)
     values
     (#{itemId},#{itemCode},#{itemName},#{itemIndex},#{isEnabled},#{description},#{itemAttr1},#{itemAttr2},#{itemAttr3},#{itemAttr4},#{itemAttr5},
-    #{classifyCode},'system','system',now(),now())
+    #{classifyCode}, #{language},'system','system',now(),now())
   </insert>
   <select id="findPageResult" resultType="com.stone.it.rcms.base.vo.ClassifyVO">
     <include refid="query_base"/>
@@ -77,6 +79,7 @@
     item_index as itemIndex,
     is_enabled as isEnabled,
     description,
+    language,
     item_attr1 as itemAttr1,
     item_attr2 as itemAttr2,
     item_attr3 as itemAttr3,
@@ -127,6 +130,35 @@
     updated_time = now()
     where classify_code = #{classifyCode}
   </update>
-  <update id="updateClassifyItem"></update>
+  <update id="updateClassifyItem">
+    update tpl_item_t
+    set
+    <if test="itemCode!=null">
+      item_code = #{itemCode},
+    </if>
+    <if test="itemName!=null">
+      item_name = #{itemName},
+    </if>
+    <if test="itemIndex!=null">
+      item_index = #{itemIndex},
+    </if>
+    <if test="language!=null">
+      language = #{language},
+    </if>
+    <if test="isEnabled!=null">
+      is_enabled = #{isEnabled},
+    </if>
+    <if test="description!=null">
+      description = #{description},
+    </if>
+    item_attr1 = #{itemAttr1},
+    item_attr2 = #{itemAttr2},
+    item_attr3 = #{itemAttr3},
+    item_attr4 = #{itemAttr4},
+    item_attr5 = #{itemAttr5},
+    updated_by ='system',
+    updated_time = now()
+    where item_id = #{itemId}
+  </update>
 
 </mapper>

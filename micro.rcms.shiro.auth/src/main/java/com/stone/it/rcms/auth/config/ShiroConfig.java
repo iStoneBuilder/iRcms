@@ -19,7 +19,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 /**
- *
+ * org.springframework.beans.factory.annotation.Value
+ * 
  * @author cj.stone
  * @Date 2024/10/18
  * @Desc
@@ -47,26 +48,27 @@ public class ShiroConfig {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         // 给filter设置安全管理
         factoryBean.setSecurityManager(securityManager);
-        Map<String, String> map = new LinkedHashMap<>();
+        Map<String, String> pathMaps = new LinkedHashMap<>();
         // 登录请求无需认证
-        if (anonPaths != null && anonPaths.size() > 0) {
+        if (anonPaths != null && !anonPaths.isEmpty()) {
             for (String path : anonPaths) {
-                map.put(path, "anon");
+                pathMaps.put(path, "anon");
             }
         }
         // 设置框架默认配置
         for (String path : ANON_PATHS) {
-            map.put(path, "anon");
+            pathMaps.put(path, "anon");
         }
         // 需要请求需要认证
-        if (authcPaths != null && authcPaths.size() > 0) {
+        if (authcPaths != null && !authcPaths.isEmpty()) {
             for (String path : authcPaths) {
-                map.put(path, "authc");
+                pathMaps.put(path, "authc");
             }
         }
         for (String path : AUTHC_PATHS) {
-            map.put(path, "authc");
+            pathMaps.put(path, "authc");
         }
+        factoryBean.setFilterChainDefinitionMap(pathMaps);
         return factoryBean;
     }
 

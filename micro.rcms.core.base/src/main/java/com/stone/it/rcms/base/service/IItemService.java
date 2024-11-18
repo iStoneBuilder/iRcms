@@ -18,7 +18,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 
 /**
  * @author cj.stone
- * @Desc
+ * @Desc 字典接口
  */
 @Path("/classify")
 @Produces("application/json")
