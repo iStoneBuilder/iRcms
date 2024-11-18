@@ -11,7 +11,8 @@
   </delete>
   <delete id="deleteApisRelationAuth">
     delete from tpl_role_permission_t rp
-    where rp.auth_code not in
+    where rp.role_code = 'platformAdmin' or
+    rp.auth_code not in
     (select auth_code from tpl_permission_t p where p.auth_code is not null)
   </delete>
 
@@ -22,7 +23,7 @@
     values
     <foreach collection="list" item="item" separator=",">
       (#{item.authCode},#{item.code},#{item.name},#{item.path,jdbcType=VARCHAR},#{item.method},
-      #{item.type},#{item.isOpenApi},now(),now(),#{item.createBy},#{item.updateBy})
+      #{item.type},#{item.isOpenApi},now(),now(),'system','system')
     </foreach>
   </insert>
   <insert id="createSuperAdminAuth">
@@ -41,8 +42,8 @@
 
   <select id="findPermissionListByPaths"
     resultType="com.stone.it.rcms.core.vo.PermissionVO">
-    select auth_code as authCode,api_name as apiName,api_path as apiPath,api_method as
-    apiMethod,api_type as apiType
+    select auth_code as code,api_name as name,api_path as path,api_method as
+    method,api_type as type
     from tpl_permission_t where concat_ws('_', api_method, api_path) in
     <foreach close=")" collection="apis" item="item" open="(" separator=",">
       #{item}

@@ -25,14 +25,13 @@ import org.slf4j.LoggerFactory;
  */
 public class PermissionHandler {
 
-    // 接口信息集合
-    public static final List<PermissionVO> CURRENT_API_LIST = new ArrayList<>();
-    // 接口路径集合
-    public static final Set<String> API_PATH_SET = new HashSet<>();
-    // 权限编码集合 用于判断是否重复添加
-    public static final Set<String> AUTH_CODE_SET = new HashSet<>();
-
     private static final Logger LOGGER = LoggerFactory.getLogger(PermissionHandler.class);
+    // 权限编码集合 用于判断是否重复添加
+    public static Set<String> AUTH_CODE_SET = new HashSet<>();
+    // 接口信息集合
+    public static List<PermissionVO> CURRENT_API_LIST = new ArrayList<>();
+    // 接口路径集合
+    public static Set<String> API_PATH_SET = new HashSet<>();
 
     private static String getAnnotationValue(String name, Class<?> annotationType, Annotation iAnnotation) {
         // 获取注解定义的所有方法

@@ -34,7 +34,7 @@ public interface IPermissionService {
     @POST
     @Path("/records/refresh")
     @RcmsMethod(name = "接口管理.刷新")
-    @RequiresPermissions("permission:permission:refresh")
+    // @RequiresPermissions("permission:permission:refresh")
     int refreshPermission(PermissionVO permissionVO);
 
 }

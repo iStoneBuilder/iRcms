@@ -17,9 +17,9 @@ public interface IPermissionDao {
 
     List<PermissionVO> findPermissionListByPaths(@Param("apis") List<String> apis);
 
-    int createPermission(List<PermissionVO> dbNotExistApiList);
+    int createPermission(@Param("list") List<PermissionVO> dbNotExistApiList);
 
-    int deletePermissionNotInList(List<String> apis, String contextPath);
+    int deletePermissionNotInList(@Param("list") List<String> apis);
 
     int deleteApisRelationAuth();
 
