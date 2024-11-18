@@ -54,6 +54,7 @@
     <module>micro.rcms.starter.web</module>
     <module>micro.rcms.core.util</module>
     <module>micro.rcms.api.start</module>
+    <module>micro.rcms.core.user</module>
   </modules>
 
   <packaging>pom</packaging>

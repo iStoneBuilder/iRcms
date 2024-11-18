@@ -21,7 +21,7 @@
       <ref bean="i18nService"/>
       <ref bean="itemService"/>
       <ref bean="roleService"/>
-      <ref bean="userService"/>
+      <ref bean="userManageService"/>
       <ref bean="enterpriseService"/>
       <ref bean="accountService"/>
       <ref bean="permissionService"/>

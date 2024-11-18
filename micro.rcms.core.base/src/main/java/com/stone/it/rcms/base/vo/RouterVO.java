@@ -17,12 +17,17 @@ public class RouterVO {
 
     private String parentId;
     private String id;
-    private String name; // 路由名称 （对应路由页面的name属性）
-    private String path; // 路由地址
-    private String component; // 组件地址 (对应路由页面的component，不配置为path）
-    private String redirect; // 重定向地址
-
-    private List<MenuVO> children; // 子菜单 (path,name,component)
-    private JSONObject meta; // 元数据 (title,roles,showLink,icon,auths,rank,activePath)
+    // 路由名称 （对应路由页面的name属性）
+    private String name;
+    // 路由地址
+    private String path;
+    // 组件地址 (对应路由页面的component，不配置为path）
+    private String component;
+    // 重定向地址
+    private String redirect;
+    // 子菜单 (path,name,component)
+    private List<MenuVO> children;
+    // 元数据 (title,roles,showLink,icon,auths,rank,activePath)
+    private JSONObject meta;
 
 }
