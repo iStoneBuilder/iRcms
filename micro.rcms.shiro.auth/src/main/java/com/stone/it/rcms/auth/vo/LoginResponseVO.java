@@ -1,5 +1,6 @@
 package com.stone.it.rcms.auth.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import lombok.Data;
 
@@ -10,7 +11,8 @@ import lombok.Data;
  * @Desc
  */
 @Data
-public class LoginResVO {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class LoginResponseVO {
     private String enterpriseId;
     private String avatar;
     private String username;
@@ -20,11 +22,11 @@ public class LoginResVO {
     private String accessToken;
     private String refreshToken;
     private String expires;
-    private ResDetailVO extraInfo;
+    private EnterpriseDetailVO extraInfo;
 
-    public LoginResVO() {}
+    public LoginResponseVO() {}
 
-    public LoginResVO(String accessToken, String refreshToken, String expires) {
+    public LoginResponseVO(String accessToken, String refreshToken, String expires) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.expires = expires;

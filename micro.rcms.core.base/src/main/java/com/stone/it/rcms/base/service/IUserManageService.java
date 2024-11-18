@@ -1,6 +1,6 @@
 package com.stone.it.rcms.base.service;
 
-import com.stone.it.rcms.base.vo.UserVO;
+import com.stone.it.rcms.base.vo.UserManageVO;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import javax.ws.rs.Consumes;
@@ -26,13 +26,13 @@ public interface IUserManageService {
      */
     @GET
     @Path("/records/page/{curPage}/{pageSize}")
-    PageResult<UserVO> findUserPageResult(@QueryParam("") UserVO userVO, @PathParam("") PageVO pageVO);
+    PageResult<UserManageVO> findUserPageResult(@QueryParam("") UserManageVO userVO, @PathParam("") PageVO pageVO);
 
     /**
      * 详情
      */
     @GET
     @Path("/records/{user_id}")
-    UserVO findUserById(@PathParam("user_id") String userId);
+    UserManageVO findUserById(@PathParam("user_id") String userId);
 
 }

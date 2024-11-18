@@ -1,7 +1,7 @@
 package com.stone.it.rcms.auth.service;
 
 import com.stone.it.rcms.auth.vo.AuthAccountVO;
-import com.stone.it.rcms.auth.vo.AuthApisVO;
+import com.stone.it.rcms.auth.vo.SystemApiVO;
 import java.util.List;
 import java.util.Set;
 
@@ -19,14 +19,14 @@ public interface IAuthSettingService {
      * @param apiPaths
      * @return
      */
-    List<AuthApisVO> findApiPathsByPaths(Set<String> apiPaths);
+    List<SystemApiVO> findApiPathsByPaths(Set<String> apiPaths);
 
     /**
      * 创建新增的权限路径
      *
      * @param permissionList
      */
-    void createApiPaths(List<AuthApisVO> permissionList);
+    void createApiPaths(List<SystemApiVO> permissionList);
 
     /**
      * 删除不存在的权限信息
@@ -43,7 +43,7 @@ public interface IAuthSettingService {
 
     AuthAccountVO getUserInfoByUserId(String accountCode);
 
-    List<AuthApisVO> getApiPathByRoleCodes(Set<String> roleSets);
+    List<SystemApiVO> getApiPathByRoleCodes(Set<String> roleSets);
 
     void createSuperAdminAuth(Set<String> authCodeSet, String roleCode);
 }

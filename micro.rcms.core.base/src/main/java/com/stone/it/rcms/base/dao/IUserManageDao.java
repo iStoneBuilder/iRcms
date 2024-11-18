@@ -1,6 +1,6 @@
 package com.stone.it.rcms.base.dao;
 
-import com.stone.it.rcms.base.vo.UserVO;
+import com.stone.it.rcms.base.vo.UserManageVO;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 
@@ -10,8 +10,8 @@ import com.stone.it.rcms.core.vo.PageVO;
  */
 public interface IUserManageDao {
 
-    PageResult<UserVO> findPageResult(UserVO UserVO, PageVO pageVO);
+    PageResult<UserManageVO> findPageResult(UserManageVO UserVO, PageVO pageVO);
 
-    UserVO findUserId(String userId);
+    UserManageVO findUserId(String userId);
 
 }

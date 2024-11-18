@@ -49,7 +49,7 @@
     account_code = #{accountCode}
   </select>
 
-  <select id="getApiPathByRoleCodes" resultType="com.stone.it.rcms.auth.vo.AuthApisVO">
+  <select id="getApiPathByRoleCodes" resultType="com.stone.it.rcms.auth.vo.SystemApiVO">
     select
     t1.api_path as apiPath,t1.api_name as apiName,t1.api_method as apiMethod,t1.api_type as
     apiType,t1.auth_code as authCode
@@ -62,7 +62,7 @@
     order by t1.auth_code
   </select>
 
-  <select id="findApiPathsByPaths" resultType="com.stone.it.rcms.auth.vo.AuthApisVO">
+  <select id="findApiPathsByPaths" resultType="com.stone.it.rcms.auth.vo.SystemApiVO">
     select auth_code as authCode,api_name as apiName,api_path as apiPath,api_method as
     apiMethod,api_type as apiType
     from tpl_permission_t where concat_ws('_', api_method, api_path) in
@@ -72,7 +72,7 @@
   </select>
 
   <select id="findAccountEnterpriseById"
-    resultType="com.stone.it.rcms.auth.vo.ResDetailVO">
+    resultType="com.stone.it.rcms.auth.vo.EnterpriseDetailVO">
     select
     id,
     type,

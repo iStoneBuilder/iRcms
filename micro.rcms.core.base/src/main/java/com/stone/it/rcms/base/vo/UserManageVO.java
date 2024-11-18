@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserVO extends BaseVO {
+public class UserManageVO extends BaseVO {
 
     // 用户ID（系统生成）
     private String userId;

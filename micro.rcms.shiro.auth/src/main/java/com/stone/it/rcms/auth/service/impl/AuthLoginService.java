@@ -4,11 +4,11 @@ import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.auth.dao.IAuthSettingDao;
 import com.stone.it.rcms.auth.service.IAuthLoginService;
 import com.stone.it.rcms.auth.service.IAuthSettingService;
+import com.stone.it.rcms.auth.vo.AccountSecretVO;
 import com.stone.it.rcms.auth.vo.AppSecretVO;
 import com.stone.it.rcms.auth.vo.AuthAccountVO;
-import com.stone.it.rcms.auth.vo.AuthUserVO;
-import com.stone.it.rcms.auth.vo.LoginResVO;
-import com.stone.it.rcms.auth.vo.ResDetailVO;
+import com.stone.it.rcms.auth.vo.LoginResponseVO;
+import com.stone.it.rcms.auth.vo.EnterpriseDetailVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.util.DateUtil;
 import com.stone.it.rcms.core.util.JwtUtils;
@@ -46,17 +46,17 @@ public class AuthLoginService implements IAuthLoginService {
     private IAuthSettingDao authSettingDao;
 
     @Override
-    public LoginResVO userLogin(AuthUserVO userVO) {
+    public LoginResponseVO userLogin(AccountSecretVO userVO) {
         // 登录认证
-        String sessionId = subjectLogin(userVO.getUserId(), userVO.getPassword(), "account");
+        String sessionId = subjectLogin(userVO.getAccount(), userVO.getPassword(), "account");
         // 获取用户信息
-        AuthAccountVO dbUser = authSettingService.getUserInfoByUserId(userVO.getUserId());
+        AuthAccountVO dbUser = authSettingService.getUserInfoByUserId(userVO.getAccount());
         Calendar expTime = JwtUtils.getExpireTime(60);
-        String accessToken = buildJwtToken(sessionId, userVO.getUserId(), userVO.getPassword(), "app", expTime,
+        String accessToken = buildJwtToken(sessionId, userVO.getAccount(), userVO.getPassword(), "app", expTime,
             dbUser.getEnterpriseId());
-        String refreshToken = buildJwtToken(sessionId, userVO.getUserId(), userVO.getPassword(), "app",
+        String refreshToken = buildJwtToken(sessionId, userVO.getAccount(), userVO.getPassword(), "app",
             JwtUtils.getExpireTime(60 * 8), dbUser.getEnterpriseId());
-        LoginResVO loginResVO = new LoginResVO();
+        LoginResponseVO loginResVO = new LoginResponseVO();
         loginResVO.setAccessToken(accessToken);
         loginResVO.setRefreshToken(refreshToken);
         loginResVO.setUsername(dbUser.getAccountCode());
@@ -75,31 +75,27 @@ public class AuthLoginService implements IAuthLoginService {
         loginResVO.setExpires(DateUtil.formatDate(expTime.getTime(), "yyyy-MM-dd HH:mm:ss"));
         loginResVO.setEnterpriseId(dbUser.getEnterpriseId());
         // 查询当前登录用户的企业信息
-        ResDetailVO extraInfo = authSettingDao.findAccountEnterpriseById(dbUser.getEnterpriseId());
+        EnterpriseDetailVO extraInfo = authSettingDao.findAccountEnterpriseById(dbUser.getEnterpriseId());
         loginResVO.setExtraInfo(extraInfo);
         return loginResVO;
     }
 
     @Override
-    public LoginResVO userLoginRefresh(LoginResVO loginResVO) {
-        LoginResVO newLoginResVO;
-        try {
-            Map<String, Object> verify = JwtUtils.verifyToken(loginResVO.getRefreshToken());
-            if (!(boolean)verify.get("state")) {
-                throw new RcmsApplicationException(401, "请求认证已失效", verify.get("msg"));
-            }
-            Map<String, String> user = JwtUtils.getTokenInfo(loginResVO.getRefreshToken());
-            AuthUserVO userVO = new AuthUserVO();
-            userVO.setUserId(user.get("account"));
-            userVO.setPassword(user.get("password"));
-            // 先退出上次登录
-            userLogout();
-            // 重新登录
-            LoginResVO resVO = userLogin(userVO);
-            newLoginResVO = new LoginResVO(resVO.getAccessToken(), resVO.getRefreshToken(), resVO.getExpires());
-        } catch (Exception e) {
-            throw e;
+    public LoginResponseVO userLoginRefresh(LoginResponseVO loginResVO) {
+        LoginResponseVO newLoginResVO;
+        Map<String, Object> verify = JwtUtils.verifyToken(loginResVO.getRefreshToken());
+        if (!(boolean)verify.get("state")) {
+            throw new RcmsApplicationException(401, "请求认证已失效", verify.get("msg"));
         }
+        Map<String, String> user = JwtUtils.getTokenInfo(loginResVO.getRefreshToken());
+        AccountSecretVO userVO = new AccountSecretVO();
+        userVO.setAccount(user.get("account"));
+        userVO.setPassword(user.get("password"));
+        // 先退出上次登录
+        userLogout();
+        // 重新登录
+        LoginResponseVO resVO = userLogin(userVO);
+        newLoginResVO = new LoginResponseVO(resVO.getAccessToken(), resVO.getRefreshToken(), resVO.getExpires());
         return newLoginResVO;
     }
 
@@ -143,7 +139,7 @@ public class AuthLoginService implements IAuthLoginService {
             currentUser.logout();
             return ResponseUtil.responseBuild(HttpStatus.SC_OK, "退出成功！");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("user login error.", e);
             return ResponseUtil.responseBuild(HttpStatus.SC_INTERNAL_SERVER_ERROR, "退出失败！", e.getMessage());
         }
     }

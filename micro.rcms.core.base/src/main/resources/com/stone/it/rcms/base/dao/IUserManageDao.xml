@@ -3,7 +3,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.stone.it.rcms.base.dao.IUserManageDao">
 
-  <select id="findPageResult" resultType="com.stone.it.rcms.base.vo.UserVO">
+  <select id="findPageResult" resultType="com.stone.it.rcms.base.vo.UserManageVO">
     SELECT
     u.user_id,
     u.account,
@@ -21,7 +21,7 @@
     user u
   </select>
 
-  <select id="findUserId" resultType="com.stone.it.rcms.base.vo.UserVO">
+  <select id="findUserId" resultType="com.stone.it.rcms.base.vo.UserManageVO">
     SELECTSELECT
     user_id,
     account,

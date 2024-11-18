@@ -2,7 +2,7 @@ package com.stone.it.rcms.auth.listener;
 
 import com.alibaba.fastjson2.JSON;
 import com.stone.it.rcms.auth.service.IAuthSettingService;
-import com.stone.it.rcms.auth.vo.AuthApisVO;
+import com.stone.it.rcms.auth.vo.SystemApiVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.util.UUIDUtil;
 import java.lang.annotation.Annotation;
@@ -34,11 +34,11 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CxfServerPathListener.class);
     // 接口信息集合
-    private static final List<AuthApisVO> currentApiList = new ArrayList<>();
+    private static final List<SystemApiVO> CURRENT_API_LIST = new ArrayList<>();
     // 权限编码集合 用于判断是否重复添加
-    private static final Set<String> authCodeSet = new HashSet<>();
+    private static final Set<String> AUTH_CODE_SET = new HashSet<>();
     // 接口路径集合
-    private static final Set<String> apiPathSet = new HashSet<>();
+    private static final Set<String> API_PATH_SET = new HashSet<>();
 
     private static String getAnnotationValue(String name, Class<?> annotationType, Annotation iAnnotation) {
         // 获取注解定义的所有方法
@@ -58,11 +58,10 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
         return null;
     }
 
-    private static void buildPermission(OperationResourceInfo operationResource, AuthApisVO AuthApisVO) {
+    private static void buildPermission(OperationResourceInfo operationResource, SystemApiVO AuthApisVO) {
         // 获取权限注解
         Annotation[] annotationList = operationResource.getOutAnnotations();
-        for (int i = 0; i < annotationList.length; i++) {
-            Annotation iAnnotation = annotationList[i];
+        for (Annotation iAnnotation : annotationList) {
             Class<?> annotationType = iAnnotation.annotationType();
             String annotationName = annotationType.getName();
             // 判断是否需要权限验证
@@ -84,7 +83,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             }
         }
         // 判断权限编码是否重复添加
-        if (!StringUtils.isEmpty(AuthApisVO.getAuthCode()) && !authCodeSet.add(AuthApisVO.getAuthCode())) {
+        if (!StringUtils.isEmpty(AuthApisVO.getAuthCode()) && !AUTH_CODE_SET.add(AuthApisVO.getAuthCode())) {
             throw new RcmsApplicationException(500, "Duplicate permission code : " + AuthApisVO.getAuthCode());
         }
     }
@@ -108,7 +107,7 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             // 获取接口所有方法
             Set<OperationResourceInfo> opera = classResource.getMethodDispatcher().getOperationResourceInfos();
             for (OperationResourceInfo operationResource : opera) {
-                AuthApisVO authApisVO = new AuthApisVO();
+                SystemApiVO authApisVO = new SystemApiVO();
                 // 方法名称
                 authApisVO.setApiName(operationResource.getAnnotatedMethod().getName());
                 // 方法请求类型
@@ -121,11 +120,11 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
                 // 获取是否需要权限验证
                 buildPermission(operationResource, authApisVO);
                 LOGGER.info("RCMS api info : {}", JSON.toJSONString(authApisVO));
-                apiPathSet.add(operationResource.getHttpMethod() + "_" + apiPath);
+                API_PATH_SET.add(operationResource.getHttpMethod() + "_" + apiPath);
                 authApisVO.setCreateBy("system");
                 authApisVO.setUpdateBy("system");
                 authApisVO.setApiCode(UUIDUtil.getUuid());
-                currentApiList.add(authApisVO);
+                CURRENT_API_LIST.add(authApisVO);
             }
         }
     }
@@ -146,40 +145,39 @@ public class CxfServerPathListener implements ApplicationListener<ContextRefresh
             // 存储权限信息
             storePermission(event);
         } catch (Exception e) {
-            LOGGER.error("RCMS api services store apis error.");
-            e.printStackTrace();
+            LOGGER.error("RCMS api services store apis error.", e);
         }
     }
 
     private void storePermission(ContextRefreshedEvent event) {
-        LOGGER.info("RCMS api services scan end.apiPathSet:{},currentApiList:  {}", apiPathSet.size(),
-            currentApiList.size());
+        LOGGER.info("RCMS api services scan end.API_PATH_SET:{},CURRENT_API_LIST:  {}", API_PATH_SET.size(),
+            CURRENT_API_LIST.size());
         IAuthSettingService authSettingService = event.getApplicationContext().getBean(IAuthSettingService.class);
         // 根据路径判断数据库是否存在（接口路径唯一）
-        List<AuthApisVO> dbExistApis = authSettingService.findApiPathsByPaths(apiPathSet);
-        List<AuthApisVO> dbNotExistApiList = new ArrayList<>();
-        for (int i = 0; i < currentApiList.size(); i++) {
+        List<SystemApiVO> dbExistApis = authSettingService.findApiPathsByPaths(API_PATH_SET);
+        List<SystemApiVO> dbNotExistApiList = new ArrayList<>();
+        for (SystemApiVO systemApiVO : CURRENT_API_LIST) {
             boolean isExist = false;
-            for (int j = 0; j < dbExistApis.size(); j++) {
-                if (currentApiList.get(i).getApiPath().equals(dbExistApis.get(j).getApiPath())) {
+            for (SystemApiVO dbExistApi : dbExistApis) {
+                if (systemApiVO.getApiPath().equals(dbExistApi.getApiPath())) {
                     isExist = true;
                     break;
                 }
             }
             if (!isExist) {
-                dbNotExistApiList.add(currentApiList.get(i));
+                dbNotExistApiList.add(systemApiVO);
             }
         }
         // 创建新增接口
-        if (dbNotExistApiList.size() > 0) {
+        if (!dbNotExistApiList.isEmpty()) {
             authSettingService.createApiPaths(dbNotExistApiList);
         }
         // 清理已删除接口
-        authSettingService.deleteApiPathsNotInList(apiPathSet);
+        authSettingService.deleteApiPathsNotInList(API_PATH_SET);
         // 清理不存在的授权关系
         authSettingService.deleteApisRelationAuth();
         // 创建超级管理员权限
-        authSettingService.createSuperAdminAuth(authCodeSet, "platformAdmin");
+        authSettingService.createSuperAdminAuth(AUTH_CODE_SET, "platformAdmin");
     }
 
 }

@@ -2,7 +2,7 @@ package com.stone.it.rcms.auth.config;
 
 import com.stone.it.rcms.auth.service.IAuthSettingService;
 import com.stone.it.rcms.auth.vo.AuthAccountVO;
-import com.stone.it.rcms.auth.vo.AuthApisVO;
+import com.stone.it.rcms.auth.vo.SystemApiVO;
 import com.stone.it.rcms.core.util.JwtUtils;
 import java.util.HashSet;
 import java.util.List;
@@ -34,10 +34,6 @@ public class UserRealm extends AuthorizingRealm {
 
     /**
      * 授权认证（生成Token会进入此方法）
-     * 
-     * @param authenticationToken
-     * @return
-     * @throws AuthenticationException
      */
 
     @Override
@@ -49,16 +45,12 @@ public class UserRealm extends AuthorizingRealm {
         String userId = usernamePasswordToken.getUsername();
         // token密码
         String password = new String(usernamePasswordToken.getPassword());
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(JwtUtils.getTokenInfo(password),
+        return new SimpleAuthenticationInfo(JwtUtils.getTokenInfo(password),
             new SimpleHash("md5", password, userId).toHex(), ByteSource.Util.bytes(userId), getName());
-        return info;
     }
 
     /**
      * 获取用户角色和权限信息(接口需要权限认证时进入此方法)
-     * 
-     * @param principalCollection
-     * @return
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -75,16 +67,14 @@ public class UserRealm extends AuthorizingRealm {
         } else {
             AuthAccountVO authAccountVO = authSettingService.getUserInfoByUserId(userInfo.get("userId"));
             List<String> roles = List.of(authAccountVO.getAccountRoles().split(","));
-            if (roles != null && !roles.isEmpty()) {
-                roles.stream().forEach(t -> {
-                    roleSets.add(t);
-                });
+            if (!roles.isEmpty()) {
+                roleSets.addAll(roles);
             }
         }
         // 查找用户角色权限
-        List<AuthApisVO> permissions = authSettingService.getApiPathByRoleCodes(roleSets);
+        List<SystemApiVO> permissions = authSettingService.getApiPathByRoleCodes(roleSets);
         if (permissions != null && !permissions.isEmpty()) {
-            permissions.stream().forEach(t -> {
+            permissions.forEach(t -> {
                 authSets.add(t.getAuthCode());
             });
         }

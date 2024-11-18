@@ -4,18 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 /**
+ * 登录账户对象
+ * 
  * @author cj.stone
- * @Date 2024/10/14
+ * @Date 2024/11/18
  * @Desc
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AuthUserVO {
-
-  private String userId;
-  private String userAccount;
-  private String userName;
-  private String password;
-  private String type;
-
+public class AccountSecretVO {
+    private String account;
+    private String password;
 }

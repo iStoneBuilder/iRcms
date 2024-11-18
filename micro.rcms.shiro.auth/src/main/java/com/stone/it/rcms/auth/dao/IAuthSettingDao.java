@@ -1,8 +1,8 @@
 package com.stone.it.rcms.auth.dao;
 
 import com.stone.it.rcms.auth.vo.AuthAccountVO;
-import com.stone.it.rcms.auth.vo.AuthApisVO;
-import com.stone.it.rcms.auth.vo.ResDetailVO;
+import com.stone.it.rcms.auth.vo.SystemApiVO;
+import com.stone.it.rcms.auth.vo.EnterpriseDetailVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,21 +13,21 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface IAuthSettingDao {
 
-  List<AuthApisVO> findApiPathsByPaths(@Param("list") List<String> list);
+    List<SystemApiVO> findApiPathsByPaths(@Param("list") List<String> list);
 
-  void createApiPaths(@Param("list") List<AuthApisVO> list);
+    void createApiPaths(@Param("list") List<SystemApiVO> list);
 
-  void deleteApiPathsNotInList(@Param("list") List<String> permissionPathSet);
+    void deleteApiPathsNotInList(@Param("list") List<String> permissionPathSet);
 
-  void deleteApisRelationAuth();
+    void deleteApisRelationAuth();
 
-  AuthAccountVO getUserInfoByUserId(@Param("accountCode") String accountCode);
+    AuthAccountVO getUserInfoByUserId(@Param("accountCode") String accountCode);
 
-  List<AuthApisVO> getApiPathByRoleCodes(@Param("list") List<String> list);
+    List<SystemApiVO> getApiPathByRoleCodes(@Param("list") List<String> list);
 
-  void createSuperAdminAuth(@Param("list") List<String> list, @Param("roleCode") String roleCode);
+    void createSuperAdminAuth(@Param("list") List<String> list, @Param("roleCode") String roleCode);
 
-  ResDetailVO findAccountEnterpriseById(@Param("enterpriseId") String enterpriseId);
+    EnterpriseDetailVO findAccountEnterpriseById(@Param("enterpriseId") String enterpriseId);
 
-  List<String> findPermissionsByRoleList(@Param("list") List<String> roleList);
+    List<String> findPermissionsByRoleList(@Param("list") List<String> roleList);
 }
