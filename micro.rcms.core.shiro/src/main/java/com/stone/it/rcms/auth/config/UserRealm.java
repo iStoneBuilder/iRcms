@@ -1,9 +1,10 @@
 package com.stone.it.rcms.auth.config;
 
-import com.stone.it.rcms.auth.service.IAuthSettingService;
+import com.stone.it.rcms.auth.dao.IAuthSettingDao;
 import com.stone.it.rcms.auth.vo.AuthAccountVO;
 import com.stone.it.rcms.auth.vo.SystemApiVO;
 import com.stone.it.rcms.core.util.JwtUtils;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ import org.apache.shiro.util.ByteSource;
 public class UserRealm extends AuthorizingRealm {
 
     @Inject
-    private IAuthSettingService authSettingService;
+    private IAuthSettingDao authSettingDao;
 
     /**
      * 授权认证（生成Token会进入此方法）
@@ -65,7 +66,7 @@ public class UserRealm extends AuthorizingRealm {
             // 应用账户直接应用ID关联接口权限
             roleSets.add(userInfo.get("userId"));
         } else {
-            AuthAccountVO authAccountVO = authSettingService.getUserInfoByUserId(userInfo.get("userId"));
+            AuthAccountVO authAccountVO = authSettingDao.getUserInfoByUserId(userInfo.get("userId"));
             List<String> roles = List.of(authAccountVO.getAccountRoles().split(","));
             if (!roles.isEmpty()) {
                 roleSets.addAll(roles);
@@ -79,7 +80,7 @@ public class UserRealm extends AuthorizingRealm {
     }
 
     private void handleRolePermission(Set<String> roleSets, Set<String> authSets) {
-        List<SystemApiVO> permissions = authSettingService.getApiPathByRoleCodes(roleSets);
+        List<SystemApiVO> permissions = authSettingDao.getApiPathByRoleCodes(new ArrayList<>(roleSets));
         if (permissions != null && !permissions.isEmpty()) {
             permissions.forEach(t -> {
                 authSets.add(t.getAuthCode());
