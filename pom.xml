@@ -52,8 +52,8 @@
     <module>micro.rcms.core.pay</module>
     <module>micro.rcms.starter.api</module>
     <module>micro.rcms.starter.web</module>
-    <module>micro.rcms.api.start.demo</module>
     <module>micro.rcms.core.util</module>
+    <module>micro.rcms.api.start</module>
   </modules>
 
   <packaging>pom</packaging>
