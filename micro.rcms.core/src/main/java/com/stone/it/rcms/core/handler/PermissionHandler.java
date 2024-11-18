@@ -71,7 +71,7 @@ public class PermissionHandler {
                 }
                 String apiType = getAnnotationValue("type", annotationType, iAnnotation);
                 if (apiType != null) {
-                    permissionVO.setType(apiType);
+                    permissionVO.setIsOpenApi(apiType);
                 }
             }
         }

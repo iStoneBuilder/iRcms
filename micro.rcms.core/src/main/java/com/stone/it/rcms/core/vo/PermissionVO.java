@@ -16,6 +16,6 @@ public class PermissionVO extends BaseVO {
     private String method;
     private String type;
     private String authCode;
-    private String isOpenApi;
+    private String isOpenApi = "N";
 
 }
