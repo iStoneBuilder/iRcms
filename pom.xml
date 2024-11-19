@@ -55,6 +55,7 @@
     <module>micro.rcms.api.start</module>
     <module>micro.rcms.core.user</module>
     <module>micro.rcms.core.shiro</module>
+    <module>micro.rcms.work.mifi</module>
   </modules>
 
   <packaging>pom</packaging>

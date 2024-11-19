@@ -15,7 +15,7 @@
     FROM
     tpl_account_t
     WHERE
-    account_code = #{accountCode}
+    account_code = #{account}
   </select>
 
   <select id="findPermsByRoles" resultType="java.lang.String">

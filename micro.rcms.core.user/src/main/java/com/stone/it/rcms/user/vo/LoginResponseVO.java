@@ -1,7 +1,7 @@
 package com.stone.it.rcms.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -17,8 +17,8 @@ public class LoginResponseVO {
     private String avatar;
     private String username;
     private String nickname;
-    private ArrayList<String> roles;
-    private ArrayList<String> permissions;
+    private List<String> roles;
+    private List<String> permissions;
     private String accessToken;
     private String refreshToken;
     private String expires;
