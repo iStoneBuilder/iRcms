@@ -18,6 +18,8 @@ public class MerchantVO extends BaseVO {
     private String merchantCode;
     // 卡商名称
     private String merchantName;
+    // 禁用区域
+    private String disableArea;
     // 备注
     private String remark;
 }

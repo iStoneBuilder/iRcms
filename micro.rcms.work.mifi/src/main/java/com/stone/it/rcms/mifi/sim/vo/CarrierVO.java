@@ -2,6 +2,7 @@ package com.stone.it.rcms.mifi.sim.vo;
 
 import com.stone.it.rcms.core.vo.BaseVO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 运营商配置
@@ -11,6 +12,7 @@ import lombok.Data;
  * @Desc
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class CarrierVO extends BaseVO {
     // 卡商编码
     private String merchantCode;
@@ -18,6 +20,7 @@ public class CarrierVO extends BaseVO {
     private String carrierCode;
     // 运营商名称
     private String carrierName;
-    // 禁用区域
-    private String disableArea;
+
+    private String appKey;
+    private String appSecret;
 }
