@@ -67,18 +67,20 @@ public interface IMerchantService {
     @Path("/carrier/records")
     @RcmsMethod(name = "卡商管理.运营商-新增")
     @RequiresPermissions("permission:merchant:carrier:create")
-    int createMerchantCarrier(MerchantVO merchantVO);
+    int createMerchantCarrier(CarrierVO carrierVO);
 
     @PUT
-    @Path("/carrier/records/{carrier_code}")
+    @Path("/carrier/records/{merchant_code}/{carrier_code}")
     @RcmsMethod(name = "卡商管理.运营商-更新")
     @RequiresPermissions("permission:merchant:carrier:update")
-    int updateMerchantCarrier(@PathParam("carrier_code") String code, MerchantVO merchantVO);
+    int updateMerchantCarrier(@PathParam("merchant_code") String merchantCode,
+        @PathParam("carrier_code") String carrierCode, CarrierVO carrierVO);
 
     @DELETE
-    @Path("/carrier/records/{carrier_code}")
+    @Path("/carrier/records/{merchant_code}/{carrier_code}")
     @RcmsMethod(name = "卡商管理.运营商-删除")
     @RequiresPermissions("permission:merchant:carrier:delete")
-    int deleteMerchantCarrier(@PathParam("carrier_code") String code);
+    int deleteMerchantCarrier(@PathParam("merchant_code") String merchantCode,
+        @PathParam("carrier_code") String carrierCode);
 
 }

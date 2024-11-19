@@ -17,8 +17,8 @@ public interface IEnterpriseDao {
     /**
      * 根据企业ID查询企业信息
      * 
-     * @param enterpriseId
-     * @return
+     * @param enterpriseId enterpriseId
+     * @return EnterpriseVO
      */
     EnterpriseVO findEnterpriseMerchantById(@Param("enterpriseId") String enterpriseId);
 

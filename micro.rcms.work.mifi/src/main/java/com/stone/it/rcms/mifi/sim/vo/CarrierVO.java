@@ -1,5 +1,8 @@
 package com.stone.it.rcms.mifi.sim.vo;
 
+import com.stone.it.rcms.core.vo.BaseVO;
+import lombok.Data;
+
 /**
  * 运营商配置
  * 
@@ -7,7 +10,8 @@ package com.stone.it.rcms.mifi.sim.vo;
  * @Date 2024/11/19
  * @Desc
  */
-public class CarrierVO {
+@Data
+public class CarrierVO extends BaseVO {
     // 卡商编码
     private String merchantCode;
     // 运营商编码

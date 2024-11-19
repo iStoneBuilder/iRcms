@@ -62,7 +62,7 @@ public class MenuService implements IMenuService {
     @Override
     public int deleteMenu(String id) {
         List<MenuVO> list = menuDao.findMenuListByPid(id);
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             throw new RcmsApplicationException(500, "该菜单下存在子菜单，请先删除子菜单！");
         }
         return menuDao.deleteMenu(id);
