@@ -9,6 +9,11 @@
       <groupId>com.stone.it</groupId>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <artifactId>micro.rcms.core.util</artifactId>
+      <groupId>com.stone.it</groupId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <modelVersion>4.0.0</modelVersion>

@@ -12,6 +12,10 @@ import java.util.Base64;
  */
 public class RandomUtil {
 
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    private static final SecureRandom RANDOM = new SecureRandom();
+
     public static String secretGenerator() {
         // 初始化安全随机数生成器
         SecureRandom random = new SecureRandom();
@@ -23,6 +27,15 @@ public class RandomUtil {
         random.nextBytes(secretBytesArray);
         // 使用Base64编码来转换字节为字符串形式
         return Base64.getEncoder().encodeToString(secretBytesArray);
+    }
+
+    public static String stringGenerator(int length) {
+        StringBuilder result = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = RANDOM.nextInt(CHARACTERS.length());
+            result.append(CHARACTERS.charAt(index));
+        }
+        return result.toString();
     }
 
 }

@@ -16,8 +16,10 @@ public class BaseVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
+    // 企业商户ID
     private String enterpriseId;
+    // 租户ID
+    private String tenantId;
     private String createBy;
     private String updateBy;
     private Date createDate;
