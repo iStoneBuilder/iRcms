@@ -32,7 +32,7 @@ public interface IEnterpriseService {
     /**
      * 查询企业(商户)列表
      *
-     * @return
+     * @return List<EnterpriseVO>
      */
     @GET
     @Path("/records")
@@ -43,7 +43,7 @@ public interface IEnterpriseService {
     /**
      * 查询企业(商户)列表
      *
-     * @return
+     * @return List<EnterpriseVO>
      */
     @GET
     @Path("/records/list")
@@ -54,7 +54,7 @@ public interface IEnterpriseService {
     /**
      * 查询企业(商户)列表
      *
-     * @return
+     * @return EnterpriseVO
      */
     @GET
     @Path("/records/tree")
@@ -65,8 +65,8 @@ public interface IEnterpriseService {
     /**
      * 企业(商户)详情
      *
-     * @param enterprise_id
-     * @return
+     * @param enterprise_id enterprise_id
+     * @return EnterpriseVO
      */
     @GET
     @Path("/records/{enterprise_id}")
@@ -77,8 +77,8 @@ public interface IEnterpriseService {
     /**
      * 新增企业(商户)信息
      *
-     * @param enterpriseVO
-     * @return
+     * @param enterpriseVO enterpriseVO
+     * @return int
      */
     @POST
     @Path("/records")
@@ -101,8 +101,8 @@ public interface IEnterpriseService {
     /**
      * 删除企业(商户)信息
      *
-     * @param enterprise_id
-     * @return
+     * @param enterprise_id enterprise_id
+     * @return int
      */
     @DELETE
     @Path("/records/{enterprise_id}")

@@ -31,7 +31,7 @@
     id,
     type,
     name,
-    code
+    tenant_id as tenantId
     from tpl_enterprise_t
     where id = #{enterpriseId}
   </select>

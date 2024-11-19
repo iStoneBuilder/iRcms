@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_merchant_t`(
   `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
-  PRIMARY KEY (`code`)
+  PRIMARY KEY (`merchant_code`)
   ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
@@ -21,6 +21,6 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_merchant_carrier_t`(
   `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   `UPDATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',
-  PRIMARY KEY (`code`)
+  PRIMARY KEY (`carrier_code`,`merchant_code`)
   ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;

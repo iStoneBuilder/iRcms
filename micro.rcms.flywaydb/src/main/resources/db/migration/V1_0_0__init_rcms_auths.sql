@@ -1,8 +1,8 @@
 -- 企业表 done
 CREATE TABLE IF NOT EXISTS `tpl_enterprise_t`(
+    `tenant_id`    VARCHAR(100) NOT NULL COMMENT '租户ID',
     `parent_id`      VARCHAR(100) NOT NULL  COMMENT '父节点ID，为空表示根节点',
     `id`      VARCHAR(100) NOT NULL  COMMENT '企业ID',
-    `code`    VARCHAR(100) NOT NULL COMMENT '企业编码',
     `name`    VARCHAR(100) NOT NULL COMMENT '企业名称',
     `type`   VARCHAR(30) NOT NULL COMMENT '企业类型:platform/enterprise/merchant',
     `principal`    VARCHAR(100)  COMMENT '企业负责人',

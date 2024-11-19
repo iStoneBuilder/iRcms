@@ -14,7 +14,6 @@ import lombok.Data;
 public class EnterpriseVO extends BaseVO {
     private String parentId;
     private String id;
-    private String code;
     private String name;
     private String principal;
     private String email;

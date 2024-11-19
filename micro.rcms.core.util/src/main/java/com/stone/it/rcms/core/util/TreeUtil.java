@@ -36,13 +36,33 @@ public class TreeUtil {
         return rootNode;
     }
 
+    private static void addChildToParent(JSONObject parent, JSONObject item) {
+        if (parent.getJSONArray("children") == null) {
+            return;
+        }
+        for (Object object : parent.getJSONArray("children")) {
+            JSONObject child = (JSONObject)object;
+            if (child.getString("id").equals(item.getString("parentId"))) {
+                JSONArray children = child.getJSONArray("children");
+                if (children == null) {
+                    children = new JSONArray();
+                }
+                children.add(item);
+                child.put("children", children);
+                return;
+            } else {
+                addChildToParent(child, item);
+            }
+        }
+    }
+
     public static <T> JSONObject buildRouterTree(T root, T list) {
         // 处理根节点
         JSONObject routerNode =
             buildRouterNode(JSONObject.parseObject(JSONObject.toJSONString(root)), new JSONObject());
         // 循环处理子节点
         JSONArray listArray = JSONArray.parseArray(JSONArray.toJSONString(list));
-        listArray.stream().forEach(item -> {
+        listArray.forEach(item -> {
             // 处理子节点
             JSONObject routerItem = buildRouterNode((JSONObject)item, new JSONObject());
             if (routerItem.getString("parentId").equals(routerNode.getString("id"))) {
@@ -112,26 +132,6 @@ public class TreeUtil {
         routerNode.put("meta", meta);
     }
 
-    private static void addChildToParent(JSONObject parent, JSONObject item) {
-        if (parent.getJSONArray("children") == null) {
-            return;
-        }
-        for (Object object : parent.getJSONArray("children")) {
-            JSONObject child = (JSONObject)object;
-            if (child.getString("id").equals(item.getString("parentId"))) {
-                JSONArray children = child.getJSONArray("children");
-                if (children == null) {
-                    children = new JSONArray();
-                }
-                children.add(item);
-                child.put("children", children);
-                return;
-            } else {
-                addChildToParent(child, item);
-            }
-        }
-    }
-
     public static <T> JSONObject treeToList(T root) {
         JSONArray itemList = new JSONArray();
         traverseTreeToList(JSONObject.parseObject(JSONObject.toJSONString(root)), itemList);
@@ -144,7 +144,7 @@ public class TreeUtil {
         JSONArray children = node.getJSONArray("children");
         node.remove("children");
         itemList.add(node);
-        if (children != null && children.size() > 0) {
+        if (children != null && !children.isEmpty()) {
             for (Object root : children) {
                 traverseTreeToList((JSONObject)root, itemList);
             }

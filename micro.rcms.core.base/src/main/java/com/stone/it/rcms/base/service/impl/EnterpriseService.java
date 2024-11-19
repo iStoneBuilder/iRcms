@@ -52,17 +52,29 @@ public class EnterpriseService implements IEnterpriseService {
     }
 
     @Override
-    public EnterpriseVO findEnterpriseMerchantById(String enterprise_id) {
-        return enterpriseDao.findEnterpriseMerchantById(enterprise_id);
+    public EnterpriseVO findEnterpriseMerchantById(String enterpriseId) {
+        return enterpriseDao.findEnterpriseMerchantById(enterpriseId);
     }
 
     @Override
     public int createEnterpriseMerchant(EnterpriseVO enterpriseVO) {
-        // 生成唯一标识码
-        enterpriseVO.setCode(UUIDUtil.getUuid());
         // 设置企业ID
         enterpriseVO.setId(UUIDUtil.getUuid());
+        // 判断当前创建的企业，tenantID=enterpriseId
+        if ("enterprise".equals(enterpriseVO.getType())) {
+            enterpriseVO.setTenantId(enterpriseVO.getId());
+        } else if ("merchant".equals(enterpriseVO.getType())) {
+            enterpriseVO.setTenantId(findTenantIdByEnterpriseId(enterpriseVO.getParentId()));
+        }
         return enterpriseDao.createEnterpriseMerchant(enterpriseVO);
+    }
+
+    private String findTenantIdByEnterpriseId(String parentId) {
+        EnterpriseVO vo = enterpriseDao.findEnterpriseMerchantById(parentId);
+        if ("enterprise".equals(vo.getType())) {
+            return vo.getId();
+        }
+        return findTenantIdByEnterpriseId(vo.getParentId());
     }
 
     @Override

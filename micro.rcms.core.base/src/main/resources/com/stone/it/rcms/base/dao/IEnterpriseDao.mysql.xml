@@ -8,9 +8,9 @@
   </delete>
 
   <insert id="createEnterpriseMerchant">
-    insert into tpl_enterprise_t(id, name, code, parent_id, level, type, sort, status,
+    insert into tpl_enterprise_t(id, name, tenant_id, parent_id, level, type, sort, status,
     remark, principal, email, phone, created_by, created_time, updated_by, updated_time)
-    values(#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+    values(#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR},
     #{parentId,jdbcType=BIGINT}, #{level,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR},
     #{sort,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
     #{principal,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
@@ -21,6 +21,7 @@
 
   <select id="findEnterpriseList" resultType="com.stone.it.rcms.base.vo.EnterpriseVO">
     <include refid="query_sql"/>
+    order by created_time asc
   </select>
 
   <select id="findEnterpriseMerchantById"
@@ -30,13 +31,13 @@
   </select>
 
 
-  <select id="findMaxEnterpriseId" resultType="com.stone.it.rcms.base.vo.EnterpriseVO">
+  <select id="findEnterpriseListByPid" resultType="com.stone.it.rcms.base.vo.EnterpriseVO">
     <include refid="query_sql"/>
-    where id = (select max(id) from tpl_enterprise_t)
+    where parent_id = #{parentId,jdbcType=BIGINT}
   </select>
 
   <sql id="query_sql">
-    select id, name, code, parent_id as parentId, level, type, sort, status,
+    select id, name, tenant_id as tenantId, parent_id as parentId, level, type, sort, status,
     remark, principal, email, phone, created_time as createDate, created_by as createBy,
     updated_time as updateDate, updated_by as updateBy
     from tpl_enterprise_t
@@ -56,9 +57,4 @@
     updated_time = now()
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-  <select id="findEnterpriseListByPid" resultType="com.stone.it.rcms.base.vo.EnterpriseVO">
-    <include refid="query_sql"/>
-    where parent_id = #{parentId,jdbcType=BIGINT}
-  </select>
 </mapper>
