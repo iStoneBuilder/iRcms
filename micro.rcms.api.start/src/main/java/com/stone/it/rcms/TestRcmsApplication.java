@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TestRcmsApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestRcmsApplication.class);
-    private static final String START_MESSAGE = "Gateway Application server start ...... ";
+    private static final String START_MESSAGE = "RcmsApi Application server start ...... ";
 
     public static void main(String[] args) {
         LOGGER.info(START_MESSAGE);

@@ -1,9 +1,9 @@
-package com.stone.it.rcms.auth.service;
+package com.stone.it.rcms.user.service;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.stone.it.rcms.auth.vo.AccountSecretVO;
-import com.stone.it.rcms.auth.vo.AppSecretVO;
-import com.stone.it.rcms.auth.vo.LoginResponseVO;
+import com.stone.it.rcms.user.vo.AccountSecretVO;
+import com.stone.it.rcms.user.vo.AppSecretVO;
+import com.stone.it.rcms.user.vo.LoginResponseVO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes(MediaType.APPLICATION_JSON)
-public interface IAuthLoginService {
+public interface ILoginService {
 
     @POST
     @Path("login")

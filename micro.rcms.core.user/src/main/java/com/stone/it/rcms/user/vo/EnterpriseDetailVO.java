@@ -1,11 +1,11 @@
-package com.stone.it.rcms.auth.vo;
+package com.stone.it.rcms.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 /**
  * 企业（商户）信息
- * 
+ *
  * @author cj.stone
  * @Date 2024/11/10
  * @Desc

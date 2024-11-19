@@ -1,4 +1,4 @@
-package com.stone.it.rcms.auth.vo;
+package com.stone.it.rcms.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;

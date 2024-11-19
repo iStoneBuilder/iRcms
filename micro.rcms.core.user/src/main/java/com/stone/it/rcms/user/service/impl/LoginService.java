@@ -1,17 +1,17 @@
-package com.stone.it.rcms.auth.service.impl;
+package com.stone.it.rcms.user.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.stone.it.rcms.auth.dao.IAuthSettingDao;
-import com.stone.it.rcms.auth.service.IAuthLoginService;
-import com.stone.it.rcms.auth.vo.AccountSecretVO;
-import com.stone.it.rcms.auth.vo.AppSecretVO;
-import com.stone.it.rcms.auth.vo.AuthAccountVO;
-import com.stone.it.rcms.auth.vo.LoginResponseVO;
-import com.stone.it.rcms.auth.vo.EnterpriseDetailVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.util.DateUtil;
 import com.stone.it.rcms.core.util.JwtUtils;
 import com.stone.it.rcms.core.util.ResponseUtil;
+import com.stone.it.rcms.user.dao.ILoginDao;
+import com.stone.it.rcms.user.service.ILoginService;
+import com.stone.it.rcms.user.vo.AccountSecretVO;
+import com.stone.it.rcms.user.vo.AppSecretVO;
+import com.stone.it.rcms.user.vo.AuthAccountVO;
+import com.stone.it.rcms.user.vo.EnterpriseDetailVO;
+import com.stone.it.rcms.user.vo.LoginResponseVO;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -34,19 +34,19 @@ import org.slf4j.LoggerFactory;
  * @Desc
  */
 @Named
-public class AuthLoginService implements IAuthLoginService {
+public class LoginService implements ILoginService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuthLoginService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginService.class);
 
     @Inject
-    private IAuthSettingDao authSettingDao;
+    private ILoginDao loginDao;
 
     @Override
     public LoginResponseVO userLogin(AccountSecretVO userVO) {
         // 登录认证
         String sessionId = subjectLogin(userVO.getAccount(), userVO.getPassword(), "account");
         // 获取用户信息
-        AuthAccountVO dbUser = authSettingDao.getUserInfoByUserId(userVO.getAccount());
+        AuthAccountVO dbUser = loginDao.findAccountInfoById(userVO.getAccount());
         Calendar expTime = JwtUtils.getExpireTime(60);
         String accessToken = buildJwtToken(sessionId, userVO.getAccount(), userVO.getPassword(), "app", expTime,
             dbUser.getEnterpriseId());
@@ -65,13 +65,13 @@ public class AuthLoginService implements IAuthLoginService {
         if (dbUser.getAccountRoles().contains("platformAdmin")) {
             permissions.add("*:*:*");
         } else {
-            permissions.addAll(authSettingDao.findPermissionsByRoleList(roleList));
+            permissions.addAll(loginDao.findPermsByRoles(roleList));
         }
         loginResVO.setPermissions(permissions);
         loginResVO.setExpires(DateUtil.formatDate(expTime.getTime(), "yyyy-MM-dd HH:mm:ss"));
         loginResVO.setEnterpriseId(dbUser.getEnterpriseId());
         // 查询当前登录用户的企业信息
-        EnterpriseDetailVO extraInfo = authSettingDao.findAccountEnterpriseById(dbUser.getEnterpriseId());
+        EnterpriseDetailVO extraInfo = loginDao.findEnterpriseDetailById(dbUser.getEnterpriseId());
         loginResVO.setExtraInfo(extraInfo);
         return loginResVO;
     }
@@ -101,7 +101,7 @@ public class AuthLoginService implements IAuthLoginService {
         if (sessionId == null) {
             return null;
         }
-        AuthAccountVO dbUser = authSettingDao.getUserInfoByUserId(appSecretVO.getAppId());
+        AuthAccountVO dbUser = loginDao.findAccountInfoById(appSecretVO.getAppId());
         JSONObject result = new JSONObject();
         Calendar expTime = JwtUtils.getExpireTime(60 * 30);
         String accessToken = buildJwtToken(sessionId, appSecretVO.getAppId(), appSecretVO.getSecret(), "app", expTime,
@@ -142,7 +142,7 @@ public class AuthLoginService implements IAuthLoginService {
 
     private String subjectLogin(String account, String password, String type) {
         // 查询数据库用户信息
-        AuthAccountVO dbUser = authSettingDao.getUserInfoByUserId(account);
+        AuthAccountVO dbUser = loginDao.findAccountInfoById(account);
         if (dbUser == null) {
             throw new RcmsApplicationException(500, "账号/密码错误！");
         }

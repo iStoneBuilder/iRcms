@@ -1,8 +1,6 @@
 package com.stone.it.rcms.auth.config;
 
-import com.stone.it.rcms.auth.dao.IAuthSettingDao;
-import com.stone.it.rcms.auth.vo.AuthAccountVO;
-import com.stone.it.rcms.auth.vo.SystemApiVO;
+import com.stone.it.rcms.auth.dao.IShiroAuthDao;
 import com.stone.it.rcms.core.util.JwtUtils;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,7 +29,7 @@ import org.apache.shiro.util.ByteSource;
 public class UserRealm extends AuthorizingRealm {
 
     @Inject
-    private IAuthSettingDao authSettingDao;
+    private IShiroAuthDao authSettingDao;
 
     /**
      * 授权认证（生成Token会进入此方法）
@@ -60,32 +58,23 @@ public class UserRealm extends AuthorizingRealm {
         // 用户角色
         Set<String> roleSets = new HashSet<>();
         // 权限信息
-        Set<String> authSets = new HashSet<>();
-        // 查找用户角色
+        // 程序账户
         if ("app".equals(userInfo.get("type"))) {
             // 应用账户直接应用ID关联接口权限
             roleSets.add(userInfo.get("userId"));
-        } else {
-            AuthAccountVO authAccountVO = authSettingDao.getUserInfoByUserId(userInfo.get("userId"));
-            List<String> roles = List.of(authAccountVO.getAccountRoles().split(","));
-            if (!roles.isEmpty()) {
-                roleSets.addAll(roles);
+        } else if ("account".equals(userInfo.get("type"))) {
+            // 后台管理账户
+            String roleCodes = authSettingDao.findAccountRoleById(userInfo.get("userId"));
+            if (roleCodes != null) {
+                List<String> roles = List.of(roleCodes.split(","));
+                if (!roles.isEmpty()) {
+                    roleSets.addAll(roles);
+                }
             }
-        }
-        // 查找用户角色权限
-        handleRolePermission(roleSets, authSets);
+        } // 后续增加用户相关代码
         info.setRoles(roleSets);
-        info.setStringPermissions(authSets);
+        info.setStringPermissions(new HashSet<>(authSettingDao.findPermsByRoleCodes(new ArrayList<>(roleSets))));
         return info;
-    }
-
-    private void handleRolePermission(Set<String> roleSets, Set<String> authSets) {
-        List<SystemApiVO> permissions = authSettingDao.getApiPathByRoleCodes(new ArrayList<>(roleSets));
-        if (permissions != null && !permissions.isEmpty()) {
-            permissions.forEach(t -> {
-                authSets.add(t.getAuthCode());
-            });
-        }
     }
 
 }
