@@ -1,10 +1,10 @@
 package com.stone.it.rcms.mifi.dataplan.service;
 
 /**
- * 套餐配置管理
+ * 流量卡统计
  * 
  * @author cj.stone
  * @Date 2024/11/19
  * @Desc
  */
-public interface IDataPlanManageService {}
+public interface IStatisticsSimDpService {}

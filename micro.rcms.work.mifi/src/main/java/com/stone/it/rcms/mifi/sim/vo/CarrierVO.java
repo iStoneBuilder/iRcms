@@ -8,7 +8,12 @@ package com.stone.it.rcms.mifi.sim.vo;
  * @Desc
  */
 public class CarrierVO {
+    // 卡商编码
     private String merchantCode;
-    private String code;
-    private String name;
+    // 运营商编码
+    private String carrierCode;
+    // 运营商名称
+    private String carrierName;
+    // 禁用区域
+    private String disableArea;
 }

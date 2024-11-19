@@ -7,4 +7,4 @@ package com.stone.it.rcms.mifi.dataplan.service;
  * @Date 2024/11/19
  * @Desc
  */
-public interface IDeviceDpStatisticsService {}
+public interface IStatisticsDeviceDpService {}

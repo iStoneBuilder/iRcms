@@ -15,9 +15,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class MerchantVO extends BaseVO {
     // 卡商编码
-    private String code;
+    private String merchantCode;
     // 卡商名称
-    private String name;
+    private String merchantName;
     // 备注
     private String remark;
 }
