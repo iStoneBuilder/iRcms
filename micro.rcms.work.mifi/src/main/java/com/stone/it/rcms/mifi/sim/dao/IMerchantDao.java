@@ -22,7 +22,7 @@ public interface IMerchantDao {
 
     int updateMerchant(MerchantVO merchantVO);
 
-    int deleteMerchant(@Param("code") String code, @Param("enterpriseId") String enterpriseId);
+    int deleteMerchant(@Param("merchantCode") String merchantCode, @Param("enterpriseId") String enterpriseId);
 
     List<CarrierVO> findMerchantCarrierListByMerchantCode(@Param("merchantCode") String merchantCode);
 

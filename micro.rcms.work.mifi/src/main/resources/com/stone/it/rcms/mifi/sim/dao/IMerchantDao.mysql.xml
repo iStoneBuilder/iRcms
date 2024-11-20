@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stone.it.rcms.mifi.sim.dao.IMerchantDao">
+
+  <delete id="deleteMerchant">
+    delete from tpl_mifi_merchant_t
+    where enterprise_id = #{enterpriseId}
+    and merchant_code = #{merchantCode}
+  </delete>
+
+  <delete id="deleteMerchantCarrier">
+    delete from tpl_mifi_merchant_carrier_t
+    where merchant_code = #{merchantCode}
+    and carrier_code = #{carrierCode}
+  </delete>
+
+  <insert id="createMerchant">
+    insert into tpl_mifi_merchant_t
+    (enterprise_id,
+    merchant_code,
+    merchant_name,
+    remark,
+    created_by,
+    updated_by,
+    created_date,
+    updated_date
+    )values(
+    #{enterpriseId,jdbcType=VARCHAR},
+    #{merchantCode,jdbcType=VARCHAR},
+    #{merchantName,jdbcType=VARCHAR},
+    #{remark,jdbcType=VARCHAR},
+    #{createBy,jdbcType=VARCHAR},
+    #{updateBy,jdbcType=VARCHAR},
+    now(),
+    now()
+    )
+  </insert>
+
+  <insert id="createMerchantCarrier">
+    insert into tpl_mifi_merchant_carrier_t
+    (enterprise_id,
+    merchant_code,
+    carrier_code,
+    app_key,
+    app_secret,
+    created_by,
+    updated_by,
+    created_date,
+    updated_date
+    )values(
+    #{enterpriseId,jdbcType=VARCHAR},
+    #{merchantCode,jdbcType=VARCHAR},
+    #{carrierCode,jdbcType=VARCHAR},
+    #{carrierName,jdbcType=VARCHAR},
+    #{appKey,jdbcType=VARCHAR},
+    #{appSecret,jdbcType=VARCHAR},
+    #{createBy,jdbcType=VARCHAR},
+    #{updateBy,jdbcType=VARCHAR},
+    now(),
+    now()
+    )
+  </insert>
+
+  <select id="findMerchantCarrierPageResult"
+    resultType="com.stone.it.rcms.mifi.sim.vo.CarrierVO">
+    <include refid="query_base_carrier"/>
+    <include refid="query_base_carrier_condition"/>
+    order by c.created_date desc
+    limit #{param2.startIndex},#{param2.endIndex}
+  </select>
+  <select id="findMerchantCarrierPageResultCount">
+    SELECT
+    count(1)
+    FROM
+    tpl_mifi_merchant_carrier_t c
+    <include refid="query_base_carrier_condition"/>
+  </select>
+  <select id="findMerchantPageResult"
+    resultType="com.stone.it.rcms.mifi.sim.vo.MerchantVO">
+    <include refid="query_base_merchant"/>
+    <include refid="query_base_merchant_condition"/>
+    order by m.created_date desc
+    limit #{param2.startIndex},#{param2.endIndex}
+  </select>
+  <select id="findMerchantPageResultCount" resultType="int">
+    SELECT
+    count(1)
+    FROM
+    tpl_mifi_merchant_t m
+    <include refid="query_base_merchant_condition"/>
+  </select>
+
+  <select id="findMerchantCarrierListByMerchantCode"
+    resultType="com.stone.it.rcms.mifi.sim.vo.CarrierVO">
+    <include refid="query_base_carrier"/>
+    where c.merchant_code = #{merchantCode}
+  </select>
+  <sql id="query_base_carrier">
+    SELECT
+    c.enterprise_id as enterpriseId,
+    c.carrier_code as carrierCode,
+    c.carrier_name as carrierName,
+    c.app_key as appKey,
+    c.app_secret as appSecret,
+    c.created_by as createBy,
+    c.updated_by as updateBy,
+    c.created_date as createDate,
+    c.updated_date as updateDate
+    FROM
+    tpl_mifi_merchant_carrier_t c
+  </sql>
+
+  <sql id="query_base_carrier_condition">
+    <where>
+      c.enterprise_id = #{param1.enterpriseId}
+      <if test="param1.carrierCode != null and param1.carrierCode != ''">
+        and c.carrier_code = #{param1.carrierCode}
+      </if>
+      <if test="param1.carrierName != null and param1.carrierName != ''">
+        and c.carrier_name like concat('%',#{param1.carrierName},'%')
+      </if>
+    </where>
+  </sql>
+  <sql id="query_base_merchant">
+    SELECT
+    m.merchant_code as merchantCode,
+    m.merchant_name as merchantName,
+    m.enterprise_id as enterpriseId,
+    m.remark,
+    m.created_by as createBy,
+    m.updated_by as updateBy,
+    m.created_date as createDate,
+    m.updated_date as updateDate
+    FROM
+    tpl_mifi_merchant_t m
+  </sql>
+
+  <sql id="query_base_merchant_condition">
+    <where>
+      m.enterprise_id = #{param1.enterpriseId}
+      <if test="param1.merchantCode != null and param1.merchantCode != ''">
+        and m.merchant_code like concat('%',#{param1.merchantCode},'%')
+      </if>
+      <if test="param1.merchantName != null and param1.merchantName != ''">
+        and m.merchant_name like concat('%',#{param1.merchantName},'%')
+      </if>
+    </where>
+  </sql>
+
+  <update id="updateMerchantCarrier">
+    update tpl_mifi_merchant_carrier_t
+    set
+    carrier_code = #{carrierCode,jdbcType=VARCHAR},
+    app_key = #{appKey,jdbcType=VARCHAR},
+    app_secret = #{appSecret,jdbcType=VARCHAR},
+    disable_area = #{disableArea,jdbcType=VARCHAR},
+    remark = #{remark,jdbcType=VARCHAR},
+    updated_by = #{updateBy,jdbcType=VARCHAR},
+    updated_date = now()
+    where carrier_code = #{carrierCode,jdbcType=VARCHAR}
+    and merchant_code =#{merchantCode,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateMerchant">
+    update tpl_mifi_merchant_t
+    set
+    merchant_name = #{merchantName,jdbcType=VARCHAR},
+    remark = #{remark,jdbcType=VARCHAR},
+    updated_by = #{updateBy,jdbcType=VARCHAR},
+    updated_date = now()
+    where merchant_code = #{merchantCode,jdbcType=VARCHAR}
+    and enterprise_id =#{enterpriseId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -4,6 +4,7 @@ import com.stone.it.rcms.core.annotate.RcmsMethod;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.mifi.sim.vo.SimVO;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -40,7 +41,7 @@ public interface ISimService {
     @Path("/records")
     @RcmsMethod(name = "SIM卡管理.新增")
     @RequiresPermissions("permission:sim:create")
-    int createSim(SimVO simVO);
+    int createSim(List<SimVO> simVO);
 
     @PUT
     @Path("/records/{iccid}")
