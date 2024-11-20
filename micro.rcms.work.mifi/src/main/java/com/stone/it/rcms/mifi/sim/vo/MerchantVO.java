@@ -21,5 +21,5 @@ public class MerchantVO extends BaseVO {
     // 禁用区域
     private String disableArea;
     // 备注
-    private String remark;
+    private String description;
 }

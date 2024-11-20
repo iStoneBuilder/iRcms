@@ -21,7 +21,8 @@ public interface IItemDao {
 
     int deleteClassify(@Param("classifyCode") String classifyCode);
 
-    List<ItemVO> findClassifyItemByCodeLang(String classifyCode, String lang);
+    List<ItemVO> findClassifyItemByCodeLang(@Param("classifyCode") String classifyCode,
+        @Param("language") String language);
 
     int createClassifyItem(ItemVO itemVO);
 

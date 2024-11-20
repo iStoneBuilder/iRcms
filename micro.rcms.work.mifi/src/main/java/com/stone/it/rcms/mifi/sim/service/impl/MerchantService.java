@@ -36,7 +36,7 @@ public class MerchantService implements IMerchantService {
 
     @Override
     public int createMerchant(MerchantVO merchantVO) {
-        merchantVO.setMerchantCode(RandomUtil.stringGenerator(6));
+        merchantVO.setMerchantCode(RandomUtil.stringGenerator(8));
         // 设置企业商户ID
         merchantVO.setEnterpriseId(UserUtil.getEnterpriseId(SecurityUtils.getSubject()));
         return merchantDao.createMerchant(merchantVO);

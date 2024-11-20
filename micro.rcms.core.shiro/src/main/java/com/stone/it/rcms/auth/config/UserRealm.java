@@ -73,7 +73,8 @@ public class UserRealm extends AuthorizingRealm {
             }
         } // 后续增加用户相关代码
         info.setRoles(roleSets);
-        info.setStringPermissions(new HashSet<>(authSettingDao.findPermsByRoleCodes(new ArrayList<>(roleSets))));
+        HashSet<String> auths = new HashSet<>(authSettingDao.findPermsByRoleCodes(new ArrayList<>(roleSets)));
+        info.setStringPermissions(auths);
         return info;
     }
 

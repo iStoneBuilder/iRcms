@@ -59,7 +59,7 @@ public interface IMerchantService {
     @GET
     @Path("/carrier/records/page/{curPage}/{pageSize}")
     @RcmsMethod(name = "卡商管理.运营商-分页查询")
-    @RequiresPermissions("permission:merchant:page:query")
+    @RequiresPermissions("permission:merchant:carrier:page:query")
     PageResult<CarrierVO> findMerchantCarrierPageResult(@QueryParam("") CarrierVO carrierVO,
         @PathParam("") PageVO pageVO);
 

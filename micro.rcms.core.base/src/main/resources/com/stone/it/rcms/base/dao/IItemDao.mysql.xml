@@ -35,8 +35,8 @@
 
   <select id="findClassifyItemByCodeLang" resultType="com.stone.it.rcms.base.vo.ItemVO">
     <include refid="query_item_base"/>
-    <include refid="query_item_condition"/>
-    and language = #{language}
+    where classify_code = #{classifyCode,jdbcType=VARCHAR}
+    and language = #{language,jdbcType=VARCHAR}
     order by item_index
   </select>
 
