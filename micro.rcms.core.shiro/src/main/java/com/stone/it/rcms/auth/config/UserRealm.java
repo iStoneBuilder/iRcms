@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
@@ -66,39 +67,39 @@ public class UserRealm extends AuthorizingRealm {
             SecurityUtils.getSubject().logout();
             throw new AuthenticationException(message);
         }
-        if (!authUserVO.getPassword().equals(loginInfo.get("password"))) {
-            // 记录日志
-            recordLoginLog(userId, authUserVO, message, true);
-            throw new AuthenticationException(message);
-        }
-        if (!authUserVO.getAccountType().equals(loginInfo.get("type"))) {
-            message = "account".equals(loginInfo.get("type")) ? "APP账户禁止使用登录接口" : "用户账号禁止使用Token接口";
-            recordLoginLog(userId, authUserVO, message, true);
-            throw new AuthenticationException(message);
-        }
-        recordLoginLog(userId, authUserVO, "登录成功", false);
-        return new SimpleAuthenticationInfo(JwtUtils.getTokenInfo(password),
-            new SimpleHash("md5", password, userId).toHex(), ByteSource.Util.bytes(userId), getName());
-    }
-
-    private void recordLoginLog(String userId, AuthUserVO authUserVO, String error, boolean isOut) {
         // 获取请求信息
         HttpServletRequest request =
             ((ServletRequestAttributes)Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
                 .getRequest();
+        if (!authUserVO.getPassword().equals(loginInfo.get("password"))) {
+            SecurityUtils.getSubject().logout();
+            // 记录日志
+            recordLoginLog(userId, authUserVO, message, false, request);
+            throw new AuthenticationException(message);
+        }
+        if (!authUserVO.getAccountType().equals(loginInfo.get("type"))) {
+            SecurityUtils.getSubject().logout();
+            message = "account".equals(loginInfo.get("type")) ? "APP账户禁止使用登录接口" : "用户账号禁止使用Token接口";
+            recordLoginLog(userId, authUserVO, message, false, request);
+            throw new AuthenticationException(message);
+        }
+        recordLoginLog(userId, authUserVO, "登录成功", true, request);
+        return new SimpleAuthenticationInfo(JwtUtils.getTokenInfo(password),
+            new SimpleHash("md5", password, userId).toHex(), ByteSource.Util.bytes(userId), getName());
+    }
+
+    private void recordLoginLog(String userId, AuthUserVO authUserVO, String error, boolean isLogin,
+        HttpServletRequest request) {
         String ip = AuthLogUtils.getIpAddr(request);
-        String location = AuthLogUtils.getLocation(ip);
         String userAgent = request.getHeader("User-Agent");
         String os = AuthLogUtils.getOs(userAgent);
         String browser = AuthLogUtils.getBrowser(userAgent);
-        // 记录日志
-        LOGGER.info("用户: {}, 登录IP: {}, 登录地点: {}, 操作系统: {}, 浏览器类型: {}, 登录状态: {},  登录时间: {}, message: {}", userId, ip,
-            location, os, browser, isOut, new Date(), error);
-        // 异常先登出
-        if (isOut) {
-            SecurityUtils.getSubject().logout();
-        }
-
+        CompletableFuture.runAsync(() -> {
+            String location = AuthLogUtils.getLocation(ip);
+            // 记录日志
+            LOGGER.info("用户: {}, 登录IP: {}, 登录地点: {}, 操作系统: {}, 浏览器类型: {}, 登录状态: {},  登录时间: {}, message: {}", userId, ip,
+                location, os, browser, isLogin, new Date(), error);
+        });
     }
 
     /**
