@@ -33,7 +33,7 @@ public class UserRealm extends AuthorizingRealm {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRealm.class);
 
     @Inject
-    private IShiroAuthDao authSettingDao;
+    private IShiroAuthDao shiroAuthDao;
 
     /**
      * 授权认证（生成Token会进入此方法）
@@ -70,7 +70,7 @@ public class UserRealm extends AuthorizingRealm {
             roleSets.add(userInfo.get("userId"));
         } else if ("account".equals(userInfo.get("type"))) {
             // 后台管理账户
-            String roleCodes = authSettingDao.findAccountRoleById(userInfo.get("userId"));
+            String roleCodes = shiroAuthDao.findAccountRoleById(userInfo.get("userId"));
             if (roleCodes != null) {
                 List<String> roles = List.of(roleCodes.split(","));
                 if (!roles.isEmpty()) {
@@ -79,7 +79,7 @@ public class UserRealm extends AuthorizingRealm {
             }
         } // 后续增加用户相关代码
         info.setRoles(roleSets);
-        HashSet<String> auths = new HashSet<>(authSettingDao.findPermsByRoleCodes(new ArrayList<>(roleSets)));
+        HashSet<String> auths = new HashSet<>(shiroAuthDao.findPermsByRoleCodes(new ArrayList<>(roleSets)));
         info.setStringPermissions(auths);
         return info;
     }

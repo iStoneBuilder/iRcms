@@ -44,7 +44,7 @@ public class LoginService implements ILoginService {
     @Override
     public LoginResponseVO userLogin(AccountSecretVO userVO) {
         // 登录认证
-        String sessionId = subjectLogin(userVO.getAccount(), userVO.getPassword(), "account");
+        String sessionId = subjectLogin(userVO.getAccount(), userVO.getPassword(), "account", "login");
         // 获取用户信息
         AuthAccountVO dbUser = loginDao.findAccountInfoById(userVO.getAccount());
         Calendar expTime = JwtUtils.getExpireTime(60 * 5);
@@ -97,7 +97,7 @@ public class LoginService implements ILoginService {
 
     @Override
     public JSONObject appToken(AppSecretVO appSecretVO) {
-        String sessionId = subjectLogin(appSecretVO.getAppId(), appSecretVO.getSecret(), "app");
+        String sessionId = subjectLogin(appSecretVO.getAppId(), appSecretVO.getSecret(), "app", "token");
         if (sessionId == null) {
             return null;
         }
@@ -140,7 +140,7 @@ public class LoginService implements ILoginService {
         }
     }
 
-    private String subjectLogin(String account, String password, String type) {
+    private String subjectLogin(String account, String password, String type, String source) {
         // 查询数据库用户信息
         AuthAccountVO dbUser = loginDao.findAccountInfoById(account);
         if (dbUser == null) {

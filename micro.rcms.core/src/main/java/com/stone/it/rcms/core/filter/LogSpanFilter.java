@@ -22,11 +22,11 @@ public class LogSpanFilter extends GenericFilterBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(LogSpanFilter.class);
 
     /**
-     * @param req
-     * @param res
-     * @param chain
-     * @throws IOException
-     * @throws ServletException
+     * @param req req
+     * @param res req
+     * @param chain req
+     * @throws IOException req
+     * @throws ServletException req
      */
     @Override
     public void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain)
@@ -37,17 +37,12 @@ public class LogSpanFilter extends GenericFilterBean {
         // 获取根路径
         final String contextPath = request.getContextPath();
         // 去掉根路径
-        final String path_uri = requestUri.replace(contextPath, "");
-        if (isResourceRequest(path_uri)) {
-            // 静态资源跳过日志记录
-        } else {
-            LOGGER.info("LogSpanFilter 请求路径 {}  ", path_uri);
+        final String pathUri = requestUri.replace(contextPath, "");
+        if (!requestUri.contains("/web/")) {
+            // 日志记录
+            LOGGER.info("LogSpanFilter 请求路径 {}  {}", pathUri, contextPath);
         }
         chain.doFilter(req, res);
-    }
-
-    private boolean isResourceRequest(String requestUri) {
-        return "" == requestUri || "/".equals(requestUri) || requestUri.indexOf("/web/") > -1;
     }
 
 }

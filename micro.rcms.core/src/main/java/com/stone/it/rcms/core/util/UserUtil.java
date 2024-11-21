@@ -13,39 +13,36 @@ import org.apache.shiro.subject.Subject;
  */
 public class UserUtil {
 
-  public static JSONObject getLoginInfo(Subject subject) {
-    JSONObject userInfo;
-    try {
-      PrincipalCollection principals = subject.getPrincipals();
-      if (principals == null) {
-        throw new RcmsApplicationException(500, "用户未登录！");
-      }
-      Map<String, String> user = (Map<String, String>) principals.getPrimaryPrincipal();
-      userInfo = JSONObject.parseObject(JSONObject.toJSONString(user));
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new RcmsApplicationException(500, "服务异常，请联系管理员！", e);
+    public static JSONObject getLoginInfo(Subject subject) {
+        JSONObject userInfo;
+        try {
+            PrincipalCollection principals = subject.getPrincipals();
+            if (principals == null) {
+                throw new RcmsApplicationException(500, "用户未登录！");
+            }
+            Map<String, String> user = (Map<String, String>)principals.getPrimaryPrincipal();
+            userInfo = JSONObject.parseObject(JSONObject.toJSONString(user));
+        } catch (Exception e) {
+            throw new RcmsApplicationException(500, "服务异常，请联系管理员！", e);
+        }
+        return userInfo;
     }
-    return userInfo;
-  }
 
-  public static String getEnterpriseId(Subject subject) {
-    JSONObject loginInfo = getLoginInfo(subject);
-    if (loginInfo.containsKey("enterpriseId") && loginInfo.get("enterpriseId") != null) {
-      return loginInfo.getString("enterpriseId");
-    } else {
-      throw new RcmsApplicationException(500, "服务异常，请联系管理员！",
-        "无法获取登录用户的企业ID！");
+    public static String getEnterpriseId(Subject subject) {
+        JSONObject loginInfo = getLoginInfo(subject);
+        if (loginInfo.containsKey("enterpriseId") && loginInfo.get("enterpriseId") != null) {
+            return loginInfo.getString("enterpriseId");
+        } else {
+            throw new RcmsApplicationException(500, "服务异常，请联系管理员！", "无法获取登录用户的企业ID！");
+        }
     }
-  }
 
-  public static String getCurrentByKey(Subject subject, String key) {
-    JSONObject loginInfo = getLoginInfo(subject);
-    if (loginInfo.containsKey(key) && loginInfo.get(key) != null) {
-      return loginInfo.getString(key);
-    } else {
-      throw new RcmsApplicationException(500, "服务异常，请联系管理员！",
-        "无法获取登录用户的" + key + "信息！");
+    public static String getCurrentByKey(Subject subject, String key) {
+        JSONObject loginInfo = getLoginInfo(subject);
+        if (loginInfo.containsKey(key) && loginInfo.get(key) != null) {
+            return loginInfo.getString(key);
+        } else {
+            throw new RcmsApplicationException(500, "服务异常，请联系管理员！", "无法获取登录用户的" + key + "信息！");
+        }
     }
-  }
 }
