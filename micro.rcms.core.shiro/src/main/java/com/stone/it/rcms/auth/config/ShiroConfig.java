@@ -1,9 +1,6 @@
 package com.stone.it.rcms.auth.config;
 
-import com.stone.it.rcms.auth.filter.RequestGlobalFilter;
 import com.stone.it.rcms.auth.manager.RcmsWebSessionManager;
-import java.util.Collections;
-import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,16 +48,10 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
         LOGGER.info("****** Shiro ShiroConfig shiroFilterFactoryBean...");
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
-        // 注册自定义过滤器
-        Map<String, Filter> filters = new LinkedHashMap<>();
-        filters.put("logf", new RequestGlobalFilter());
-        factoryBean.setFilters(filters);
 
         // 给filter设置安全管理
         factoryBean.setSecurityManager(securityManager);
         Map<String, String> pathMaps = new LinkedHashMap<>();
-        // 记录请求日志
-        buildPathMaps(pathMaps, Collections.singletonList("/**"), "logf");
         // 构建动态配置的路径 (不需要认证)
         buildPathMaps(pathMaps, anonPaths, "anon");
         // 构建默认的路径 (不需要认证)

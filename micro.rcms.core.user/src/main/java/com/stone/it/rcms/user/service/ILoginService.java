@@ -1,6 +1,7 @@
 package com.stone.it.rcms.user.service;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.stone.it.rcms.core.annotate.RcmsMethod;
 import com.stone.it.rcms.user.vo.AccountSecretVO;
 import com.stone.it.rcms.user.vo.AppSecretVO;
 import com.stone.it.rcms.user.vo.LoginResponseVO;
@@ -23,18 +24,22 @@ public interface ILoginService {
 
     @POST
     @Path("login")
+    @RcmsMethod(name = "用户登录")
     LoginResponseVO userLogin(AccountSecretVO accountSecretVO);
 
     @POST
     @Path("refresh/login")
+    @RcmsMethod(name = "用户登录刷新")
     LoginResponseVO userLoginRefresh(LoginResponseVO loginResVO);
 
     @POST
     @Path("logout")
+    @RcmsMethod(name = "用户退出")
     JSONObject userLogout();
 
     @POST
     @Path("token")
+    @RcmsMethod(name = "应用登录")
     JSONObject appToken(AppSecretVO appSecretVO);
 
 }

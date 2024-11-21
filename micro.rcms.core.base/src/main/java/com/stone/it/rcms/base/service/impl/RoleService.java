@@ -47,7 +47,7 @@ public class RoleService implements IRoleService {
     public List<RoleVO> findRoleTree(RoleVO roleVO) {
         String enterpriseId = roleVO.getId();
         if (StringUtils.isEmpty(enterpriseId)) {
-            enterpriseId = UserUtil.getCurrentByKey(SecurityUtils.getSubject(), "enterpriseId");
+            enterpriseId = UserUtil.getEnterpriseId(SecurityUtils.getSubject());
         }
         List<RoleVO> rootList = roleDao.findRoleByEnterpriseId(enterpriseId);
         List<RoleVO> allRoles = roleDao.findAllRoles();
