@@ -12,6 +12,8 @@ import javax.ws.rs.QueryParam;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 
 /**
+ * 用户管理
+ * 
  * @author cj.stone
  * @Desc
  */

@@ -19,6 +19,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 
 /**
+ * 企业商户管理
+ * 
  * @author cj.stone
  * @Date 2024/11/1
  * @Desc

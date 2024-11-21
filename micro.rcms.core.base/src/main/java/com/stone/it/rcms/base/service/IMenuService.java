@@ -19,7 +19,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /**
- * 栏目
+ * 菜单栏目
  *
  * @author cj.stone
  * @Desc

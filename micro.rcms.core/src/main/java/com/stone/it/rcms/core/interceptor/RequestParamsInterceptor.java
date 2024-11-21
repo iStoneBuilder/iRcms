@@ -23,6 +23,6 @@ public class RequestParamsInterceptor extends AbstractPhaseInterceptor<Message> 
 
     @Override
     public void handleMessage(Message message) throws Fault {
-        LOGGER.info("RequestParamsInterceptor handleMessage");
+        LOGGER.info("****** CXF Interceptor In params handle...");
     }
 }

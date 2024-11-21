@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 
 /**
- *
+ * 获取sessionID
+ * 
  * @author cj.stone
  * @Date 2024/11/5
  * @Desc
@@ -22,16 +23,19 @@ public class RcmsWebSessionManager extends DefaultWebSessionManager {
 
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
-        LOGGER.info("Handle authentication sessionId .....");
         HttpServletRequest req = (HttpServletRequest)request;
         Serializable authorization = req.getHeader("Authorization");
         if (authorization != null) {
             Map<String, String> accountInfo = JwtUtils.getTokenInfo(authorization.toString());
             if (accountInfo.containsKey("sessionId")) {
+                LOGGER.info("****** Shiro RcmsWebSessionManager getSessionId(Token)... {}",
+                    accountInfo.get("sessionId"));
                 return accountInfo.get("sessionId");
             }
         }
         // 如果消息头获取为空，则使用shiro原来的方式获取
-        return super.getSessionId(request, response);
+        Serializable sessionId = super.getSessionId(request, response);
+        LOGGER.info("****** Shiro RcmsWebSessionManager getSessionId(Shiro)... {}", sessionId);
+        return sessionId;
     }
 }

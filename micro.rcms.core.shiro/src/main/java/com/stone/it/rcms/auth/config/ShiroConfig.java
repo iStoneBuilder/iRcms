@@ -1,6 +1,9 @@
 package com.stone.it.rcms.auth.config;
 
+import com.stone.it.rcms.auth.filter.RequestGlobalFilter;
 import com.stone.it.rcms.auth.manager.RcmsWebSessionManager;
+import java.util.Collections;
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +15,8 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,10 +33,9 @@ import org.springframework.context.annotation.DependsOn;
 @Configuration
 public class ShiroConfig {
 
-    private static final String[] ANON_PATHS = {"/user/login", "/user/refresh/login", "/user/register", "/user/token"};
-
     private static final String[] AUTHC_PATHS = {"/rcms/**"};
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShiroConfig.class);
+    private static final String[] ANON_PATHS = {"/user/login", "/user/refresh/login", "/user/register", "/user/token"};
     /**
      * 不需要认证授权的路径
      */
@@ -45,31 +49,36 @@ public class ShiroConfig {
 
     @Bean("shiroFilterFactoryBean")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
+        LOGGER.info("****** Shiro ShiroConfig shiroFilterFactoryBean...");
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
+        // 注册自定义过滤器
+        Map<String, Filter> filters = new LinkedHashMap<>();
+        filters.put("logf", new RequestGlobalFilter());
+        factoryBean.setFilters(filters);
+
         // 给filter设置安全管理
         factoryBean.setSecurityManager(securityManager);
         Map<String, String> pathMaps = new LinkedHashMap<>();
-        // 登录请求无需认证
-        if (anonPaths != null && !anonPaths.isEmpty()) {
-            for (String path : anonPaths) {
-                pathMaps.put(path, "anon");
-            }
-        }
-        // 设置框架默认配置
-        for (String path : ANON_PATHS) {
-            pathMaps.put(path, "anon");
-        }
+        // 记录请求日志
+        buildPathMaps(pathMaps, Collections.singletonList("/**"), "logf");
+        // 构建动态配置的路径 (不需要认证)
+        buildPathMaps(pathMaps, anonPaths, "anon");
+        // 构建默认的路径 (不需要认证)
+        buildPathMaps(pathMaps, List.of(ANON_PATHS), "anon");
         // 需要请求需要认证
-        if (authcPaths != null && !authcPaths.isEmpty()) {
-            for (String path : authcPaths) {
-                pathMaps.put(path, "authc");
-            }
-        }
-        for (String path : AUTHC_PATHS) {
-            pathMaps.put(path, "authc");
-        }
+        buildPathMaps(pathMaps, authcPaths, "authc");
+        // 默认路径框架接口 (需要认证)
+        buildPathMaps(pathMaps, List.of(AUTHC_PATHS), "authc");
         factoryBean.setFilterChainDefinitionMap(pathMaps);
         return factoryBean;
+    }
+
+    private void buildPathMaps(Map<String, String> pathMaps, List<String> paths, String filterKey) {
+        if (paths != null && !paths.isEmpty()) {
+            for (String path : paths) {
+                pathMaps.put(path, filterKey);
+            }
+        }
     }
 
     // 自定义密码加密规则

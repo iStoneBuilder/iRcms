@@ -30,7 +30,7 @@ public class ExceptionResponseProvider implements ExceptionMapper<Throwable> {
      */
     @Override
     public Response toResponse(Throwable exception) {
-        LOGGER.error("Exception occurred: ", exception);
+        LOGGER.error("****** Exception Response handle...", exception);
         String name = exception.getClass().getName().replace(exception.getClass().getPackageName() + ".", "");
         JSONObject response;
         // 匹配枚举类型异常

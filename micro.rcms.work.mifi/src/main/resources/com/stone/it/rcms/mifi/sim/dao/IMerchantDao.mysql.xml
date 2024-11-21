@@ -54,7 +54,6 @@
     #{enterpriseId,jdbcType=VARCHAR},
     #{merchantCode,jdbcType=VARCHAR},
     #{carrierCode,jdbcType=VARCHAR},
-    #{carrierName,jdbcType=VARCHAR},
     #{appKey,jdbcType=VARCHAR},
     #{appSecret,jdbcType=VARCHAR},
     #{description,jdbcType=VARCHAR},

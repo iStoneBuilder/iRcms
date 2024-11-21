@@ -32,7 +32,7 @@ public class JwtTokenInInterceptor extends RequestParamsInterceptor {
     @Override
     public void handleMessage(Message message) throws Fault {
         super.handleMessage(message);
-        LOGGER.info("CXF Interceptor In ...........");
+        LOGGER.info("****** CXF Interceptor In Token Handle...");
         HttpServletRequest request = (HttpServletRequest)message.get("HTTP.REQUEST");
         // 不需要认证的接口
         for (String anonPath : ANON_PATHS) {

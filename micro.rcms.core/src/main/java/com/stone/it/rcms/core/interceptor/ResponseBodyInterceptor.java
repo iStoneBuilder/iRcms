@@ -33,7 +33,7 @@ public class ResponseBodyInterceptor extends AbstractPhaseInterceptor<Message> {
 
     @Override
     public void handleMessage(Message message) throws Fault {
-        LOGGER.info("Response Body Interceptor ........");
+        LOGGER.info("****** CXF Interceptor Out Body Handle ...");
         // 获取响应输出流
         OutputStream os = message.getContent(OutputStream.class);
         if (os != null) {
@@ -74,12 +74,12 @@ public class ResponseBodyInterceptor extends AbstractPhaseInterceptor<Message> {
                 }
                 os.write(JSONObject.toJSONString(responseJson).getBytes());
             } catch (Exception e) {
-                LOGGER.error("ResponseBodyInterceptor error", e);
+                LOGGER.info("****** CXF Interceptor Out Body Handle Error...", e);
             } finally {
                 try {
                     os.close();
                 } catch (Exception ex) {
-                    LOGGER.error("ResponseBodyInterceptor error", ex);
+                    LOGGER.info("****** CXF Interceptor Out Body Handle os.error ...", ex);
                 }
             }
         }

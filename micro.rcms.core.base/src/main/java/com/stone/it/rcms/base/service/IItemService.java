@@ -17,6 +17,8 @@ import javax.ws.rs.QueryParam;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 
 /**
+ * 字典管理
+ * 
  * @author cj.stone
  * @Desc 字典接口
  */

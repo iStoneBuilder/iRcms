@@ -47,11 +47,11 @@ public class LoginService implements ILoginService {
         String sessionId = subjectLogin(userVO.getAccount(), userVO.getPassword(), "account");
         // 获取用户信息
         AuthAccountVO dbUser = loginDao.findAccountInfoById(userVO.getAccount());
-        Calendar expTime = JwtUtils.getExpireTime(60);
+        Calendar expTime = JwtUtils.getExpireTime(60 * 5);
         String accessToken = buildJwtToken(sessionId, userVO.getAccount(), userVO.getPassword(), "app", expTime,
             dbUser.getEnterpriseId());
         String refreshToken = buildJwtToken(sessionId, userVO.getAccount(), userVO.getPassword(), "app",
-            JwtUtils.getExpireTime(60 * 8), dbUser.getEnterpriseId());
+            JwtUtils.getExpireTime(60 * 10), dbUser.getEnterpriseId());
         LoginResponseVO loginResVO = new LoginResponseVO();
         loginResVO.setAccessToken(accessToken);
         loginResVO.setRefreshToken(refreshToken);

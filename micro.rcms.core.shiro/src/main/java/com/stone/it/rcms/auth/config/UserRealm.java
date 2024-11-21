@@ -19,6 +19,8 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -27,6 +29,8 @@ import org.apache.shiro.util.ByteSource;
  * @Desc
  */
 public class UserRealm extends AuthorizingRealm {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserRealm.class);
 
     @Inject
     private IShiroAuthDao authSettingDao;
@@ -38,6 +42,7 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
         throws AuthenticationException {
+        LOGGER.info("****** Shiro UserRealm doGetAuthenticationInfo(login)...");
         // 采用用户名和密码方式
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)authenticationToken;
         // 用户id/account
@@ -53,6 +58,7 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        LOGGER.info("****** Shiro UserRealm doGetAuthorizationInfo(auth)...");
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         Map<String, String> userInfo = (Map<String, String>)principalCollection.getPrimaryPrincipal();
         // 用户角色

@@ -84,12 +84,13 @@ public class JwtUtils {
     /**
      * 验证token是否有效
      * 
-     * @param token
-     * @return
+     * @param token token
+     * @return map
      */
     public static Map<String, Object> verifyToken(String token) {
         Map<String, Object> map = new HashMap<>();
-        map.put("state", false); // 设置默认状态
+        // 设置默认状态
+        map.put("state", false);
         try {
             // 验证令牌
             JWT.require(Algorithm.HMAC256(SING)).build().verify(token);

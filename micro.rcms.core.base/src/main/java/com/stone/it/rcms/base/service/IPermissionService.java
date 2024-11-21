@@ -15,6 +15,8 @@ import javax.ws.rs.core.MediaType;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /**
+ * 接口权限管理
+ * 
  * @author cj.stone
  * @Date 2024/11/1
  * @Desc

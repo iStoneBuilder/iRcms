@@ -18,6 +18,8 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /**
+ * 国际化
+ * 
  * @author cj.stone
  * @Desc
  */
