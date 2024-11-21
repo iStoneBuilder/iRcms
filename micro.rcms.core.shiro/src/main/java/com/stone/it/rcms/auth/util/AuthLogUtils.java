@@ -39,7 +39,6 @@ public class AuthLogUtils {
         params.put("lang", "zh-CN");
         params.put("fields", "49177");
         ResponseEntity res = RequestUtil.doGet("http://ip-api.com/json/" + ip, params);
-        System.out.println("!!!!!!!!!!!!" + res.getBody());
         if ("200".equals(res.getCode())) {
             if (res.getBody().contains("\"status\":\"success\"")) {
                 JSONObject result = JSONObject.parseObject(res.getBody());
