@@ -20,4 +20,17 @@
     </foreach>
   </select>
 
+  <select id="findAccountByIdPassword" resultType="com.stone.it.rcms.auth.vo.AuthUserVO">
+    SELECT
+    account_code as accountCode,
+    account_name as accountName,
+    account_type as accountType,
+    password as password,
+    enterprise_id as enterpriseId
+    FROM
+    tpl_account_t
+    WHERE
+    account_code = #{userId}
+  </select>
+
 </mapper>

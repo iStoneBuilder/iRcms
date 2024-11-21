@@ -8,7 +8,8 @@ package com.stone.it.rcms.core.exception;
  */
 public enum RcmsExceptionEnum {
 
-    UnauthenticatedException(401, "请求认证已失效"), UnauthorizedException(403, "您没有权限访问该资源");
+    UnauthenticatedException(401, "请求认证已失效"), UnauthorizedException(403, "您没有权限访问该资源"),
+    AuthenticationException(500, "");
 
     private final int code;
 

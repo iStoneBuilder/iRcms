@@ -35,8 +35,9 @@ public class ExceptionResponseProvider implements ExceptionMapper<Throwable> {
         JSONObject response;
         // 匹配枚举类型异常
         if (Arrays.stream(RcmsExceptionEnum.values()).anyMatch(e -> e.name().equals(name))) {
+            String message = RcmsExceptionEnum.valueOf(name).getMessage();
             response = ResponseUtil.responseBuild(RcmsExceptionEnum.valueOf(name).getCode(),
-                RcmsExceptionEnum.valueOf(name).getMessage(), exception.getMessage());
+                "".equals(message) ? exception.getMessage() : message, exception.getMessage());
             return Response.status(RcmsExceptionEnum.valueOf(name).getCode()).entity(response).type("application/json")
                 .build();
         }

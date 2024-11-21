@@ -1,13 +1,19 @@
 package com.stone.it.rcms.auth.config;
 
 import com.stone.it.rcms.auth.dao.IShiroAuthDao;
+import com.stone.it.rcms.auth.util.AuthLogUtils;
+import com.stone.it.rcms.auth.vo.AuthUserVO;
 import com.stone.it.rcms.core.util.JwtUtils;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -21,6 +27,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  *
@@ -47,10 +55,50 @@ public class UserRealm extends AuthorizingRealm {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)authenticationToken;
         // 用户id/account
         String userId = usernamePasswordToken.getUsername();
-        // token密码
+        // token密码(id,pass,source,type)
         String password = new String(usernamePasswordToken.getPassword());
+        Map<String, String> loginInfo = JwtUtils.getTokenInfo(password);
+        // 判断账号密码
+        AuthUserVO authUserVO = shiroAuthDao.findAccountByIdPassword(userId);
+        // 账户密码错误 | 账户类型接口调用错误
+        String message = "账号密码错误！";
+        if (authUserVO == null) {
+            SecurityUtils.getSubject().logout();
+            throw new AuthenticationException(message);
+        }
+        if (!authUserVO.getPassword().equals(loginInfo.get("password"))) {
+            // 记录日志
+            recordLoginLog(userId, authUserVO, message, true);
+            throw new AuthenticationException(message);
+        }
+        if (!authUserVO.getAccountType().equals(loginInfo.get("type"))) {
+            message = "account".equals(loginInfo.get("type")) ? "APP账户禁止使用登录接口" : "用户账号禁止使用Token接口";
+            recordLoginLog(userId, authUserVO, message, true);
+            throw new AuthenticationException(message);
+        }
+        recordLoginLog(userId, authUserVO, "登录成功", false);
         return new SimpleAuthenticationInfo(JwtUtils.getTokenInfo(password),
             new SimpleHash("md5", password, userId).toHex(), ByteSource.Util.bytes(userId), getName());
+    }
+
+    private void recordLoginLog(String userId, AuthUserVO authUserVO, String error, boolean isOut) {
+        // 获取请求信息
+        HttpServletRequest request =
+            ((ServletRequestAttributes)Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
+                .getRequest();
+        String ip = AuthLogUtils.getIpAddr(request);
+        String location = AuthLogUtils.getLocation(ip);
+        String userAgent = request.getHeader("User-Agent");
+        String os = AuthLogUtils.getOs(userAgent);
+        String browser = AuthLogUtils.getBrowser(userAgent);
+        // 记录日志
+        LOGGER.info("用户: {}, 登录IP: {}, 登录地点: {}, 操作系统: {}, 浏览器类型: {}, 登录状态: {},  登录时间: {}, message: {}", userId, ip,
+            location, os, browser, isOut, new Date(), error);
+        // 异常先登出
+        if (isOut) {
+            SecurityUtils.getSubject().logout();
+        }
+
     }
 
     /**

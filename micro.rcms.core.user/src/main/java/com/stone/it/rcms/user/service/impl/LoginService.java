@@ -44,7 +44,7 @@ public class LoginService implements ILoginService {
     @Override
     public LoginResponseVO userLogin(AccountSecretVO userVO) {
         // 登录认证
-        String sessionId = subjectLogin(userVO.getAccount(), userVO.getPassword(), "account", "login");
+        String sessionId = subjectLogin(userVO.getAccount(), userVO.getPassword(), "account");
         // 获取用户信息
         AuthAccountVO dbUser = loginDao.findAccountInfoById(userVO.getAccount());
         Calendar expTime = JwtUtils.getExpireTime(60 * 5);
@@ -97,7 +97,7 @@ public class LoginService implements ILoginService {
 
     @Override
     public JSONObject appToken(AppSecretVO appSecretVO) {
-        String sessionId = subjectLogin(appSecretVO.getAppId(), appSecretVO.getSecret(), "app", "token");
+        String sessionId = subjectLogin(appSecretVO.getAppId(), appSecretVO.getSecret(), "app");
         if (sessionId == null) {
             return null;
         }
@@ -140,23 +140,11 @@ public class LoginService implements ILoginService {
         }
     }
 
-    private String subjectLogin(String account, String password, String type, String source) {
-        // 查询数据库用户信息
-        AuthAccountVO dbUser = loginDao.findAccountInfoById(account);
-        if (dbUser == null) {
-            throw new RcmsApplicationException(500, "账号/密码错误！");
-        }
-        if (!dbUser.getPassword().equals(password)) {
-            throw new RcmsApplicationException(500, "账号/密码错误！");
-        }
-        if (!dbUser.getAccountType().equals(type)) {
-            throw new RcmsApplicationException(500, "账号/密码错误！");
-        }
+    private String subjectLogin(String account, String password, String type) {
         Subject subject = SecurityUtils.getSubject();
         Map<String, String> user = new HashMap<>();
-        user.put("userId", dbUser.getAccountCode());
-        user.put("password", dbUser.getPassword());
-        user.put("enterpriseId", String.valueOf(dbUser.getEnterpriseId()));
+        user.put("userId", account);
+        user.put("password", password);
         user.put("type", type);
         UsernamePasswordToken token = new UsernamePasswordToken(account, JwtUtils.generateToken(user));
         // 禁用记住我
