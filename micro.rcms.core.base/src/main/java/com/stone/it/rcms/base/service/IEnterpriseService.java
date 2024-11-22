@@ -103,14 +103,14 @@ public interface IEnterpriseService {
     /**
      * 删除企业(商户)信息
      *
-     * @param enterprise_id enterprise_id
+     * @param enterpriseId enterprise_id
      * @return int
      */
     @DELETE
     @Path("/records/{enterprise_id}")
     @RcmsMethod(name = "企业(商户)管理.删除")
     @RequiresPermissions("permission:enterprise:delete")
-    int deleteEnterpriseMerchant(@PathParam("enterprise_id") String enterprise_id) throws RcmsApplicationException;
+    int deleteEnterpriseMerchant(@PathParam("enterprise_id") String enterpriseId) throws RcmsApplicationException;
 
     List<EnterpriseVO> findEnterpriseList(String enterpriseId, Subject subject);
 

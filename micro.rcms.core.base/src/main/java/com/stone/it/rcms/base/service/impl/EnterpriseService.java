@@ -78,14 +78,14 @@ public class EnterpriseService implements IEnterpriseService {
     }
 
     @Override
-    public int updateEnterpriseMerchant(String enterprise_id, EnterpriseVO enterpriseVO) {
-        enterpriseVO.setId(enterprise_id);
+    public int updateEnterpriseMerchant(String enterpriseId, EnterpriseVO enterpriseVO) {
+        enterpriseVO.setId(enterpriseId);
         return enterpriseDao.updateEnterpriseMerchant(enterpriseVO);
     }
 
     @Override
-    public int deleteEnterpriseMerchant(String enterprise_id) throws RcmsApplicationException {
-        return enterpriseDao.deleteEnterpriseMerchant(enterprise_id);
+    public int deleteEnterpriseMerchant(String enterpriseId) throws RcmsApplicationException {
+        return enterpriseDao.deleteEnterpriseMerchant(enterpriseId);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class EnterpriseService implements IEnterpriseService {
         List<EnterpriseVO> list;
         // 如果没有查询企业ID，则获取当前登录用户的企业ID
         if (StringUtils.isEmpty(enterpriseId)) {
-            enterpriseVO.setId(UserUtil.getEnterpriseId(subject));
+            enterpriseVO.setId(UserUtil.getEnterpriseId());
             list = this.findEnterpriseList(enterpriseVO);
         } else {
             list = new ArrayList<>();

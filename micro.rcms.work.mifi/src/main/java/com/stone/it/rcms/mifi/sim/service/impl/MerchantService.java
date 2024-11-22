@@ -12,7 +12,6 @@ import com.stone.it.rcms.mifi.sim.vo.MerchantVO;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.shiro.SecurityUtils;
 
 /**
  * 卡商管理实现
@@ -30,7 +29,7 @@ public class MerchantService implements IMerchantService {
     @Override
     public PageResult<MerchantVO> findMerchantPageResult(MerchantVO merchantVO, PageVO pageVO) {
         // 设置企业商户ID
-        merchantVO.setEnterpriseId(UserUtil.getEnterpriseId(SecurityUtils.getSubject()));
+        merchantVO.setEnterpriseId(UserUtil.getEnterpriseId());
         return merchantDao.findMerchantPageResult(merchantVO, pageVO);
     }
 
@@ -38,7 +37,7 @@ public class MerchantService implements IMerchantService {
     public int createMerchant(MerchantVO merchantVO) {
         merchantVO.setMerchantCode(RandomUtil.stringGenerator(8));
         // 设置企业商户ID
-        merchantVO.setEnterpriseId(UserUtil.getEnterpriseId(SecurityUtils.getSubject()));
+        merchantVO.setEnterpriseId(UserUtil.getEnterpriseId());
         return merchantDao.createMerchant(merchantVO);
     }
 
@@ -54,18 +53,18 @@ public class MerchantService implements IMerchantService {
         if (!list.isEmpty()) {
             throw new RcmsApplicationException(500, "该卡商下存在运营商数据，请先删除运营商！");
         }
-        return merchantDao.deleteMerchant(code, UserUtil.getEnterpriseId(SecurityUtils.getSubject()));
+        return merchantDao.deleteMerchant(code, UserUtil.getEnterpriseId());
     }
 
     @Override
     public PageResult<CarrierVO> findMerchantCarrierPageResult(CarrierVO carrierVO, PageVO pageVO) {
-        carrierVO.setEnterpriseId(UserUtil.getEnterpriseId(SecurityUtils.getSubject()));
+        carrierVO.setEnterpriseId(UserUtil.getEnterpriseId());
         return merchantDao.findMerchantCarrierPageResult(carrierVO, pageVO);
     }
 
     @Override
     public int createMerchantCarrier(CarrierVO carrierVO) {
-        carrierVO.setEnterpriseId(UserUtil.getEnterpriseId(SecurityUtils.getSubject()));
+        carrierVO.setEnterpriseId(UserUtil.getEnterpriseId());
         return merchantDao.createMerchantCarrier(carrierVO);
     }
 
