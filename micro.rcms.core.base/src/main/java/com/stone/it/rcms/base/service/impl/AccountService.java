@@ -21,42 +21,38 @@ import org.apache.shiro.SecurityUtils;
 @Named
 public class AccountService implements IAccountService {
 
-  @Inject
-  private IEnterpriseService enterpriseService;
+    @Inject
+    private IEnterpriseService enterpriseService;
 
-  @Inject
-  private IAccountDao accountDao;
+    @Inject
+    private IAccountDao accountDao;
 
-  @Override
-  public PageResult<AccountVO> findAccountPageResult(AccountVO accountVO, PageVO pageVO) {
-    List<EnterpriseVO> list = enterpriseService.findEnterpriseList(
-      accountVO.getEnterpriseId(),
-      SecurityUtils.getSubject());
-    return accountDao.findAccountPageResult(accountVO, pageVO, list);
-  }
+    @Override
+    public PageResult<AccountVO> findAccountPageResult(AccountVO accountVO, PageVO pageVO) {
+        List<EnterpriseVO> list = enterpriseService.findEnterpriseList(accountVO.getEnterpriseId());
+        return accountDao.findAccountPageResult(accountVO, pageVO, list);
+    }
 
-  @Override
-  public List<AccountVO> findAccountList(AccountVO accountVO) {
-    return accountDao.findAccountList(accountVO,
-      enterpriseService.findEnterpriseList(accountVO.getEnterpriseId(),
-        SecurityUtils.getSubject()));
-  }
+    @Override
+    public List<AccountVO> findAccountList(AccountVO accountVO) {
+        return accountDao.findAccountList(accountVO, enterpriseService.findEnterpriseList(accountVO.getEnterpriseId()));
+    }
 
-  @Override
-  public int createAccount(AccountVO accountVO) {
-    // 创建设置默认密码
-    accountVO.setPassword(Base64.getEncoder().encodeToString("Ms@12345678".getBytes()));
-    return accountDao.createAccount(accountVO);
-  }
+    @Override
+    public int createAccount(AccountVO accountVO) {
+        // 创建设置默认密码
+        accountVO.setPassword(Base64.getEncoder().encodeToString("Ms@12345678".getBytes()));
+        return accountDao.createAccount(accountVO);
+    }
 
-  @Override
-  public int deleteAccount(String code) {
-    return accountDao.deleteAccount(code);
-  }
+    @Override
+    public int deleteAccount(String code) {
+        return accountDao.deleteAccount(code);
+    }
 
-  @Override
-  public int updateAccount(String code, AccountVO accountVO) {
-    accountVO.setCode(code);
-    return accountDao.updateAccount(accountVO);
-  }
+    @Override
+    public int updateAccount(String code, AccountVO accountVO) {
+        accountVO.setCode(code);
+        return accountDao.updateAccount(accountVO);
+    }
 }

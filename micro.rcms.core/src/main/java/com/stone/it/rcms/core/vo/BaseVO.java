@@ -20,6 +20,7 @@ public class BaseVO implements Serializable {
     // 租户ID
     private String tenantId;
     private String currentEnterpriseId;
+    private String currentUserId;
     // 企业商户ID
     private String enterpriseId;
     private String createBy;

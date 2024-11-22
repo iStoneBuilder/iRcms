@@ -112,6 +112,6 @@ public interface IEnterpriseService {
     @RequiresPermissions("permission:enterprise:delete")
     int deleteEnterpriseMerchant(@PathParam("enterprise_id") String enterpriseId) throws RcmsApplicationException;
 
-    List<EnterpriseVO> findEnterpriseList(String enterpriseId, Subject subject);
+    List<EnterpriseVO> findEnterpriseList(String enterpriseId);
 
 }

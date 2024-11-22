@@ -28,16 +28,12 @@ public class MerchantService implements IMerchantService {
 
     @Override
     public PageResult<MerchantVO> findMerchantPageResult(MerchantVO merchantVO, PageVO pageVO) {
-        // 设置企业商户ID
-        merchantVO.setEnterpriseId(UserUtil.getEnterpriseId());
         return merchantDao.findMerchantPageResult(merchantVO, pageVO);
     }
 
     @Override
     public int createMerchant(MerchantVO merchantVO) {
         merchantVO.setMerchantCode(RandomUtil.stringGenerator(8));
-        // 设置企业商户ID
-        merchantVO.setEnterpriseId(UserUtil.getEnterpriseId());
         return merchantDao.createMerchant(merchantVO);
     }
 
@@ -58,13 +54,11 @@ public class MerchantService implements IMerchantService {
 
     @Override
     public PageResult<CarrierVO> findMerchantCarrierPageResult(CarrierVO carrierVO, PageVO pageVO) {
-        carrierVO.setEnterpriseId(UserUtil.getEnterpriseId());
         return merchantDao.findMerchantCarrierPageResult(carrierVO, pageVO);
     }
 
     @Override
     public int createMerchantCarrier(CarrierVO carrierVO) {
-        carrierVO.setEnterpriseId(UserUtil.getEnterpriseId());
         return merchantDao.createMerchantCarrier(carrierVO);
     }
 

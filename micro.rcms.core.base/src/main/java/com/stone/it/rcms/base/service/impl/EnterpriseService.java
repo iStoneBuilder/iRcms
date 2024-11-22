@@ -89,7 +89,7 @@ public class EnterpriseService implements IEnterpriseService {
     }
 
     @Override
-    public List<EnterpriseVO> findEnterpriseList(String enterpriseId, Subject subject) {
+    public List<EnterpriseVO> findEnterpriseList(String enterpriseId) {
         EnterpriseVO enterpriseVO = new EnterpriseVO();
         List<EnterpriseVO> list;
         // 如果没有查询企业ID，则获取当前登录用户的企业ID

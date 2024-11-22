@@ -49,9 +49,9 @@ public class LoginService implements ILoginService {
         AuthAccountVO dbUser = loginDao.findAccountInfoById(userVO.getAccount());
         Calendar expTime = JwtUtils.getExpireTime(60 * 5);
         String accessToken = buildJwtToken(sessionId, userVO.getAccount(), dbUser.getTenantId(), "account", expTime,
-            dbUser.getEnterpriseId());
+            dbUser.getEnterpriseId(), userVO.getPassword());
         String refreshToken = buildJwtToken(sessionId, userVO.getAccount(), dbUser.getTenantId(), "account",
-            JwtUtils.getExpireTime(60 * 10), dbUser.getEnterpriseId());
+            JwtUtils.getExpireTime(60 * 10), dbUser.getEnterpriseId(), userVO.getPassword());
         LoginResponseVO loginResVO = new LoginResponseVO();
         loginResVO.setAccessToken(accessToken);
         loginResVO.setRefreshToken(refreshToken);
@@ -105,19 +105,20 @@ public class LoginService implements ILoginService {
         JSONObject result = new JSONObject();
         Calendar expTime = JwtUtils.getExpireTime(60 * 30);
         String accessToken = buildJwtToken(sessionId, appSecretVO.getAppId(), dbUser.getTenantId(), "app", expTime,
-            dbUser.getEnterpriseId());
+            dbUser.getEnterpriseId(), appSecretVO.getSecret());
         result.put("Authorization", accessToken);
         result.put("expires", DateUtil.formatDate(expTime.getTime(), "yyyy-MM-dd HH:mm:ss"));
         return result;
     }
 
     private String buildJwtToken(String sessionId, String account, String tenantId, String type, Calendar instance,
-        String enterpriseId) {
+        String enterpriseId, String password) {
         Map<String, String> map = new HashMap<>();
         map.put("sessionId", sessionId);
         map.put("enterpriseId", enterpriseId);
         map.put("tenantId", tenantId);
         map.put("account", account);
+        map.put("password", password);
         map.put("type", type);
         return JwtUtils.generateToken(map, instance);
     }

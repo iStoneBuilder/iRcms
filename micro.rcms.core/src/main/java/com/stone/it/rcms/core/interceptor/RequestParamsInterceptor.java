@@ -64,16 +64,9 @@ public class RequestParamsInterceptor extends AbstractPhaseInterceptor<Message> 
             String newQueryString = "";
             // 增加租户ID
             newQueryString = "tenantId=" + verify.get("tenantId");
+            newQueryString += "&currentUserId=" + verify.get("account");
+            newQueryString += "&currentEnterpriseId=" + verify.get("enterpriseId");
             if (queryString != null && !queryString.isEmpty()) {
-                if (!queryString.contains("currentEnterpriseId")) {
-                    newQueryString += "&currentEnterpriseId=" + verify.get("enterpriseId");
-                }
-                if (!queryString.contains("createBy")) {
-                    newQueryString += "&createBy=" + verify.get("account");
-                }
-                if (!queryString.contains("updateBy")) {
-                    newQueryString += "&updateBy=" + verify.get("account");
-                }
                 newQueryString += "&" + queryString;
             }
             message.put(Message.QUERY_STRING, newQueryString);
@@ -123,8 +116,7 @@ public class RequestParamsInterceptor extends AbstractPhaseInterceptor<Message> 
         // 定义一个辅助方法来处理键的存在性和值的填充
         fillIfAbsent(jsonObject, "tenantId", verify.get("tenantId"));
         fillIfAbsent(jsonObject, "currentEnterpriseId", verify.get("enterpriseId"));
-        fillIfAbsent(jsonObject, "createBy", verify.get("account"));
-        fillIfAbsent(jsonObject, "updateBy", verify.get("account"));
+        fillIfAbsent(jsonObject, "currentUserId", verify.get("account"));
 
         // 返回 JSON 字符串
         try {
