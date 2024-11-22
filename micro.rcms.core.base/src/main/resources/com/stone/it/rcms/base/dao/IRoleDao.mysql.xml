@@ -6,10 +6,11 @@
     delete from tpl_role_t where id = #{roleId,jdbcType=VARCHAR}
   </delete>
   <insert id="createRole">
-    insert into tpl_role_t(
+    insert into tpl_role_t(tenant_id,
     id, parent_id, code, name, description, enterprise_id, created_by, created_time, updated_by,
     updated_time)
-    values (#{id,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+    values (#{tenantId,jdbcType=VARCHAR},
+    #{id,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
     #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{enterpriseId,jdbcType=VARCHAR},
     #{currentUserId,jdbcType=VARCHAR}, now(), #{currentUserId,jdbcType=VARCHAR}, now())
   </insert>

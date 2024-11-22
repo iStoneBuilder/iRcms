@@ -5,7 +5,8 @@
 
   <delete id="deleteAccount">
     delete from tpl_account_t
-    where account_code = #{code,jdbcType=VARCHAR}
+    where
+    account_code = #{code,jdbcType=VARCHAR}
   </delete>
 
   <insert id="createAccount">
@@ -17,6 +18,7 @@
     account_roles,
     status,
     enterprise_id,
+    tenant_id,
     description,
     CREATED_BY,
     UPDATED_BY,
@@ -31,6 +33,7 @@
     #{roles,jdbcType=VARCHAR},
     #{status,jdbcType=VARCHAR},
     #{enterpriseId,jdbcType=VARCHAR},
+    #{tenantId,jdbcType=VARCHAR},
     #{description,jdbcType=VARCHAR},
     #{currentUserId,jdbcType=VARCHAR},
     #{currentUserId,jdbcType=VARCHAR},
@@ -130,7 +133,6 @@
     UPDATED_BY = #{currentUserId,jdbcType=VARCHAR},
     UPDATED_TIME = now()
     where account_code = #{code,jdbcType=VARCHAR}
-
   </update>
 
 </mapper>
