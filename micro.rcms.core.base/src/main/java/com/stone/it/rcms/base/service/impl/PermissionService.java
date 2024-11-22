@@ -62,6 +62,7 @@ public class PermissionService extends PermissionHandler implements IPermissionS
                 }
             }
             if (!isExist) {
+                permission.setCurrentUserId(permissionVO.getCurrentUserId());
                 dbNotExistApiList.add(permission);
             }
         }
@@ -74,7 +75,8 @@ public class PermissionService extends PermissionHandler implements IPermissionS
         // 清理不存在的授权关系
         permissionDao.deleteApisRelationAuth();
         // 创建超级管理员权限
-        permissionDao.createSuperAdminAuth(new ArrayList<>(AUTH_CODE_SET), "platformAdmin");
+        permissionDao.createSuperAdminAuth(new ArrayList<>(AUTH_CODE_SET), "platformAdmin",
+            permissionVO.getCurrentUserId());
         return 1;
     }
 }

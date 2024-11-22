@@ -23,7 +23,7 @@
     values
     <foreach collection="list" item="item" separator=",">
       (#{item.authCode},#{item.code},#{item.name},#{item.path,jdbcType=VARCHAR},#{item.method},
-      #{item.type},#{item.isOpenApi},now(),now(),#{currentUserId,jdbcType=VARCHAR},#{currentUserId,jdbcType=VARCHAR})
+      #{item.type},#{item.isOpenApi},now(),now(),#{item.currentUserId,jdbcType=VARCHAR},#{item.currentUserId,jdbcType=VARCHAR})
     </foreach>
   </insert>
   <insert id="createSuperAdminAuth">

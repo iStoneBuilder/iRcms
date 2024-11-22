@@ -23,5 +23,6 @@ public interface IPermissionDao {
 
     int deleteApisRelationAuth();
 
-    void createSuperAdminAuth(@Param("list") List<String> list, @Param("roleCode") String roleCode);
+    void createSuperAdminAuth(@Param("list") List<String> list, @Param("roleCode") String roleCode,
+        @Param("currentUserId") String createBy);
 }
