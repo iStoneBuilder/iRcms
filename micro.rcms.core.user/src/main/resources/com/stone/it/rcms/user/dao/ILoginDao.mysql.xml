@@ -6,14 +6,18 @@
 
   <select id="findAccountInfoById" resultType="com.stone.it.rcms.user.vo.AuthAccountVO">
     SELECT
-    account_code as accountCode,
-    account_name as accountName,
-    account_type as accountType,
-    password as password,
-    account_roles as accountRoles,
-    enterprise_id as enterpriseId
+    a.account_code as accountCode,
+    a.account_name as accountName,
+    a.account_type as accountType,
+    a.password as password,
+    a.account_roles as accountRoles,
+    a.enterprise_id as enterpriseId,
+    e.tenant_id as tenantId
     FROM
-    tpl_account_t
+    tpl_account_t a
+    left join
+    tpl_enterprise_t e
+    on a.enterprise_id = e.id
     WHERE
     account_code = #{account}
   </select>

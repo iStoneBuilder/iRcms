@@ -1,6 +1,7 @@
 package com.stone.it.rcms.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.stone.it.rcms.core.vo.BaseVO;
 import lombok.Data;
 
 /**
@@ -12,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AuthAccountVO {
+public class AuthAccountVO extends BaseVO {
 
     private String enterpriseId;
     private String accountCode;

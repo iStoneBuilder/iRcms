@@ -48,9 +48,9 @@ public class LoginService implements ILoginService {
         // 获取用户信息
         AuthAccountVO dbUser = loginDao.findAccountInfoById(userVO.getAccount());
         Calendar expTime = JwtUtils.getExpireTime(60 * 5);
-        String accessToken = buildJwtToken(sessionId, userVO.getAccount(), userVO.getPassword(), "app", expTime,
+        String accessToken = buildJwtToken(sessionId, userVO.getAccount(), dbUser.getTenantId(), "account", expTime,
             dbUser.getEnterpriseId());
-        String refreshToken = buildJwtToken(sessionId, userVO.getAccount(), userVO.getPassword(), "app",
+        String refreshToken = buildJwtToken(sessionId, userVO.getAccount(), dbUser.getTenantId(), "account",
             JwtUtils.getExpireTime(60 * 10), dbUser.getEnterpriseId());
         LoginResponseVO loginResVO = new LoginResponseVO();
         loginResVO.setAccessToken(accessToken);
@@ -104,20 +104,20 @@ public class LoginService implements ILoginService {
         AuthAccountVO dbUser = loginDao.findAccountInfoById(appSecretVO.getAppId());
         JSONObject result = new JSONObject();
         Calendar expTime = JwtUtils.getExpireTime(60 * 30);
-        String accessToken = buildJwtToken(sessionId, appSecretVO.getAppId(), appSecretVO.getSecret(), "app", expTime,
+        String accessToken = buildJwtToken(sessionId, appSecretVO.getAppId(), dbUser.getTenantId(), "app", expTime,
             dbUser.getEnterpriseId());
         result.put("Authorization", accessToken);
         result.put("expires", DateUtil.formatDate(expTime.getTime(), "yyyy-MM-dd HH:mm:ss"));
         return result;
     }
 
-    private String buildJwtToken(String sessionId, String account, String password, String type, Calendar instance,
+    private String buildJwtToken(String sessionId, String account, String tenantId, String type, Calendar instance,
         String enterpriseId) {
         Map<String, String> map = new HashMap<>();
         map.put("sessionId", sessionId);
         map.put("enterpriseId", enterpriseId);
+        map.put("tenantId", tenantId);
         map.put("account", account);
-        map.put("password", password);
         map.put("type", type);
         return JwtUtils.generateToken(map, instance);
     }
@@ -130,6 +130,7 @@ public class LoginService implements ILoginService {
             if (principals == null) {
                 return ResponseUtil.responseBuild(HttpStatus.SC_INTERNAL_SERVER_ERROR, "您当前未登录！");
             }
+            @SuppressWarnings("unchecked")
             Map<String, String> user = (Map<String, String>)principals.getPrimaryPrincipal();
             // 数据库记录日志，执行退出
             currentUser.logout();
