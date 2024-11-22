@@ -3,99 +3,99 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.stone.it.rcms.scheduler.dao.ISchedulerGroupDao">
 
-    <!-- 分页查询分组信息 -->
-    <select id="findQuartzGroupPageResult"
-        resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
-        <include refid="query_base_sql"/>
-        <include refid="query_condition_sql"/>
-        limit #{param2.startIndex},#{param2.endIndex}
-    </select>
-    <select id="findQuartzGroupPageResultCount" resultType="integer">
-        select count(1) from tpl_quartz_group_t
-        <include refid="query_condition_sql"/>
-    </select>
+  <!-- 分页查询分组信息 -->
+  <delete id="deleteQuartzGroup">
 
-    <!-- 查询所有分组信息 -->
-    <select id="findQuartzGroupList"
-        resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
-        <include refid="query_base_sql"/>
-    </select>
+  </delete>
+  <insert id="createQuartzGroup">
 
-    <!-- 查询分组详情信息 -->
-    <select id="findQuartzGroupInfoByCode"
-      resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
-        <include refid="query_base_sql"/>
-        where QUARTZ_GROUP_CODE = #{quartzGroupCode}
-    </select>
-    <select id="findQuartzGroupInfoById"
-      resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
-        <include refid="query_base_sql"/>
-        where QUARTZ_GROUP_ID = #{quartzGroupId}
-    </select>
+  </insert>
 
-    <!-- 创建分组信息 -->
-    <insert id="createQuartzGroup">
+  <!-- 查询所有分组信息 -->
+  <select id="findQuartzGroupPageResult"
+    resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
+    <include refid="query_base_sql"/>
+    <include refid="query_condition_sql"/>
+    limit #{param2.startIndex},#{param2.endIndex}
+  </select>
 
-    </insert>
+  <!-- 查询分组详情信息 -->
+  <select id="findQuartzGroupPageResultCount" resultType="integer">
+    select count(1) from tpl_fram_quartz_group_t
+    <include refid="query_condition_sql"/>
+  </select>
+  <select id="findQuartzGroupList"
+    resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
+    <include refid="query_base_sql"/>
+  </select>
 
-    <!-- 删除分组信息 -->
-    <delete id="deleteQuartzGroup">
+  <!-- 创建分组信息 -->
+  <select id="findQuartzGroupInfoByCode"
+    resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
+    <include refid="query_base_sql"/>
+    where QUARTZ_GROUP_CODE = #{quartzGroupCode}
+  </select>
 
-    </delete>
+  <!-- 删除分组信息 -->
+  <select id="findQuartzGroupInfoById"
+    resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
+    <include refid="query_base_sql"/>
+    where QUARTZ_GROUP_ID = #{quartzGroupId}
+  </select>
 
-    <!-- 更新分组信息 -->
-    <update id="updateQuartzGroup">
+  <!-- 更新分组信息 -->
+  <select id="checkGroupCodeExistByCode"
+    resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
+    <include refid="query_base_sql"></include>
+    where QUARTZ_GROUP_CODE = #{quartzGroupCode}
+  </select>
 
-    </update>
+  <select id="checkGroupNameExistByCodeName"
+    resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
+    <include refid="query_base_sql"></include>
+    where QUARTZ_GROUP_CODE != #{quartzGroupCode}
+    and QUARTZ_GROUP_NAME = #{quartzGroupName}
+  </select>
 
-    <sql id="query_base_sql">
-        SELECT
-        QUARTZ_GROUP_ID as quartzGroupId,
-        QUARTZ_GROUP_CODE as quartzGroupCode,
-        QUARTZ_GROUP_NAME as quartzGroupName,
-        IS_AUTHORIZED as isAuthorized,
-        AUTH_KEY as authKey,
-        REQUEST_TYPE as requestType,
-        REQUEST_PATH as requestPath,
-        REQUEST_PARAMS as requestParams,
-        REQUEST_HEADER as requestHeaders,
-        CREATED_TIME as createDate,
-        CREATED_BY as createBy,
-        UPDATED_TIME as updateDate,
-        UPDATED_BY as updateBy
-        FROM
-        tpl_quartz_group_t
-    </sql>
+  <sql id="query_base_sql">
+    SELECT
+    QUARTZ_GROUP_ID as quartzGroupId,
+    QUARTZ_GROUP_CODE as quartzGroupCode,
+    QUARTZ_GROUP_NAME as quartzGroupName,
+    IS_AUTHORIZED as isAuthorized,
+    AUTH_KEY as authKey,
+    REQUEST_TYPE as requestType,
+    REQUEST_PATH as requestPath,
+    REQUEST_PARAMS as requestParams,
+    REQUEST_HEADER as requestHeaders,
+    CREATED_TIME as createDate,
+    CREATED_BY as createBy,
+    UPDATED_TIME as updateDate,
+    UPDATED_BY as updateBy
+    FROM
+    tpl_fram_quartz_group_t
+  </sql>
 
-    <sql id="query_condition_sql">
-        <where>
-            1 = 1
-            <if test="param1.quartzGroupCode != null and param1.quartzGroupCode != ''">
-                and QUARTZ_GROUP_CODE = #{param1.quartzGroupCode,jdbcType=VARCHAR}
-            </if>
-            <if test="param1.quartzGroupName != null and param1.quartzGroupName != ''">
-                and QUARTZ_GROUP_NAME = #{param1.quartzGroupName,jdbcType=VARCHAR}
-            </if>
-            <if test="param1.isAuthorized != null and param1.isAuthorized != ''">
-                and IS_AUTHORIZED = #{param1.isAuthorized,jdbcType=VARCHAR}
-            </if>
-            <if test="param1.quartzGroupId != null and param1.quartzGroupId != ''">
-                and QUARTZ_GROUP_ID = #{param1.quartzGroupCode,jdbcType=VARCHAR}
-            </if>
-        </where>
-    </sql>
+  <sql id="query_condition_sql">
+    <where>
+      1 = 1
+      <if test="param1.quartzGroupCode != null and param1.quartzGroupCode != ''">
+        and QUARTZ_GROUP_CODE = #{param1.quartzGroupCode,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.quartzGroupName != null and param1.quartzGroupName != ''">
+        and QUARTZ_GROUP_NAME = #{param1.quartzGroupName,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.isAuthorized != null and param1.isAuthorized != ''">
+        and IS_AUTHORIZED = #{param1.isAuthorized,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.quartzGroupId != null and param1.quartzGroupId != ''">
+        and QUARTZ_GROUP_ID = #{param1.quartzGroupCode,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
 
-    <select id="checkGroupCodeExistByCode"
-        resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
-        <include refid="query_base_sql"></include>
-        where QUARTZ_GROUP_CODE = #{quartzGroupCode}
-    </select>
+  <update id="updateQuartzGroup">
 
-    <select id="checkGroupNameExistByCodeName"
-         resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
-        <include refid="query_base_sql"></include>
-        where QUARTZ_GROUP_CODE != #{quartzGroupCode}
-            and QUARTZ_GROUP_NAME = #{quartzGroupName}
-    </select>
+  </update>
 
 </mapper>

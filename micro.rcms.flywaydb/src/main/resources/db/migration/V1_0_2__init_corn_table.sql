@@ -1,5 +1,5 @@
 -- 定时任务分组表
-CREATE TABLE IF NOT EXISTS `tpl_quartz_group_t` (
+CREATE TABLE IF NOT EXISTS `tpl_fram_quartz_group_t` (
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
   `enterprise_id` VARCHAR(100) NOT NULL COMMENT '企业（商户）ID',
   `QUARTZ_GROUP_ID` VARCHAR(100) NOT NULL COMMENT '任务组ID',
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `tpl_quartz_group_t` (
 
 
 -- 定时任务表
-CREATE TABLE IF NOT EXISTS `tpl_quartz_t` (
+CREATE TABLE IF NOT EXISTS `tpl_fram_quartz_t` (
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
   `enterprise_id` VARCHAR(100) NOT NULL COMMENT '企业（商户）ID',
   `QUARTZ_GROUP_CODE` VARCHAR(100) NOT NULL COMMENT '任务组编码',
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `tpl_quartz_t` (
 
 
 -- 定时任务执行记录表
-CREATE TABLE IF NOT EXISTS `tpl_quartz_job_t` (
+CREATE TABLE IF NOT EXISTS `tpl_fram_quartz_job_t` (
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
   `enterprise_id` VARCHAR(100) NOT NULL COMMENT '企业（商户）ID',
   `QUARTZ_ID` VARCHAR(100) NOT NULL COMMENT '任务ID',

@@ -4,19 +4,19 @@
 <mapper namespace="com.stone.it.rcms.base.dao.IItemDao">
 
   <delete id="deleteClassify">
-    delete from tpl_classify_t where classify_code = #{classifyCode}
+    delete from tpl_fram_classify_t where classify_code = #{classifyCode}
   </delete>
   <delete id="deleteClassifyItem">
-    delete from tpl_item_t where item_id = #{itemId,jdbcType=VARCHAR}
+    delete from tpl_fram_item_t where item_id = #{itemId,jdbcType=VARCHAR}
   </delete>
   <insert id="createClassify">
-    insert into tpl_classify_t
+    insert into tpl_fram_classify_t
     (classify_code,classify_name,description,created_by,updated_by,created_time,updated_time)
     values
     (#{classifyCode},#{classifyName},#{description},#{currentUserId,jdbcType=VARCHAR},#{currentUserId,jdbcType=VARCHAR},now(),now())
   </insert>
   <insert id="createClassifyItem">
-    insert into tpl_item_t
+    insert into tpl_fram_item_t
     (item_id,item_code,item_name,item_index,is_enabled,description,item_attr1,item_attr2,item_attr3,item_attr4,item_attr5,
     classify_code,language,created_by,updated_by,created_time,updated_time)
     values
@@ -30,7 +30,7 @@
     limit #{param2.startIndex}, #{param2.endIndex}
   </select>
   <select id="findPageResultCount" resultType="int">
-    select count(1) from tpl_classify_t
+    select count(1) from tpl_fram_classify_t
     <include refid="query_condition"/>
   </select>
 
@@ -48,7 +48,7 @@
     limit #{param2.startIndex}, #{param2.endIndex}
   </select>
   <select id="findClassifyItemPageResultCount" resultType="int">
-    select count(1) from tpl_item_t
+    select count(1) from tpl_fram_item_t
     <include refid="query_item_page_condition"/>
   </select>
   <sql id="query_base">
@@ -57,7 +57,7 @@
     description,
     created_time as createDate,updated_time as updateDate,
     created_by as createBy,updated_by as updateBy
-    from tpl_classify_t
+    from tpl_fram_classify_t
   </sql>
   <sql id="query_condition">
     <where>
@@ -90,7 +90,7 @@
     updated_time as updateDate,
     created_by as createBy,
     updated_by as updateBy
-    from tpl_item_t
+    from tpl_fram_item_t
   </sql>
   <sql id="query_item_condition">
     <where>
@@ -124,7 +124,7 @@
     </where>
   </sql>
   <update id="updateClassify">
-    update tpl_classify_t
+    update tpl_fram_classify_t
     set classify_name = #{classifyName},
     description = #{description},
     updated_by =#{currentUserId,jdbcType=VARCHAR},
@@ -132,7 +132,7 @@
     where classify_code = #{classifyCode}
   </update>
   <update id="updateClassifyItem">
-    update tpl_item_t
+    update tpl_fram_item_t
     set
     <if test="itemCode!=null">
       item_code = #{itemCode},

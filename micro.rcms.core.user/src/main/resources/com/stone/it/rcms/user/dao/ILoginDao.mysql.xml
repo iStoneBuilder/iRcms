@@ -14,16 +14,16 @@
     a.enterprise_id as enterpriseId,
     e.tenant_id as tenantId
     FROM
-    tpl_account_t a
+    tpl_fram_account_t a
     left join
-    tpl_enterprise_t e
+    tpl_fram_enterprise_t e
     on a.enterprise_id = e.id
     WHERE
     account_code = #{account}
   </select>
 
   <select id="findPermsByRoles" resultType="java.lang.String">
-    select auth_code from tpl_role_permission_t where role_code in
+    select auth_code from tpl_fram_role_permission_t where role_code in
     <foreach close=")" collection="list" item="item" open="(" separator=",">
       #{item}
     </foreach>
@@ -36,7 +36,7 @@
     type,
     name,
     tenant_id as tenantId
-    from tpl_enterprise_t
+    from tpl_fram_enterprise_t
     where id = #{enterpriseId}
   </select>
 

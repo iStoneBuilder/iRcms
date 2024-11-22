@@ -4,13 +4,13 @@
 <mapper namespace="com.stone.it.rcms.base.dao.IMenuDao">
 
   <delete id="deleteMenu">
-    delete from tpl_menu_t
+    delete from tpl_fram_menu_t
     where id = #{id,jdbcType=VARCHAR}
   </delete>
 
 
   <insert id="createMenu">
-    insert into tpl_menu_t(
+    insert into tpl_fram_menu_t(
     id,
     parent_id,
     title,
@@ -79,11 +79,11 @@
     created_time as createTime,
     updated_by as updateBy,
     updated_time as updateTime
-    from tpl_menu_t
+    from tpl_fram_menu_t
   </sql>
 
   <update id="updateMenu">
-    update tpl_menu_t
+    update tpl_fram_menu_t
     set
     <if test="title !=null and title !=''">
       title = #{title,jdbcType=VARCHAR},

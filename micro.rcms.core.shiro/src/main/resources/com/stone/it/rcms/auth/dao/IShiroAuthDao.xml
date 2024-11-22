@@ -8,13 +8,13 @@
     SELECT
     account_roles as accountRoles
     FROM
-    tpl_account_t
+    tpl_fram_account_t
     WHERE
     account_code = #{userId}
   </select>
 
   <select id="findPermsByRoleCodes" resultType="java.lang.String">
-    select auth_code from tpl_role_permission_t where role_code in
+    select auth_code from tpl_fram_role_permission_t where role_code in
     <foreach close=")" collection="list" item="item" open="(" separator=",">
       #{item}
     </foreach>
@@ -28,7 +28,7 @@
     password as password,
     enterprise_id as enterpriseId
     FROM
-    tpl_account_t
+    tpl_fram_account_t
     WHERE
     account_code = #{userId}
   </select>

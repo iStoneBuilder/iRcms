@@ -3,10 +3,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.stone.it.rcms.base.dao.IRoleDao">
   <delete id="deleteRole">
-    delete from tpl_role_t where id = #{roleId,jdbcType=VARCHAR}
+    delete from tpl_fram_role_t where id = #{roleId,jdbcType=VARCHAR}
   </delete>
   <insert id="createRole">
-    insert into tpl_role_t(tenant_id,
+    insert into tpl_fram_role_t(tenant_id,
     id, parent_id, code, name, description, enterprise_id, created_by, created_time, updated_by,
     updated_time)
     values (#{tenantId,jdbcType=VARCHAR},
@@ -36,12 +36,12 @@
     r.updated_time as updateDate,
     r.created_by as createBy,
     r.updated_by as updateBy
-    from tpl_role_t r left join tpl_enterprise_t e
+    from tpl_fram_role_t r left join tpl_fram_enterprise_t e
     on r.enterprise_id = e.id
   </sql>
 
   <update id="updateRole">
-    update tpl_role_t
+    update tpl_fram_role_t
     set
     <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
     <if test="description != null">description = #{description,jdbcType=VARCHAR},</if>

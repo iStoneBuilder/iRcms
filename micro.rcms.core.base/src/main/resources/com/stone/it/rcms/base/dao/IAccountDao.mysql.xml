@@ -4,13 +4,13 @@
 <mapper namespace="com.stone.it.rcms.base.dao.IAccountDao">
 
   <delete id="deleteAccount">
-    delete from tpl_account_t
+    delete from tpl_fram_account_t
     where
     account_code = #{code,jdbcType=VARCHAR}
   </delete>
 
   <insert id="createAccount">
-    insert into tpl_account_t(
+    insert into tpl_fram_account_t(
     account_code,
     account_name,
     account_type,
@@ -66,8 +66,8 @@
 
   <select id="findAccountPageResultCount" resultType="int">
     select count(*)
-    from tpl_account_t a
-    left join tpl_enterprise_t e
+    from tpl_fram_account_t a
+    left join tpl_fram_enterprise_t e
     on a.enterprise_id = e.id
     <include refid="query_page_condition"/>
   </select>
@@ -86,8 +86,8 @@
     a.CREATED_BY,
     a.UPDATED_TIME,
     a.UPDATED_BY
-    from tpl_account_t a left join
-    tpl_enterprise_t e
+    from tpl_fram_account_t a left join
+    tpl_fram_enterprise_t e
     on a.enterprise_id = e.id
   </sql>
 
@@ -113,7 +113,7 @@
   </sql>
 
   <update id="updateAccount">
-    update tpl_account_t
+    update tpl_fram_account_t
     set
     <if test="name !=null and name !=''">
       account_name = #{name,jdbcType=VARCHAR},

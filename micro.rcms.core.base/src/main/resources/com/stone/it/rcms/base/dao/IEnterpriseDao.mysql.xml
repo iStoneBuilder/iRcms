@@ -4,12 +4,12 @@
 <mapper namespace="com.stone.it.rcms.base.dao.IEnterpriseDao">
 
   <delete id="deleteEnterpriseMerchant">
-    delete from tpl_enterprise_t where id = #{enterpriseId,jdbcType=VARCHAR}
+    delete from tpl_fram_enterprise_t where id = #{enterpriseId,jdbcType=VARCHAR}
   </delete>
 
   <insert id="createEnterpriseMerchant">
     insert into
-    tpl_enterprise_t (
+    tpl_fram_enterprise_t (
     id,
     name,
     tenant_id,
@@ -83,11 +83,11 @@
     updated_time as updateDate,
     updated_by as updateBy
     from
-    tpl_enterprise_t
+    tpl_fram_enterprise_t
   </sql>
 
   <update id="updateEnterpriseMerchant">
-    update tpl_enterprise_t
+    update tpl_fram_enterprise_t
     set
     <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
     <if test="sort != null">sort = #{sort,jdbcType=INTEGER},</if>

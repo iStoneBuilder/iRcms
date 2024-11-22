@@ -4,11 +4,11 @@
 <mapper namespace="com.stone.it.rcms.base.dao.II18nDao">
 
   <delete id="deleteI18n">
-    delete from tpl_i18n_t where i18n_id = #{i18nId}
+    delete from tpl_fram_i18n_t where i18n_id = #{i18nId}
   </delete>
 
   <insert id="createI18n">
-    insert into tpl_i18n_t
+    insert into tpl_fram_i18n_t
     (i18n_id, i18n_key, i18n_name, language, created_time,
     created_by, updated_time,updated_by)
     values
@@ -31,7 +31,7 @@
   </select>
 
   <select id="findPageResultCount" resultType="int">
-    select count(1) from tpl_i18n_t
+    select count(1) from tpl_fram_i18n_t
     <include refid="query_condition_sql"/>
   </select>
 
@@ -56,7 +56,7 @@
     updated_time as updateDate,
     updated_by as updateBy
     from
-    tpl_i18n_t
+    tpl_fram_i18n_t
   </sql>
 
   <sql id="query_condition_sql">
@@ -71,7 +71,7 @@
   </sql>
 
   <update id="updateI18n">
-    update tpl_i18n_t set
+    update tpl_fram_i18n_t set
     i18n_name = #{i18nName,jdbcType=VARCHAR},
     language = #{language,jdbcType=VARCHAR},
     updated_time = sysdate(),

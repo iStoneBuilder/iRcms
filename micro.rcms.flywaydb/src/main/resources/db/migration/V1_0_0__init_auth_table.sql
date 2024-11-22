@@ -1,5 +1,5 @@
 -- 企业表 done
-CREATE TABLE IF NOT EXISTS `tpl_enterprise_t` (
+CREATE TABLE IF NOT EXISTS `tpl_fram_enterprise_t` (
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
   `parent_id` VARCHAR(100) NOT NULL COMMENT '父节点ID，为空表示根节点',
   `id` VARCHAR(100) NOT NULL COMMENT '企业ID',
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `tpl_enterprise_t` (
 
 
 -- 角色表 done
-CREATE TABLE IF NOT EXISTS `tpl_role_t` (
+CREATE TABLE IF NOT EXISTS `tpl_fram_role_t` (
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
   `enterprise_id` VARCHAR(100) NOT NULL COMMENT '企业ID',
   `parent_id` VARCHAR(100) NOT NULL COMMENT '父节点ID，为空表示根节点',
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `tpl_role_t` (
 
 
 -- 权限表 done
-CREATE TABLE IF NOT EXISTS `tpl_permission_t` (
+CREATE TABLE IF NOT EXISTS `tpl_fram_permission_t` (
   `api_code` VARCHAR(100) NOT NULL COMMENT '接口编码',
   `auth_code` VARCHAR(100) COMMENT '权限编码',
   `api_path` VARCHAR(100) NOT NULL COMMENT '接口地址',
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `tpl_permission_t` (
 
 
 -- 角色权限关系表 done
-CREATE TABLE IF NOT EXISTS `tpl_role_permission_t` (
+CREATE TABLE IF NOT EXISTS `tpl_fram_role_permission_t` (
   `role_code` VARCHAR(100) NOT NULL COMMENT '角色编码',
   `auth_code` VARCHAR(100) NOT NULL COMMENT '权限编码',
   `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `tpl_role_permission_t` (
 
 
 -- 账户表 done
-CREATE TABLE IF NOT EXISTS `tpl_account_t` (
+CREATE TABLE IF NOT EXISTS `tpl_fram_account_t` (
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
   `enterprise_id` VARCHAR(100) NOT NULL COMMENT '企业ID',
   `account_code` VARCHAR(100) NOT NULL COMMENT '账户登录',

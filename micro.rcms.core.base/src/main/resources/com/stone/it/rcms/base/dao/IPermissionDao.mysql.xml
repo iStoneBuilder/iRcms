@@ -4,21 +4,21 @@
 <mapper namespace="com.stone.it.rcms.base.dao.IPermissionDao">
 
   <delete id="deletePermissionNotInList">
-    delete from tpl_permission_t where concat_ws('_', api_method, api_path) not in
+    delete from tpl_fram_permission_t where concat_ws('_', api_method, api_path) not in
     <foreach close=")" collection="list" item="item" open="(" separator=",">
       #{item}
     </foreach>
   </delete>
   <delete id="deleteApisRelationAuth">
-    delete from tpl_role_permission_t rp
+    delete from tpl_fram_role_permission_t rp
     where rp.role_code = 'platformAdmin' or
     rp.auth_code not in
-    (select auth_code from tpl_permission_t p where p.auth_code is not null)
+    (select auth_code from tpl_fram_permission_t p where p.auth_code is not null)
   </delete>
 
   <insert id="createPermission">
     insert into
-    tpl_permission_t(auth_code,api_code,api_name,api_path,api_method,api_type,open_api,
+    tpl_fram_permission_t(auth_code,api_code,api_name,api_path,api_method,api_type,open_api,
     created_time,updated_time,created_by,updated_by)
     values
     <foreach collection="list" item="item" separator=",">
@@ -28,7 +28,7 @@
   </insert>
   <insert id="createSuperAdminAuth">
     insert into
-    tpl_role_permission_t(role_code,auth_code,created_time,updated_time,created_by,updated_by)
+    tpl_fram_role_permission_t(role_code,auth_code,created_time,updated_time,created_by,updated_by)
     values
     <foreach collection="list" item="item" separator=",">
       (#{roleCode},#{item},now(),now(),#{currentUserId,jdbcType=VARCHAR},#{currentUserId,jdbcType=VARCHAR})
@@ -36,7 +36,7 @@
   </insert>
 
   <select id="findPermissionPageResultCount" resultType="int">
-    select count(*) from tpl_permission_t
+    select count(*) from tpl_fram_permission_t
     <include refid="query_condition"/>
   </select>
 
@@ -44,7 +44,7 @@
     resultType="com.stone.it.rcms.core.vo.PermissionVO">
     select auth_code as code,api_name as name,api_path as path,api_method as
     method,api_type as type
-    from tpl_permission_t where concat_ws('_', api_method, api_path) in
+    from tpl_fram_permission_t where concat_ws('_', api_method, api_path) in
     <foreach close=")" collection="apis" item="item" open="(" separator=",">
       #{item}
     </foreach>
@@ -93,7 +93,7 @@
     api_method as method,
     auth_code as authCode,
     open_api as isOpenApi
-    from tpl_permission_t
+    from tpl_fram_permission_t
   </sql>
 
 </mapper>

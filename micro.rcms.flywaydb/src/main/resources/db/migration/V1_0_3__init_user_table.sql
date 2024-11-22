@@ -1,5 +1,5 @@
 -- 用户主表
-CREATE TABLE IF NOT EXISTS `tpl_user_t` (
+CREATE TABLE IF NOT EXISTS `tpl_fram_user_t` (
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
   `enterprise_id` VARCHAR(100) NOT NULL COMMENT '企业（商户）ID',
   `USER_ID` VARCHAR(100) NOT NULL,
