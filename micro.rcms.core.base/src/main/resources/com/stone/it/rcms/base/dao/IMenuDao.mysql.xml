@@ -41,9 +41,9 @@
     #{activePath,jdbcType=VARCHAR},
     #{showLink,jdbcType=BIT},
     #{rankSort,jdbcType=INTEGER},
-    'system',
+    #{currentUserId,jdbcType=VARCHAR},
     now(),
-    'system',
+    #{currentUserId,jdbcType=VARCHAR},
     now()
     )
   </insert>
@@ -102,7 +102,7 @@
     active_path = #{activePath,jdbcType=VARCHAR},
     show_link = #{showLink,jdbcType=BIT},
     rank_sort = #{rankSort,jdbcType=INTEGER},
-    updated_by = 'system',
+    updated_by = #{currentUserId,jdbcType=VARCHAR},
     updated_time = now()
     where id = #{id,jdbcType=VARCHAR}
   </update>

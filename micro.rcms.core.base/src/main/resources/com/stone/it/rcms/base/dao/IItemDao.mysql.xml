@@ -13,7 +13,7 @@
     insert into tpl_classify_t
     (classify_code,classify_name,description,created_by,updated_by,created_time,updated_time)
     values
-    (#{classifyCode},#{classifyName},#{description},'system','system',now(),now())
+    (#{classifyCode},#{classifyName},#{description},#{currentUserId,jdbcType=VARCHAR},#{currentUserId,jdbcType=VARCHAR},now(),now())
   </insert>
   <insert id="createClassifyItem">
     insert into tpl_item_t
@@ -21,7 +21,8 @@
     classify_code,language,created_by,updated_by,created_time,updated_time)
     values
     (#{itemId},#{itemCode},#{itemName},#{itemIndex},#{isEnabled},#{description},#{itemAttr1},#{itemAttr2},#{itemAttr3},#{itemAttr4},#{itemAttr5},
-    #{classifyCode}, #{language},'system','system',now(),now())
+    #{classifyCode},
+    #{language},#{currentUserId,jdbcType=VARCHAR},#{currentUserId,jdbcType=VARCHAR},now(),now())
   </insert>
   <select id="findPageResult" resultType="com.stone.it.rcms.base.vo.ClassifyVO">
     <include refid="query_base"/>
@@ -126,7 +127,7 @@
     update tpl_classify_t
     set classify_name = #{classifyName},
     description = #{description},
-    updated_by ='system',
+    updated_by =#{currentUserId,jdbcType=VARCHAR},
     updated_time = now()
     where classify_code = #{classifyCode}
   </update>
@@ -156,7 +157,7 @@
     item_attr3 = #{itemAttr3},
     item_attr4 = #{itemAttr4},
     item_attr5 = #{itemAttr5},
-    updated_by ='system',
+    updated_by = #{currentUserId,jdbcType=VARCHAR},
     updated_time = now()
     where item_id = #{itemId}
   </update>

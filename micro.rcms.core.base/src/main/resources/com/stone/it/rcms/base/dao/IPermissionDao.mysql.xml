@@ -23,7 +23,7 @@
     values
     <foreach collection="list" item="item" separator=",">
       (#{item.authCode},#{item.code},#{item.name},#{item.path,jdbcType=VARCHAR},#{item.method},
-      #{item.type},#{item.isOpenApi},now(),now(),'system','system')
+      #{item.type},#{item.isOpenApi},now(),now(),#{currentUserId,jdbcType=VARCHAR},#{currentUserId,jdbcType=VARCHAR})
     </foreach>
   </insert>
   <insert id="createSuperAdminAuth">
@@ -31,7 +31,7 @@
     tpl_role_permission_t(role_code,auth_code,created_time,updated_time,created_by,updated_by)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{roleCode},#{item},now(),now(),'system','system')
+      (#{roleCode},#{item},now(),now(),#{currentUserId,jdbcType=VARCHAR},#{currentUserId,jdbcType=VARCHAR})
     </foreach>
   </insert>
 

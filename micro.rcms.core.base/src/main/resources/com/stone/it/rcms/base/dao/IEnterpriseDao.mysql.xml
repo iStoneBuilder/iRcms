@@ -8,13 +8,41 @@
   </delete>
 
   <insert id="createEnterpriseMerchant">
-    insert into tpl_enterprise_t(id, name, tenant_id, parent_id, level, type, sort, status,
-    remark, principal, email, phone, created_by, created_time, updated_by, updated_time)
-    values(#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR},
-    #{parentId,jdbcType=BIGINT}, #{level,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR},
-    #{sort,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
-    #{principal,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
-    'system',now(), 'system',
+    insert into
+    tpl_enterprise_t (
+    id,
+    name,
+    tenant_id,
+    parent_id,
+    level,
+    type,
+    sort,
+    status,
+    remark,
+    principal,
+    email,
+    phone,
+    created_by,
+    created_time,
+    updated_by,
+    updated_time
+    )
+    values
+    ( #{id,jdbcType=BIGINT},
+    #{name,jdbcType=VARCHAR},
+    #{tenantId,jdbcType=VARCHAR},
+    #{parentId,jdbcType=BIGINT},
+    #{level,jdbcType=INTEGER},
+    #{type,jdbcType=VARCHAR},
+    #{sort,jdbcType=INTEGER},
+    #{status,jdbcType=VARCHAR},
+    #{remark,jdbcType=VARCHAR},
+    #{principal,jdbcType=VARCHAR},
+    #{email,jdbcType=VARCHAR},
+    #{phone,jdbcType=VARCHAR},
+    #{currentUserId,jdbcType=VARCHAR},
+    now(),
+    #{currentUserId,jdbcType=VARCHAR},
     now()
     )
   </insert>
@@ -37,10 +65,25 @@
   </select>
 
   <sql id="query_sql">
-    select id, name, tenant_id as tenantId, parent_id as parentId, level, type, sort, status,
-    remark, principal, email, phone, created_time as createDate, created_by as createBy,
-    updated_time as updateDate, updated_by as updateBy
-    from tpl_enterprise_t
+    select
+    id,
+    name,
+    tenant_id as tenantId,
+    parent_id as parentId,
+    level,
+    type,
+    sort,
+    status,
+    remark,
+    principal,
+    email,
+    phone,
+    created_time as createDate,
+    created_by as createBy,
+    updated_time as updateDate,
+    updated_by as updateBy
+    from
+    tpl_enterprise_t
   </sql>
 
   <update id="updateEnterpriseMerchant">
@@ -53,7 +96,7 @@
     <if test="principal != null">principal = #{principal,jdbcType=VARCHAR},</if>
     <if test="email != null">email = #{email,jdbcType=VARCHAR},</if>
     <if test="phone != null">phone = #{phone,jdbcType=VARCHAR},</if>
-    updated_by = 'system',
+    updated_by = #{currentUserId,jdbcType=VARCHAR},
     updated_time = now()
     where id = #{id,jdbcType=BIGINT}
   </update>
