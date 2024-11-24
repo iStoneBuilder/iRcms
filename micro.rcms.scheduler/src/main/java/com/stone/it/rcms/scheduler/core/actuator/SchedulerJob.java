@@ -60,7 +60,6 @@ public class SchedulerJob implements Job {
             quartzJobVO.setJobStatus("fail");
             quartzJobVO.setResponseCode("500");
             quartzJobVO.setResponseBody(exception.getMessage());
-            exception.printStackTrace();
         }
         updateQuartzJob(quartzJobVO);
         LOGGER.info("【{}】任务执行结束 ... ", dataMap.get("jobName"));

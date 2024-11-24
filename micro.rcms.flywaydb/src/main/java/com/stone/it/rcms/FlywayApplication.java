@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
+ * Rcms框架脚本初始化
+ * 
  * @author cj.stone
  * @Date 2023/4/27
  * @Desc
@@ -13,11 +15,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FlywayApplication {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(FlywayApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlywayApplication.class);
 
-  public static void main(String[] args) {
-    LOGGER.info("Flyway Application server start ...... ");
-    SpringApplication.run(FlywayApplication.class, args);
-  }
+    public static void main(String[] args) {
+        LOGGER.info("Flyway Application server start ...... ");
+        SpringApplication.run(FlywayApplication.class, args);
+    }
 
 }

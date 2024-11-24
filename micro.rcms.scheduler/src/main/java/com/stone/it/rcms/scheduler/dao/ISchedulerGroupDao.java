@@ -13,22 +13,22 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface ISchedulerGroupDao {
 
-  PageResult<QuartzGroupVO> findQuartzGroupPageResult(QuartzGroupVO schedulerVO, PageVO pageVO);
-  
-  List<QuartzGroupVO> findQuartzGroupList(QuartzGroupVO quartzGroupVO);
+    PageResult<QuartzGroupVO> findQuartzGroupPageResult(QuartzGroupVO schedulerVO, PageVO pageVO);
 
-  int createQuartzGroup(QuartzGroupVO schedulerVO);
+    List<QuartzGroupVO> findQuartzGroupList(QuartzGroupVO quartzGroupVO);
 
-  int deleteQuartzGroup(String jobId);
+    int createQuartzGroup(QuartzGroupVO schedulerVO);
 
-  int updateQuartzGroup(QuartzGroupVO schedulerVO);
+    int deleteQuartzGroup(@Param("groupId") String groupId);
 
-  QuartzGroupVO findQuartzGroupInfoByCode(@Param("quartzGroupCode")String quartzGroupCode);
+    int updateQuartzGroup(QuartzGroupVO schedulerVO);
 
-  QuartzGroupVO findQuartzGroupInfoById(@Param("quartzGroupId")String quartzGroupId);
+    QuartzGroupVO findQuartzGroupInfoByCode(@Param("quartzGroupCode") String quartzGroupCode);
 
-  List<QuartzGroupVO> checkGroupCodeExistByCode(QuartzGroupVO schedulerVO);
+    QuartzGroupVO findQuartzGroupInfoById(@Param("quartzGroupId") String quartzGroupId);
 
-  List<QuartzGroupVO> checkGroupNameExistByCodeName(QuartzGroupVO schedulerVO);
+    List<QuartzGroupVO> checkGroupCodeExistByCode(QuartzGroupVO schedulerVO);
+
+    List<QuartzGroupVO> checkGroupNameExistByCodeName(QuartzGroupVO schedulerVO);
 
 }

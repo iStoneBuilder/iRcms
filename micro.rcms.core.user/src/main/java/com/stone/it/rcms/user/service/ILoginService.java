@@ -24,22 +24,22 @@ public interface ILoginService {
 
     @POST
     @Path("login")
-    @RcmsMethod(name = "用户登录")
+    @RcmsMethod(name = "用户管理.登录")
     LoginResponseVO userLogin(AccountSecretVO accountSecretVO);
 
     @POST
     @Path("refresh/login")
-    @RcmsMethod(name = "用户登录刷新")
+    @RcmsMethod(name = "用户管理.登录刷新")
     LoginResponseVO userLoginRefresh(LoginResponseVO loginResVO);
 
     @POST
     @Path("logout")
-    @RcmsMethod(name = "用户退出")
+    @RcmsMethod(name = "用户管理.退出")
     JSONObject userLogout();
 
     @POST
     @Path("token")
-    @RcmsMethod(name = "应用登录")
+    @RcmsMethod(name = "应用管理.登录")
     JSONObject appToken(AppSecretVO appSecretVO);
 
 }

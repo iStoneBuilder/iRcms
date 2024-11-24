@@ -15,7 +15,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
- *  加载任务
+ * 加载任务
  *
  * @author cj.stone
  * @Desc
@@ -24,35 +24,36 @@ import org.springframework.stereotype.Component;
 @Component
 public class QuartzCommandRunner implements CommandLineRunner {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(QuartzCommandRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuartzCommandRunner.class);
 
-  @Resource
-  private QuartzManager quartzManager;
+    @Resource
+    private QuartzManager quartzManager;
 
-  @Resource
-  private ISchedulerConfigDao schedulerDao;
+    @Resource
+    private ISchedulerConfigDao schedulerDao;
 
-  /**
-   * 重写run方法
-   * @param args incoming main method arguments
-   * @throws Exception
-   */
-  @Override
-  public void run(String... args) throws Exception {
-    LOGGER.info("加载启用的任务列表 START ...");
-    try {
-      SchedulerVO searchVO = new SchedulerVO();
-      searchVO.setEnabledFlag("enable");
-      // 任务信息列表
-      List<SchedulerVO> jobList = schedulerDao.findQuartzList(searchVO);
-      LOGGER.info("启用的任务 SIZE: {}", jobList.size());
-      for (SchedulerVO scheduledJob : jobList) {
-        // 执行任务
-        quartzManager.startQuartz(scheduledJob);
-      }
-    } catch (Exception exception) {
-      LOGGER.error(exception.getMessage());
+    /**
+     * 重写run方法
+     * 
+     * @param args incoming main method arguments
+     * @throws Exception exception
+     */
+    @Override
+    public void run(String... args) throws Exception {
+        LOGGER.info("加载启用的任务列表 START ...");
+        try {
+            SchedulerVO searchVO = new SchedulerVO();
+            searchVO.setEnabledFlag("enable");
+            // 任务信息列表
+            List<SchedulerVO> jobList = schedulerDao.findQuartzList(searchVO);
+            LOGGER.info("启用的任务 SIZE: {}", jobList.size());
+            for (SchedulerVO scheduledJob : jobList) {
+                // 执行任务
+                quartzManager.startQuartz(scheduledJob);
+            }
+        } catch (Exception exception) {
+            LOGGER.error(exception.getMessage());
+        }
     }
-  }
 
 }

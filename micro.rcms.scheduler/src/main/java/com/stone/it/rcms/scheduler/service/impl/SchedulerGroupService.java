@@ -1,5 +1,6 @@
 package com.stone.it.rcms.scheduler.service.impl;
 
+import com.stone.it.rcms.core.util.RandomUtil;
 import com.stone.it.rcms.core.util.UUIDUtil;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
@@ -35,6 +36,7 @@ public class SchedulerGroupService implements ISchedulerGroupService {
     @Override
     public QuartzGroupVO createQuartzGroup(QuartzGroupVO quartzGroupVO) throws Exception {
         quartzGroupVO.setQuartzGroupId(UUIDUtil.getUuid());
+        quartzGroupVO.setQuartzGroupCode(RandomUtil.stringGenerator(10));
         schedulerGroupDao.createQuartzGroup(quartzGroupVO);
         return quartzGroupVO;
     }
@@ -43,7 +45,7 @@ public class SchedulerGroupService implements ISchedulerGroupService {
     public int deleteQuartzGroup(String groupId) throws SchedulerException {
         // 判断任务组是否存在任务
         List<SchedulerVO> list = schedulerConfigDao.findQuartzListByGroupId(groupId);
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             throw new SchedulerException("任务组存在任务数据，请先删除任务组下的数据！");
         }
         return schedulerGroupDao.deleteQuartzGroup(groupId);
@@ -60,6 +62,13 @@ public class SchedulerGroupService implements ISchedulerGroupService {
                 if ("enable".equals(schedulerVO.getEnabledFlag())) {
                     throw new SchedulerException("更改任务组认证启停：需要停止任务组下已启动的任务！");
                 }
+            }
+        }
+        // 如果更改了名称
+        if (!oldVO.getQuartzGroupName().equals(quartzGroupVO.getQuartzGroupCode())) {
+            List<QuartzGroupVO> exist = schedulerGroupDao.checkGroupNameExistByCodeName(quartzGroupVO);
+            if (!exist.isEmpty()) {
+                throw new SchedulerException("任务组名称已存在，请重新输入！");
             }
         }
         quartzGroupVO.setQuartzGroupId(groupId);

@@ -18,7 +18,8 @@
 
   <insert id="createMerchant">
     insert into tpl_mifi_merchant_t
-    (enterprise_id,
+    (tenant_id,
+    enterprise_id,
     merchant_code,
     merchant_name,
     remark,
@@ -27,7 +28,8 @@
     created_time,
     updated_time
     )values(
-    #{enterpriseId,jdbcType=VARCHAR},
+    #{tenantId,jdbcType=VARCHAR},
+    #{currentEnterpriseId,jdbcType=VARCHAR},
     #{merchantCode,jdbcType=VARCHAR},
     #{merchantName,jdbcType=VARCHAR},
     #{description,jdbcType=VARCHAR},
@@ -40,7 +42,7 @@
 
   <insert id="createMerchantCarrier">
     insert into tpl_mifi_merchant_carrier_t
-    (enterprise_id,
+    (
     merchant_code,
     carrier_code,
     app_key,
@@ -51,7 +53,6 @@
     created_time,
     updated_time
     )values(
-    #{enterpriseId,jdbcType=VARCHAR},
     #{merchantCode,jdbcType=VARCHAR},
     #{carrierCode,jdbcType=VARCHAR},
     #{appKey,jdbcType=VARCHAR},
@@ -100,7 +101,6 @@
   </select>
   <sql id="query_base_carrier">
     SELECT
-    c.enterprise_id as enterpriseId,
     c.carrier_code as carrierCode,
     c.app_key as appKey,
     c.app_secret as appSecret,
@@ -136,7 +136,7 @@
 
   <sql id="query_base_merchant_condition">
     <where>
-      m.enterprise_id = #{param1.enterpriseId}
+      m.enterprise_id = #{param1.tenantId,jdbcType=VARCHAR}
       <if test="param1.merchantCode != null and param1.merchantCode != ''">
         and m.merchant_code like concat('%',#{param1.merchantCode},'%')
       </if>

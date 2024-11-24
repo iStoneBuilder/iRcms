@@ -21,15 +21,16 @@ import javax.ws.rs.QueryParam;
 @Consumes("application/json")
 public interface ISchedulerJobService {
 
-  /**
-   *  分页查询
-   * @param quartzJobVO
-   * @param pageVO
-   * @return
-   */
-  @GET
-  @Path("/records/page/{curPage}/{pageSize}")
-  PageResult<QuartzJobVO> findQuartzJobPageResult(@QueryParam("") QuartzJobVO quartzJobVO,@PathParam("") PageVO pageVO);
-
+    /**
+     * 分页查询
+     * 
+     * @param quartzJobVO 查询条件
+     * @param pageVO 分页信息
+     * @return PageResult<QuartzJobVO>
+     */
+    @GET
+    @Path("/records/page/{curPage}/{pageSize}")
+    PageResult<QuartzJobVO> findQuartzJobPageResult(@QueryParam("") QuartzJobVO quartzJobVO,
+        @PathParam("") PageVO pageVO);
 
 }

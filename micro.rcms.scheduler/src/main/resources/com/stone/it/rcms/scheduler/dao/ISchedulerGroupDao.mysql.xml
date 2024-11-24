@@ -3,15 +3,24 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.stone.it.rcms.scheduler.dao.ISchedulerGroupDao">
 
-  <!-- 分页查询分组信息 -->
+  <!-- 删除分组信息 -->
   <delete id="deleteQuartzGroup">
-
+    delete from tpl_fram_quartz_group_t where QUARTZ_GROUP_ID = #{groupId}
   </delete>
+  <!-- 创建分组信息 -->
   <insert id="createQuartzGroup">
-
+    insert into
+    tpl_fram_quartz_group_t
+    (tenant_id,enterprise_id,QUARTZ_GROUP_ID,
+    QUARTZ_GROUP_CODE,QUARTZ_GROUP_NAME,is_authorized,auth_key,request_type,
+    request_path,request_params,request_header,CREATED_TIME,UPDATED_TIME,CREATED_BY, UPDATED_BY)
+    values
+    (#{tenantId,jdbcType=VARCHAR},#{currentEnterpriseId,jdbcType=VARCHAR},#{quartzGroupId},#{quartzGroupCode},#{quartzGroupName},#{isAuthorized},
+    #{authKey},#{requestType},#{requestPath},#{requestParams},#{requestHeaders},
+    now(),now(),#{currentUserId},#{currentUserId})
   </insert>
 
-  <!-- 查询所有分组信息 -->
+  <!-- 分页查询分组信息 -->
   <select id="findQuartzGroupPageResult"
     resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
     <include refid="query_base_sql"/>
@@ -19,40 +28,38 @@
     limit #{param2.startIndex},#{param2.endIndex}
   </select>
 
-  <!-- 查询分组详情信息 -->
   <select id="findQuartzGroupPageResultCount" resultType="integer">
     select count(1) from tpl_fram_quartz_group_t
     <include refid="query_condition_sql"/>
   </select>
+
   <select id="findQuartzGroupList"
     resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
     <include refid="query_base_sql"/>
   </select>
 
-  <!-- 创建分组信息 -->
+  <!-- 查询分组详情信息 -->
   <select id="findQuartzGroupInfoByCode"
     resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
     <include refid="query_base_sql"/>
     where QUARTZ_GROUP_CODE = #{quartzGroupCode}
   </select>
 
-  <!-- 删除分组信息 -->
   <select id="findQuartzGroupInfoById"
     resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
     <include refid="query_base_sql"/>
     where QUARTZ_GROUP_ID = #{quartzGroupId}
   </select>
 
-  <!-- 更新分组信息 -->
   <select id="checkGroupCodeExistByCode"
     resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
-    <include refid="query_base_sql"></include>
+    <include refid="query_base_sql"/>
     where QUARTZ_GROUP_CODE = #{quartzGroupCode}
   </select>
 
   <select id="checkGroupNameExistByCodeName"
     resultType="com.stone.it.rcms.scheduler.vo.QuartzGroupVO">
-    <include refid="query_base_sql"></include>
+    <include refid="query_base_sql"/>
     where QUARTZ_GROUP_CODE != #{quartzGroupCode}
     and QUARTZ_GROUP_NAME = #{quartzGroupName}
   </select>
@@ -80,10 +87,10 @@
     <where>
       1 = 1
       <if test="param1.quartzGroupCode != null and param1.quartzGroupCode != ''">
-        and QUARTZ_GROUP_CODE = #{param1.quartzGroupCode,jdbcType=VARCHAR}
+        and QUARTZ_GROUP_CODE like CONCAT('%',#{param1.quartzGroupCode,jdbcType=VARCHAR},'%')
       </if>
       <if test="param1.quartzGroupName != null and param1.quartzGroupName != ''">
-        and QUARTZ_GROUP_NAME = #{param1.quartzGroupName,jdbcType=VARCHAR}
+        and QUARTZ_GROUP_NAME like CONCAT('%',#{param1.quartzGroupName,jdbcType=VARCHAR},'%')
       </if>
       <if test="param1.isAuthorized != null and param1.isAuthorized != ''">
         and IS_AUTHORIZED = #{param1.isAuthorized,jdbcType=VARCHAR}
@@ -94,8 +101,34 @@
     </where>
   </sql>
 
+  <!-- 更新分组信息 -->
   <update id="updateQuartzGroup">
-
+    update tpl_fram_quartz_group_t
+    set
+    <if test="quartzGroupName != null and quartzGroupName != ''">
+      QUARTZ_GROUP_NAME = #{quartzGroupName},
+    </if>
+    <if test="isAuthorized != null and isAuthorized != ''">
+      IS_AUTHORIZED = #{isAuthorized},
+    </if>
+    <if test="authKey != null and authKey != ''">
+      AUTH_KEY = #{authKey},
+    </if>
+    <if test="requestType != null and requestType != ''">
+      REQUEST_TYPE = #{requestType},
+    </if>
+    <if test="requestPath != null and requestPath != ''">
+      REQUEST_PATH = #{requestPath},
+    </if>
+    <if test="requestParams != null and requestParams != ''">
+      REQUEST_PARAMS = #{requestParams},
+    </if>
+    <if test="requestHeaders != null and requestHeaders != ''">
+      REQUEST_HEADER = #{requestHeaders},
+    </if>
+    UPDATED_TIME = now(),
+    UPDATED_BY = #{currentUserId}
+    where QUARTZ_GROUP_ID = #{quartzGroupId}
   </update>
 
 </mapper>

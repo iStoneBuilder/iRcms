@@ -1,6 +1,5 @@
 package com.stone.it.rcms.scheduler.service;
 
-
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.scheduler.vo.*;
@@ -18,60 +17,60 @@ import org.quartz.SchedulerException;
 @Consumes("application/json")
 public interface ISchedulerConfigService {
 
-  /**
-   *  分页查询
-   *
-   * @param schedulerVO
-   * @param pageVO
-   * @return
-   */
-  @GET
-  @Path("/records/page/{curPage}/{pageSize}")
-  PageResult<SchedulerVO> findQuartzPageResult(@QueryParam("") SchedulerVO schedulerVO, @PathParam("") PageVO pageVO);
+    /**
+     * 分页查询
+     *
+     * @param schedulerVO a
+     * @param pageVO a
+     * @return a
+     */
+    @GET
+    @Path("/records/page/{curPage}/{pageSize}")
+    PageResult<SchedulerVO> findQuartzPageResult(@QueryParam("") SchedulerVO schedulerVO, @PathParam("") PageVO pageVO);
 
-  /**
-   *  创建任务
-   *
-   * @param schedulerVO
-   * @return
-   * @throws Exception
-   */
-  @POST
-  @Path("/records")
-  SchedulerVO createQuartz(SchedulerVO schedulerVO) throws Exception;
+    /**
+     * 创建任务
+     *
+     * @param schedulerVO a
+     * @return a
+     * @throws Exception a
+     */
+    @POST
+    @Path("/records")
+    SchedulerVO createQuartz(SchedulerVO schedulerVO) throws Exception;
 
-  /**
-   * 删除任务
-   *
-   * @param quartzId
-   * @return
-   * @throws SchedulerException
-   */
-  @DELETE
-  @Path("/records/{quartzId}")
-  int deleteQuartz(@PathParam("quartzId") String quartzId) throws SchedulerException;
+    /**
+     * 删除任务
+     *
+     * @param quartzId a
+     * @return a
+     * @throws SchedulerException a
+     */
+    @DELETE
+    @Path("/records/{quartz_id}")
+    int deleteQuartz(@PathParam("quartz_id") String quartzId) throws SchedulerException;
 
-  /**
-   * 更新任务（未启用的才允许更新）
-   *
-   * @param schedulerVO
-   * @return
-   * @throws Exception
-   */
-  @PUT
-  @Path("/records/{quartzId}")
-  SchedulerVO updateQuartz(@PathParam("quartzId") String quartzId,SchedulerVO schedulerVO) throws Exception;
+    /**
+     * 更新任务（未启用的才允许更新）
+     *
+     * @param schedulerVO a
+     * @return a
+     * @throws Exception a
+     */
+    @PUT
+    @Path("/records/{quartz_id}")
+    SchedulerVO updateQuartz(@PathParam("quartz_id") String quartzId, SchedulerVO schedulerVO) throws Exception;
 
-  /**
-   *  操作任务（enable:启用; suspend:暂停; restore:恢复; stopped: 停用）
-   *
-   * @param quartzId
-   * @param operate
-   * @return
-   */
-  @POST
-  @Path("/records/{operate}/{quartzId}")
-  SchedulerVO operateQuartz(@PathParam("quartzId") String quartzId,@PathParam("operate") String operate)
-      throws Exception;
+    /**
+     * 操作任务（enable:启用; suspend:暂停; restore:恢复; stopped: 停用）
+     *
+     * @param quartzId a
+     * @param operate a
+     * @return a
+     */
+    @POST
+    @Path("/records/{operate}/{quartz_id}")
+    SchedulerVO operateQuartz(@PathParam("quartz_id") String quartzId, @PathParam("operate") String operate)
+        throws Exception;
 
 }

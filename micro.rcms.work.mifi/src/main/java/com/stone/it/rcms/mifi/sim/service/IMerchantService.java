@@ -19,7 +19,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /**
- * 卡商管理
+ * 卡商管理 当前租户下面的卡商数据
  * 
  * @author cj.stone
  * @Date 2024/11/19

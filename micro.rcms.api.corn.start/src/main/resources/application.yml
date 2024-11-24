@@ -1,0 +1,32 @@
+server:
+  port: 52000
+  servlet:
+    context-path: /corn
+
+spring:
+  cache:
+    type: caffeine
+  profiles:
+    active: loc
+  application:
+    name: cornService
+  # 数据库信息配置
+  datasource:
+    name: rcms
+    url: jdbc:mysql://127.0.0.1:3306/rcms
+    username: root
+    password: max756423
+    driver-class-name: com.mysql.jdbc.Driver
+
+# 指定日志文件
+logging:
+  config: classpath:log4j2.xml
+
+# mybatis 配置
+mybatis:
+  # mybatis sql 文件扫描路径
+  mapper-locations: classpath*:com/stone/it/**/dao/*.mysql.xml
+  # 指定实体类的路径
+  type-aliases-package: com.stone.it.**.vo
+
+
