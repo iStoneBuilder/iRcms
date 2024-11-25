@@ -108,7 +108,7 @@ public class SchedulerConfigService implements ISchedulerConfigService {
         }
         // 操作恢复，必须为已暂停的数据
         if ("resume".equals(operate)) {
-            if ("suspend".equals(schedulerVO.getQuartzStatus())) {
+            if ("suspend".equals(schedulerVO.getEnabledFlag())) {
                 schedulerVO.setEnabledFlag("enabled");
                 quartzManager.resumeQuartz(schedulerVO);
             } else {

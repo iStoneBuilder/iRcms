@@ -38,13 +38,14 @@ public class QuartzManager {
     /**
      * 开启某个任务
      *
-     * @param scheduledJob
-     * @throws Exception
+     * @param scheduledJob scheduledJob
+     * @throws Exception scheduledJob
      */
     public void startQuartz(SchedulerVO scheduledJob) throws Exception {
         JobKey jobKey = JobKey.jobKey(scheduledJob.getQuartzId(), scheduledJob.getQuartzGroupCode());
         // 不存在则添加任务
         if (!scheduler.checkExists(jobKey)) {
+            LOGGER.info("开启任务：{}", scheduledJob.getQuartzName());
             // 利用反射机制获取任务执行类
             @SuppressWarnings("unchecked")
             Class<? extends Job> jobClass = (Class<? extends Job>)(Class
@@ -79,9 +80,9 @@ public class QuartzManager {
     /**
      * 修改任务的Cron表达式
      *
-     * @param scheduledJob
-     * @return
-     * @throws SchedulerException
+     * @param scheduledJob scheduledJob
+     * @return scheduledJob
+     * @throws SchedulerException SchedulerException
      */
     public boolean modifyQuartz(SchedulerVO scheduledJob) throws SchedulerException {
         TriggerKey triggerKey = new TriggerKey(scheduledJob.getQuartzId(), scheduledJob.getQuartzGroupCode());
@@ -105,7 +106,7 @@ public class QuartzManager {
     /**
      * 暂停所有任务
      *
-     * @throws SchedulerException
+     * @throws SchedulerException scheduledJob
      */
     public void pauseAllQuartz() throws SchedulerException {
         scheduler.pauseAll();
@@ -114,8 +115,8 @@ public class QuartzManager {
     /**
      * 暂停某个任务
      *
-     * @param scheduledJob
-     * @throws SchedulerException
+     * @param scheduledJob scheduledJob
+     * @throws SchedulerException scheduledJob
      */
     public void pauseQuartz(SchedulerVO scheduledJob) throws SchedulerException {
         JobKey jobKey = JobKey.jobKey(scheduledJob.getQuartzId(), scheduledJob.getQuartzGroupCode());
@@ -129,7 +130,7 @@ public class QuartzManager {
     /**
      * 恢复所有任务
      *
-     * @throws SchedulerException
+     * @throws SchedulerException SchedulerException
      */
     public void resumeAllQuartz() throws SchedulerException {
         scheduler.resumeAll();
@@ -138,13 +139,15 @@ public class QuartzManager {
     /**
      * 恢复某个任务
      * 
-     * @param scheduledJob
-     * @throws SchedulerException
+     * @param scheduledJob scheduledJob
+     * @throws SchedulerException schedulerException
      */
-    public void resumeQuartz(SchedulerVO scheduledJob) throws SchedulerException {
+    public void resumeQuartz(SchedulerVO scheduledJob) throws Exception {
         JobKey jobKey = JobKey.jobKey(scheduledJob.getQuartzId(), scheduledJob.getQuartzGroupCode());
         JobDetail jobDetail = scheduler.getJobDetail(jobKey);
         if (jobDetail == null) {
+            LOGGER.info("恢复任务不存在：{}", scheduledJob.getQuartzName());
+            startQuartz(scheduledJob);
             return;
         }
         scheduler.resumeJob(jobKey);
@@ -153,8 +156,8 @@ public class QuartzManager {
     /**
      * 删除任务
      *
-     * @param scheduledJob
-     * @throws SchedulerException
+     * @param scheduledJob scheduledJob
+     * @throws SchedulerException scheduledJob
      */
     public void deleteQuartz(SchedulerVO scheduledJob) throws SchedulerException {
         JobKey jobKey = JobKey.jobKey(scheduledJob.getQuartzId(), scheduledJob.getQuartzGroupCode());
