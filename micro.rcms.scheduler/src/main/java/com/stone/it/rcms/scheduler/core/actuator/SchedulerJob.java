@@ -5,7 +5,6 @@ import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.core.http.RequestUtil;
 import com.stone.it.rcms.core.http.ResponseEntity;
 import com.stone.it.rcms.core.util.UUIDUtil;
-import com.stone.it.rcms.scheduler.dao.ISchedulerConfigDao;
 import com.stone.it.rcms.scheduler.dao.ISchedulerGroupDao;
 import com.stone.it.rcms.scheduler.dao.ISchedulerJobDao;
 import com.stone.it.rcms.scheduler.vo.QuartzGroupVO;
@@ -34,9 +33,6 @@ public class SchedulerJob implements Job {
     private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerJob.class);
 
     @Inject
-    private ISchedulerConfigDao schedulerDao;
-
-    @Inject
     private ISchedulerGroupDao schedulerGroupDao;
 
     @Inject
@@ -60,6 +56,7 @@ public class SchedulerJob implements Job {
             quartzJobVO.setJobStatus("fail");
             quartzJobVO.setResponseCode("500");
             quartzJobVO.setResponseBody(exception.getMessage());
+            LOGGER.info("【{}】任务执行异常 ... {}", dataMap.get("jobName"), exception);
         }
         updateQuartzJob(quartzJobVO);
         LOGGER.info("【{}】任务执行结束 ... ", dataMap.get("jobName"));
@@ -77,7 +74,7 @@ public class SchedulerJob implements Job {
         // 任务响应编码
         jobVO.setResponseCode(response.getCode());
         // 设置错误信息
-        if (null != response.getErrors() && "" != response.getErrors()) {
+        if (null != response.getErrors() && !response.getErrors().isEmpty()) {
             jobVO.setResponseBody(response.getErrors());
         } else {
             // 任务响应体
@@ -96,7 +93,7 @@ public class SchedulerJob implements Job {
             ResponseEntity response = executeRequest(groupInfo.getRequestType(), groupInfo.getRequestPath(),
                 groupInfo.getRequestParams(), groupHeader);
             JSONObject body = (JSONObject)JSON.parse(response.getBody());
-            header.put(schedulerVO.getAuthKey(), (String)body.get(groupInfo.getAuthKey()));
+            header.put(schedulerVO.getAuthKey(), body.getJSONObject("data").getString(groupInfo.getAuthKey()));
         }
     }
 
@@ -104,6 +101,7 @@ public class SchedulerJob implements Job {
         Map<String, String> header = new HashMap<>();
         if (headers != null) {
             JSONObject jsonObject = JSONObject.parseObject(headers);
+            @SuppressWarnings("unchecked")
             Map<String, Object> map = jsonObject.toJavaObject(Map.class);
             // Map内容转header
             for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -113,11 +111,11 @@ public class SchedulerJob implements Job {
         return header;
     }
 
-    private ResponseEntity executeRequest(String type, String uri, String params, Map<String, String> header) {
+    private ResponseEntity executeRequest(String type, String uri, String body, Map<String, String> header) {
         if ("GET".equals(type)) {
-            return RequestUtil.doGet(uri + params, null, header);
+            return RequestUtil.doGet(uri, new HashMap<>(), header);
         }
-        return RequestUtil.doPost(uri, params, header);
+        return RequestUtil.doPost(uri, body, header);
     }
 
     private void createQuartzJob(SchedulerVO schedulerVO, QuartzJobVO jobVO) {
@@ -125,6 +123,7 @@ public class SchedulerJob implements Job {
         jobVO.setQuartzId(schedulerVO.getQuartzId());
         jobVO.setJobStatus("running");
         jobVO.setStartTime(new Date());
+        jobVO.setTenantId(schedulerVO.getTenantId());
         schedulerJobDao.createJob(jobVO);
     }
 

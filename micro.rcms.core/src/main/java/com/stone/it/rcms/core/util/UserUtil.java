@@ -27,6 +27,10 @@ public class UserUtil {
         return getCurrentByKey("tenantId");
     }
 
+    public static String getUserId() {
+        return getCurrentByKey("account");
+    }
+
     private static String getCurrentByKey(String enterpriseId) {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes == null) {

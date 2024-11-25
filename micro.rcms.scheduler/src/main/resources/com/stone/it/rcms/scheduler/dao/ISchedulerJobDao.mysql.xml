@@ -5,9 +5,9 @@
 
   <insert id="createJob">
     INSERT INTO tpl_cron_quartz_job_t
-    ( quartz_id, job_id, job_status, start_time )
+    ( tenant_id,quartz_id, job_id, job_status, start_time )
     VALUES
-    (#{quartzId},#{jobId},#{jobStatus},#{startTime})
+    (#{tenantId,jdbcType=VARCHAR},#{quartzId},#{jobId},#{jobStatus},#{startTime})
   </insert>
 
   <select id="findQuartzJobPageResultCount" resultType="integer">

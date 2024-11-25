@@ -43,7 +43,7 @@ public class QuartzCommandRunner implements CommandLineRunner {
         LOGGER.info("加载启用的任务列表 START ...");
         try {
             SchedulerVO searchVO = new SchedulerVO();
-            searchVO.setEnabledFlag("enable");
+            searchVO.setEnabledFlag("enabled");
             // 任务信息列表
             List<SchedulerVO> jobList = schedulerDao.findQuartzList(searchVO);
             LOGGER.info("启用的任务 SIZE: {}", jobList.size());

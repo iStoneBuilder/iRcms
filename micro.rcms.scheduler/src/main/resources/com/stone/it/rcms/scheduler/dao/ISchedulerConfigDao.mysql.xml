@@ -73,6 +73,7 @@
 
   <sql id="query_base_sql">
     SELECT
+    qt.tenant_id as tenantId,
     qgt.IS_AUTHORIZED as isAuthorized,
     qt.QUARTZ_GROUP_CODE as quartzGroupCode,
     qt.quartz_id as quartzId,
@@ -87,7 +88,11 @@
     qt.request_type as requestType,
     qt.REQUEST_PATH as requestPath,
     qt.REQUEST_PARAMS as requestParams,
-    qt.REQUEST_HEADER as requestHeaders
+    qt.REQUEST_HEADER as requestHeaders,
+    qt.created_time as createDate,
+    qt.created_by as createBy,
+    qt.updated_time as updateDate,
+    qt.updated_by as updateBy
     FROM
     tpl_cron_quartz_t qt
     left join tpl_cron_quartz_group_t qgt
@@ -136,8 +141,26 @@
     <if test="enabledFlag != null">
       enabled_flag = #{enabledFlag,jdbcType=VARCHAR},
     </if>
+    <if test="quartzDesc != null">
+      quartz_desc = #{quartzDesc,jdbcType=VARCHAR},
+    </if>
+    <if test="authKey != null">
+      auth_key = #{authKey,jdbcType=VARCHAR},
+    </if>
+    <if test="requestType != null">
+      request_type = #{requestType,jdbcType=VARCHAR},
+    </if>
+    <if test="requestPath != null">
+      request_path = #{requestPath,jdbcType=VARCHAR},
+    </if>
+    <if test="requestParams != null">
+      request_params = #{requestParams,jdbcType=VARCHAR},
+    </if>
+    <if test="requestHeaders != null">
+      request_headers = #{requestHeaders,jdbcType=VARCHAR},
+    </if>
     updated_time = now(),
-    updated_By = #{currentUserId,jdbcType=VARCHAR}
+    updated_by = #{currentUserId,jdbcType=VARCHAR}
     where quartz_id = #{quartzId,jdbcType=VARCHAR}
   </update>
 

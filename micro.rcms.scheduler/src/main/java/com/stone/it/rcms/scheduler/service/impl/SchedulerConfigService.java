@@ -115,6 +115,7 @@ public class SchedulerConfigService implements ISchedulerConfigService {
                 throw new RcmsApplicationException(500, "只有已暂停的任务才允许执行恢复操作！");
             }
         }
+        schedulerVO.setCurrentUserId(UserUtil.getUserId());
         // 更新数据
         schedulerDao.updateQuartz(schedulerVO);
         return schedulerVO;
