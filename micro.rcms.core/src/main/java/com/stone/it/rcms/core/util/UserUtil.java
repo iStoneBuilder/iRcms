@@ -20,6 +20,14 @@ public class UserUtil {
     private static final String ERROR_NO_ENTERPRISE_ID = "无法获取登录用户的企业ID！";
 
     public static String getEnterpriseId() {
+        return getCurrentByKey("enterpriseId");
+    }
+
+    public static String getTenantId() {
+        return getCurrentByKey("tenantId");
+    }
+
+    private static String getCurrentByKey(String enterpriseId) {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes == null) {
             throw new RcmsApplicationException(500, "服务异常，请联系管理员！", ERROR_NO_REQUEST_ATTRIBUTES);
@@ -31,9 +39,9 @@ public class UserUtil {
         }
         try {
             Map<String, String> access = JwtUtils.getTokenInfo(headerValue);
-            String enterpriseId = access.get("enterpriseId");
-            if (enterpriseId != null) {
-                return enterpriseId;
+            String current = access.get(enterpriseId);
+            if (current != null) {
+                return current;
             }
         } catch (Exception e) {
             throw new RcmsApplicationException(500, "服务异常，请联系管理员！", ERROR_JWT_PARSING_FAILED + e.getMessage());

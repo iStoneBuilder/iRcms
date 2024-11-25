@@ -19,13 +19,14 @@ public interface ISchedulerGroupDao {
 
     int createQuartzGroup(QuartzGroupVO schedulerVO);
 
-    int deleteQuartzGroup(@Param("groupId") String groupId);
+    int deleteQuartzGroup(@Param("groupId") String groupId, @Param("tenantId") String tenantId);
 
     int updateQuartzGroup(QuartzGroupVO schedulerVO);
 
     QuartzGroupVO findQuartzGroupInfoByCode(@Param("quartzGroupCode") String quartzGroupCode);
 
-    QuartzGroupVO findQuartzGroupInfoById(@Param("quartzGroupId") String quartzGroupId);
+    QuartzGroupVO findQuartzGroupInfoById(@Param("quartzGroupId") String quartzGroupId,
+        @Param("tenantId") String tenantId);
 
     List<QuartzGroupVO> checkGroupCodeExistByCode(QuartzGroupVO schedulerVO);
 

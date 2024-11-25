@@ -4,11 +4,11 @@
 <mapper namespace="com.stone.it.rcms.scheduler.dao.ISchedulerConfigDao">
 
   <delete id="deleteQuartz">
-    delete tpl_fram_quartz_t where quartz_id = #{quartzId,jdbcType=VARCHAR}
+    delete tpl_corn_quartz_t where quartz_id = #{quartzId,jdbcType=VARCHAR}
   </delete>
 
   <insert id="createQuartz">
-    insert into tpl_fram_quartz_t (
+    insert into tpl_corn_quartz_t (
     quartz_group_code,quartz_id,quartz_name,quartz_desc,quartz_cron,
     quartz_cron_zh,enabled_flag,quartz_status,next_exec_time,auth_key,
     request_type,request_path,request_params,request_header,
@@ -43,8 +43,8 @@
 
   <select id="findQuartzPageResultCount" resultType="integer">
     select count(1) FROM
-    tpl_fram_quartz_t qt
-    left join tpl_fram_quartz_group_t qgt
+    tpl_corn_quartz_t qt
+    left join tpl_corn_quartz_group_t qgt
     on qt.QUARTZ_GROUP_CODE = qgt.QUARTZ_GROUP_CODE
     <include refid="query_condition_sql"/>
   </select>
@@ -85,8 +85,8 @@
     qt.REQUEST_PARAMS as requestParams,
     qt.REQUEST_HEADER as requestHeaders
     FROM
-    tpl_fram_quartz_t qt
-    left join tpl_fram_quartz_group_t qgt
+    tpl_corn_quartz_t qt
+    left join tpl_corn_quartz_group_t qgt
     on qt.QUARTZ_GROUP_CODE = qgt.QUARTZ_GROUP_CODE
   </sql>
 
@@ -115,7 +115,7 @@
   </sql>
 
   <update id="updateQuartz">
-    update tpl_fram_quartz_t
+    update tpl_corn_quartz_t
     set
     <if test="quartzGroupCode != null and quartzGroupCode != ''">
       quartz_group_code = #{quartzGroupCode,jdbcType=VARCHAR}

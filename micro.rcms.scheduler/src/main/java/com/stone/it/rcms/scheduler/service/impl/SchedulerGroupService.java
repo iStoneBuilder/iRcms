@@ -2,6 +2,7 @@ package com.stone.it.rcms.scheduler.service.impl;
 
 import com.stone.it.rcms.core.util.RandomUtil;
 import com.stone.it.rcms.core.util.UUIDUtil;
+import com.stone.it.rcms.core.util.UserUtil;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.scheduler.dao.ISchedulerConfigDao;
@@ -48,13 +49,16 @@ public class SchedulerGroupService implements ISchedulerGroupService {
         if (!list.isEmpty()) {
             throw new SchedulerException("任务组存在任务数据，请先删除任务组下的数据！");
         }
-        return schedulerGroupDao.deleteQuartzGroup(groupId);
+        return schedulerGroupDao.deleteQuartzGroup(groupId, UserUtil.getTenantId());
     }
 
     @Override
     public QuartzGroupVO updateQuartzGroup(String groupId, QuartzGroupVO quartzGroupVO) throws SchedulerException {
         // 判断是否更改了任务组认证
-        QuartzGroupVO oldVO = schedulerGroupDao.findQuartzGroupInfoById(groupId);
+        QuartzGroupVO oldVO = schedulerGroupDao.findQuartzGroupInfoById(groupId, UserUtil.getTenantId());
+        if (oldVO == null) {
+            throw new SchedulerException("任务组不存在！");
+        }
         if (!oldVO.getIsAuthorized().equals(quartzGroupVO.getIsAuthorized())) {
             // 判断任务组下任务是否存在启动的任务
             List<SchedulerVO> list = schedulerConfigDao.findQuartzListByGroupId(groupId);
