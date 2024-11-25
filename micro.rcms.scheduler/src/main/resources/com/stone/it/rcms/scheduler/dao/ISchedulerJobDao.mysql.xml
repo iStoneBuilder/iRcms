@@ -4,15 +4,15 @@
 <mapper namespace="com.stone.it.rcms.scheduler.dao.ISchedulerJobDao">
 
   <insert id="createJob">
-    INSERT INTO tpl_corn_quartz_job_t
+    INSERT INTO tpl_cron_quartz_job_t
     ( quartz_id, job_id, job_status, start_time )
     VALUES
     (#{quartzId},#{jobId},#{jobStatus},#{startTime})
   </insert>
 
   <select id="findQuartzJobPageResultCount" resultType="integer">
-    select count(1) from tpl_corn_quartz_job_t j
-    left join tpl_corn_quartz_t q
+    select count(1) from tpl_cron_quartz_job_t j
+    left join tpl_cron_quartz_t q
     on j.quartz_id = q.quartz_id
     <include refid="query_condition_sql"/>
   </select>
@@ -33,8 +33,8 @@
     j.response_body as responseBody,
     j.start_time as startTime,
     j.end_time as endTime
-    from tpl_corn_quartz_job_t j
-    left join tpl_corn_quartz_t q
+    from tpl_cron_quartz_job_t j
+    left join tpl_cron_quartz_t q
     on j.quartz_id = q.quartz_id
   </sql>
 
@@ -63,7 +63,7 @@
   </sql>
 
   <update id="updateJob">
-    update tpl_corn_quartz_job_t
+    update tpl_cron_quartz_job_t
     <set>
       <if test="jobStatus != null">
         job_status = #{jobStatus,jdbcType=VARCHAR},

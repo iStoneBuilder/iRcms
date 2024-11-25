@@ -79,6 +79,8 @@ public interface ISchedulerGroupService {
      * @return a
      * @throws SchedulerException a
      */
-    List<QuartzGroupVO> findQuartzGroupList(QuartzGroupVO quartzGroupVO) throws SchedulerException;
+    @GET
+    @Path("/records/list")
+    List<QuartzGroupVO> findQuartzGroupList(@QueryParam("") QuartzGroupVO quartzGroupVO) throws SchedulerException;
 
 }

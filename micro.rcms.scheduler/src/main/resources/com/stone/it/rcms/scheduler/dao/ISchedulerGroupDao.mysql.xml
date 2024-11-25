@@ -5,13 +5,13 @@
 
   <!-- 删除分组信息 -->
   <delete id="deleteQuartzGroup">
-    delete from tpl_corn_quartz_group_t where QUARTZ_GROUP_ID = #{groupId} and tenant_id =
+    delete from tpl_cron_quartz_group_t where QUARTZ_GROUP_ID = #{groupId} and tenant_id =
     #{tenantId}
   </delete>
   <!-- 创建分组信息 -->
   <insert id="createQuartzGroup">
     insert into
-    tpl_corn_quartz_group_t
+    tpl_cron_quartz_group_t
     (tenant_id,QUARTZ_GROUP_ID,
     QUARTZ_GROUP_CODE,QUARTZ_GROUP_NAME,is_authorized,auth_key,request_type,
     request_path,request_params,request_header,CREATED_TIME,UPDATED_TIME,CREATED_BY, UPDATED_BY)
@@ -30,7 +30,7 @@
   </select>
 
   <select id="findQuartzGroupPageResultCount" resultType="integer">
-    select count(1) from tpl_corn_quartz_group_t
+    select count(1) from tpl_cron_quartz_group_t
     <include refid="query_condition_sql"/>
   </select>
 
@@ -83,7 +83,7 @@
     UPDATED_TIME as updateDate,
     UPDATED_BY as updateBy
     FROM
-    tpl_corn_quartz_group_t
+    tpl_cron_quartz_group_t
   </sql>
 
   <sql id="query_condition_sql">
@@ -106,7 +106,7 @@
 
   <!-- 更新分组信息 -->
   <update id="updateQuartzGroup">
-    update tpl_corn_quartz_group_t
+    update tpl_cron_quartz_group_t
     set
     <if test="quartzGroupName != null and quartzGroupName != ''">
       QUARTZ_GROUP_NAME = #{quartzGroupName},
