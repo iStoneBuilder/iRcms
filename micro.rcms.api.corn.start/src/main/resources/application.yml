@@ -29,4 +29,15 @@ mybatis:
   # 指定实体类的路径
   type-aliases-package: com.stone.it.**.vo
 
+rcms:
+  api:
+    register:
+      token:
+        path: http://localhost:51000/test/services/rcms/user/token
+      service:
+        path: http://localhost:51000/test/services/rcms/base/permission/records/register
+      app: app_corn_api
+      secret: TXNAMTIzNDU2Nzg=
+
+
 

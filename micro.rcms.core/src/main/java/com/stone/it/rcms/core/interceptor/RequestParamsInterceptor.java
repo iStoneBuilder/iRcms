@@ -84,10 +84,17 @@ public class RequestParamsInterceptor extends AbstractPhaseInterceptor<Message> 
                     if (requestBody.startsWith("{")) {
                         newRequestBody = buildNewRequestBody(JSONObject.parseObject(requestBody), verify);
                     } else if (requestBody.startsWith("[")) {
-                        JSONArray newArray = new JSONArray();
+                        StringBuilder stringBuilder = new StringBuilder();
+                        stringBuilder.append("[");
                         JSONArray array = JSONArray.parseArray(requestBody);
-                        array.forEach(jsonObject -> newArray.add(buildNewRequestBody((JSONObject)jsonObject, verify)));
-                        newRequestBody = JSONArray.toJSONString(newArray);
+                        for (int i = 0; i < array.size(); i++) {
+                            stringBuilder.append(buildNewRequestBody(array.getJSONObject(i), verify));
+                            if (i < array.size() - 1) {
+                                stringBuilder.append(",");
+                            }
+                        }
+                        stringBuilder.append("]");
+                        newRequestBody = stringBuilder.toString();
                     }
                     // Set the modified request body back to the message
                     assert newRequestBody != null;

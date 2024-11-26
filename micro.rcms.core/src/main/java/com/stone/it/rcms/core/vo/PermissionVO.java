@@ -1,6 +1,8 @@
 package com.stone.it.rcms.core.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author cj.stone
@@ -8,6 +10,8 @@ import lombok.Data;
  * @Desc
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PermissionVO extends BaseVO {
 
     private String code;
