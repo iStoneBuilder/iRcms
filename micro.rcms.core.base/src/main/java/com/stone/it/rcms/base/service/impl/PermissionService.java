@@ -11,7 +11,6 @@ import com.stone.it.rcms.core.vo.PermissionVO;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
@@ -41,7 +40,6 @@ public class PermissionService extends PermissionHandler implements IPermissionS
     public int refreshPermission(PermissionVO permissionVO) {
         CURRENT_API_LIST = new ArrayList<>();
         AUTH_CODE_SET = new HashSet<>();
-        API_PATH_MOTHED_SET = new HashSet<>();
         ApplicationContext context = ApplicationContextProvider.getApplicationContext();
         // 获取服务根路径
         String contextPath = context.getEnvironment().getProperty("server.servlet.context-path");
@@ -52,7 +50,7 @@ public class PermissionService extends PermissionHandler implements IPermissionS
         for (String beanName : beanNames) {
             getCxfEndpointPaths(context.getBean(beanName, JAXRSServerFactoryBean.class), contextPath, serviceCode);
         }
-        LOGGER.info("ALL API SIZE {},{},{}", CURRENT_API_LIST.size(), AUTH_CODE_SET.size(), API_PATH_MOTHED_SET.size());
+        LOGGER.info("ALL API SIZE {},{}", CURRENT_API_LIST.size(), AUTH_CODE_SET.size());
         registerPermission(CURRENT_API_LIST);
         return 1;
     }

@@ -30,8 +30,6 @@ public class PermissionHandler {
     public static Set<String> AUTH_CODE_SET = new HashSet<>();
     // 接口信息集合
     public static List<PermissionVO> CURRENT_API_LIST = new ArrayList<>();
-    // 接口路径集合
-    public static Set<String> API_PATH_MOTHED_SET = new HashSet<>();
 
     private static String getAnnotationValue(String name, Class<?> annotationType, Annotation iAnnotation) {
         // 获取注解定义的所有方法
@@ -114,7 +112,6 @@ public class PermissionHandler {
                 // 获取是否需要权限验证
                 buildPermission(operationResource, permissionVO);
                 LOGGER.info("RCMS api info : {}", JSON.toJSONString(permissionVO));
-                API_PATH_MOTHED_SET.add(operationResource.getHttpMethod() + "_" + apiPath);
                 permissionVO.setCreateBy("system");
                 permissionVO.setUpdateBy("system");
                 permissionVO.setCode(UUIDUtil.getUuid());
