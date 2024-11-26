@@ -4,6 +4,7 @@ import com.stone.it.rcms.core.annotate.RcmsMethod;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.core.vo.PermissionVO;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -38,5 +39,11 @@ public interface IPermissionService {
     @RcmsMethod(name = "接口管理.刷新")
     // @RequiresPermissions("permission:permission:refresh")
     int refreshPermission(PermissionVO permissionVO);
+
+    @POST
+    @Path("/records/register")
+    @RcmsMethod(name = "接口管理.注册", type = "Y")
+    @RequiresPermissions("permission:permission:register")
+    int registerPermission(List<PermissionVO> list);
 
 }

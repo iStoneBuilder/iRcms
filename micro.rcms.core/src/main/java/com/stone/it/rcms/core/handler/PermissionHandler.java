@@ -31,7 +31,7 @@ public class PermissionHandler {
     // 接口信息集合
     public static List<PermissionVO> CURRENT_API_LIST = new ArrayList<>();
     // 接口路径集合
-    public static Set<String> API_PATH_SET = new HashSet<>();
+    public static Set<String> API_PATH_MOTHED_SET = new HashSet<>();
 
     private static String getAnnotationValue(String name, Class<?> annotationType, Annotation iAnnotation) {
         // 获取注解定义的所有方法
@@ -88,7 +88,8 @@ public class PermissionHandler {
         return apiPath.replaceAll("//", "/");
     }
 
-    public static void getCxfEndpointPaths(JAXRSServerFactoryBean serverFactory, String contextPath) {
+    public static void getCxfEndpointPaths(JAXRSServerFactoryBean serverFactory, String contextPath,
+        String serviceCode) {
         // jaxrs:server 接口暴露配置的路径
         String endpointPath = serverFactory.getAddress();
         // 获取接口暴露下的service
@@ -113,10 +114,11 @@ public class PermissionHandler {
                 // 获取是否需要权限验证
                 buildPermission(operationResource, permissionVO);
                 LOGGER.info("RCMS api info : {}", JSON.toJSONString(permissionVO));
-                API_PATH_SET.add(operationResource.getHttpMethod() + "_" + apiPath);
+                API_PATH_MOTHED_SET.add(operationResource.getHttpMethod() + "_" + apiPath);
                 permissionVO.setCreateBy("system");
                 permissionVO.setUpdateBy("system");
                 permissionVO.setCode(UUIDUtil.getUuid());
+                permissionVO.setServiceCode(serviceCode);
                 CURRENT_API_LIST.add(permissionVO);
             }
         }

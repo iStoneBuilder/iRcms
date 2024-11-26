@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `tpl_fram_role_t` (
 CREATE TABLE IF NOT EXISTS `tpl_fram_permission_t` (
   `api_code` VARCHAR(100) NOT NULL COMMENT '接口编码',
   `auth_code` VARCHAR(100) COMMENT '权限编码',
+  `service_code` VARCHAR(100) NOT NULL COMMENT '服务编码',
   `api_path` VARCHAR(100) NOT NULL COMMENT '接口地址',
   `api_name` VARCHAR(100) NOT NULL COMMENT '接口名称',
   `api_type` VARCHAR(100) NOT NULL COMMENT '接口类型：system/custom',
@@ -58,11 +59,12 @@ CREATE TABLE IF NOT EXISTS `tpl_fram_permission_t` (
 CREATE TABLE IF NOT EXISTS `tpl_fram_role_permission_t` (
   `role_code` VARCHAR(100) NOT NULL COMMENT '角色编码',
   `auth_code` VARCHAR(100) NOT NULL COMMENT '权限编码',
+  `service_code` VARCHAR(100) NOT NULL COMMENT '服务编码',
   `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
-  PRIMARY KEY (`role_code`, `auth_code`)
+  PRIMARY KEY (`role_code`, `auth_code`,`service_code`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 
