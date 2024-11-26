@@ -15,11 +15,11 @@ public interface IPermissionDao {
 
     PageResult<PermissionVO> findPermissionPageResult(PermissionVO permissionVO, PageVO pageVO);
 
-    int createPermission(@Param("list") List<PermissionVO> dbNotExistApiList);
+    int createPermission(@Param("list") List<PermissionVO> dbNotExistApiList, @Param("createBy") String createBy);
 
     int deleteApisRelationAuth(@Param("serviceCode") String serviceCode);
 
-    void createSuperAdminAuth(@Param("list") List<PermissionVO> list, @Param("roleCode") String roleCode,
+    int createSuperAdminAuth(@Param("list") List<PermissionVO> list, @Param("roleCode") String roleCode,
         @Param("createBy") String createBy);
 
     List<PermissionVO> findCurrentServiceApiByServiceCode(@Param("serviceCode") String serviceCode);

@@ -64,6 +64,7 @@ public class PermissionService extends PermissionHandler implements IPermissionS
         // 查询当前根路径下的接口
         List<PermissionVO> dbExistApis = permissionDao.findCurrentServiceApiByServiceCode(serviceCode);
         List<PermissionVO> notExistApiList = new ArrayList<>();
+        List<PermissionVO> authApiList = new ArrayList<>();
         list.forEach(permission -> {
             boolean isExist = false;
             for (PermissionVO dbExistApi : dbExistApis) {
@@ -78,14 +79,21 @@ public class PermissionService extends PermissionHandler implements IPermissionS
             if (!isExist) {
                 notExistApiList.add(permission);
             }
+            if (permission.getAuthCode() != null && !permission.getAuthCode().isEmpty()) {
+                authApiList.add(permission);
+            }
         });
-        permissionDao.createPermission(notExistApiList);
+        if (!notExistApiList.isEmpty()) {
+            permissionDao.createPermission(notExistApiList, UserUtil.getUserId());
+        }
         // 删除不存在的API
         permissionDao.deletePermissionNotExist(list, serviceCode);
         // 清理不存在的授权关系
         permissionDao.deleteApisRelationAuth(serviceCode);
-        // 创建超级管理员权限
-        permissionDao.createSuperAdminAuth(list, "platformAdmin", UserUtil.getUserId());
+        if (!authApiList.isEmpty()) {
+            // 创建超级管理员权限
+            permissionDao.createSuperAdminAuth(authApiList, "platformAdmin", UserUtil.getUserId());
+        }
         return 1;
     }
 }

@@ -21,27 +21,49 @@
     where service_code = #{serviceCode}
     and concat_ws('_', api_method, api_path) not in
     <foreach close=")" collection="list" item="item" open="(" separator=",">
-      #{item}
+      concat_ws('_', #{item.method}, #{item.path})
     </foreach>
   </delete>
   <insert id="createPermission">
     insert into
-    tpl_fram_permission_t(service_code,auth_code,api_code,api_name,api_path,api_method,api_type,open_api,
-    created_time,updated_time,created_by,updated_by)
+    tpl_fram_permission_t(
+    service_code,auth_code,api_code,api_name,api_path,api_method,api_type,open_api,created_time,updated_time,created_by,updated_by)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.serviceCode},#{item.authCode},#{item.code},#{item.name},#{item.path,jdbcType=VARCHAR},#{item.method},
-      #{item.type},#{item.isOpenApi},now(),now(),#{item.currentUserId,jdbcType=VARCHAR},#{item.currentUserId,jdbcType=VARCHAR})
+      (
+      #{item.serviceCode,jdbcType=VARCHAR},
+      #{item.authCode,jdbcType=VARCHAR},
+      #{item.code,jdbcType=VARCHAR},
+      #{item.name,jdbcType=VARCHAR},
+      #{item.path,jdbcType=VARCHAR},
+      #{item.method,jdbcType=VARCHAR},
+      #{item.type,jdbcType=VARCHAR},
+      #{item.isOpenApi,jdbcType=VARCHAR},
+      now(),now(),
+      #{createBy,jdbcType=VARCHAR},
+      #{createBy,jdbcType=VARCHAR}
+      )
     </foreach>
   </insert>
 
   <insert id="createSuperAdminAuth">
     insert into
     tpl_fram_role_permission_t
-    (service_code,role_code,auth_code,created_time,updated_time,created_by,updated_by)
+    (service_code,
+    role_code,
+    auth_code,
+    created_time,
+    updated_time,
+    created_by,
+    updated_by)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.serviceCode},#{roleCode},#{item.authCode},now(),now(),#{createBy,jdbcType=VARCHAR},#{createBy,jdbcType=VARCHAR})
+      (#{item.serviceCode,jdbcType=VARCHAR},
+      #{roleCode,jdbcType=VARCHAR},
+      #{item.authCode,jdbcType=VARCHAR},
+      now(),now(),
+      #{createBy,jdbcType=VARCHAR},
+      #{createBy,jdbcType=VARCHAR})
     </foreach>
   </insert>
 
