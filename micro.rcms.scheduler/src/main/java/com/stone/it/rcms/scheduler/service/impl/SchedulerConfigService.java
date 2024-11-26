@@ -66,11 +66,15 @@ public class SchedulerConfigService implements ISchedulerConfigService {
         schedulerVO.setQuartzId(quartzId);
         // 更新数据
         schedulerDao.updateQuartz(schedulerVO);
-        if ("enable".equals(schedulerVO.getEnabledFlag())) {
+        if ("enabled".equals(schedulerVO.getEnabledFlag())) {
             // 删除定时任务
             quartzManager.deleteQuartz(schedulerVO);
             // 启动定时任务
             quartzManager.startQuartz(schedulerVO);
+        }
+        if ("suspend".equals(schedulerVO.getEnabledFlag())) {
+            // 删除定时任务
+            quartzManager.deleteQuartz(schedulerVO);
         }
         return schedulerVO;
     }
