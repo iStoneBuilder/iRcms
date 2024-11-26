@@ -93,6 +93,10 @@ public class SchedulerJob implements Job {
             ResponseEntity response = executeRequest(groupInfo.getRequestType(), groupInfo.getRequestPath(),
                 groupInfo.getRequestParams(), groupHeader);
             JSONObject body = (JSONObject)JSON.parse(response.getBody());
+            if (body == null) {
+                LOGGER.info("【{}】任务获取认证异常 ... {}", schedulerVO.getQuartzName(), response.getErrors());
+                return;
+            }
             header.put(schedulerVO.getAuthKey(), body.getJSONObject("data").getString(groupInfo.getAuthKey()));
         }
     }

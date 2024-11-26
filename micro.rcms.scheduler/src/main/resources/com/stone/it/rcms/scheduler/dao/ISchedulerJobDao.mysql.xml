@@ -21,6 +21,7 @@
     resultType="com.stone.it.rcms.scheduler.vo.QuartzJobVO">
     <include refid="query_base_sql"/>
     <include refid="query_condition_sql"/>
+    order by j.start_time desc
     limit #{param2.startIndex},#{param2.endIndex}
   </select>
 
@@ -32,7 +33,10 @@
     j.response_code as responseCode,
     j.response_body as responseBody,
     j.start_time as startTime,
-    j.end_time as endTime
+    j.end_time as endTime,
+    j.created_time as createDate,
+    j.updated_time as updateDate,
+    j.created_by as createBy
     from tpl_cron_quartz_job_t j
     left join tpl_cron_quartz_t q
     on j.quartz_id = q.quartz_id
@@ -40,9 +44,9 @@
 
   <sql id="query_condition_sql">
     <where>
-      1 = 1
+      j.tenant_id = #{param1.tenantId,jdbcType=VARCHAR}
       <if test="param1.jobId != null and param1.jobId !='' ">
-        and job_id = #{param1.jobId,jdbcType=VARCHAR}
+        and j.job_id = #{param1.jobId,jdbcType=VARCHAR}
       </if>
       <if test="param1.quartzName != null and param1.quartzName != ''">
         and q.quartz_name = #{param1.quartzName,jdbcType=VARCHAR}
