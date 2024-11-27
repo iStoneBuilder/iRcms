@@ -46,7 +46,7 @@
     </foreach>
   </insert>
 
-  <insert id="createSuperAdminAuth">
+  <insert id="createRolePermission">
     insert into
     tpl_fram_role_permission_t
     (service_code,
@@ -67,18 +67,17 @@
     </foreach>
   </insert>
 
-  <select id="findPermissionPageResultCount" resultType="int">
-    select count(*) from tpl_fram_permission_t
-    <include refid="query_condition"/>
-  </select>
-
-
   <select id="findPermissionPageResult"
     resultType="com.stone.it.rcms.core.vo.PermissionVO">
     <include refid="query_base"/>
     <include refid="query_condition"/>
     order by api_name desc,auth_code desc
     limit #{param2.startIndex}, #{param2.endIndex}
+  </select>
+
+  <select id="findPermissionPageResultCount" resultType="int">
+    select count(*) from tpl_fram_permission_t
+    <include refid="query_condition"/>
   </select>
 
   <select id="findCurrentServiceApiByServiceCode"
@@ -89,6 +88,7 @@
 
   <sql id="query_condition">
     <where>
+      1=1
       <if test="param1.code!= null and param1.code!= ''">
         and api_code like concat('%',#{param1.code,jdbcType=VARCHAR},'%')
       </if>
@@ -109,6 +109,9 @@
       </if>
       <if test="param1.isOpenApi!= null and param1.isOpenApi!= ''">
         and open_api = #{param1.isOpenApi,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.serviceCode!= null and param1.serviceCode!= ''">
+        and service_code = #{param1.serviceCode,jdbcType=VARCHAR}
       </if>
     </where>
   </sql>

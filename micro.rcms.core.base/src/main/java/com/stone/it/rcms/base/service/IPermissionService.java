@@ -46,4 +46,9 @@ public interface IPermissionService {
     @RequiresPermissions("permission:permission:register")
     int registerPermission(List<PermissionVO> list);
 
+    @POST
+    @Path("/records/authorize/{app_id}")
+    @RcmsMethod(name = "接口管理.授权", type = "Y")
+    @RequiresPermissions("permission:permission:authorize")
+    int authorizePermission(@PathParam("app_id") String appId, List<PermissionVO> list);
 }

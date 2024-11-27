@@ -14,12 +14,12 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.stone.it"})
-public class TestCornApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestCornApplication.class);
+public class TestCronApplication {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestCronApplication.class);
 
     public static void main(String[] args) {
         LOGGER.info("Quartz Application Start now ........");
-        SpringApplication.run(TestCornApplication.class, args);
+        SpringApplication.run(TestCronApplication.class, args);
         LOGGER.info("Quartz Application Running ........");
     }
 

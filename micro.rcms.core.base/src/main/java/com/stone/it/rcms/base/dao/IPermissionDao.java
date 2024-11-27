@@ -19,7 +19,7 @@ public interface IPermissionDao {
 
     int deleteApisRelationAuth(@Param("serviceCode") String serviceCode);
 
-    int createSuperAdminAuth(@Param("list") List<PermissionVO> list, @Param("roleCode") String roleCode,
+    int createRolePermission(@Param("list") List<PermissionVO> list, @Param("roleCode") String roleCode,
         @Param("createBy") String createBy);
 
     List<PermissionVO> findCurrentServiceApiByServiceCode(@Param("serviceCode") String serviceCode);

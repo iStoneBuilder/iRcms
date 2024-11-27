@@ -56,7 +56,7 @@ public class QuartzManager {
                 .withIdentity(scheduledJob.getQuartzId(), scheduledJob.getQuartzGroupCode())
                 // 执行
                 .build();
-            // 设置任务触发器，cornTrigger规则定义执行规则
+            // 设置任务触发器，cronTrigger规则定义执行规则
             CronTrigger cronTrigger = TriggerBuilder.newTrigger()
                 // 通过键值对方式向job实现业务逻辑传参数
                 .usingJobData("jobName", scheduledJob.getQuartzName())

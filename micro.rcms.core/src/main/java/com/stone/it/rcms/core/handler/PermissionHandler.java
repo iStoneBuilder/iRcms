@@ -100,6 +100,7 @@ public class PermissionHandler {
             Set<OperationResourceInfo> opera = classResource.getMethodDispatcher().getOperationResourceInfos();
             for (OperationResourceInfo operationResource : opera) {
                 PermissionVO permissionVO = new PermissionVO();
+                permissionVO.setIsOpenApi("N");
                 // 方法名称
                 permissionVO.setName(operationResource.getAnnotatedMethod().getName());
                 // 方法请求类型

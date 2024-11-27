@@ -1,7 +1,7 @@
 server:
   port: 52000
   servlet:
-    context-path: /corn
+    context-path: /cron
 
 spring:
   cache:
@@ -9,7 +9,7 @@ spring:
   profiles:
     active: loc
   application:
-    name: cornService
+    name: cronService
   # 数据库信息配置
   datasource:
     name: rcms
@@ -36,7 +36,7 @@ rcms:
         path: http://localhost:51000/test/services/rcms/user/token
       service:
         path: http://localhost:51000/test/services/rcms/base/permission/records/register
-      app: app_corn_api
+      app: app_cron_api
       secret: TXNAMTIzNDU2Nzg=
 
 

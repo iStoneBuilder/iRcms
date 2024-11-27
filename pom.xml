@@ -56,8 +56,8 @@
     <module>micro.rcms.core.user</module>
     <module>micro.rcms.core.shiro</module>
     <module>micro.rcms.work.mifi</module>
-    <module>micro.rcms.api.corn.start</module>
     <module>micro.rcms.core.file</module>
+    <module>micro.rcms.api.cron.start</module>
   </modules>
 
   <packaging>pom</packaging>

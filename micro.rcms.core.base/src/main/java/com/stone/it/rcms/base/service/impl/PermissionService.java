@@ -92,8 +92,14 @@ public class PermissionService extends PermissionHandler implements IPermissionS
         permissionDao.deleteApisRelationAuth(serviceCode);
         if (!authApiList.isEmpty()) {
             // 创建超级管理员权限
-            permissionDao.createSuperAdminAuth(authApiList, "platformAdmin", UserUtil.getUserId());
+            permissionDao.createRolePermission(authApiList, "platformAdmin", UserUtil.getUserId());
         }
         return 1;
     }
+
+    @Override
+    public int authorizePermission(String appId, List<PermissionVO> list) {
+        return permissionDao.createRolePermission(list, appId, UserUtil.getUserId());
+    }
+
 }
