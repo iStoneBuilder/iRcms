@@ -1,6 +1,116 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.stone.it.rcms.mifi.sim.dao.IMerchantDao">
-  
+<mapper namespace="com.stone.it.rcms.mifi.sim.dao.ISimDao">
+
+  <delete id="deleteSim">
+    DELETE FROM tpl_mifi_sim_t
+    WHERE iccid = #{iccid,jdbcType=VARCHAR}
+    and tenant_id = #{tenantId,jdbcType=VARCHAR}
+    and device_sn is null
+  </delete>
+
+  <insert id="createSim">
+    INSERT INTO tpl_mifi_sim_t
+    (tenant_id, iccid, enterprise_id, merchant_code, device_sn, carrier_code, net_type,
+    name_status, online_status, flow_status, sim_type, imei, flow_used, flow_remain,
+    flow_used_day, remark, CREATED_TIME, CREATED_BY, UPDATED_TIME, UPDATED_BY)
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+      (
+      #{item.tenantId,jdbcType=VARCHAR},#{item.iccid,jdbcType=VARCHAR},
+      #{item.currentEnterpriseId,jdbcType=VARCHAR},
+      #{item.merchantCode,jdbcType=VARCHAR},#{item.deviceSn,jdbcType=VARCHAR},
+      #{item.carrierCode,jdbcType=VARCHAR},
+      #{item.netType,jdbcType=VARCHAR},#{item.nameStatus,jdbcType=VARCHAR},
+      #{item.onlineStatus,jdbcType=VARCHAR},
+      #{item.flowStatus,jdbcType=VARCHAR},#{item.simType},
+      #{item.imei,jdbcType=VARCHAR},
+      #{item.flowUsed,jdbcType=VARCHAR},#{item.flowRemain,jdbcType=VARCHAR},
+      #{item.flowUsedDay,jdbcType=VARCHAR},#{item.remark,jdbcType=VARCHAR},
+      now(),#{item.currentUserId,jdbcType=VARCHAR},now(),
+      #{item.currentUserId,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+
+  <select id="findSimPageResult" resultType="com.stone.it.rcms.mifi.sim.vo.SimVO">
+    <include refid="query_base"/>
+    <include refid="query_base_condition"/>
+    order by createDate desc
+    limit #{param2.startIndex}, #{param2.endIndex}
+  </select>
+
+  <select id="findSimPageResultCount" resultType="java.lang.Integer">
+    SELECT count(*) from tpl_mifi_sim_t
+    <include refid="query_base_condition"/>
+  </select>
+
+  <select id="findNotExistIccid" resultType="java.lang.String">
+    select iccid from tpl_mifi_sim_t
+    <include refid="query_exist_condition"/>
+  </select>
+
+  <sql id="query_exist_condition">
+    where tenant_id = #{tenantId,jdbcType=VARCHAR}
+    and iccid in
+    <foreach close=")" collection="list" item="item" open="(" separator=",">
+      #{item.iccid,jdbcType=VARCHAR}
+    </foreach>
+  </sql>
+
+  <sql id="query_base_condition">
+    <where>
+      tenant_id = #{param1.tenantId,jdbcType=VARCHAR}
+      <if test="param1.iccid != null and param1.iccid != ''">
+        and iccid like CONCAT('%',#{param1.iccid,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="param1.merchantCode != null and param1.merchantCode != ''">
+        and merchant_code = #{param1.merchantCode,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.deviceSn != null and param1.deviceSn != ''">
+        and device_sn like CONCAT('%',#{param1.deviceSn,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="param1.carrierCode != null and param1.carrierCode != ''">
+        and carrier_code = #{param1.carrierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.netType != null and param1.netType != ''">
+        and net_type = #{param1.netType,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.nameStatus != null and param1.nameStatus != ''">
+        and name_status = #{param1.nameStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.onlineStatus != null and param1.onlineStatus != ''">
+        and online_status = #{param1.onlineStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.flowStatus != null and param1.flowStatus != ''">
+        and flow_status = #{param1.flowStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.simType != null and param1.simType != ''">
+        and sim_type = #{param1.simType,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.imei != null and param1.imei != ''">
+        and imei like CONCAT('%',#{param1.imei,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
+  </sql>
+
+  <sql id="query_base">
+    SELECT
+    tenant_id as tenantId, iccid, enterprise_id as enterpriseId,
+    merchant_code as merchantCode,
+    device_sn as deviceSn, carrier_code as carrierCode,
+    net_type as netType, name_status as nameStatus,
+    online_status as onlineStatus, flow_status as flowStatus,
+    sim_type as simType, imei, flow_used as flowUsed,
+    flow_remain as flowRemain, flow_used_day as flowUsedDay, remark,
+    CREATED_TIME as createDate, CREATED_BY as createBy,
+    UPDATED_TIME as updateDate, UPDATED_BY as updateBy
+    FROM tpl_mifi_sim_t
+  </sql>
+
+  <update id="updateSim">
+
+  </update>
+
 </mapper>

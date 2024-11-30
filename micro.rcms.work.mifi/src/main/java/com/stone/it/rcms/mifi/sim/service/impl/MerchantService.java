@@ -32,6 +32,11 @@ public class MerchantService implements IMerchantService {
     }
 
     @Override
+    public List<MerchantVO> findMerchantList(MerchantVO merchantVO) {
+        return merchantDao.findMerchantList(merchantVO);
+    }
+
+    @Override
     public int createMerchant(MerchantVO merchantVO) {
         merchantVO.setMerchantCode(RandomUtil.stringGenerator(8));
         return merchantDao.createMerchant(merchantVO);

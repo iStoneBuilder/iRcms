@@ -19,6 +19,7 @@
     </jaxrs:providers>
     <jaxrs:serviceBeans>
       <ref bean="merchantService"/>
+      <ref bean="simService"/>
     </jaxrs:serviceBeans>
   </jaxrs:server>
 

@@ -43,6 +43,7 @@
   <insert id="createMerchantCarrier">
     insert into tpl_mifi_merchant_carrier_t
     (
+    tenant_id,
     merchant_code,
     carrier_code,
     app_key,
@@ -53,6 +54,7 @@
     created_time,
     updated_time
     )values(
+    #{tenantId,jdbcType=VARCHAR},
     #{merchantCode,jdbcType=VARCHAR},
     #{carrierCode,jdbcType=VARCHAR},
     #{appKey,jdbcType=VARCHAR},
@@ -99,6 +101,11 @@
     <include refid="query_base_carrier"/>
     where c.merchant_code = #{merchantCode}
   </select>
+  <select id="findMerchantList" resultType="com.stone.it.rcms.mifi.sim.vo.MerchantVO">
+    <include refid="query_base_merchant"/>
+    where tenant_id = #{tenantId,jdbcType=VARCHAR}
+  </select>
+
   <sql id="query_base_carrier">
     SELECT
     c.carrier_code as carrierCode,
@@ -111,7 +118,6 @@
     FROM
     tpl_mifi_merchant_carrier_t c
   </sql>
-
   <sql id="query_base_carrier_condition">
     <where>
       c.enterprise_id = #{param1.enterpriseId}
@@ -120,6 +126,7 @@
       </if>
     </where>
   </sql>
+
   <sql id="query_base_merchant">
     SELECT
     m.merchant_code as merchantCode,

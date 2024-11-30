@@ -32,6 +32,7 @@
   <select id="findEnterpriseDetailById"
     resultType="com.stone.it.rcms.user.vo.EnterpriseDetailVO">
     select
+    tenant_id as tenantId,
     id,
     type,
     name,

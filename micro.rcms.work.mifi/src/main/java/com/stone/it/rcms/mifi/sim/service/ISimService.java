@@ -39,8 +39,8 @@ public interface ISimService {
 
     @POST
     @Path("/records")
-    @RcmsMethod(name = "SIM卡管理.新增")
-    @RequiresPermissions("permission:sim:create")
+    @RcmsMethod(name = "SIM卡管理.导入")
+    @RequiresPermissions("permission:sim:import")
     int createSim(List<SimVO> simVO);
 
     @PUT
@@ -60,5 +60,11 @@ public interface ISimService {
     @RcmsMethod(name = "SIM卡管理.流量校准")
     @RequiresPermissions("permission:sim:sync")
     int syncSimDp(@PathParam("iccid") String iccid, SimVO simVO);
+
+    @PUT
+    @Path("/records/{iccid}/limit")
+    @RcmsMethod(name = "SIM卡管理.流量限速")
+    @RequiresPermissions("permission:sim:limit")
+    int limitSimDp(@PathParam("iccid") String iccid, SimVO simVO);
 
 }

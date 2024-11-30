@@ -38,7 +38,7 @@ public class QuartzConfig {
     /**
      * SchedulerFactoryBean工厂
      * 
-     * @return
+     * @return schedulerFactoryBean
      */
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean() {
@@ -55,7 +55,7 @@ public class QuartzConfig {
             // 设置任务调度器
             schedulerFactoryBean.setJobFactory(jobFactory);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("schedulerFactoryBean error : ", e);
         }
         return schedulerFactoryBean;
     }
@@ -63,8 +63,8 @@ public class QuartzConfig {
     /**
      * 读取quartz配置文件中配置相关属性
      *
-     * @return
-     * @throws IOException
+     * @return schedulerFactoryBean
+     * @throws IOException schedulerFactoryBean
      */
     @Bean
     public Properties quartzProperties() throws IOException {
@@ -87,7 +87,7 @@ public class QuartzConfig {
     /**
      * 初始化schedule任务调度器
      *
-     * @return
+     * @return schedulerFactoryBean
      */
     @Bean
     public Scheduler scheduler() {

@@ -13,6 +13,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EnterpriseDetailVO {
+    private String tenantId;
     private String id;
     private String type;
     private String name;

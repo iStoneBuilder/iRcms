@@ -33,4 +33,6 @@ public interface IMerchantDao {
     int updateMerchantCarrier(CarrierVO carrierVO);
 
     int createMerchantCarrier(CarrierVO carrierVO);
+
+    List<MerchantVO> findMerchantList(MerchantVO merchantVO);
 }

@@ -5,6 +5,7 @@ import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.mifi.sim.vo.CarrierVO;
 import com.stone.it.rcms.mifi.sim.vo.MerchantVO;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -37,6 +38,12 @@ public interface IMerchantService {
     @RcmsMethod(name = "卡商管理.分页查询")
     @RequiresPermissions("permission:merchant:page:query")
     PageResult<MerchantVO> findMerchantPageResult(@QueryParam("") MerchantVO merchantVO, @PathParam("") PageVO pageVO);
+
+    @GET
+    @Path("/records")
+    @RcmsMethod(name = "卡商管理.列表查询")
+    @RequiresPermissions("permission:merchant:list:query")
+    List<MerchantVO> findMerchantList(@QueryParam("") MerchantVO merchantVO);
 
     @POST
     @Path("/records")

@@ -27,3 +27,29 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_merchant_carrier_t` (
   `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   PRIMARY KEY ( `carrier_code`, `merchant_code`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- SIM 卡
+CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_t` (
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
+  `iccid` VARCHAR(100) NOT NULL COMMENT 'ICCID', -- 20位
+  `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
+  `merchant_code` VARCHAR(100) NOT NULL COMMENT '卡商编码',
+  `device_sn` VARCHAR(100) COMMENT '设备SN',
+  `carrier_code` VARCHAR(100) NOT NULL COMMENT '运营商',
+  `net_type` VARCHAR(100) NOT NULL COMMENT '网络类型', -- 4G，5G，6G
+  `name_status` VARCHAR(100) COMMENT '实名状态', -- 1:已实名 2:未实名 3:待实名 4:实名失败
+  `online_status` VARCHAR(100)  COMMENT '是否在线', -- 1:在线 2:离线
+  `flow_status` VARCHAR(100)  COMMENT '卡流量状态', -- 1:正常 2:欠费 3:停机 4:销号 5:待激活 6:未知
+  `sim_type` VARCHAR(100) COMMENT '卡类型', -- 1:本地卡 2:云卡
+  `imei` VARCHAR(100)  COMMENT 'imei',
+  `flow_used` VARCHAR(100)  COMMENT '已使用流量', -- 单位：MB
+  `flow_remain` VARCHAR(100)  COMMENT '剩余流量', -- 单位：MB
+  `flow_used_day` VARCHAR(100) COMMENT '今日已使用流量', -- 单位：MB
+  `remark` VARCHAR(100) COMMENT '备注',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`iccid`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
