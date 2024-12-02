@@ -53,9 +53,9 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_t` (
   PRIMARY KEY (`iccid`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
--- 设备类型
+-- 设备类型(租户级)
 CREATE TABLE IF NOT EXISTS `tpl_mifi_device_type_t` (
-  `tenant_id` VARCHAR(30) NOT NULL COMMENT '租户ID',
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
   `type_id` VARCHAR(100) NOT NULL COMMENT '设备类型ID',
   `type_name` VARCHAR(100) NOT NULL COMMENT '设备名称',
   `type_code` VARCHAR(100) NOT NULL COMMENT '设备编码',
@@ -71,4 +71,18 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_type_t` (
   `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   PRIMARY KEY (`type_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- 设备分组（商户级）
+CREATE TABLE IF NOT EXISTS `tpl_mifi_device_group_t` (
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
+  `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
+  `group_id` VARCHAR(100) NOT NULL COMMENT '分组ID',
+  `group_name` VARCHAR(100) NOT NULL COMMENT '分组名称',
+  `remark` VARCHAR(100) COMMENT '备注',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;

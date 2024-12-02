@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.mifi.device.dao.IDeviceGroupDao">
+
+    <delete id="deleteDeviceGroup">
+        delete from tpl_mifi_device_group_t
+        where group_id = #{groupId,jdbcType=VARCHAR}
+        and tenant_id = #{tenantId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="createDeviceGroup">
+        insert into tpl_mifi_device_group_t
+        (tenant_id, enterprise_id,
+        group_id, group_name,
+        remark, status,
+        created_time, updated_time,
+        created_by, updated_by)
+        values
+        (#{tenantId,jdbcType=VARCHAR},
+        #{currentEnterpriseId,jdbcType=VARCHAR},
+        #{groupId,jdbcType=VARCHAR},
+        #{groupName,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR},
+        #{status,jdbcType=VARCHAR},
+        now(),
+        now(),
+        #{currentUserId,jdbcType=VARCHAR},
+        #{currentUserId,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="findPageDeviceGroupResult"
+            resultType="com.stone.it.rcms.mifi.device.vo.DeviceGroupVO">
+        <include refid="query_base"/>
+        <include refid="query_page_condition"/>
+        order by created_time desc
+        limit #{param2.startIndex}, #{param2.endIndex}
+    </select>
+    <select id="findPageDeviceGroupResultCount" resultType="int">
+        select count(1) from tpl_mifi_device_group_t
+        <include refid="query_page_condition"/>
+    </select>
+
+    <select id="findDeviceGroupDetail"
+            resultType="com.stone.it.rcms.mifi.device.vo.DeviceGroupVO">
+        <include refid="query_base"/>
+        where group_id = #{id,jdbcType=VARCHAR}
+        and tenant_id = #{tenantId,jdbcType=VARCHAR}
+    </select>
+
+    <sql id="query_base">
+        select
+        tenant_id as tenantId,
+        enterprise_id as enterpriseId,
+        group_id as groupId, group_name as groupName, remark,status,
+        created_time as createDate, updated_time as updateDate,
+        created_by as createBy, updated_by as updateBy
+        from tpl_mifi_device_group_t
+    </sql>
+    <sql id="query_page_condition">
+        <where>
+            tenant_id = #{param1.tenantId,jdbcType=VARCHAR}
+            and enterprise_id = #{param1.currentEnterpriseId,jdbcType=VARCHAR}
+            <if test="param1.groupName != null and param1.groupName != ''">
+                and group_name like CONCAT('%',#{param1.groupName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.status != null and param1.status != ''">
+                and status = #{param1.status,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.groupId != null and param1.groupId != ''">
+                and group_id = #{param1.groupId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+    <update id="updateDeviceGroup">
+        update tpl_mifi_device_group_t
+        set
+        <if test="groupName != null and groupName != ''">
+            group_name = #{groupName,jdbcType=VARCHAR},
+        </if>
+        <if test="remark != null and remark != ''">
+            remark = #{remark,jdbcType=VARCHAR},
+        </if>
+        updated_time = now(),
+        updated_by = #{currentUserId,jdbcType=VARCHAR}
+        where group_id = #{groupId,jdbcType=VARCHAR}
+    </update>
+</mapper>

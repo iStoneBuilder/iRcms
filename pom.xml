@@ -58,6 +58,7 @@
     <module>micro.rcms.work.mifi</module>
     <module>micro.rcms.core.file</module>
     <module>micro.rcms.api.cron.start</module>
+      <module>micro.rcms.core.common</module>
   </modules>
 
   <packaging>pom</packaging>

@@ -4,6 +4,7 @@ import com.stone.it.rcms.core.annotate.RcmsMethod;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.mifi.device.vo.DeviceTypeVO;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -34,8 +35,14 @@ public interface IDeviceTypeService {
     @Path("/records/page/{curPage}/{pageSize}")
     @RcmsMethod(name = "设备类型.分页查询")
     @RequiresPermissions("permission:device-type:page-query")
-    PageResult<DeviceTypeVO> findDeviceTypePageResult(@QueryParam("") DeviceTypeVO deviceTypeVO,
+    PageResult<DeviceTypeVO> findPageDeviceTypeResult(@QueryParam("") DeviceTypeVO deviceTypeVO,
         @PathParam("") PageVO pageVO);
+
+    @GET
+    @Path("/records")
+    @RcmsMethod(name = "设备类型.列表查询")
+    @RequiresPermissions("permission:device-type:list-query")
+    List<DeviceTypeVO> findDeviceTypeList(@QueryParam("") DeviceTypeVO deviceTypeVO);
 
     @GET
     @Path("/records/{device_type_id}")

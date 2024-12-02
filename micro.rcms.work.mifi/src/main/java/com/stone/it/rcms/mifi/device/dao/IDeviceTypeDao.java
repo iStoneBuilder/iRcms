@@ -3,6 +3,7 @@ package com.stone.it.rcms.mifi.device.dao;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.mifi.device.vo.DeviceTypeVO;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -22,4 +23,6 @@ public interface IDeviceTypeDao {
     int updateDeviceType(DeviceTypeVO deviceTypeVO);
 
     int deleteDeviceType(DeviceTypeVO deviceTypeVO);
+
+    List<DeviceTypeVO> findDeviceTypeList(DeviceTypeVO deviceTypeVO);
 }

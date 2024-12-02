@@ -8,6 +8,7 @@ import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.mifi.device.dao.IDeviceTypeDao;
 import com.stone.it.rcms.mifi.device.service.IDeviceTypeService;
 import com.stone.it.rcms.mifi.device.vo.DeviceTypeVO;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -24,8 +25,13 @@ public class DeviceTypeService implements IDeviceTypeService {
     private IDeviceTypeDao deviceTypeDao;
 
     @Override
-    public PageResult<DeviceTypeVO> findDeviceTypePageResult(DeviceTypeVO deviceTypeVO, PageVO pageVO) {
+    public PageResult<DeviceTypeVO> findPageDeviceTypeResult(DeviceTypeVO deviceTypeVO, PageVO pageVO) {
         return deviceTypeDao.findDeviceTypePageResult(deviceTypeVO, pageVO);
+    }
+
+    @Override
+    public List<DeviceTypeVO> findDeviceTypeList(DeviceTypeVO deviceTypeVO) {
+        return deviceTypeDao.findDeviceTypeList(deviceTypeVO);
     }
 
     @Override

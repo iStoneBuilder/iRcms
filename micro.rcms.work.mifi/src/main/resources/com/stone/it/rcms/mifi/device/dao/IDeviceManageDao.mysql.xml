@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.mifi.device.dao.IDeviceManageDao">
+
+    <select id="findPageDeviceResult" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO"></select>
+
+    <select id="findDeviceDetail" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO"></select>
+
+    <select id="findExistDevice" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO"></select>
+
+    <insert id="createDevice"></insert>
+
+    <update id="updateDevice"></update>
+
+    <delete id="deleteDevice"></delete>
+
+</mapper>
