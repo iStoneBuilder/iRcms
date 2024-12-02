@@ -53,3 +53,22 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_t` (
   PRIMARY KEY (`iccid`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
+-- 设备类型
+CREATE TABLE IF NOT EXISTS `tpl_mifi_device_type_t` (
+  `tenant_id` VARCHAR(30) NOT NULL COMMENT '租户ID',
+  `type_id` VARCHAR(100) NOT NULL COMMENT '设备类型ID',
+  `type_name` VARCHAR(100) NOT NULL COMMENT '设备名称',
+  `type_code` VARCHAR(100) NOT NULL COMMENT '设备编码',
+  `sell_name` VARCHAR(100) NOT NULL COMMENT '销售名称',
+  `device_no` VARCHAR(10) NOT NULL COMMENT '设备型号',
+  `card_mode` VARCHAR(4) NOT NULL COMMENT '卡模式',
+  `main_pic` VARCHAR(100) COMMENT '设备主图',
+  `devi_pic` VARCHAR(100) COMMENT '设备图',
+  `status` VARCHAR(2) NOT NULL COMMENT '状态',
+  `remark` VARCHAR(100) COMMENT '备注',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`type_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
