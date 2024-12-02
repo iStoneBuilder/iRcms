@@ -1,6 +1,8 @@
 package com.stone.it.rcms.mifi.device.service.impl;
 
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
+import com.stone.it.rcms.core.util.DateUtil;
+import com.stone.it.rcms.core.util.RandomUtil;
 import com.stone.it.rcms.core.util.UserUtil;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
@@ -54,6 +56,7 @@ public class DeviceManageService implements IDeviceManageService {
         List<DeviceVO> exists = deviceManageDao.findExistDevice(list);
         List<DeviceVO> noExists = new ArrayList<>();
         List<String> existSn = new ArrayList<>();
+        String batchNo = DateUtil.formatDate();
         for (DeviceVO vo : list) {
             boolean exist = false;
             for (DeviceVO iExist : exists) {
@@ -66,6 +69,10 @@ public class DeviceManageService implements IDeviceManageService {
                 continue;
             }
             existSn.add(vo.getDeviceSn());
+            // 设置批次号
+            vo.setBatchNo(batchNo);
+            vo.setOnline("offline");
+            vo.setCardStrategy("auto");
             noExists.add(vo);
         }
         if (noExists.isEmpty()) {

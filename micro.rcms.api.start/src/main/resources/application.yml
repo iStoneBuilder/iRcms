@@ -13,7 +13,7 @@ spring:
   # 数据库信息配置
   datasource:
     name: rcms
-    url: jdbc:mysql://127.0.0.1:3306/rcms
+    url: jdbc:mysql://127.0.0.1:3306/rcms?allowMultiQueries=true
     username: root
     password: max756423
     driver-class-name: com.mysql.jdbc.Driver

@@ -32,7 +32,8 @@ public class SimVO extends BaseVO {
     private String flowStatus;
     // 卡类型 本地卡
     private String simType;
-    private String imei;
+    // 物联网号
+    private String msisdn;
     // 已使用流量
     private String flowUsed;
     // 剩余流量

@@ -3,16 +3,158 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.stone.it.rcms.mifi.device.dao.IDeviceManageDao">
 
-    <select id="findPageDeviceResult" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO"></select>
+    <sql id="query_base">
+        SELECT
+        tenant_id as tenantId,
+        enterprise_id as enterpriseId,
+        device_sn as deviceSn,
+        imei,
+        net_mode as netMode,
+        on_line as online,
+        device_type as deviceType,
+        device_group as deviceGroup,
+        card_strategy as cardStrategy,
+        flow_mode as flowMode,
+        batch_No as batchNo,
+        check_Status as checkStatus,
+        device_Status as deviceStatus,
+        test_flow,
+        remark,
+        CREATED_TIME as createDate,
+        CREATED_BY as createBy,
+        UPDATED_TIME as updateDate,
+        UPDATED_BY as updateBy
+        FROM
+        tpl_mifi_device_t
+    </sql>
+    <sql id="query_page_condition">
+        <where>
+            tenant_id = #{param1.tenantId,jdbcType=VARCHAR}
+            <if test="param1.deviceSn != null and param1.deviceSn != ''">
+                and device_sn like concat('%',#{param1.deviceSn,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.imei != null and param1.imei != ''">
+                and imei like concat('%',#{param1.imei,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.netMode != null and param1.netMode != ''">
+                and net_mode = #{param1.netMode,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.online != null and param1.online != ''">
+                and on_line = #{param1.online,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.deviceType != null and param1.deviceType != ''">
+                and device_type = #{param1.deviceType,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.deviceGroup != null and param1.deviceGroup != ''">
+                and device_group = #{param1.deviceGroup,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.cardStrategy != null and param1.cardStrategy != ''">
+                and card_strategy = #{param1.cardStrategy,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.flowMode != null and param1.flowMode != ''">
+                and flow_mode = #{param1.flowMode,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.batchNo != null and param1.batchNo != ''">
+                batch_No = #{param1.batchNo,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.checkStatus != null and param1.checkStatus != ''">
+                and check_Status = #{param1.checkStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.deviceStatus != null and param1.deviceStatus != ''">
+                and device_Status = #{param1.deviceStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.enterpriseId != null and param1.enterpriseId != ''">
+                and enterprise_id = #{param1.enterpriseId,jdbcType=VARCHAR}
+            </if>
+            <if test="param3.size() != 0">
+                and enterprise_id in
+                <foreach close=")" collection="param3" item="item" open="(" separator=",">
+                    #{item.id,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+    <select id="findPageDeviceResult" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO">
+        <include refid="query_base"/>
+        <include refid="query_page_condition"/>
+        order by CREATED_TIME desc
+        limit #{param2.startIndex,jdbcType=INTEGER},#{param2.endIndex,jdbcType=INTEGER}
+    </select>
+    <select id="findPageDeviceResultCount" resultType="java.lang.Integer">
+        select count(1) from tpl_mifi_device_t
+        <include refid="query_page_condition"/>
+    </select>
 
-    <select id="findDeviceDetail" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO"></select>
+    <select id="findDeviceDetail" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO">
+        <include refid="query_base"/>
+        where device_id = #{deviceSn,jdbcType=VARCHAR}
+    </select>
 
-    <select id="findExistDevice" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO"></select>
+    <select id="findExistDevice" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO">
+        <include refid="query_base"/>
+        where device_sn in
+        <foreach close=")" collection="list" item="item" open="(" separator=",">
+            #{item.deviceSn,jdbcType=VARCHAR}
+        </foreach>
+    </select>
 
-    <insert id="createDevice"></insert>
+    <insert id="createDevice">
+        INSERT INTO
+        tpl_mifi_device_t
+        (
+        tenant_id,
+        enterprise_id,
+        device_sn,
+        imei,
+        net_mode,
+        on_line,
+        device_type,
+        device_group,
+        card_strategy,
+        flow_mode,
+        batch_No,
+        check_Status,
+        device_Status,
+        test_flow,
+        remark,
+        CREATED_TIME,
+        CREATED_BY,
+        UPDATED_TIME,
+        UPDATED_BY
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.tenantId,jdbcType=VARCHAR},
+            #{item.currentEnterpriseId,jdbcType=VARCHAR},
+            #{item.deviceSn,jdbcType=VARCHAR},
+            #{item.imei,jdbcType=VARCHAR},
+            #{item.netMode,jdbcType=VARCHAR},
+            #{item.online,jdbcType=VARCHAR},
+            #{item.deviceType,jdbcType=VARCHAR},
+            #{item.deviceGroup,jdbcType=VARCHAR},
+            #{item.cardStrategy,jdbcType=VARCHAR},
+            #{item.flowMode,jdbcType=VARCHAR},
+            #{item.batchNo,jdbcType=VARCHAR},
+            #{item.checkStatus,jdbcType=VARCHAR},
+            #{item.deviceStatus,jdbcType=VARCHAR},
+            #{item.testFlow,jdbcType=VARCHAR},
+            #{item.remark,jdbcType=VARCHAR},
+            now(),
+            #{item.currentUserId,jdbcType=VARCHAR},
+            now(),
+            #{item.currentUserId,jdbcType=VARCHAR}
+            )
+        </foreach>
 
-    <update id="updateDevice"></update>
+    </insert>
 
-    <delete id="deleteDevice"></delete>
+    <update id="updateDevice">
+
+    </update>
+
+    <delete id="deleteDevice">
+        delete from tpl_mifi_device_t
+        where device_id = #{deviceSn,jdbcType=VARCHAR}
+    </delete>
 
 </mapper>

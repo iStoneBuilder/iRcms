@@ -4,6 +4,7 @@ import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.mifi.common.vo.CommonVO;
 import com.stone.it.rcms.mifi.device.vo.DeviceVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,15 +16,16 @@ import java.util.List;
  */
 public interface IDeviceManageDao {
 
-    PageResult<DeviceVO> findPageDeviceResult(DeviceVO vo, PageVO pageVO, List<CommonVO> list);
+    PageResult<DeviceVO> findPageDeviceResult(@Param("param1") DeviceVO vo, @Param("param2") PageVO pageVO,
+        @Param("param3") List<CommonVO> list);
 
-    DeviceVO findDeviceDetail(String deviceSn);
+    DeviceVO findDeviceDetail(@Param("deviceSn") String deviceSn);
 
-    List<DeviceVO> findExistDevice(List<DeviceVO> list);
+    List<DeviceVO> findExistDevice(@Param("list") List<DeviceVO> list);
 
-    int createDevice(List<DeviceVO> list);
+    int createDevice(@Param("list") List<DeviceVO> list);
 
     int updateDevice(DeviceVO vo);
 
-    int deleteDevice(String deviceSn);
+    int deleteDevice(@Param("deviceSn") String deviceSn);
 }

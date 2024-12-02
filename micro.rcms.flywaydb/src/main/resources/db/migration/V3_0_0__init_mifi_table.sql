@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_t` (
   `online_status` VARCHAR(100)  COMMENT '是否在线', -- 1:在线 2:离线
   `flow_status` VARCHAR(100)  COMMENT '卡流量状态', -- 1:正常 2:欠费 3:停机 4:销号 5:待激活 6:未知
   `sim_type` VARCHAR(100) COMMENT '卡类型', -- 1:本地卡 2:云卡
-  `imei` VARCHAR(100)  COMMENT 'imei',
+  `msisdn` VARCHAR(100)  COMMENT '物联网号',
   `flow_used` VARCHAR(100)  COMMENT '已使用流量', -- 单位：MB
   `flow_remain` VARCHAR(100)  COMMENT '剩余流量', -- 单位：MB
   `flow_used_day` VARCHAR(100) COMMENT '今日已使用流量', -- 单位：MB
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_type_t` (
   `type_name` VARCHAR(100) NOT NULL COMMENT '设备名称',
   `type_code` VARCHAR(100) NOT NULL COMMENT '设备编码',
   `sell_name` VARCHAR(100) NOT NULL COMMENT '销售名称',
-  `device_no` VARCHAR(10) NOT NULL COMMENT '设备型号',
+  `device_no` VARCHAR(100) NOT NULL COMMENT '设备型号',
   `card_mode` VARCHAR(4) NOT NULL COMMENT '卡模式',
   `main_pic` VARCHAR(100) COMMENT '设备主图',
   `devi_pic` VARCHAR(100) COMMENT '设备图',
@@ -86,3 +86,28 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_group_t` (
   `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   PRIMARY KEY (`group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- 设备信息（商户级）
+CREATE TABLE IF NOT EXISTS `tpl_mifi_device_t` (
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
+  `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
+  `device_sn` VARCHAR(100) NOT NULL COMMENT '设备sn',
+  `imei` VARCHAR(100)  COMMENT 'imei',
+  `net_mode` VARCHAR(100) NOT NULL COMMENT '上网模式',
+  `on_line` VARCHAR(100)  COMMENT '在线？',
+  `device_type` VARCHAR(100) NOT NULL COMMENT '设备类型',
+  `device_group` VARCHAR(100) COMMENT '设备分组',
+  `card_strategy` VARCHAR(100) NOT NULL COMMENT '选卡策略',
+  `flow_mode` VARCHAR(100) NOT NULL COMMENT '流量模式',
+  `batch_No` VARCHAR(100) NOT NULL COMMENT '入库批次号',
+  `check_Status` VARCHAR(100) COMMENT '检测状态',
+  `device_Status` VARCHAR(100) COMMENT '设备状态',
+  `test_flow` VARCHAR(100)  COMMENT '测试流量',
+  `remark` VARCHAR(100) COMMENT '备注',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`device_sn`)
+  ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+

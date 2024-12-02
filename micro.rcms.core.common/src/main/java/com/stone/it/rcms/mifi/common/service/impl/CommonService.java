@@ -7,6 +7,7 @@ import com.stone.it.rcms.mifi.common.service.ICommonService;
 import com.stone.it.rcms.mifi.common.vo.CommonVO;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ import java.util.List;
  * @Date 2024/12/2
  * @Desc
  */
+@Named
 public class CommonService implements ICommonService {
 
     @Inject

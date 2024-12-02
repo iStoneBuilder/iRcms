@@ -37,6 +37,8 @@ public class DeviceVO extends BaseVO {
     private String deviceStatus;
     // 测试流量
     private String testFlow;
+    // 备注
+    private String remark;
     // 贴片卡ICCID
     private String iccid;
     // 贴片卡2ICCID
