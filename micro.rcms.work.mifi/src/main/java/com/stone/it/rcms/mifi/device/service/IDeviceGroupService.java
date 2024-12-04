@@ -17,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
+import java.util.List;
+
 /**
  * 设备分组
  * 
@@ -36,6 +38,12 @@ public interface IDeviceGroupService {
     @RequiresPermissions("permission:device-group:page-query")
     PageResult<DeviceGroupVO> findPageDeviceGroupResult(@QueryParam("") DeviceGroupVO groupVO,
         @PathParam("") PageVO pageVO);
+
+    @GET
+    @Path("/records")
+    @RcmsMethod(name = "设备分组.列表")
+    @RequiresPermissions("permission:device-group:list-query")
+    List<DeviceGroupVO> findDeviceGroupList(@QueryParam("") DeviceGroupVO groupVO);
 
     @GET
     @Path("/records/{group_id}")

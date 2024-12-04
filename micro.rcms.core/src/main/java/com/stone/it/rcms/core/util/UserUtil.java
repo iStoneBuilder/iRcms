@@ -52,4 +52,5 @@ public class UserUtil {
         }
         throw new RcmsApplicationException(500, "服务异常，请联系管理员！", ERROR_NO_ENTERPRISE_ID);
     }
+
 }

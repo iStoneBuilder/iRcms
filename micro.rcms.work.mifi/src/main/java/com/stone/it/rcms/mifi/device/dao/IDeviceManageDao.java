@@ -28,4 +28,6 @@ public interface IDeviceManageDao {
     int updateDevice(DeviceVO vo);
 
     int deleteDevice(@Param("deviceSn") String deviceSn);
+
+    int setDeviceGroup(@Param("list") List<DeviceVO> list);
 }

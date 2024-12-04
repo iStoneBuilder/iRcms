@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_merchant_carrier_t` (
   PRIMARY KEY ( `carrier_code`, `merchant_code`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
--- SIM 卡
+-- SIM 卡（企租级数据）
 CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_t` (
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
   `iccid` VARCHAR(100) NOT NULL COMMENT 'ICCID', -- 20位
@@ -111,3 +111,34 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_t` (
   PRIMARY KEY (`device_sn`)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
+-- 套餐配置 (商户级)
+CREATE TABLE IF NOT EXISTS `tpl_mifi_data_plan_t` (
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
+  `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
+  `data_plan_no` VARCHAR(100) NOT NULL COMMENT '套餐编号',
+  `data_plan_name` VARCHAR(100) NOT NULL COMMENT '套餐名称',
+  `data_plan_pic` VARCHAR(100) COMMENT '套餐图片',
+  `data_plan_type` VARCHAR(100) NOT NULL COMMENT '套餐类型(国内套餐/国际套餐)',
+  `data_plan_cost` VARCHAR(100) NOT NULL COMMENT '套餐成本',
+  `data_plan_price` DECIMAL(10, 2) NOT NULL COMMENT '套餐价格',
+  `data_plan_flow` DECIMAL(10, 2) NOT NULL COMMENT '套餐流量',
+  `data_plan_void_flow` DECIMAL(10, 2) NOT NULL COMMENT '套餐虚量',
+  `charge_type` VARCHAR(100) NOT NULL COMMENT '计费类型',
+  `valid_duration` VARCHAR(100) NOT NULL COMMENT '有效时长',
+  `limit_speed` VARCHAR(100) NOT NULL COMMENT '是否限速',
+  `gift_duration` VARCHAR(100) NOT NULL COMMENT '赠送月份',
+  `is_sale` VARCHAR(100) NOT NULL COMMENT '是否上架',
+  `limit_no` VARCHAR(100) NOT NULL COMMENT '限制购买次数',
+  `is_gift` VARCHAR(100) NOT NULL COMMENT '是否赠送',
+  `is_recommend` VARCHAR(100) NOT NULL COMMENT '是否推荐',
+  `data_plan_group` VARCHAR(100) COMMENT '套餐组',
+  `data_plan_rules` VARCHAR(2000) NOT NULL COMMENT '套餐规则',
+  `sort` VARCHAR(100) COMMENT '排序',
+  `sale_device_type` VARCHAR(1000) COMMENT '售卖设备类型',
+  `sale_device_group` VARCHAR(1000) COMMENT '售卖设备组',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`data_plan_no`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;

@@ -5,11 +5,15 @@ import com.stone.it.rcms.core.util.RandomUtil;
 import com.stone.it.rcms.core.util.UserUtil;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
+import com.stone.it.rcms.mifi.common.service.ICommonService;
+import com.stone.it.rcms.mifi.common.vo.CommonVO;
 import com.stone.it.rcms.mifi.device.dao.IDeviceGroupDao;
 import com.stone.it.rcms.mifi.device.service.IDeviceGroupService;
 import com.stone.it.rcms.mifi.device.vo.DeviceGroupVO;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -23,9 +27,27 @@ public class DeviceGroupService implements IDeviceGroupService {
     @Inject
     private IDeviceGroupDao deviceGroupDao;
 
+    @Inject
+    private ICommonService commonService;
+
     @Override
     public PageResult<DeviceGroupVO> findPageDeviceGroupResult(DeviceGroupVO groupVO, PageVO pageVO) {
-        return deviceGroupDao.findPageDeviceGroupResult(groupVO, pageVO);
+        // 没有传商户过滤，获取商户及商户下的所有商户
+        List<CommonVO> list = new ArrayList<>();
+        if (groupVO.getEnterpriseId() == null) {
+            list = commonService.findEnterpriseListByParentId(groupVO.getCurrentEnterpriseId());
+        }
+        return deviceGroupDao.findPageDeviceGroupResult(groupVO, pageVO, list);
+    }
+
+    @Override
+    public List<DeviceGroupVO> findDeviceGroupList(DeviceGroupVO groupVO) {
+        // 没有传商户过滤，获取商户及商户下的所有商户
+        List<CommonVO> list = new ArrayList<>();
+        if (groupVO.getEnterpriseId() == null) {
+            list = commonService.findEnterpriseListByParentId(groupVO.getCurrentEnterpriseId());
+        }
+        return deviceGroupDao.findDeviceGroupList(groupVO, list);
     }
 
     @Override

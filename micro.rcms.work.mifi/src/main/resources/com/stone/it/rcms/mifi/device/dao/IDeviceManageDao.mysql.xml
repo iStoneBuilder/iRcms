@@ -55,7 +55,7 @@
                 and flow_mode = #{param1.flowMode,jdbcType=VARCHAR}
             </if>
             <if test="param1.batchNo != null and param1.batchNo != ''">
-                batch_No = #{param1.batchNo,jdbcType=VARCHAR}
+                batch_No like concat('%',#{param1.batchNo,jdbcType=VARCHAR},'%')
             </if>
             <if test="param1.checkStatus != null and param1.checkStatus != ''">
                 and check_Status = #{param1.checkStatus,jdbcType=VARCHAR}
@@ -156,5 +156,15 @@
         delete from tpl_mifi_device_t
         where device_id = #{deviceSn,jdbcType=VARCHAR}
     </delete>
+
+    <update id="setDeviceGroup">
+        <foreach collection="list" item="item" separator=",">
+            update tpl_mifi_device_t
+            set device_group = #{item.deviceGroup,jdbcType=VARCHAR},
+            UPDATED_TIME = now(),
+            UPDATED_BY = #{item.currentUserId,jdbcType=VARCHAR}
+            where device_sn = #{item.deviceSn,jdbcType=VARCHAR}
+        </foreach>
+    </update>
 
 </mapper>

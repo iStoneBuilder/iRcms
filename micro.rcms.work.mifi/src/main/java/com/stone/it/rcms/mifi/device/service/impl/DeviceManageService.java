@@ -65,20 +65,28 @@ public class DeviceManageService implements IDeviceManageService {
                     break;
                 }
             }
-            if (existSn.contains(vo.getDeviceSn())) {
-                continue;
+            if (!exist) {
+                // 避免excel重复
+                if (existSn.contains(vo.getDeviceSn())) {
+                    continue;
+                }
+                existSn.add(vo.getDeviceSn());
+                // 设置批次号
+                vo.setBatchNo(batchNo);
+                vo.setOnline("offline");
+                vo.setCardStrategy("auto");
+                noExists.add(vo);
             }
-            existSn.add(vo.getDeviceSn());
-            // 设置批次号
-            vo.setBatchNo(batchNo);
-            vo.setOnline("offline");
-            vo.setCardStrategy("auto");
-            noExists.add(vo);
         }
         if (noExists.isEmpty()) {
             return 0;
         }
         return deviceManageDao.createDevice(noExists);
+    }
+
+    @Override
+    public int setDeviceGroup(List<DeviceVO> list) {
+        return deviceManageDao.setDeviceGroup(list);
     }
 
     @Override

@@ -43,6 +43,12 @@ public interface IDeviceManageService {
     int createDevice(List<DeviceVO> list);
 
     @PUT
+    @Path("/records/group")
+    @RcmsMethod(name = "终端设备.分组")
+    @RequiresPermissions("permission:device-manage:group")
+    int setDeviceGroup(List<DeviceVO> list);
+
+    @PUT
     @Path("/records/{device_sn}")
     @RcmsMethod(name = "终端设备.更新")
     @RequiresPermissions("permission:device-manage:update")
