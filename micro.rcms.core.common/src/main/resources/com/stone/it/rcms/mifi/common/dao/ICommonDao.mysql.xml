@@ -19,7 +19,7 @@
 
     <sql id="query_enterprise_base">
         SELECT
-        parent_id as pId,
+        parent_id as parentId,
         id,
         name
         FROM

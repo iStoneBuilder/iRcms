@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class CommonVO {
 
-    private String pId;
+    private String parentId;
     private String id;
     private String name;
     private String code;
