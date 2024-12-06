@@ -1,5 +1,6 @@
 package com.stone.it.rcms.base.dao;
 
+import com.stone.it.rcms.base.vo.RoleVO;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.core.vo.PermissionVO;
@@ -25,4 +26,11 @@ public interface IPermissionDao {
     List<PermissionVO> findCurrentServiceApiByServiceCode(@Param("serviceCode") String serviceCode);
 
     int deletePermissionNotExist(@Param("list") List<PermissionVO> list, @Param("serviceCode") String serviceCode);
+
+    int deleteRolePermission(@Param("roleCode") String roleCode);
+
+    int deleteRolePermissionNotExist(@Param("pList") List<PermissionVO> permissionList,
+        @Param("rList") List<RoleVO> roleList);
+
+    List<PermissionVO> findRolePermissionList(RoleVO roleVO);
 }

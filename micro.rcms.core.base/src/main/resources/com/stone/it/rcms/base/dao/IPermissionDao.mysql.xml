@@ -1,132 +1,162 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.stone.it.rcms.base.dao.IPermissionDao">
 
-  <delete id="deleteApisRelationAuth">
-    delete from
-    tpl_fram_role_permission_t rp
-    where rp.service_code = #{serviceCode}
-    and (rp.auth_code not in
-    (
-    select auth_code
-    from tpl_fram_permission_t p
-    where p.service_code = #{serviceCode}
-    and p.auth_code is not null
-    )or rp.role_code = "platformAdmin")
-  </delete>
+    <delete id="deleteApisRelationAuth">
+        delete from
+        tpl_fram_role_permission_t rp
+        where rp.service_code = #{serviceCode}
+        and (rp.auth_code not in
+        (
+        select auth_code
+        from tpl_fram_permission_t p
+        where p.service_code = #{serviceCode}
+        and p.auth_code is not null
+        )or rp.role_code = "platformAdmin")
+    </delete>
 
-  <delete id="deletePermissionNotExist">
-    delete from tpl_fram_permission_t
-    where service_code = #{serviceCode}
-    and concat_ws('_', api_method, api_path) not in
-    <foreach close=")" collection="list" item="item" open="(" separator=",">
-      concat_ws('_', #{item.method}, #{item.path})
-    </foreach>
-  </delete>
-  <insert id="createPermission">
-    insert into
-    tpl_fram_permission_t(
-    service_code,auth_code,api_code,api_name,api_path,api_method,api_type,open_api,created_time,updated_time,created_by,updated_by)
-    values
-    <foreach collection="list" item="item" separator=",">
-      (
-      #{item.serviceCode,jdbcType=VARCHAR},
-      #{item.authCode,jdbcType=VARCHAR},
-      #{item.code,jdbcType=VARCHAR},
-      #{item.name,jdbcType=VARCHAR},
-      #{item.path,jdbcType=VARCHAR},
-      #{item.method,jdbcType=VARCHAR},
-      #{item.type,jdbcType=VARCHAR},
-      #{item.isOpenApi,jdbcType=VARCHAR},
-      now(),now(),
-      #{createBy,jdbcType=VARCHAR},
-      #{createBy,jdbcType=VARCHAR}
-      )
-    </foreach>
-  </insert>
+    <delete id="deletePermissionNotExist">
+        delete from tpl_fram_permission_t
+        where service_code = #{serviceCode}
+        and concat_ws('_', api_method, api_path) not in
+        <foreach close=")" collection="list" item="item" open="(" separator=",">
+            concat_ws('_', #{item.method}, #{item.path})
+        </foreach>
+    </delete>
+    <insert id="createPermission">
+        insert into
+        tpl_fram_permission_t(
+        service_code,auth_code,api_code,api_name,api_path,api_method,api_type,open_api,created_time,updated_time,created_by,updated_by)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.serviceCode,jdbcType=VARCHAR},
+            #{item.authCode,jdbcType=VARCHAR},
+            #{item.code,jdbcType=VARCHAR},
+            #{item.name,jdbcType=VARCHAR},
+            #{item.path,jdbcType=VARCHAR},
+            #{item.method,jdbcType=VARCHAR},
+            #{item.type,jdbcType=VARCHAR},
+            #{item.isOpenApi,jdbcType=VARCHAR},
+            now(),now(),
+            #{createBy,jdbcType=VARCHAR},
+            #{createBy,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
 
-  <insert id="createRolePermission">
-    insert into
-    tpl_fram_role_permission_t
-    (service_code,
-    role_code,
-    auth_code,
-    created_time,
-    updated_time,
-    created_by,
-    updated_by)
-    values
-    <foreach collection="list" item="item" separator=",">
-      (#{item.serviceCode,jdbcType=VARCHAR},
-      #{roleCode,jdbcType=VARCHAR},
-      #{item.authCode,jdbcType=VARCHAR},
-      now(),now(),
-      #{createBy,jdbcType=VARCHAR},
-      #{createBy,jdbcType=VARCHAR})
-    </foreach>
-  </insert>
+    <insert id="createRolePermission">
+        insert into
+        tpl_fram_role_permission_t
+        (service_code,
+        role_code,
+        auth_code,
+        created_time,
+        updated_time,
+        created_by,
+        updated_by)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.serviceCode,jdbcType=VARCHAR},
+            #{roleCode,jdbcType=VARCHAR},
+            #{item.authCode,jdbcType=VARCHAR},
+            now(),now(),
+            #{createBy,jdbcType=VARCHAR},
+            #{createBy,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
 
-  <select id="findPermissionPageResult"
-    resultType="com.stone.it.rcms.core.vo.PermissionVO">
-    <include refid="query_base"/>
-    <include refid="query_condition"/>
-    order by api_name desc,auth_code desc
-    limit #{param2.startIndex}, #{param2.endIndex}
-  </select>
+    <select id="findPermissionPageResult"
+            resultType="com.stone.it.rcms.core.vo.PermissionVO">
+        <include refid="query_base"/>
+        <include refid="query_condition"/>
+        order by api_name desc,auth_code desc
+        limit #{param2.startIndex}, #{param2.endIndex}
+    </select>
 
-  <select id="findPermissionPageResultCount" resultType="int">
-    select count(*) from tpl_fram_permission_t
-    <include refid="query_condition"/>
-  </select>
+    <select id="findPermissionPageResultCount" resultType="int">
+        select count(*) from tpl_fram_permission_t
+        <include refid="query_condition"/>
+    </select>
 
-  <select id="findCurrentServiceApiByServiceCode"
-    resultType="com.stone.it.rcms.core.vo.PermissionVO">
-    <include refid="query_base"/>
-    where service_code = #{serviceCode}
-  </select>
+    <select id="findCurrentServiceApiByServiceCode"
+            resultType="com.stone.it.rcms.core.vo.PermissionVO">
+        <include refid="query_base"/>
+        where service_code = #{serviceCode}
+    </select>
 
-  <sql id="query_condition">
-    <where>
-      1=1
-      <if test="param1.code!= null and param1.code!= ''">
-        and api_code like concat('%',#{param1.code,jdbcType=VARCHAR},'%')
-      </if>
-      <if test="param1.name!= null and param1.name!= ''">
-        and api_name like concat('%',#{param1.name,jdbcType=VARCHAR},'%')
-      </if>
-      <if test="param1.path!= null and param1.path!= ''">
-        and api_path like concat('%',#{param1.path,jdbcType=VARCHAR},'%')
-      </if>
-      <if test="param1.type!= null and param1.type!= ''">
-        and api_type = #{param1.type,jdbcType=VARCHAR}
-      </if>
-      <if test="param1.method!= null and param1.method!= ''">
-        and api_method = #{param1.method,jdbcType=VARCHAR}
-      </if>
-      <if test="param1.authCode!= null and param1.authCode!= ''">
-        and auth_code like concat('%',#{param1.authCode,jdbcType=VARCHAR},'%')
-      </if>
-      <if test="param1.isOpenApi!= null and param1.isOpenApi!= ''">
-        and open_api = #{param1.isOpenApi,jdbcType=VARCHAR}
-      </if>
-      <if test="param1.serviceCode!= null and param1.serviceCode!= ''">
-        and service_code = #{param1.serviceCode,jdbcType=VARCHAR}
-      </if>
-    </where>
-  </sql>
+    <sql id="query_condition">
+        <where>
+            1=1
+            <if test="param1.code!= null and param1.code!= ''">
+                and api_code like concat('%',#{param1.code,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.name!= null and param1.name!= ''">
+                and api_name like concat('%',#{param1.name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.path!= null and param1.path!= ''">
+                and api_path like concat('%',#{param1.path,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.type!= null and param1.type!= ''">
+                and api_type = #{param1.type,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.method!= null and param1.method!= ''">
+                and api_method = #{param1.method,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.authCode!= null and param1.authCode!= ''">
+                and auth_code like concat('%',#{param1.authCode,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.isOpenApi!= null and param1.isOpenApi!= ''">
+                and open_api = #{param1.isOpenApi,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.serviceCode!= null and param1.serviceCode!= ''">
+                and service_code = #{param1.serviceCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
 
-  <sql id="query_base">
-    select
-    api_code as code,
-    api_name as name,
-    api_path as path,
-    api_type as type,
-    api_method as method,
-    auth_code as authCode,
-    service_code as serviceCode,
-    open_api as isOpenApi
-    from tpl_fram_permission_t
-  </sql>
+    <sql id="query_base">
+        select
+        api_code as code,
+        api_name as name,
+        api_path as path,
+        api_type as type,
+        api_method as method,
+        auth_code as authCode,
+        service_code as serviceCode,
+        open_api as isOpenApi
+        from tpl_fram_permission_t
+    </sql>
+
+    <delete id="deleteRolePermission">
+        delete from tpl_fram_role_permission_t
+        where role_code = #{roleCode,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteRolePermissionNotExist">
+        delete from tpl_fram_role_permission_t
+        where role_code in
+        <foreach collection="rList" item="item" open="(" separator="," close=")">
+            #{item.code,jdbcType=VARCHAR}
+        </foreach>
+        and auth_code not in
+        <foreach collection="pList" item="item" open="(" separator="," close=")">
+            #{item.authCode,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <select id="findRolePermissionList" resultType="com.stone.it.rcms.core.vo.PermissionVO">
+        select
+        p.api_name as name,
+        p.auth_code as authCode,
+        p.service_code as serviceCode
+        from tpl_fram_role_permission_t rp left join
+        tpl_fram_permission_t p
+        on rp.auth_code = p.auth_code
+        where rp.role_code = #{code,jdbcType=VARCHAR}
+        and p.auth_code is not null
+        order by p.api_name desc,p.auth_code desc
+    </select>
 
 </mapper>

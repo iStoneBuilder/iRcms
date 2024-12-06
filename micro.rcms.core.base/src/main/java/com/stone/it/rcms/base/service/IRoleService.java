@@ -12,6 +12,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+
+import com.stone.it.rcms.core.vo.PermissionVO;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
@@ -28,43 +30,45 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 public interface IRoleService {
 
     /**
-     * 角色列表
-     *
-     * @return
+     * 角色查询（包含商户下所有角色）
      */
     @GET
     @Path("/records")
-    @RcmsMethod(name = "角色管理.列表查询")
+    @RcmsMethod(name = "角色管理.角色查询")
     @RequiresPermissions("permission:role:list:query")
     List<RoleVO> findRoleList(@QueryParam("") RoleVO roleVO);
 
     /**
-     * 角色列表
-     *
-     * @return
+     * 商户角色查询
      */
     @GET
     @Path("/records/list")
-    @RcmsMethod(name = "角色管理.下级查询")
-    @RequiresPermissions("permission:role:list2:query")
+    @RcmsMethod(name = "角色管理.商户角色查询")
+    @RequiresPermissions("permission:role:e-list:query")
     List<RoleVO> findEnterPriseRoleList(@QueryParam("") RoleVO roleVO);
 
     /**
-     * 查询企业(商户)列表
-     *
-     * @return
+     * 角色权限查询
      */
     @GET
-    @Path("/records/tree")
-    @RcmsMethod(name = "角色管理.Tree查询")
-    @RequiresPermissions("permission:role:tree:query")
-    List<RoleVO> findRoleTree(@QueryParam("") RoleVO roleVO);
+    @Path("/records/{role_id}/permissions")
+    @RcmsMethod(name = "角色管理.角色权限查询")
+    @RequiresPermissions("permission:role:permissions:query")
+    List<PermissionVO> findRolePermissionList(@PathParam("role_id") String roleId);
+
+    List<RoleVO> findRoleTree(RoleVO roleVO);
 
     /**
      * 创建角色
-     *
-     * @param roleVO
-     * @return
+     */
+    @POST
+    @Path("/records/{role_id}/authorize")
+    @RcmsMethod(name = "角色管理.授权")
+    @RequiresPermissions("permission:role:authorize")
+    int createRolePermission(@PathParam("role_id") String roleId, List<PermissionVO> permissionList);
+
+    /**
+     * 创建角色
      */
     @POST
     @Path("/records")
@@ -75,9 +79,6 @@ public interface IRoleService {
     /**
      * 更新角色
      *
-     * @param roleId
-     * @param roleVO
-     * @return
      */
     @PUT
     @Path("/records/{role_id}")
@@ -87,9 +88,6 @@ public interface IRoleService {
 
     /**
      * 删除角色
-     *
-     * @param roleId
-     * @return
      */
     @DELETE
     @Path("/records/{role_id}")

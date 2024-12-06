@@ -10,13 +10,15 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface IRoleDao {
 
-  int createRole(RoleVO roleVO);
+    int createRole(RoleVO roleVO);
 
-  int updateRole(RoleVO roleVO);
+    int updateRole(RoleVO roleVO);
 
-  int deleteRole(@Param("roleId") String roleId);
+    int deleteRole(@Param("roleId") String roleId);
 
-  List<RoleVO> findRoleByEnterpriseId(@Param("enterpriseId") String enterpriseId);
+    List<RoleVO> findRoleByEnterpriseId(@Param("enterpriseId") String enterpriseId);
 
-  List<RoleVO> findAllRoles();
+    List<RoleVO> findAllRoles();
+
+    RoleVO findRoleDetail(@Param("roleId") String roleId);
 }
