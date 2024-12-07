@@ -11,6 +11,7 @@ import com.stone.it.rcms.mifi.common.vo.CommonVO;
 import com.stone.it.rcms.mifi.device.dao.IDeviceManageDao;
 import com.stone.it.rcms.mifi.device.service.IDeviceManageService;
 import com.stone.it.rcms.mifi.device.vo.DeviceVO;
+import com.stone.it.rcms.mifi.sim.dao.ISimDao;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,6 +29,9 @@ public class DeviceManageService implements IDeviceManageService {
 
     @Inject
     private IDeviceManageDao deviceManageDao;
+
+    @Inject
+    private ISimDao simDao;
 
     @Inject
     private ICommonService commonService;
@@ -81,7 +85,10 @@ public class DeviceManageService implements IDeviceManageService {
         if (noExists.isEmpty()) {
             return 0;
         }
-        return deviceManageDao.createDevice(noExists);
+        deviceManageDao.createDevice(noExists);
+        // 关联ICCID
+        simDao.updateSimRelationship(noExists);
+        return 1;
     }
 
     @Override

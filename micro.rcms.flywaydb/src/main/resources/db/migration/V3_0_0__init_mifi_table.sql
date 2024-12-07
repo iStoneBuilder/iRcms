@@ -34,7 +34,6 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_t` (
   `iccid` VARCHAR(100) NOT NULL COMMENT 'ICCID', -- 20位
   `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
   `merchant_code` VARCHAR(100) NOT NULL COMMENT '卡商编码',
-  `device_sn` VARCHAR(100) COMMENT '设备SN',
   `carrier_code` VARCHAR(100) NOT NULL COMMENT '运营商',
   `net_type` VARCHAR(100) NOT NULL COMMENT '网络类型', -- 4G，5G，6G
   `name_status` VARCHAR(100) COMMENT '实名状态', -- 1:已实名 2:未实名 3:待实名 4:实名失败
@@ -93,6 +92,8 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_t` (
   `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
   `device_sn` VARCHAR(100) NOT NULL COMMENT '设备sn',
   `imei` VARCHAR(100)  COMMENT 'imei',
+  `msisdn1` VARCHAR(100)  COMMENT '物联网号1',
+  `msisdn2` VARCHAR(100)  COMMENT '物联网号2',
   `net_mode` VARCHAR(100) NOT NULL COMMENT '上网模式',
   `on_line` VARCHAR(100)  COMMENT '在线？',
   `device_type` VARCHAR(100) NOT NULL COMMENT '设备类型',
@@ -104,6 +105,9 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_t` (
   `device_Status` VARCHAR(100) COMMENT '设备状态',
   `test_flow` VARCHAR(100)  COMMENT '测试流量',
   `remark` VARCHAR(100) COMMENT '备注',
+  `active_user` VARCHAR(100)  COMMENT '激活用户',
+  `active_time` VARCHAR(100)  COMMENT '激活时间',
+  `device_ability` VARCHAR(100)  COMMENT '设备能力',
   `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

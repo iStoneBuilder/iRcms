@@ -41,7 +41,7 @@ public class AccountService implements IAccountService {
     @Override
     public int createAccount(AccountVO accountVO) {
         // 创建设置默认密码
-        accountVO.setPassword(Base64.getEncoder().encodeToString("Ms@12345678".getBytes()));
+        accountVO.setPassword(Base64.getEncoder().encodeToString("RCMS_123456789".getBytes()));
         return accountDao.createAccount(accountVO);
     }
 

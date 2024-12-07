@@ -2,6 +2,7 @@ package com.stone.it.rcms.mifi.sim.dao;
 
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
+import com.stone.it.rcms.mifi.device.vo.DeviceVO;
 import com.stone.it.rcms.mifi.sim.vo.SimVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -23,4 +24,6 @@ public interface ISimDao {
     int deleteSim(SimVO simVO);
 
     List<String> findNotExistIccid(@Param("list") List<SimVO> list, @Param("tenantId") String tenantId);
+
+    int updateSimRelationship(@Param("list") List<DeviceVO> noExists);
 }

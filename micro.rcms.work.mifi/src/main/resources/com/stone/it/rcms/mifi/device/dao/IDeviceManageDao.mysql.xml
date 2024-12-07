@@ -9,6 +9,8 @@
         enterprise_id as enterpriseId,
         device_sn as deviceSn,
         imei,
+        msisdn1,
+        msisdn2,
         net_mode as netMode,
         on_line as online,
         device_type as deviceType,
@@ -24,8 +26,7 @@
         CREATED_BY as createBy,
         UPDATED_TIME as updateDate,
         UPDATED_BY as updateBy
-        FROM
-        tpl_mifi_device_t
+        FROM tpl_mifi_device_t
     </sql>
     <sql id="query_page_condition">
         <where>
@@ -86,8 +87,13 @@
     </select>
 
     <select id="findDeviceDetail" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO">
+        select dt.*,
+        (select st.iccid from tpl_mifi_sim_t st where st.msisdn = dt.msisdn1) as iccid,
+        (select st.iccid from tpl_mifi_sim_t st where st.msisdn = dt.msisdn2) as iccid2
+        from (
         <include refid="query_base"/>
-        where device_id = #{deviceSn,jdbcType=VARCHAR}
+        where device_sn = #{deviceSn,jdbcType=VARCHAR}
+        ) dt
     </select>
 
     <select id="findExistDevice" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO">
@@ -106,6 +112,8 @@
         enterprise_id,
         device_sn,
         imei,
+        msisdn1,
+        msisdn2,
         net_mode,
         on_line,
         device_type,
@@ -128,6 +136,8 @@
             #{item.currentEnterpriseId,jdbcType=VARCHAR},
             #{item.deviceSn,jdbcType=VARCHAR},
             #{item.imei,jdbcType=VARCHAR},
+            #{item.msisdn1,jdbcType=VARCHAR},
+            #{item.msisdn2,jdbcType=VARCHAR},
             #{item.netMode,jdbcType=VARCHAR},
             #{item.online,jdbcType=VARCHAR},
             #{item.deviceType,jdbcType=VARCHAR},
@@ -158,7 +168,7 @@
     </delete>
 
     <update id="setDeviceGroup">
-        <foreach collection="list" item="item" separator=",">
+        <foreach collection="list" item="item" separator=";">
             update tpl_mifi_device_t
             set device_group = #{item.deviceGroup,jdbcType=VARCHAR},
             UPDATED_TIME = now(),
