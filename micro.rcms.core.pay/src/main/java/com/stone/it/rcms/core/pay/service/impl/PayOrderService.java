@@ -1,7 +1,7 @@
 package com.stone.it.rcms.core.pay.service.impl;
 
 import com.stone.it.rcms.core.pay.dao.IOrderDao;
-import com.stone.it.rcms.core.pay.service.IOrderService;
+import com.stone.it.rcms.core.pay.service.IPayOrderService;
 import com.stone.it.rcms.core.pay.vo.OrderVO;
 import com.stone.it.rcms.core.util.UserUtil;
 import com.stone.it.rcms.core.vo.PageResult;
@@ -21,7 +21,7 @@ import java.util.List;
  * @Desc
  */
 @Named
-public class OrderService implements IOrderService {
+public class PayOrderService implements IPayOrderService {
 
     @Inject
     private IOrderDao orderDao;

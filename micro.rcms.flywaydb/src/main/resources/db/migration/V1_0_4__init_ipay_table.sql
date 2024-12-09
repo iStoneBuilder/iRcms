@@ -1,0 +1,53 @@
+-- 支付，订单相关
+CREATE TABLE IF NOT EXISTS `tpl_fram_pay_t` (
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
+  `enterprise_id` VARCHAR(100) NOT NULL COMMENT '企业ID',
+  `pay_config_id` VARCHAR(40) NOT NULL COMMENT '支付配置ID',
+  `pay_way` VARCHAR(100) NOT NULL COMMENT '支付配置名称（支付宝，微信，平台）',
+  `pay_type` VARCHAR(100) NOT NULL COMMENT '支付类型（小程序，公众号，APP，PC）',
+  `mini_app_id` VARCHAR(1000)  COMMENT '小程序AppID',
+  `mini_app_secret` VARCHAR(1000)  COMMENT '小程序密钥',
+  `public_app_id` VARCHAR(1000)  COMMENT '公众号AppId',
+  `public_app_secret` VARCHAR(1000)  COMMENT '公众号密钥',
+  `mch_id` VARCHAR(1000) NOT NULL COMMENT '商户号',
+  `mch_pay_v2key` VARCHAR(1000)  COMMENT '微信支付V2秘钥',
+  `mch_pay_v3key` VARCHAR(1000)  COMMENT '微信支付V3秘钥',
+  `mch_serial_number` VARCHAR(1000)  COMMENT '商户支付证书序列号',
+  `notify_Url` VARCHAR(1000)  COMMENT '支付回调地址',
+  `refund_Notify_Url` VARCHAR(1000) COMMENT '退款回调地址',
+  `mch_pay_private_key` VARCHAR(1000) COMMENT '微信支付商户私钥',
+  `mch_pay_cert` VARCHAR(1000)  COMMENT '微信支付商户证书',
+  `cert_path` VARCHAR(1000)  COMMENT '微信支付商户证书路径',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`pay_config_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- 订单表
+CREATE TABLE IF NOT EXISTS `tpl_fram_order_t` (
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
+  `enterprise_id` VARCHAR(100) NOT NULL COMMENT '企业ID',
+  `order_no` VARCHAR(100) NOT NULL COMMENT '订单号',
+  `product_id` VARCHAR(100) NOT NULL COMMENT '商品ID',
+  `product_name` VARCHAR(100) NOT NULL COMMENT '商品名称',
+  `product_type` VARCHAR(100) NOT NULL COMMENT '商品类型',
+  `order_amount` DECIMAL(10, 2) NOT NULL COMMENT '订单金额 (单位：元)',
+  `order_time` datetime NOT NULL COMMENT '下单时间',
+  `pay_time` VARCHAR(100) NOT NULL COMMENT '支付时间',
+  `order_status` varchar(100) NOT NULL COMMENT '订单状态 (待支付1、已支付2、已取消3、支付失败4)',
+  `refund_amount` DECIMAL(10, 2) NOT NULL COMMENT '退款金额 (单位：元)',
+  `refund_time` datetime NOT NULL COMMENT '退款时间',
+  `refund_status` varchar(100) NOT NULL COMMENT '退款状态 (申请中、已退款、退款失败)',
+  `pay_type` varchar(100) NOT NULL COMMENT '支付方式 (微信、支付宝，平台代付)',
+  `pay_source` varchar(100) NOT NULL COMMENT '支付来源 (APP、PC、小程序)',
+  `pay_by` varchar(100) NOT NULL COMMENT '支付人 (用户id)',
+  `buy_num` VARCHAR(100) NOT NULL COMMENT '购买数量',
+  `transaction_id` VARCHAR(100) NOT NULL COMMENT '微信支付系统生成的订单号',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`order_no`)
+  ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;

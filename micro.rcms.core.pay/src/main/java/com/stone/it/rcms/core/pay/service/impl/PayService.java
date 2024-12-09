@@ -4,11 +4,14 @@ import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.pay.config.WxPayCertificateConfig;
 import com.stone.it.rcms.core.pay.dao.IOrderDao;
+import com.stone.it.rcms.core.pay.dao.IPayConfigDao;
 import com.stone.it.rcms.core.pay.service.IPayService;
 import com.stone.it.rcms.core.pay.utils.HttpServletUtils;
 import com.stone.it.rcms.core.pay.vo.OrderVO;
 import com.stone.it.rcms.core.pay.vo.PayVO;
-import com.stone.it.rcms.core.pay.vo.WxPayConfigVO;
+import com.stone.it.rcms.core.pay.vo.WxConfigVO;
+import com.stone.it.rcms.core.util.DateUtil;
+import com.stone.it.rcms.core.util.UUIDUtil;
 import com.wechat.pay.java.core.exception.HttpException;
 import com.wechat.pay.java.core.exception.MalformedMessageException;
 import com.wechat.pay.java.core.exception.ServiceException;
@@ -28,10 +31,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.sql.Wrapper;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -42,57 +42,39 @@ import java.util.Map;
  * @Desc
  */
 @Named
-public class PayService implements IPayService {
+public class PayService extends PayBaseService implements IPayService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PayService.class);
 
     @Inject
     private IOrderDao orderDao;
 
-    private static PrepayRequest getPrepayRequest(WxPayConfigVO wxPayConfig, PayVO payVO) {
-        PrepayRequest request = new PrepayRequest();
-        // appId
-        request.setAppid(wxPayConfig.getAppId());
-        // 商户ID
-        request.setMchid(wxPayConfig.getMerchantId());
-        // 商品描述
-        request.setDescription(payVO.getProductType());
-        // 商户订单号
-        request.setOutTradeNo(payVO.getOrderNo());
-        // 通知地址
-        request.setNotifyUrl(wxPayConfig.getPayNotifyUrl());
-        // 金额
-        Amount amount = new Amount();
-        amount.setTotal(10);
-        request.setAmount(amount);
-        Payer payer = new Payer();
-        // 用户标识
-        payer.setOpenid(payVO.getOpenId());
-        request.setPayer(payer);
-        return request;
-    }
+    @Inject
+    private IPayConfigDao configDao;
 
     /**
-     * 支付
+     * 预付费支付
      *
      * @param payWay 支付方式（微信支付，平台代付，支付宝支付）
      * @param payVO payVO
      * @return JSONObject
      */
     @Override
-    public JSONObject pay(String payWay, PayVO payVO) {
+    public JSONObject pay(String payWay, String paySource, PayVO payVO) {
+        // 生成订单号
+        payVO.setOrderNo("MS" + DateUtil.formatDate());
         // 创建平台订单信息
-        orderDao.createOrder(new OrderVO(payVO, payWay));
+        orderDao.createOrder(new OrderVO(payVO, payWay, paySource));
         // 调用支付创建订单
         if ("wechatpay".equals(payWay)) {
-            PrepayWithRequestPaymentResponse response = createWxPayOrder(payVO);
+            PrepayWithRequestPaymentResponse response = createWxPayOrder(payVO, payWay, paySource);
             return JSONObject.parseObject(JSONObject.toJSONString(response));
         }
         throw new RcmsApplicationException(500, "不支持该下单方式");
     }
 
     @Override
-    public String payNotify(HttpServletRequest request) throws Exception {
+    public String payNotify(String payConfigId, HttpServletRequest request) throws Exception {
         // 请求头Wechat-pay-Signature
         String signature = request.getHeader("Wechatpay-Signature");
         // 请求头Wechat-pay-nonce
@@ -106,7 +88,7 @@ public class PayService implements IPayService {
         // 构造 RequestParam
         RequestParam requestParam = new RequestParam.Builder().serialNumber(serial).nonce(nonce).signature(signature)
             .timestamp(timestamp).signType(signType).body(HttpServletUtils.getRequestBody(request)).build();
-        WxPayConfigVO wxPayConfig = new WxPayConfigVO();
+        WxConfigVO wxPayConfig = configDao.findWxPayConfigByPci(payConfigId, "");
         // 初始化 NotificationParser
         NotificationParser parser =
             new NotificationParser(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig));
@@ -122,30 +104,26 @@ public class PayService implements IPayService {
         OrderVO searchVO = new OrderVO();
         searchVO.setOrderNo(transaction.getOutTradeNo());
         OrderVO orderVO = orderDao.findOrderDetail(searchVO);
-        if (orderVO != null) {
-            // 此时订单已经支付成功
-            if ("2".equals(orderVO.getOrderStatus())) {
-                returnMap.put("code", "SUCCESS");
-                returnMap.put("message", "成功");
-                return JSONObject.toJSONString(returnMap);
-            }
+        // 此时订单已经支付成功
+        if ("SUCCESS".equals(orderVO.getOrderStatus())) {
+            returnMap.put("code", "SUCCESS");
+            returnMap.put("message", "成功");
+            return JSONObject.toJSONString(returnMap);
         }
+        OrderVO newOrderVO = new OrderVO();
+        newOrderVO.setOrderNo(orderVO.getOrderNo());
+        newOrderVO.setTransactionId(transaction.getTransactionId());
+        newOrderVO.setOrderStatus(transaction.getTradeState().toString());
         // 支付未成功
-        if (Transaction.TradeStateEnum.SUCCESS != transaction.getTradeState()) {
-            LOGGER.info("内部订单号【{}】,微信支付订单号【{}】支付未成功", transaction.getOutTradeNo(), transaction.getTransactionId());
-            if (orderVO != null) {
-                // 支付失败
-                orderVO.setOrderStatus("4");
-            }
-        } else {
-            assert orderVO != null;
+        if (Transaction.TradeStateEnum.USERPAYING != transaction.getTradeState()) {
+            LOGGER.info("内部订单号【{}】,微信支付订单号【{}】", transaction.getOutTradeNo(), transaction.getTransactionId());
             // 支付成功
-            orderVO.setOrderStatus("2");
+            newOrderVO.setOrderStatus("2");
             returnMap.put("code", "SUCCESS");
             returnMap.put("message", "成功");
         }
         // 修改订单信息
-        orderDao.updateOrder(orderVO);
+        orderDao.updateOrder(newOrderVO);
         return JSONObject.toJSONString(returnMap);
     }
 
@@ -155,7 +133,7 @@ public class PayService implements IPayService {
         searchVO.setOrderNo(payVO.getOrderNo());
         OrderVO orderVO = orderDao.findOrderDetail(searchVO);
         try {
-            WxPayConfigVO wxPayConfig = new WxPayConfigVO();
+            WxConfigVO wxPayConfig = new WxConfigVO();
             // 构建退款service
             RefundService service = new RefundService.Builder()
                 .config(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig)).build();
@@ -190,7 +168,7 @@ public class PayService implements IPayService {
     }
 
     @Override
-    public String refundNotify(HttpServletRequest request) throws Exception {
+    public String refundNotify(String payConfigId, HttpServletRequest request) throws Exception {
         try {
             // 请求头Wechatpay-Signature
             String signature = request.getHeader("Wechatpay-Signature");
@@ -207,7 +185,7 @@ public class PayService implements IPayService {
                 new RequestParam.Builder().serialNumber(serial).nonce(nonce).signature(signature).timestamp(timestamp)
                     .signType(signType).body(HttpServletUtils.getRequestBody(request)).build();
 
-            WxPayConfigVO wxPayConfig = new WxPayConfigVO();
+            WxConfigVO wxPayConfig = new WxConfigVO();
             // 初始化 NotificationParser
             NotificationParser parser =
                 new NotificationParser(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig));
@@ -227,8 +205,9 @@ public class PayService implements IPayService {
         return "success";
     }
 
-    PrepayWithRequestPaymentResponse createWxPayOrder(PayVO payVO) {
-        WxPayConfigVO wxPayConfig = new WxPayConfigVO();
+    PrepayWithRequestPaymentResponse createWxPayOrder(PayVO payVO, String payWay, String paySource) {
+        // 加载支付配置信息(租户ID，支付来源)
+        WxConfigVO wxPayConfig = configDao.findWxPayConfigByTpp(payVO.getTenantId(), paySource);
         JsapiServiceExtension service = new JsapiServiceExtension.Builder()
             .config(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig)).signType("RSA").build();
         PrepayWithRequestPaymentResponse response;

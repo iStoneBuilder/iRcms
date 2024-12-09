@@ -1,6 +1,6 @@
 package com.stone.it.rcms.core.pay.config;
 
-import com.stone.it.rcms.core.pay.vo.WxPayConfigVO;
+import com.stone.it.rcms.core.pay.vo.WxConfigVO;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 
 /**
@@ -11,7 +11,7 @@ import com.wechat.pay.java.core.RSAAutoCertificateConfig;
  * @Desc
  */
 public class WxPayCertificateConfig {
-    public static RSAAutoCertificateConfig rsaAutoCertificateConfig(WxPayConfigVO wxPayConfig) {
+    public static RSAAutoCertificateConfig rsaAutoCertificateConfig(WxConfigVO wxPayConfig) {
         return new RSAAutoCertificateConfig.Builder().merchantId(wxPayConfig.getMerchantId())
             .privateKey(wxPayConfig.getPrivateKey()).merchantSerialNumber(wxPayConfig.getMerchantSerialNumber())
             .apiV3Key(wxPayConfig.getApiV3Key()).build();

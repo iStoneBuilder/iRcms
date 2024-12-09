@@ -22,7 +22,7 @@ import javax.ws.rs.core.MediaType;
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiresAuthentication
-public interface IOrderService {
+public interface IPayOrderService {
 
     @GET
     @Path("/{curPage}/{pageSize}")
@@ -36,9 +36,6 @@ public interface IOrderService {
     @RequiresPermissions("permission:order:detail")
     OrderVO findOrderDetail(@PathParam("order_no") String orderNo, @QueryParam("") OrderVO orderVO);
 
-    @PUT
-    @Path("/{order_no}")
-    @RcmsMethod(name = "订单管理.订单更新", type = "Y")
     OrderVO updateOrder(@PathParam("order_no") String orderNo, @QueryParam("") OrderVO orderVO);
 
 }

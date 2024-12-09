@@ -10,7 +10,7 @@ import lombok.Data;
  * @Desc
  */
 @Data
-public class WxPayConfigVO {
+public class WxConfigVO {
     // appId
     private String appId;
     // merchantId

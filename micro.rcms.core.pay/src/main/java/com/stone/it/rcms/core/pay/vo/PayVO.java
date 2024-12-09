@@ -13,6 +13,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class PayVO extends BaseVO {
+    // 商品id
+    private String productId;
     // 商品类型 (流量套餐)
     private String productType;
     // 商品名称

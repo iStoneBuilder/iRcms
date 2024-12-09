@@ -9,7 +9,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
 
 /**
  * 支付模块
@@ -24,16 +23,24 @@ import java.io.IOException;
 @RequiresAuthentication
 public interface IPayService {
 
+    /**
+     * 创建订单
+     * 
+     * @param payWay 支付方式
+     * @param paySource 支付来源
+     * @param payVO 订单信息
+     * @return 订单信息
+     */
     @POST
-    @Path("/{pay_way}/order")
+    @Path("/{pay_way}/{pay_source}/order")
     @RcmsMethod(name = "支付.创建订单")
     @RequiresPermissions("permission:pay:create")
-    JSONObject pay(@PathParam("pay_way") String payWay, PayVO payVO);
+    JSONObject pay(@PathParam("pay_way") String payWay, @PathParam("pay_source") String paySource, PayVO payVO);
 
     @POST
-    @Path("/wx/notify")
+    @Path("/{pay_config_id}/wx/notify")
     @RcmsMethod(name = "支付.wx订单回调")
-    String payNotify(HttpServletRequest request) throws Exception;
+    String payNotify(@PathParam("pay_config_id") String payConfigId, HttpServletRequest request) throws Exception;
 
     @POST
     @Path("/wx/refund")
@@ -41,8 +48,8 @@ public interface IPayService {
     String refund(PayVO payVO) throws Exception;
 
     @POST
-    @Path("/wx/refund/notify")
+    @Path("/{pay_config_id}/wx/refund/notify")
     @RcmsMethod(name = "支付.wx退款回调")
-    String refundNotify(HttpServletRequest request) throws Exception;
+    String refundNotify(@PathParam("pay_config_id") String payConfigId, HttpServletRequest request) throws Exception;
 
 }

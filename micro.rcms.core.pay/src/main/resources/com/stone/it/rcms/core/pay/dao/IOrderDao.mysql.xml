@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.core.pay.dao.IOrderDao">
+
+    <insert id="createOrder">
+        INSERT INTO tpl_fram_order_t
+        ( order_no, product_id, product_name, product_type,
+        order_amount, order_time, pay_time,
+        order_status, refund_amount, refund_time, refund_status,
+        pay_type, pay_source, pay_by, buy_num,
+        transaction_id, CREATED_TIME, CREATED_BY, UPDATED_TIME,UPDATED_BY
+        )
+        VALUES
+        ( #{orderNo,jdbcType=VARCHAR},
+        #{productId,jdbcType=VARCHAR},
+        #{productName,jdbcType=VARCHAR},
+        #{productType,jdbcType=VARCHAR},
+        #{orderAmount,jdbcType=DECIMAL},
+        #{orderTime,jdbcType=TIMESTAMP},
+        #{payTime,jdbcType=TIMESTAMP},
+        #{orderStatus,jdbcType=VARCHAR},
+        #{refundAmount,jdbcType=DECIMAL},
+        #{refundTime,jdbcType=TIMESTAMP},
+        #{refundStatus,jdbcType=VARCHAR},
+        #{payType,jdbcType=VARCHAR},
+        #{paySource,jdbcType=VARCHAR},
+        #{payBy,jdbcType=VARCHAR},
+        #{buyNum,jdbcType=INTEGER},
+        #{transactionId,jdbcType=VARCHAR},
+        now(),
+        #{currentUserId,jdbcType=VARCHAR},
+        now(),
+        #{currentUserId,jdbcType=VARCHAR}
+        )
+    </insert>
+</mapper>
