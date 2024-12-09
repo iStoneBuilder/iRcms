@@ -34,4 +34,85 @@
         #{currentUserId,jdbcType=VARCHAR}
         )
     </insert>
+
+    <sql id="query_base_sql">
+        SELECT
+        device_sn as deviceSn,
+        order_no AS orderNo,
+        product_id AS productId,
+        product_name AS productName,
+        product_type AS productType,
+        order_amount AS orderAmount,
+        order_time AS orderTime,
+        pay_time AS payTime,
+        order_status AS orderStatus,
+        refund_amount AS refundAmount,
+        refund_time AS refundTime,
+        refund_status AS refundStatus,
+        pay_type AS payType,
+        pay_source AS paySource,
+        pay_by AS payBy,
+        buy_num AS buyNum,
+        transaction_id AS transactionId,
+        CREATED_TIME AS createDate,
+        CREATED_BY AS createBy,
+        UPDATED_TIME AS updateDate,
+        UPDATED_BY AS updateBy
+        from tpl_fram_order_t
+    </sql>
+    <sql id="query_page_condition">
+        <where>
+            tenant_id = #{param1.tenantId,jdbcType=VARCHAR}
+            <if test="param1.enterpriseId != null and param1.enterpriseId != ''">
+                and enterprise_id = #{param1.enterpriseId,jdbcType=VARCHAR}
+            </if>
+            <if test="param3.size() != 0">
+                and enterprise_id in
+                <foreach close=")" collection="param3" item="item" open="(" separator=",">
+                    #{item.id,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+            <if test="param1.orderNo != null and param1.orderNo != ''">
+                and order_no = #{param1.orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.orderStatus != null and param1.orderStatus != ''">
+                and order_status = #{param1.orderStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.refundStatus != null and param1.refundStatus != ''">
+                and refund_status = #{param1.refundStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.transactionId != null and param1.transactionId != ''">
+                and transaction_id = #{param1.transactionId,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.productName != null and param1.productName != ''">
+                and product_name like concat('%',#{param1.productName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.productType != null and param1.productType != ''">
+                and product_type = #{param1.productType,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.deviceSn != null and param1.deviceSn != ''">
+                and device_sn = #{param1.deviceSn,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+    <select id="findOrderPageResult" resultType="com.stone.it.rcms.core.pay.vo.OrderVO">
+        <include refid="query_base_sql"/>
+        <include refid="query_page_condition"/>
+        order by CREATED_TIME desc
+        limit #{param2.startIndex},#{param2.endIndex}
+    </select>
+    <select id="findOrderPageResultCount" resultType="java.lang.Integer">
+        select count(1)
+        from tpl_fram_order_t
+        <include refid="query_page_condition"/>
+    </select>
+
+    <select id="findOrderDetail" resultType="com.stone.it.rcms.core.pay.vo.OrderVO">
+        <include refid="query_base_sql"/>
+    </select>
+
+    <update id="updateOrder">
+
+    </update>
+
 </mapper>

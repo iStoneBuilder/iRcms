@@ -1,4 +1,4 @@
-package com.stone.it.rcms.mifi.common.vo;
+package com.stone.it.rcms.core.common.vo;
 
 import lombok.Data;
 

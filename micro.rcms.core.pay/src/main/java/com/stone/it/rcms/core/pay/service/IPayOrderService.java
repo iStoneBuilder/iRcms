@@ -25,17 +25,21 @@ import javax.ws.rs.core.MediaType;
 public interface IPayOrderService {
 
     @GET
-    @Path("/{curPage}/{pageSize}")
+    @Path("/records/page/{curPage}/{pageSize}")
     @RcmsMethod(name = "订单管理.分页查询")
     @RequiresPermissions("permission:order:page-query")
     PageResult<OrderVO> findOrderPageResult(@QueryParam("") OrderVO orderVO, @PathParam("") PageVO pageVO);
 
     @GET
-    @Path("/{order_no}")
+    @Path("/records/{order_no}")
     @RcmsMethod(name = "订单管理.订单详情")
     @RequiresPermissions("permission:order:detail")
     OrderVO findOrderDetail(@PathParam("order_no") String orderNo, @QueryParam("") OrderVO orderVO);
 
-    OrderVO updateOrder(@PathParam("order_no") String orderNo, @QueryParam("") OrderVO orderVO);
+    @POST
+    @Path("/records/{order_no}/refund")
+    @RcmsMethod(name = "订单管理.退款")
+    @RequiresPermissions("permission:order:refund")
+    String refundOrder(@PathParam("order_no") String orderNo, @QueryParam("") OrderVO orderVO) throws Exception;
 
 }

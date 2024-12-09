@@ -11,18 +11,15 @@ import com.stone.it.rcms.core.pay.vo.OrderVO;
 import com.stone.it.rcms.core.pay.vo.PayVO;
 import com.stone.it.rcms.core.pay.vo.WxConfigVO;
 import com.stone.it.rcms.core.util.DateUtil;
-import com.stone.it.rcms.core.util.UUIDUtil;
 import com.wechat.pay.java.core.exception.HttpException;
 import com.wechat.pay.java.core.exception.MalformedMessageException;
 import com.wechat.pay.java.core.exception.ServiceException;
 import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.core.notification.RequestParam;
+import com.wechat.pay.java.service.partnerpayments.jsapi.model.Transaction;
 import com.wechat.pay.java.service.payments.jsapi.JsapiServiceExtension;
-import com.wechat.pay.java.service.payments.jsapi.model.Amount;
-import com.wechat.pay.java.service.payments.jsapi.model.Payer;
 import com.wechat.pay.java.service.payments.jsapi.model.PrepayRequest;
 import com.wechat.pay.java.service.payments.jsapi.model.PrepayWithRequestPaymentResponse;
-import com.wechat.pay.java.service.payments.model.Transaction;
 import com.wechat.pay.java.service.refund.RefundService;
 import com.wechat.pay.java.service.refund.model.*;
 import org.slf4j.Logger;
@@ -124,6 +121,11 @@ public class PayService extends PayBaseService implements IPayService {
         }
         // 修改订单信息
         orderDao.updateOrder(newOrderVO);
+        // 订单类型为流量套餐&支付成功 => 生成相应的套餐数据
+        if ("data_plan".equals(orderVO.getProductType())
+            && Transaction.TradeStateEnum.SUCCESS != transaction.getTradeState()) {
+
+        }
         return JSONObject.toJSONString(returnMap);
     }
 

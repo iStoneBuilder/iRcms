@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.stone.it.rcms.mifi.common.dao.ICommonDao">
+<mapper namespace="com.stone.it.rcms.core.common.dao.ICommonDao">
 
-    <select id="findEnterpriseListByTenantId" resultType="com.stone.it.rcms.mifi.common.vo.CommonVO">
+    <select id="findEnterpriseListByTenantId" resultType="com.stone.it.rcms.core.common.vo.CommonVO">
         <include refid="query_enterprise_base"/>
         where tenant_id = #{tenantId}
     </select>
 
-    <select id="findEnterpriseMerchantById" resultType="com.stone.it.rcms.mifi.common.vo.CommonVO">
+    <select id="findEnterpriseMerchantById" resultType="com.stone.it.rcms.core.common.vo.CommonVO">
         <include refid="query_enterprise_base"/>
         where id = #{id}
     </select>
 
-    <select id="findEnterpriseListByParentId" resultType="com.stone.it.rcms.mifi.common.vo.CommonVO">
+    <select id="findEnterpriseListByParentId" resultType="com.stone.it.rcms.core.common.vo.CommonVO">
         <include refid="query_enterprise_base"/>
         where parent_id = #{parentId}
     </select>

@@ -22,6 +22,8 @@ public class OrderVO extends BaseVO {
     private String productType;
     // 商品名称
     private String productName;
+    // 设备SN
+    private String deviceSn;
     // 订单号
     private String orderNo;
     // 订单状态 (待支付1、已支付2、已取消3、支付失败4)
@@ -30,6 +32,8 @@ public class OrderVO extends BaseVO {
     private String orderAmount;
     // 订单时间
     private Date orderTime;
+    // 退款方式（全额退款，按用量计算，自定义）
+    private String refundWay;
     // 退款金额 (单位：元)
     private String refundAmount;
     // 退款时间

@@ -2,12 +2,11 @@ package com.stone.it.rcms.mifi.device.service.impl;
 
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.util.DateUtil;
-import com.stone.it.rcms.core.util.RandomUtil;
 import com.stone.it.rcms.core.util.UserUtil;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
-import com.stone.it.rcms.mifi.common.service.ICommonService;
-import com.stone.it.rcms.mifi.common.vo.CommonVO;
+import com.stone.it.rcms.core.common.service.ICommonService;
+import com.stone.it.rcms.core.common.vo.CommonVO;
 import com.stone.it.rcms.mifi.device.dao.IDeviceManageDao;
 import com.stone.it.rcms.mifi.device.service.IDeviceManageService;
 import com.stone.it.rcms.mifi.device.vo.DeviceVO;

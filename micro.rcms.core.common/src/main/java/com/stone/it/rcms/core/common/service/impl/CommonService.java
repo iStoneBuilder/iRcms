@@ -1,10 +1,10 @@
-package com.stone.it.rcms.mifi.common.service.impl;
+package com.stone.it.rcms.core.common.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.stone.it.rcms.core.common.service.ICommonService;
 import com.stone.it.rcms.core.util.TreeUtil;
-import com.stone.it.rcms.mifi.common.dao.ICommonDao;
-import com.stone.it.rcms.mifi.common.service.ICommonService;
-import com.stone.it.rcms.mifi.common.vo.CommonVO;
+import com.stone.it.rcms.core.common.dao.ICommonDao;
+import com.stone.it.rcms.core.common.vo.CommonVO;
 
 import javax.inject.Inject;
 import javax.inject.Named;

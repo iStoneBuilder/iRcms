@@ -1,6 +1,6 @@
-package com.stone.it.rcms.mifi.common.dao;
+package com.stone.it.rcms.core.common.dao;
 
-import com.stone.it.rcms.mifi.common.vo.CommonVO;
+import com.stone.it.rcms.core.common.vo.CommonVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

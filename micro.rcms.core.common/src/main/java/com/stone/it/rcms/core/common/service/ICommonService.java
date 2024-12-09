@@ -1,6 +1,6 @@
-package com.stone.it.rcms.mifi.common.service;
+package com.stone.it.rcms.core.common.service;
 
-import com.stone.it.rcms.mifi.common.vo.CommonVO;
+import com.stone.it.rcms.core.common.vo.CommonVO;
 
 import java.util.List;
 

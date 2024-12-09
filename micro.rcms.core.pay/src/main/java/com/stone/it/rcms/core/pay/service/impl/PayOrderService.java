@@ -2,12 +2,14 @@ package com.stone.it.rcms.core.pay.service.impl;
 
 import com.stone.it.rcms.core.pay.dao.IOrderDao;
 import com.stone.it.rcms.core.pay.service.IPayOrderService;
+import com.stone.it.rcms.core.pay.service.IPayService;
 import com.stone.it.rcms.core.pay.vo.OrderVO;
+import com.stone.it.rcms.core.pay.vo.PayVO;
 import com.stone.it.rcms.core.util.UserUtil;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
-import com.stone.it.rcms.mifi.common.service.ICommonService;
-import com.stone.it.rcms.mifi.common.vo.CommonVO;
+import com.stone.it.rcms.core.common.service.ICommonService;
+import com.stone.it.rcms.core.common.vo.CommonVO;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,6 +31,9 @@ public class PayOrderService implements IPayOrderService {
     @Inject
     private ICommonService commonService;
 
+    @Inject
+    private IPayService payService;
+
     @Override
     public PageResult<OrderVO> findOrderPageResult(OrderVO orderVO, PageVO pageVO) {
         List<CommonVO> list = new ArrayList<>();
@@ -45,9 +50,12 @@ public class PayOrderService implements IPayOrderService {
     }
 
     @Override
-    public OrderVO updateOrder(String orderNo, OrderVO orderVO) {
-        orderVO.setOrderNo(orderNo);
-        orderDao.updateOrder(orderVO);
-        return orderVO;
+    public String refundOrder(String orderNo, OrderVO orderVO) throws Exception {
+        PayVO payVO = new PayVO();
+        payVO.setOrderNo(orderNo);
+        payVO.setOrderAmount(Long.valueOf(orderVO.getOrderAmount()));
+        // 计算退款金额
+        return payService.refund(payVO);
     }
+
 }

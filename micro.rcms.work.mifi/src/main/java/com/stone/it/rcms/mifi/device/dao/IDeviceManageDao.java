@@ -2,7 +2,7 @@ package com.stone.it.rcms.mifi.device.dao;
 
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
-import com.stone.it.rcms.mifi.common.vo.CommonVO;
+import com.stone.it.rcms.core.common.vo.CommonVO;
 import com.stone.it.rcms.mifi.device.vo.DeviceVO;
 import org.apache.ibatis.annotations.Param;
 
