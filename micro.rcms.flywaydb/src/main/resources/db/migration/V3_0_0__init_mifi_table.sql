@@ -146,3 +146,31 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_data_plan_t` (
   `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   PRIMARY KEY (`data_plan_no`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- 设备套餐配置
+CREATE TABLE IF NOT EXISTS `tpl_mifi_device_dp_t` (
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
+  `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
+  `device_dp_id` VARCHAR(100) NOT NULL COMMENT '设备套餐ID',
+  `device_sn` VARCHAR(100) NOT NULL COMMENT '设备sn',
+  `order_no` VARCHAR(100) NOT NULL COMMENT '订单号',
+  `data_plan_no` VARCHAR(100) NOT NULL COMMENT '套餐编号',
+  `effective_time` datetime NOT NULL COMMENT '生效时间',
+  `expire_time` datetime NOT NULL COMMENT '失效时间',
+  `total_flow` VARCHAR(100) NOT NULL COMMENT '套餐流量',
+  `remain_flow` VARCHAR(100) NOT NULL COMMENT '套餐剩余量',
+  `used_flow` VARCHAR(100) NOT NULL COMMENT '当前已用量',
+  `is_limit_speed` VARCHAR(10) NOT NULL COMMENT '是否限速',
+  `limit_speed` VARCHAR(30) NOT NULL COMMENT '限速值',
+  `is_available` VARCHAR(10) NOT NULL COMMENT '是否可用',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`device_dp_id`)
+  ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+
+
+
+

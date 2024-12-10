@@ -33,7 +33,7 @@ public interface IDeviceDataPlanService {
 
     @GET
     @Path("/records/{data_plan_id}")
-    @RcmsMethod(name = "设备套餐.详情查询")
+    @RcmsMethod(name = "设备套餐.套餐详情查询")
     @RequiresPermissions("permission:device-data-plan:detail")
     DeviceDpVO findDeviceDpDetail(@PathParam("data_plan_id") String id, @QueryParam("") DeviceDpVO vo);
 

@@ -24,6 +24,7 @@
             <ref bean="deviceGroupService"/>
             <ref bean="deviceManageService"/>
             <ref bean="dataPlanSettingService"/>
+            <ref bean="deviceDataPlanService"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
