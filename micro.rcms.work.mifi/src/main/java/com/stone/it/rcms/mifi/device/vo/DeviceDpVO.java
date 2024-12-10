@@ -37,6 +37,7 @@ public class DeviceDpVO extends BaseVO {
     private Long remainFlow;
     /** 当前已用量（MB） */
     private Long usedFlow;
+    private Long totalUsedFlow;
 
     /** 是否限速 */
     private String isLimitSpeed;

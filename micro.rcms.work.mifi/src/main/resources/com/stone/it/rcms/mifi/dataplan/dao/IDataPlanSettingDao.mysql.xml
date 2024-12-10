@@ -88,8 +88,16 @@
 
     <select id="findDataPlanList" resultType="com.stone.it.rcms.mifi.dataplan.vo.DataPlanVO">
         <include refid="query_base"/>
-        where tenant_id = #{tenantId,jdbcType=VARCHAR}
-        and enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+        where tenant_id = #{vo.tenantId,jdbcType=VARCHAR}
+        <if test="vo.enterpriseId != null and vo.enterpriseId != ''">
+            AND enterprise_id = #{vo.enterpriseId,jdbcType=VARCHAR}
+        </if>
+        <if test="list.size() != 0">
+            and enterprise_id in
+            <foreach close=")" collection="list" item="item" open="(" separator=",">
+                #{item.id,jdbcType=VARCHAR}
+            </foreach>
+        </if>
     </select>
 
     <select id="findDataPlanDetail" resultType="com.stone.it.rcms.mifi.dataplan.vo.DataPlanVO">

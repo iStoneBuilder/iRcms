@@ -19,8 +19,8 @@
         ddp.is_limit_speed as isLimitSpeed,
         ddp.limit_speed as limitSpeed,
         ddp.is_available as isAvailable,
-        ddp.create_time as createDate,
-        ddp.update_time as updateDate,
+        ddp.created_time as createDate,
+        ddp.updated_time as updateDate,
         ddp.CREATED_BY as createBy,
         ddp.UPDATED_BY as updateBy
         from tpl_mifi_device_dp_t ddp
@@ -61,7 +61,35 @@
     </select>
 
     <insert id="createDeviceDp">
-
+        insert into
+        tpl_mifi_device_dp_t
+        (device_dp_id, device_sn,
+        data_plan_no, order_no,
+        effective_time,
+        expire_time, total_flow, remain_flow, used_flow,
+        is_limit_speed, limit_speed, is_available,
+        tenant_id, enterprise_id,
+        create_time, update_time,
+        CREATED_BY,UPDATED_BY)
+        values
+        (#{dpOrderId,jdbcType=VARCHAR},
+        #{deviceSn,jdbcType=VARCHAR},
+        #{dataPlanNo,jdbcType=VARCHAR},
+        #{orderNo,jdbcType=VARCHAR},
+        #{effectiveTime,jdbcType=TIMESTAMP},
+        #{expireTime,jdbcType=TIMESTAMP},
+        #{totalFlow,jdbcType=BIGINT},
+        #{totalFlow,jdbcType=BIGINT},
+        #{usedFlow,jdbcType=BIGINT},
+        #{isLimitSpeed,jdbcType=VARCHAR},
+        #{limitSpeed,jdbcType=BIGINT},
+        #{isAvailable,jdbcType=VARCHAR},
+        #{tenantId,jdbcType=VARCHAR},
+        #{enterpriseId,jdbcType=VARCHAR},
+        now(),
+        now(),
+        #{createBy,jdbcType=VARCHAR},
+        #{createBy,jdbcType=VARCHAR})
     </insert>
 
     <select id="findDeviceDpDetail" resultType="com.stone.it.rcms.mifi.device.vo.DeviceDpVO">

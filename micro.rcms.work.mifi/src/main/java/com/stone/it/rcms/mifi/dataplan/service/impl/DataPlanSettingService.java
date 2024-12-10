@@ -44,10 +44,11 @@ public class DataPlanSettingService implements IDataPlanSettingService {
     @Override
     public List<DataPlanVO> findDataPlanList(DataPlanVO vo) {
         // 值允许查询当前商户下的数据
-        if ("".equals(vo.getEnterpriseId()) || null == vo.getEnterpriseId()) {
-            vo.setEnterpriseId(vo.getCurrentEnterpriseId());
+        List<CommonVO> list = new ArrayList<>();
+        if (vo.getEnterpriseId() == null) {
+            list = commonService.findEnterpriseListByParentId(vo.getCurrentEnterpriseId());
         }
-        return dataPlanSettingDao.findDataPlanList(vo);
+        return dataPlanSettingDao.findDataPlanList(vo, list);
     }
 
     @Override

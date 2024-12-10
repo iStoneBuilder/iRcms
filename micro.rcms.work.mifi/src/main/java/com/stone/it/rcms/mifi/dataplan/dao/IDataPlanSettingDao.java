@@ -18,7 +18,7 @@ public interface IDataPlanSettingDao {
     PageResult<DataPlanVO> findPageDataPlanResult(@Param("param1") DataPlanVO vo, @Param("param2") PageVO pageVO,
         @Param("param3") List<CommonVO> list);
 
-    List<DataPlanVO> findDataPlanList(DataPlanVO vo);
+    List<DataPlanVO> findDataPlanList(@Param("vo") DataPlanVO vo, @Param("list") List<CommonVO> list);
 
     DataPlanVO findDataPlanDetail(@Param("dataPlanNo") String id, @Param("tenantId") String tenantId);
 
