@@ -5,6 +5,7 @@ import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.pay.config.WxPayCertificateConfig;
 import com.stone.it.rcms.core.pay.dao.IOrderDao;
 import com.stone.it.rcms.core.pay.dao.IPayConfigDao;
+import com.stone.it.rcms.core.pay.event.DataPlanEventPublisher;
 import com.stone.it.rcms.core.pay.service.IPayService;
 import com.stone.it.rcms.core.pay.utils.HttpServletUtils;
 import com.stone.it.rcms.core.pay.vo.OrderVO;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +50,44 @@ public class PayService extends PayBaseService implements IPayService {
 
     @Inject
     private IPayConfigDao configDao;
+
+    @Inject
+    private DataPlanEventPublisher planEventPublisher;
+
+    private static RequestParam getRequestParam(HttpServletRequest request) throws IOException {
+        // 请求头Wechat-pay-Signature
+        String signature = request.getHeader("Wechatpay-Signature");
+        // 请求头Wechat-pay-nonce
+        String nonce = request.getHeader("Wechatpay-Nonce");
+        // 请求头Wechat-pay-Timestamp
+        String timestamp = request.getHeader("Wechatpay-Timestamp");
+        // 微信支付证书序列号
+        String serial = request.getHeader("Wechatpay-Serial");
+        // 签名方式
+        String signType = request.getHeader("Wechatpay-Signature-Type");
+        // 构造 RequestParam
+        return new RequestParam.Builder().serialNumber(serial).nonce(nonce).signature(signature).timestamp(timestamp)
+            .signType(signType).body(HttpServletUtils.getRequestBody(request)).build();
+    }
+
+    private static CreateRequest getRefundRequest(OrderVO orderVO, PayVO payVO, WxConfigVO wxPayConfig) {
+        CreateRequest request = new CreateRequest();
+        // 【商户订单号】 原支付交易对应的商户订单号
+        request.setOutTradeNo(payVO.getOrderNo());
+        // 【商户退款单号】 商户系统内部的退款单号
+        request.setOutRefundNo("REFUND_" + payVO.getOrderNo());
+        // 【微信支付订单号】 微信支付交易订单号
+        request.setTransactionId(orderVO.getTransactionId());
+        // 退款信息(单位分)
+        AmountReq amount = new AmountReq();
+        amount.setTotal(payVO.getOrderAmount());
+        amount.setRefund(payVO.getRefundAmount());
+        amount.setCurrency("CNY");
+        request.setAmount(amount);
+        // 退款回调URL
+        request.setNotifyUrl(wxPayConfig.getRefundNotifyUrl());
+        return request;
+    }
 
     /**
      * 预付费支付
@@ -72,19 +112,7 @@ public class PayService extends PayBaseService implements IPayService {
 
     @Override
     public String payNotify(String payConfigId, HttpServletRequest request) throws Exception {
-        // 请求头Wechat-pay-Signature
-        String signature = request.getHeader("Wechatpay-Signature");
-        // 请求头Wechat-pay-nonce
-        String nonce = request.getHeader("Wechatpay-Nonce");
-        // 请求头Wechat-pay-Timestamp
-        String timestamp = request.getHeader("Wechatpay-Timestamp");
-        // 微信支付证书序列号
-        String serial = request.getHeader("Wechatpay-Serial");
-        // 签名方式
-        String signType = request.getHeader("Wechatpay-Signature-Type");
-        // 构造 RequestParam
-        RequestParam requestParam = new RequestParam.Builder().serialNumber(serial).nonce(nonce).signature(signature)
-            .timestamp(timestamp).signType(signType).body(HttpServletUtils.getRequestBody(request)).build();
+        RequestParam requestParam = getRequestParam(request);
         WxConfigVO wxPayConfig = configDao.findWxPayConfigByPci(payConfigId, "");
         // 初始化 NotificationParser
         NotificationParser parser =
@@ -100,31 +128,33 @@ public class PayService extends PayBaseService implements IPayService {
         // 修改订单前，建议主动请求微信查询订单是否支付成功，防止恶意post
         OrderVO searchVO = new OrderVO();
         searchVO.setOrderNo(transaction.getOutTradeNo());
-        OrderVO orderVO = orderDao.findOrderDetail(searchVO);
+        OrderVO dbOrderVO = orderDao.findOrderDetail(searchVO);
         // 此时订单已经支付成功
-        if ("SUCCESS".equals(orderVO.getOrderStatus())) {
+        if ("SUCCESS".equals(dbOrderVO.getOrderStatus())) {
             returnMap.put("code", "SUCCESS");
             returnMap.put("message", "成功");
             return JSONObject.toJSONString(returnMap);
         }
         OrderVO newOrderVO = new OrderVO();
-        newOrderVO.setOrderNo(orderVO.getOrderNo());
+        // 内部订单号
+        newOrderVO.setOrderNo(dbOrderVO.getOrderNo());
+        // 微信支付订单号
         newOrderVO.setTransactionId(transaction.getTransactionId());
+        // 订单状态
         newOrderVO.setOrderStatus(transaction.getTradeState().toString());
-        // 支付未成功
+        // 不等于支付中
         if (Transaction.TradeStateEnum.USERPAYING != transaction.getTradeState()) {
             LOGGER.info("内部订单号【{}】,微信支付订单号【{}】", transaction.getOutTradeNo(), transaction.getTransactionId());
             // 支付成功
-            newOrderVO.setOrderStatus("2");
             returnMap.put("code", "SUCCESS");
             returnMap.put("message", "成功");
         }
         // 修改订单信息
         orderDao.updateOrder(newOrderVO);
         // 订单类型为流量套餐&支付成功 => 生成相应的套餐数据
-        if ("data_plan".equals(orderVO.getProductType())
-            && Transaction.TradeStateEnum.SUCCESS != transaction.getTradeState()) {
-
+        if ("data_plan".equals(dbOrderVO.getProductType())
+            && Transaction.TradeStateEnum.SUCCESS == transaction.getTradeState()) {
+            planEventPublisher.buyDdp(dbOrderVO);
         }
         return JSONObject.toJSONString(returnMap);
     }
@@ -133,38 +163,32 @@ public class PayService extends PayBaseService implements IPayService {
     public String refund(PayVO payVO) throws Exception {
         OrderVO searchVO = new OrderVO();
         searchVO.setOrderNo(payVO.getOrderNo());
+        searchVO.setTenantId(payVO.getTenantId());
+        searchVO.setEnterpriseId(payVO.getEnterpriseId());
         OrderVO orderVO = orderDao.findOrderDetail(searchVO);
+        if (orderVO == null) {
+            throw new RcmsApplicationException(500, "订单不存在");
+        }
         try {
-            WxConfigVO wxPayConfig = new WxConfigVO();
+            WxConfigVO wxPayConfig = configDao.findWxPayConfigByTpp(payVO.getTenantId(), "");
             // 构建退款service
             RefundService service = new RefundService.Builder()
                 .config(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig)).build();
-            CreateRequest request = new CreateRequest();
-            // 调用request.setXxx(val)设置所需参数，具体参数可见Request定义
-            request.setOutTradeNo(payVO.getOrderNo());
-            request.setOutRefundNo("REFUND_" + payVO.getOrderNo());
-
-            AmountReq amount = new AmountReq();
-            // 总金额
-            amount.setTotal(payVO.getOrderAmount());
-            // 退款金额
-            amount.setRefund(payVO.getRefundAmount());
-            amount.setCurrency("CNY");
-
-            request.setAmount(amount);
-            request.setNotifyUrl(wxPayConfig.getRefundNotifyUrl());
-
+            CreateRequest request = getRefundRequest(orderVO, payVO, wxPayConfig);
             // 接收退款返回参数
             Refund refund = service.create(request);
-            LOGGER.info("退款返回信息：{}", refund);
-            if (refund.getStatus().equals(Status.SUCCESS)) {
-                // 设置退款状态（退款中）
-                orderDao.updateOrder(orderVO);
+            OrderVO upVO = new OrderVO();
+            upVO.setOrderNo(orderVO.getOrderNo());
+            upVO.setRefundStatus(refund.getStatus().toString());
+            upVO.setRefundAmount(String.valueOf(payVO.getRefundAmount()));
+            // 更新退款信息
+            orderDao.updateOrderRefund(upVO);
+            // 退款成功更新设备套餐状态
+            if ("SUCCESS".equals(refund.getStatus().toString())) {
+                planEventPublisher.refund(orderVO.getOrderNo());
             }
-        } catch (ServiceException e) {
-            LOGGER.error("退款失败！，错误信息：{}", e.getMessage());
         } catch (Exception e) {
-            LOGGER.error("refund服务返回成功，返回体类型不合法，或者解析返回体失败，错误信息：{}", e.getMessage());
+            throw new RcmsApplicationException(500, "退款申请失败", e);
         }
         return "success";
     }
@@ -172,34 +196,22 @@ public class PayService extends PayBaseService implements IPayService {
     @Override
     public String refundNotify(String payConfigId, HttpServletRequest request) throws Exception {
         try {
-            // 请求头Wechatpay-Signature
-            String signature = request.getHeader("Wechatpay-Signature");
-            // 请求头Wechatpay-nonce
-            String nonce = request.getHeader("Wechatpay-Nonce");
-            // 请求头Wechatpay-Timestamp
-            String timestamp = request.getHeader("Wechatpay-Timestamp");
-            // 微信支付证书序列号
-            String serial = request.getHeader("Wechatpay-Serial");
-            // 签名方式
-            String signType = request.getHeader("Wechatpay-Signature-Type");
-            // 构造 RequestParam
-            RequestParam requestParam =
-                new RequestParam.Builder().serialNumber(serial).nonce(nonce).signature(signature).timestamp(timestamp)
-                    .signType(signType).body(HttpServletUtils.getRequestBody(request)).build();
-
+            RequestParam requestParam = getRequestParam(request);
             WxConfigVO wxPayConfig = new WxConfigVO();
             // 初始化 NotificationParser
             NotificationParser parser =
                 new NotificationParser(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig));
-            // 以支付通知回调为例，验签、解密并转换成 Transaction
-            LOGGER.info("refundNotify 验签参数：{}", requestParam);
+            // 以退款通知回调为例，验签、解密并转换成 RefundNotification
             RefundNotification parse = parser.parse(requestParam, RefundNotification.class);
-            LOGGER.info("验签成功！-退款回调结果：{}", parse.toString());
             String refundStatus = parse.getRefundStatus().toString();
-            LOGGER.info("getRefundStatus状态：{}", refundStatus);
-            if ("SUCCESS".equals(refundStatus)) {
-                LOGGER.info("成功进入退款回调，状态：{}", parse.getRefundStatus());
-                orderDao.updateOrder(null);
+            LOGGER.info("退款状态：{}", refundStatus);
+            OrderVO upVO = new OrderVO();
+            upVO.setOrderNo(parse.getOutTradeNo());
+            upVO.setRefundStatus(parse.getRefundStatus().toString());
+            // 更新退款信息
+            orderDao.updateOrderRefund(upVO);
+            if ("SUCCESS".equals(parse.getRefundStatus().toString())) {
+                planEventPublisher.refund(parse.getOutTradeNo());
             }
         } catch (Exception e) {
             LOGGER.info("退款回调失败！错误信息：{}", e.getMessage());

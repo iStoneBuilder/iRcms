@@ -2,6 +2,7 @@ package com.stone.it.rcms.core.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -28,4 +29,10 @@ public class DateUtil {
         return formatter.format(date);
     }
 
+    public static Date addDaysToDate(Date date, int validDuration) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_YEAR, validDuration);
+        return calendar.getTime();
+    }
 }

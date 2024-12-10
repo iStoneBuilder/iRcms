@@ -54,6 +54,8 @@ public class PayOrderService implements IPayOrderService {
         PayVO payVO = new PayVO();
         payVO.setOrderNo(orderNo);
         payVO.setOrderAmount(Long.valueOf(orderVO.getOrderAmount()));
+        payVO.setTenantId(orderVO.getTenantId());
+        payVO.setEnterpriseId(orderVO.getCurrentEnterpriseId());
         // 计算退款金额
         return payService.refund(payVO);
     }

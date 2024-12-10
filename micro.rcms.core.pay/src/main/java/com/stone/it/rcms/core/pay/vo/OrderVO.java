@@ -16,7 +16,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class OrderVO extends BaseVO {
-    // 商品ID
+    // 商品ID(套餐编号)
     private String productId;
     // 商品类型 (流量套餐)
     private String productType;

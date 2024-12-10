@@ -25,17 +25,19 @@ public class DataPlanVO extends BaseVO {
     // 套餐类型(国内套餐domestic/international国际套餐)
     private String dataPlanType;
     // 套餐成本
-    private BigDecimal dataPlanCost;
+    private Long dataPlanCost;
     // 套餐价格
-    private BigDecimal dataPlanPrice;
+    private Long dataPlanPrice;
     // 套餐流量
-    private BigDecimal dataPlanFlow;
+    private Long dataPlanFlow;
     // 套餐虚量
-    private BigDecimal dataPlanVoidFlow;
+    private Long dataPlanVoidFlow;
     // 计费类型
     private String chargeType;
     // 有效期
     private String validDuration;
+    // 限速
+    private String isLimitSpeed;
     // 限速
     private String limitSpeed;
     // 赠送月份

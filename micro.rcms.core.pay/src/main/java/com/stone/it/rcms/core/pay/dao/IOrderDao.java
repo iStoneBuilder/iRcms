@@ -25,4 +25,5 @@ public interface IOrderDao {
 
     int createOrder(OrderVO orderVO);
 
+    int updateOrderRefund(OrderVO upVO);
 }

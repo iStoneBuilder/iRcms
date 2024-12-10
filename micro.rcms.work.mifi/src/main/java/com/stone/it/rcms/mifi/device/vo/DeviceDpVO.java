@@ -1,4 +1,4 @@
-package com.stone.it.rcms.mifi.dataplan.vo;
+package com.stone.it.rcms.mifi.device.vo;
 
 import com.stone.it.rcms.core.vo.BaseVO;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import java.util.Date;
 
 /**
- * 套餐订单
+ * 设备套餐
  * 
  * @author cj.stone
  * @Date 2024/11/19
@@ -15,7 +15,7 @@ import java.util.Date;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class DataPlanOrderVO extends BaseVO {
+public class DeviceDpVO extends BaseVO {
 
     /** 套餐订单ID */
     private String dpOrderId;
