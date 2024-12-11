@@ -64,6 +64,15 @@
     <sql id="query_base_condition">
         <where>
             st.tenant_id = #{param1.tenantId,jdbcType=VARCHAR}
+            <if test="param1.enterpriseId != null and param1.enterpriseId != ''">
+                AND st.enterprise_id = #{param1.enterpriseId,jdbcType=VARCHAR}
+            </if>
+            <if test="param3.size() != 0">
+                and st.enterprise_id in
+                <foreach close=")" collection="param3" item="item" open="(" separator=",">
+                    #{item.id,jdbcType=VARCHAR}
+                </foreach>
+            </if>
             <if test="param1.iccid != null and param1.iccid != ''">
                 and st.iccid like CONCAT('%',#{param1.iccid,jdbcType=VARCHAR},'%')
             </if>
@@ -139,6 +148,21 @@
             set msisdn = #{item.msisdn2,jdbcType=VARCHAR},
             updated_time = now(),
             updated_by = #{item.currentUserId,jdbcType=VARCHAR}
+            where iccid = #{item.iccid2,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <update id="updateSimMch">
+        <foreach collection="list" item="item" separator=";">
+            update tpl_mifi_sim_t
+            set enterprise_id = #{divide.targetMch,jdbcType=VARCHAR},
+            updated_time = now(),
+            updated_by = #{divide.currentUserId,jdbcType=VARCHAR}
+            where iccid = #{item.iccid,jdbcType=VARCHAR};
+            update tpl_mifi_sim_t
+            set enterprise_id = #{divide.targetMch,jdbcType=VARCHAR},
+            updated_time = now(),
+            updated_by = #{divide.currentUserId,jdbcType=VARCHAR}
             where iccid = #{item.iccid2,jdbcType=VARCHAR}
         </foreach>
     </update>

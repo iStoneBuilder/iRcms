@@ -10,14 +10,14 @@ import java.util.Date;
  */
 public class DateUtil {
 
-    private static final String format = "yyyyMMddhhmmssSSS";
+    private static final String FORMAT = "yyyyMMddhhmmssSSS";
 
     public static String formatDate() {
         return formatDate(new Date());
     }
 
     public static String formatDate(Date date) {
-        return formatDate(date, format);
+        return formatDate(date, FORMAT);
     }
 
     public static String formatDate(String format) {

@@ -31,6 +31,15 @@
     <sql id="query_page_condition">
         <where>
             tenant_id = #{param1.tenantId,jdbcType=VARCHAR}
+            <if test="param1.enterpriseId != null and param1.enterpriseId != ''">
+                and enterprise_id = #{param1.enterpriseId,jdbcType=VARCHAR}
+            </if>
+            <if test="param3.size() != 0">
+                and enterprise_id in
+                <foreach close=")" collection="param3" item="item" open="(" separator=",">
+                    #{item.id,jdbcType=VARCHAR}
+                </foreach>
+            </if>
             <if test="param1.deviceSn != null and param1.deviceSn != ''">
                 and device_sn like concat('%',#{param1.deviceSn,jdbcType=VARCHAR},'%')
             </if>
@@ -64,14 +73,13 @@
             <if test="param1.deviceStatus != null and param1.deviceStatus != ''">
                 and device_Status = #{param1.deviceStatus,jdbcType=VARCHAR}
             </if>
-            <if test="param1.enterpriseId != null and param1.enterpriseId != ''">
-                and enterprise_id = #{param1.enterpriseId,jdbcType=VARCHAR}
-            </if>
-            <if test="param3.size() != 0">
-                and enterprise_id in
-                <foreach close=")" collection="param3" item="item" open="(" separator=",">
-                    #{item.id,jdbcType=VARCHAR}
-                </foreach>
+            <if test="param1.activeStatus != null and param1.activeStatus != ''">
+                <if test='param1.activeStatus == "Y"'>
+                    and active_user is not null
+                </if>
+                <if test='param1.activeStatus == "N"'>
+                    and active_user is null
+                </if>
             </if>
         </where>
     </sql>
@@ -173,6 +181,17 @@
             set device_group = #{item.deviceGroup,jdbcType=VARCHAR},
             UPDATED_TIME = now(),
             UPDATED_BY = #{item.currentUserId,jdbcType=VARCHAR}
+            where device_sn = #{item.deviceSn,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <update id="updateDeviceGroupMch">
+        <foreach collection="list" item="item" separator=";">
+            update tpl_mifi_device_t
+            set device_group = NULL,
+            enterprise_id = #{divide.targetMch,jdbcType=VARCHAR},
+            UPDATED_TIME = now(),
+            UPDATED_BY = #{divide.currentUserId,jdbcType=VARCHAR}
             where device_sn = #{item.deviceSn,jdbcType=VARCHAR}
         </foreach>
     </update>

@@ -56,6 +56,8 @@ public class DeviceVO extends BaseVO {
     // wifi密码5G
     private String wifiPwd5G;
 
+    // 激活状态 （查询传值Y/N 判断activeUser是否为空）
+    private String activeStatus;
     // 激活用户
     private String activeUser;
     // 激活时间

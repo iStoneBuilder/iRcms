@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_t` (
   `test_flow` VARCHAR(100)  COMMENT '测试流量',
   `remark` VARCHAR(100) COMMENT '备注',
   `active_user` VARCHAR(100)  COMMENT '激活用户',
-  `active_time` VARCHAR(100)  COMMENT '激活时间',
+  `active_time` datetime  COMMENT '激活时间',
   `device_ability` VARCHAR(100)  COMMENT '设备能力',
   `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
@@ -171,6 +171,23 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_dp_t` (
   PRIMARY KEY (`device_dp_id`)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
+-- 设备分发
+CREATE TABLE IF NOT EXISTS `tpl_mifi_device_divide_t` (
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
+  `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
+  `divide_id` VARCHAR(100) NOT NULL COMMENT '分发ID',
+  `device_sn` VARCHAR(8000) NOT NULL COMMENT '分发的设备sn',
+  `divide_num` VARCHAR(100) NOT NULL COMMENT '分发数量',
+  `org_mch` VARCHAR(100) NOT NULL COMMENT '原始商户',
+  `target_mch` VARCHAR(100) NOT NULL COMMENT '目标商户',
+  `divide_status` VARCHAR(100) NOT NULL COMMENT '分发状态',
+  `remark` VARCHAR(100) NOT NULL COMMENT '分发备注',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`device_divide_id`)
+  ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 
 

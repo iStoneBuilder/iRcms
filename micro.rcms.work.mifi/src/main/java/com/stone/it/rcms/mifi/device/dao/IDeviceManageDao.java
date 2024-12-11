@@ -3,6 +3,7 @@ package com.stone.it.rcms.mifi.device.dao;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.core.common.vo.CommonVO;
+import com.stone.it.rcms.mifi.device.vo.DeviceDivideVO;
 import com.stone.it.rcms.mifi.device.vo.DeviceVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,4 +31,7 @@ public interface IDeviceManageDao {
     int deleteDevice(@Param("deviceSn") String deviceSn);
 
     int setDeviceGroup(@Param("list") List<DeviceVO> list);
+
+    /** 更新设备商户信息，清空分组信息 */
+    int updateDeviceGroupMch(@Param("list") List<DeviceVO> list, @Param("divide") DeviceDivideVO divideVO);
 }
