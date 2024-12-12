@@ -67,6 +67,16 @@ CREATE TABLE IF NOT EXISTS `tpl_fram_role_permission_t` (
   PRIMARY KEY (`role_code`, `auth_code`,`service_code`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
+-- 角色栏目权限关系表 done
+CREATE TABLE IF NOT EXISTS `tpl_fram_role_menu_t` (
+  `role_code` VARCHAR(100) NOT NULL COMMENT '角色编码',
+  `menu_id` VARCHAR(100) NOT NULL COMMENT '栏目ID',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`role_code`, `menu_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 -- 账户表 done
 CREATE TABLE IF NOT EXISTS `tpl_fram_account_t` (

@@ -158,12 +158,12 @@
             set enterprise_id = #{divide.targetMch,jdbcType=VARCHAR},
             updated_time = now(),
             updated_by = #{divide.currentUserId,jdbcType=VARCHAR}
-            where iccid = #{item.iccid,jdbcType=VARCHAR};
+            where msisdn = #{item.msisdn1,jdbcType=VARCHAR};
             update tpl_mifi_sim_t
             set enterprise_id = #{divide.targetMch,jdbcType=VARCHAR},
             updated_time = now(),
             updated_by = #{divide.currentUserId,jdbcType=VARCHAR}
-            where iccid = #{item.iccid2,jdbcType=VARCHAR}
+            where msisdn = #{item.msisdn2,jdbcType=VARCHAR}
         </foreach>
     </update>
 

@@ -1,5 +1,6 @@
 package com.stone.it.rcms.base.service;
 
+import com.stone.it.rcms.base.vo.MenuVO;
 import com.stone.it.rcms.base.vo.RoleVO;
 import com.stone.it.rcms.core.annotate.RcmsMethod;
 import java.util.List;
@@ -56,16 +57,31 @@ public interface IRoleService {
     @RequiresPermissions("permission:role:permissions:query")
     List<PermissionVO> findRolePermissionList(@PathParam("role_id") String roleId);
 
+    @GET
+    @Path("/records/{role_id}/menus")
+    @RcmsMethod(name = "角色管理.角色菜单查询")
+    @RequiresPermissions("permission:role:menus:query")
+    List<MenuVO> findRoleMenuList(@PathParam("role_id") String roleId);
+
     List<RoleVO> findRoleTree(RoleVO roleVO);
 
     /**
-     * 创建角色
+     * 角色授权
      */
     @POST
-    @Path("/records/{role_id}/authorize")
-    @RcmsMethod(name = "角色管理.授权")
-    @RequiresPermissions("permission:role:authorize")
+    @Path("/records/{role_id}/permissions")
+    @RcmsMethod(name = "角色管理.接口授权")
+    @RequiresPermissions("permission:role:permissions:authorize")
     int createRolePermission(@PathParam("role_id") String roleId, List<PermissionVO> permissionList);
+
+    /**
+     * 栏目授权
+     */
+    @POST
+    @Path("/records/{role_id}/menus")
+    @RcmsMethod(name = "角色管理.栏目授权")
+    @RequiresPermissions("permission:role:menus:authorize")
+    int createRoleMenu(@PathParam("role_id") String roleId, List<MenuVO> menuList);
 
     /**
      * 创建角色

@@ -53,8 +53,10 @@ public class DeviceDivideService implements IDeviceDivideService {
         deviceManageDao.updateDeviceGroupMch(divideVO.getList(), divideVO);
         // 更新设备ICCID信息
         simDao.updateSimMch(divideVO.getList(), divideVO);
-        divideVO.setDeviceId(DateUtil.formatDate());
+        divideVO.setDivideId(DateUtil.formatDate());
         divideVO.setDivideNum(divideVO.getList().size());
+        divideVO.setDivideStatus("SUCCESS");
+        divideVO.setRemark("设备分发成功");
         // 生成分发记录
         deviceDivideDao.createDivideRecord(divideVO, divideVO.getList());
     }

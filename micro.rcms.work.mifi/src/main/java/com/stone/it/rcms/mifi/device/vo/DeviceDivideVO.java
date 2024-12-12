@@ -19,7 +19,7 @@ import java.util.List;
 public class DeviceDivideVO extends BaseVO {
 
     // 分发记录ID
-    private String deviceId;
+    private String divideId;
     // 设备SN
     private String deviceSns;
     // 分发数量
@@ -33,7 +33,7 @@ public class DeviceDivideVO extends BaseVO {
     // 分发人
     private String divideUser;
     // 分发状态
-    private Integer divideStatus;
+    private String divideStatus;
     // 分发备注
     private String remark;
 

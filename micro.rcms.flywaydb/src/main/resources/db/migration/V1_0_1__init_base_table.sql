@@ -64,8 +64,6 @@ CREATE TABLE IF NOT EXISTS `tpl_fram_menu_t`(
    `icon`    VARCHAR(100)  COMMENT '图标',
    `extra_icon`    VARCHAR(100)  COMMENT '额外图标',
    `active_path`    VARCHAR(100)  COMMENT '菜单不显示时激活路由地址',
-   `roles`    VARCHAR(100)  COMMENT '菜单权限',
-   `auths`    VARCHAR(100)  COMMENT '按钮权限',
    `show_link` VARCHAR(10)  COMMENT '是否在菜单中显示 （false：显示，true：不显示）',
    `CREATED_TIME` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `CREATED_BY`   varchar(100) NOT NULL DEFAULT 'UNKNOWN',

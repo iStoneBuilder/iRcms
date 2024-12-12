@@ -1,5 +1,6 @@
 package com.stone.it.rcms.base.dao;
 
+import com.stone.it.rcms.base.vo.MenuVO;
 import com.stone.it.rcms.base.vo.RoleVO;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
@@ -33,4 +34,11 @@ public interface IPermissionDao {
         @Param("rList") List<RoleVO> roleList);
 
     List<PermissionVO> findRolePermissionList(RoleVO roleVO);
+
+    int deleteRoleMenu(@Param("roleCode") String roleCode);
+
+    int createRoleMenu(@Param("list") List<MenuVO> menuList, @Param("roleCode") String code,
+        @Param("userId") String userId);
+
+    int deleteRoleMenuNotExist(@Param("mList") List<MenuVO> menuList, @Param("rList") List<RoleVO> roleList);
 }

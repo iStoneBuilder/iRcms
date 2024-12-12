@@ -114,17 +114,19 @@ public class TreeUtil {
         JSONObject meta = new JSONObject();
         for (String key : META_KEYS) {
             if (node.containsKey(key) && node.get(key) != null && node.get(key) != "") {
-                if (key.equals("roles") || key.equals("auths")) {
-                    meta.put(key, (node.getString(key)).split(","));
-                    continue;
-                }
-                if (key.equals("rank")) {
-                    meta.put(key, node.getIntValue("rankSort"));
-                    continue;
-                }
-                if (key.equals("showLink")) {
-                    meta.put(key, node.getBoolean(key));
-                    continue;
+                switch (key) {
+                    case "roles", "auths" -> {
+                        meta.put(key, (node.getString(key)).split(","));
+                        continue;
+                    }
+                    case "rank" -> {
+                        meta.put(key, node.getIntValue("rankSort"));
+                        continue;
+                    }
+                    case "showLink" -> {
+                        meta.put(key, node.getBoolean(key));
+                        continue;
+                    }
                 }
                 meta.put(key, node.get(key));
             }

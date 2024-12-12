@@ -57,6 +57,9 @@ public class LoginService implements ILoginService {
         loginResVO.setRefreshToken(refreshToken);
         loginResVO.setUsername(dbUser.getAccountCode());
         loginResVO.setNickname(dbUser.getAccountName());
+        if ("".equals(dbUser.getAccountRoles()) || null == dbUser.getAccountRoles()) {
+            throw new RcmsApplicationException(500, "用户角色为空，请联系管理员！");
+        }
         String[] roles = (dbUser.getAccountRoles()).split(",");
         ArrayList<String> roleList = new ArrayList<>();
         Collections.addAll(roleList, roles);

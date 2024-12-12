@@ -39,7 +39,13 @@
         from tpl_mifi_device_divide_t
         <include refid="query_page_condition"/>
         order by created_time desc
-        limit #{param1.startIndex}, #{param1.endIndex}
+        limit #{param2.startIndex}, #{param2.endIndex}
+    </select>
+
+    <select id="findPageDivideResultCount" resultType="int">
+        select count(1)
+        from tpl_mifi_device_divide_t
+        <include refid="query_page_condition"/>
     </select>
 
     <insert id="createDivideRecord">
@@ -48,10 +54,11 @@
         divide_id, device_sn, divide_num,
         org_mch, target_mch,
         divide_status, remark,
-        created_time, created_by)
+        created_time, created_by,
+        updated_time, updated_by)
         values
         (#{divide.tenantId,jdbcType=VARCHAR},
-        #{divide.enterpriseId,jdbcType=VARCHAR},
+        #{divide.currentEnterpriseId,jdbcType=VARCHAR},
         #{divide.divideId,jdbcType=VARCHAR},
         <foreach collection="list" item="item" separator=",">
             #{item.deviceSn,jdbcType=VARCHAR}
@@ -61,6 +68,8 @@
         #{divide.targetMch,jdbcType=VARCHAR},
         #{divide.divideStatus,jdbcType=VARCHAR},
         #{divide.remark,jdbcType=VARCHAR},
+        now(),
+        #{divide.currentUserId,jdbcType=VARCHAR},
         now(),
         #{divide.currentUserId,jdbcType=VARCHAR}
         )

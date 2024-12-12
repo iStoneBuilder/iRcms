@@ -159,4 +159,39 @@
         order by p.api_name desc,p.auth_code desc
     </select>
 
+    <delete id="deleteRoleMenu">
+        delete from tpl_fram_role_menu_t
+        where role_code = #{roleCode,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="createRoleMenu">
+        insert into tpl_fram_role_menu_t
+        (role_code,
+        menu_id,
+        created_time,
+        updated_time,
+        created_by,
+        updated_by)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{roleCode,jdbcType=VARCHAR},
+            #{item.id,jdbcType=VARCHAR}
+            now(),now(),
+            #{userId,jdbcType=VARCHAR},
+            #{userId,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoleMenuNotExist">
+        delete from tpl_fram_role_menu_t
+        where role_code in
+        <foreach collection="rList" item="item" open="(" separator="," close=")">
+            #{item.code,jdbcType=VARCHAR}
+        </foreach>
+        and menu_id not in
+        <foreach collection="mList" item="item" open="(" separator="," close=")">
+            #{item.id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
 </mapper>

@@ -1,9 +1,11 @@
 package com.stone.it.rcms.base.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.stone.it.rcms.base.dao.IMenuDao;
 import com.stone.it.rcms.base.dao.IPermissionDao;
 import com.stone.it.rcms.base.dao.IRoleDao;
 import com.stone.it.rcms.base.service.IRoleService;
+import com.stone.it.rcms.base.vo.MenuVO;
 import com.stone.it.rcms.base.vo.RoleVO;
 import com.stone.it.rcms.core.util.TreeUtil;
 import com.stone.it.rcms.core.util.UUIDUtil;
@@ -15,7 +17,6 @@ import javax.inject.Named;
 
 import com.stone.it.rcms.core.vo.PermissionVO;
 import org.apache.cxf.common.util.StringUtils;
-import org.apache.shiro.SecurityUtils;
 
 /**
  * 角色配置
@@ -28,6 +29,9 @@ public class RoleService implements IRoleService {
 
     @Inject
     private IRoleDao roleDao;
+
+    @Inject
+    private IMenuDao menuDao;
 
     @Inject
     private IPermissionDao permissionDao;
@@ -60,6 +64,12 @@ public class RoleService implements IRoleService {
     }
 
     @Override
+    public List<MenuVO> findRoleMenuList(String roleId) {
+        RoleVO roleVO = roleDao.findRoleDetail(roleId);
+        return menuDao.findMenuListByRoleCode(roleVO);
+    }
+
+    @Override
     public List<RoleVO> findRoleTree(RoleVO roleVO) {
         String enterpriseId = roleVO.getEnterpriseId();
         if (StringUtils.isEmpty(enterpriseId)) {
@@ -84,6 +94,15 @@ public class RoleService implements IRoleService {
         // 创建权限角色关联表
         permissionDao.createRolePermission(permissionList, roleVO.getCode(), UserUtil.getUserId());
         // 查询角色的下级角色列表
+        List<RoleVO> roleList = getRoleChildrenList(roleVO);
+        // 清除下级角色 在上级角色中不存在的权限
+        if (!roleList.isEmpty()) {
+            permissionDao.deleteRolePermissionNotExist(permissionList, roleList);
+        }
+        return 1;
+    }
+
+    private List<RoleVO> getRoleChildrenList(RoleVO roleVO) {
         List<RoleVO> treeList = findRoleTree(roleVO);
         List<RoleVO> roleList = new ArrayList<>();
         for (RoleVO vo : treeList) {
@@ -94,9 +113,18 @@ public class RoleService implements IRoleService {
                 break;
             }
         }
+        return roleList;
+    }
+
+    @Override
+    public int createRoleMenu(String roleId, List<MenuVO> menuList) {
+        RoleVO roleVO = roleDao.findRoleDetail(roleId);
+        permissionDao.deleteRoleMenu(roleVO.getCode());
+        permissionDao.createRoleMenu(menuList, roleVO.getCode(), UserUtil.getUserId());
+        List<RoleVO> roleList = getRoleChildrenList(roleVO);
         // 清除下级角色 在上级角色中不存在的权限
         if (!roleList.isEmpty()) {
-            permissionDao.deleteRolePermissionNotExist(permissionList, roleList);
+            permissionDao.deleteRoleMenuNotExist(menuList, roleList);
         }
         return 1;
     }

@@ -30,9 +30,10 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_merchant_carrier_t` (
 
 -- SIM 卡（企租级数据）
 CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_t` (
+  `batch_No` VARCHAR(100) NOT NULL COMMENT '入库批次号',
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
-  `iccid` VARCHAR(100) NOT NULL COMMENT 'ICCID', -- 20位
   `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
+  `iccid` VARCHAR(100) NOT NULL COMMENT 'ICCID', -- 20位
   `merchant_code` VARCHAR(100) NOT NULL COMMENT '卡商编码',
   `carrier_code` VARCHAR(100) NOT NULL COMMENT '运营商',
   `net_type` VARCHAR(100) NOT NULL COMMENT '网络类型', -- 4G，5G，6G
@@ -91,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_t` (
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
   `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
   `device_sn` VARCHAR(100) NOT NULL COMMENT '设备sn',
-  `imei` VARCHAR(100)  COMMENT 'imei',
+  `imei` VARCHAR(100)  COMMENT '移动设备识别码',
   `msisdn1` VARCHAR(100)  COMMENT '物联网号1',
   `msisdn2` VARCHAR(100)  COMMENT '物联网号2',
   `net_mode` VARCHAR(100) NOT NULL COMMENT '上网模式',
@@ -181,14 +182,15 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_divide_t` (
   `org_mch` VARCHAR(100) NOT NULL COMMENT '原始商户',
   `target_mch` VARCHAR(100) NOT NULL COMMENT '目标商户',
   `divide_status` VARCHAR(100) NOT NULL COMMENT '分发状态',
-  `remark` VARCHAR(100) NOT NULL COMMENT '分发备注',
+  `remark` VARCHAR(100) COMMENT '分发备注',
   `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
-  PRIMARY KEY (`device_divide_id`)
+  PRIMARY KEY (`divide_id`)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 
+-- 原始数据 iccid（设备）,时间（5分钟上报），用量
 
-
+-- 第二数据 套餐，iccid（设备）, 时间（5分钟上报），用量
