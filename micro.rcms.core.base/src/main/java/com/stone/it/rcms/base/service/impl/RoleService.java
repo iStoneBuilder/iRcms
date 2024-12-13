@@ -11,6 +11,7 @@ import com.stone.it.rcms.core.util.TreeUtil;
 import com.stone.it.rcms.core.util.UUIDUtil;
 import com.stone.it.rcms.core.util.UserUtil;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -119,12 +120,27 @@ public class RoleService implements IRoleService {
     @Override
     public int createRoleMenu(String roleId, List<MenuVO> menuList) {
         RoleVO roleVO = roleDao.findRoleDetail(roleId);
+        // 删除角色栏目
         permissionDao.deleteRoleMenu(roleVO.getCode());
-        permissionDao.createRoleMenu(menuList, roleVO.getCode(), UserUtil.getUserId());
+        List<String> menuIds = new ArrayList<>();
+        menuList.forEach(menu -> {
+            // 增加子节点
+            if (!menuIds.contains(menu.getId())) {
+                menuIds.add(menu.getId());
+            }
+            // 增加父亲节点
+            if (!"0".equals(menu.getParentId())) {
+                if (!menuIds.contains(menu.getParentId())) {
+                    menuIds.add(menu.getParentId());
+                }
+            }
+        });
+        // 处理角色栏目（判断是否有父亲节点）
+        permissionDao.createRoleMenu(menuIds, roleVO.getCode(), UserUtil.getUserId());
         List<RoleVO> roleList = getRoleChildrenList(roleVO);
         // 清除下级角色 在上级角色中不存在的权限
         if (!roleList.isEmpty()) {
-            permissionDao.deleteRoleMenuNotExist(menuList, roleList);
+            permissionDao.deleteRoleMenuNotExist(menuIds, roleList);
         }
         return 1;
     }

@@ -37,8 +37,8 @@ public interface IPermissionDao {
 
     int deleteRoleMenu(@Param("roleCode") String roleCode);
 
-    int createRoleMenu(@Param("list") List<MenuVO> menuList, @Param("roleCode") String code,
+    int createRoleMenu(@Param("list") List<String> menuList, @Param("roleCode") String code,
         @Param("userId") String userId);
 
-    int deleteRoleMenuNotExist(@Param("mList") List<MenuVO> menuList, @Param("rList") List<RoleVO> roleList);
+    int deleteRoleMenuNotExist(@Param("mList") List<String> menuList, @Param("rList") List<RoleVO> roleList);
 }

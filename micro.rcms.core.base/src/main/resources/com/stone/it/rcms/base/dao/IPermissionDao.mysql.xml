@@ -175,7 +175,7 @@
         values
         <foreach collection="list" item="item" separator=",">
             (#{roleCode,jdbcType=VARCHAR},
-            #{item.id,jdbcType=VARCHAR}
+            #{item,jdbcType=VARCHAR}
             now(),now(),
             #{userId,jdbcType=VARCHAR},
             #{userId,jdbcType=VARCHAR})
@@ -190,7 +190,7 @@
         </foreach>
         and menu_id not in
         <foreach collection="mList" item="item" open="(" separator="," close=")">
-            #{item.id,jdbcType=VARCHAR}
+            #{item,jdbcType=VARCHAR}
         </foreach>
     </delete>
 

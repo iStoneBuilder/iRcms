@@ -61,8 +61,8 @@
 
     <sql id="query_base_menu">
         select
-        mt.id,
         mt.parent_id as parentId,
+        mt.id,
         mt.title,
         mt.name,
         mt.path,
@@ -106,12 +106,13 @@
     </update>
 
     <select id="findMenuListByRoleCode" resultType="com.stone.it.rcms.base.vo.MenuVO">
+        select t.* from (
         <include refid="query_base_menu"/>
         LEFT JOIN tpl_fram_role_menu_t rm
         ON mt.id = rm.menu_id
-        WHERE
-        rm.menu_id IS NOT NULL
+        WHERE rm.menu_id IS NOT NULL
         and rm.role_code = #{code,jdbcType=VARCHAR}
+        ) t ORDER by t.rankSort ASC
     </select>
 
 </mapper>
