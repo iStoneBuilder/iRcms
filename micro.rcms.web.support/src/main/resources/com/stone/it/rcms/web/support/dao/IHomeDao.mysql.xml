@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.web.support.dao.IHomeDao">
+
+    <sql id="query_base_menu">
+        select
+        mt.parent_id as parentId,
+        mt.id,
+        mt.title,
+        mt.name,
+        mt.path,
+        mt.component,
+        mt.redirect,
+        mt.icon,
+        mt.extra_icon as extraIcon,
+        mt.active_path as activePath,
+        mt.show_link as showLink,
+        mt.rank_sort as rankSort,
+        mt.created_by as createBy,
+        mt.created_time as createTime,
+        mt.updated_by as updateBy,
+        mt.updated_time as updateTime
+        from tpl_fram_menu_t mt
+    </sql>
+
+    <select id="findTopRouterData" resultType="com.stone.it.rcms.core.vo.MenuVO">
+        <include refid="query_base_menu"/>
+        where parent_id = #{parentId,jdbcType=VARCHAR}
+        order by mt.rank_sort
+    </select>
+
+    <select id="findUserRouterData" resultType="com.stone.it.rcms.core.vo.MenuVO">
+        <include refid="query_base_menu"/>
+        RIGHT JOIN tpl_fram_role_menu_t rmt ON mt.id = rmt.menu_id
+        WHERE
+        INSTR((SELECT CONCAT_WS(at.account_roles, ',', ',') AS userRole FROM tpl_fram_account_t at
+        WHERE at.account_code = #{userId,jdbcType=VARCHAR}), CONCAT_WS(rmt.role_code, ',', ','))
+        ORDER BY mt.parent_id, mt.rank_sort
+    </select>
+</mapper>

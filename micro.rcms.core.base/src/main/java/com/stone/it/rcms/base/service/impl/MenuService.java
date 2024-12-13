@@ -1,16 +1,14 @@
 package com.stone.it.rcms.base.service.impl;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.base.dao.IMenuDao;
 import com.stone.it.rcms.base.service.IMenuService;
-import com.stone.it.rcms.base.vo.MenuVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
-import com.stone.it.rcms.core.util.TreeUtil;
 import com.stone.it.rcms.core.util.UUIDUtil;
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import com.stone.it.rcms.core.vo.MenuVO;
 import org.apache.cxf.common.util.StringUtils;
 
 /**
@@ -28,19 +26,6 @@ public class MenuService implements IMenuService {
     @Override
     public List<MenuVO> getMenuList(MenuVO menuVO) {
         return menuDao.getMenuList(menuVO);
-    }
-
-    @Override
-    public List<JSONObject> getMenuRouterTreeList() {
-        List<JSONObject> treeData = new ArrayList<>();
-        // 查询根节点数据
-        List<MenuVO> rootList = menuDao.findMenuListByPid("0");
-        List<MenuVO> allList = menuDao.getMenuList(new MenuVO());
-        rootList.forEach(menuVO -> {
-            JSONObject tree = TreeUtil.buildRouterTree(menuVO, allList);
-            treeData.add(tree);
-        });
-        return treeData;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.stone.it.rcms.base.dao;
 
-import com.stone.it.rcms.base.vo.MenuVO;
 import com.stone.it.rcms.base.vo.RoleVO;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;

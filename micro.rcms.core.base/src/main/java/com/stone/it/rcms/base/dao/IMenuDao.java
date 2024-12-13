@@ -1,10 +1,9 @@
 package com.stone.it.rcms.base.dao;
 
-import com.stone.it.rcms.base.vo.MenuVO;
 import java.util.List;
 
 import com.stone.it.rcms.base.vo.RoleVO;
-import com.stone.it.rcms.core.vo.PermissionVO;
+import com.stone.it.rcms.core.vo.MenuVO;
 import org.apache.ibatis.annotations.Param;
 
 /**

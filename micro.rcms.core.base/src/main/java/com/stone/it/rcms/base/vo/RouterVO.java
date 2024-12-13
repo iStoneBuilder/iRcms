@@ -3,6 +3,8 @@ package com.stone.it.rcms.base.vo;
 import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
+
+import com.stone.it.rcms.core.vo.MenuVO;
 import lombok.Data;
 
 /**

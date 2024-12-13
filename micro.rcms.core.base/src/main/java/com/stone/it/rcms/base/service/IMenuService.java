@@ -1,8 +1,6 @@
 package com.stone.it.rcms.base.service;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.stone.it.rcms.base.vo.MenuVO;
-import com.stone.it.rcms.base.vo.RouterVO;
 import com.stone.it.rcms.core.annotate.RcmsMethod;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -15,6 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import com.stone.it.rcms.core.vo.MenuVO;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
@@ -35,12 +35,6 @@ public interface IMenuService {
     @RcmsMethod(name = "栏目管理.列表查询")
     @RequiresPermissions("permission:menu:list:query")
     List<MenuVO> getMenuList(@QueryParam("") MenuVO menuVO);
-
-    @GET
-    @Path("/records/tree/router")
-    @RcmsMethod(name = "栏目管理.Tree查询")
-    @RequiresPermissions("permission:menu:router:tree:query")
-    List<JSONObject> getMenuRouterTreeList();
 
     @POST
     @Path("/records")

@@ -5,17 +5,16 @@ import com.stone.it.rcms.base.dao.IMenuDao;
 import com.stone.it.rcms.base.dao.IPermissionDao;
 import com.stone.it.rcms.base.dao.IRoleDao;
 import com.stone.it.rcms.base.service.IRoleService;
-import com.stone.it.rcms.base.vo.MenuVO;
 import com.stone.it.rcms.base.vo.RoleVO;
 import com.stone.it.rcms.core.util.TreeUtil;
 import com.stone.it.rcms.core.util.UUIDUtil;
 import com.stone.it.rcms.core.util.UserUtil;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.stone.it.rcms.core.vo.MenuVO;
 import com.stone.it.rcms.core.vo.PermissionVO;
 import org.apache.cxf.common.util.StringUtils;
 

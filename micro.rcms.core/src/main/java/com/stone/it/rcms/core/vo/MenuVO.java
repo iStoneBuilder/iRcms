@@ -1,7 +1,7 @@
-package com.stone.it.rcms.base.vo;
+package com.stone.it.rcms.core.vo;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.stone.it.rcms.core.vo.BaseVO;
+
 import java.util.List;
 import lombok.Data;
 
