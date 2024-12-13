@@ -50,7 +50,7 @@ public interface IMenuService {
 
     @PUT
     @Path("/records/{id}")
-    @RcmsMethod(name = "栏目管理.新增")
+    @RcmsMethod(name = "栏目管理.更新")
     @RequiresPermissions("permission:menu:update")
     int updateMenu(@PathParam("id") String id, MenuVO menuVO);
 

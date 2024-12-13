@@ -55,6 +55,9 @@ public class MenuService implements IMenuService {
 
     @Override
     public int updateMenu(String id, MenuVO menuVO) {
+        if ("".equals(menuVO.getParentId()) || null == menuVO.getParentId()) {
+            menuVO.setParentId("0");
+        }
         menuVO.setId(id);
         return menuDao.updateMenu(menuVO);
     }

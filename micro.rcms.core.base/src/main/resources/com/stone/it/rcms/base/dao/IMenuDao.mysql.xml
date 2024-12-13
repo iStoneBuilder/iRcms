@@ -112,7 +112,7 @@
         ON mt.id = rm.menu_id
         WHERE rm.menu_id IS NOT NULL
         and rm.role_code = #{code,jdbcType=VARCHAR}
-        ) t ORDER by t.rankSort ASC
+        ) t ORDER by t.parentId, t.rankSort ASC
     </select>
 
 </mapper>
