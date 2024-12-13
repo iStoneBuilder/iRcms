@@ -27,7 +27,8 @@
     <insert id="createPermission">
         insert into
         tpl_fram_permission_t(
-        service_code,auth_code,api_code,api_name,api_path,api_method,api_type,open_api,created_time,updated_time,created_by,updated_by)
+        service_code,auth_code,api_code,api_name,api_path,api_method,
+        api_type,open_api,created_time,updated_time,created_by,updated_by)
         values
         <foreach collection="list" item="item" separator=",">
             (
@@ -171,14 +172,18 @@
         created_time,
         updated_time,
         created_by,
-        updated_by)
+        updated_by
+        )
         values
         <foreach collection="list" item="item" separator=",">
-            (#{roleCode,jdbcType=VARCHAR},
-            #{item,jdbcType=VARCHAR}
-            now(),now(),
+            (
+            #{roleCode,jdbcType=VARCHAR},
+            #{item,jdbcType=VARCHAR},
+            now(),
+            now(),
             #{userId,jdbcType=VARCHAR},
-            #{userId,jdbcType=VARCHAR})
+            #{userId,jdbcType=VARCHAR}
+            )
         </foreach>
     </insert>
 
