@@ -101,7 +101,28 @@
     </insert>
 
     <update id="updatePayConfig">
-
+        UPDATE
+        tpl_fram_pay_t
+        SET
+        pay_way=#{payWay,jdbcType=VARCHAR},
+        pay_type=#{payType,jdbcType=VARCHAR},
+        mini_app_id=#{miniAppId,jdbcType=VARCHAR},
+        mini_app_secret=#{miniAppSecret,jdbcType=VARCHAR},
+        public_app_id=#{publicAppId,jdbcType=VARCHAR},
+        public_app_secret=#{publicAppSecret,jdbcType=VARCHAR},
+        mch_id=#{mchId,jdbcType=VARCHAR},
+        mch_pay_v2key=#{payV2Key,jdbcType=VARCHAR},
+        mch_pay_v3key=#{payV3Key,jdbcType=VARCHAR},
+        mch_serial_number=#{mchSerialNumber,jdbcType=VARCHAR},
+        notify_Url=#{notifyUrl,jdbcType=VARCHAR},
+        refund_Notify_Url=#{refundNotifyUrl,jdbcType=VARCHAR},
+        mch_pay_private_key=#{payPrivateKey,jdbcType=VARCHAR},
+        mch_pay_cert=#{payCert,jdbcType=VARCHAR},
+        cert_path=#{payCertPath,jdbcType=VARCHAR},
+        UPDATED_TIME=now(),
+        UPDATED_BY=#{currentUserId,jdbcType=VARCHAR}
+        WHERE
+        pay_config_id=#{payConfigId,jdbcType=VARCHAR}
     </update>
 
     <delete id="deletePayConfig">
