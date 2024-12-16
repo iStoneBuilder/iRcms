@@ -19,6 +19,7 @@
         </jaxrs:providers>
         <jaxrs:serviceBeans>
             <ref bean="payOrderService"/>
+            <ref bean="payConfigService"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 

@@ -20,11 +20,11 @@ public interface IPayConfigDao {
      */
     PayConfigVO findPayConfigDetail(PayConfigVO payConfigVO);
 
-    PayConfigVO createPayConfig(PayConfigVO payConfigVO);
+    int createPayConfig(PayConfigVO payConfigVO);
 
-    PayConfigVO updatePayConfig(PayConfigVO payConfigVO);
+    int updatePayConfig(PayConfigVO payConfigVO);
 
-    void deletePayConfig(@Param("payConfigId") String payConfigId);
+    int deletePayConfig(@Param("payConfigId") String payConfigId);
 
     /**
      * 根据租户ID查询支付配置详情

@@ -24,35 +24,35 @@ import javax.ws.rs.core.MediaType;
 public interface IPayConfigService {
 
     @GET
-    @Path("/{curPage}/{pageSize}")
+    @Path("/records/page/{curPage}/{pageSize}")
     @RcmsMethod(name = "支付配置.分页查询")
-    @RequiresPermissions("permission:page-config:page-query")
+    @RequiresPermissions("permission:pay-config:page-query")
     PageResult<PayConfigVO> findPayConfigPageList(@QueryParam("") PayConfigVO payConfigVO,
         @PathParam("") PageVO pageVO);
 
     @GET
     @Path("/{pai_config_id}")
     @RcmsMethod(name = "支付配置.详情查询")
-    @RequiresPermissions("permission:page-config:detail-query")
+    @RequiresPermissions("permission:pay-config:detail-query")
     PayConfigVO findPayConfigDetail(@PathParam("pai_config_id") String payConfigId,
         @QueryParam("") PayConfigVO payConfigVO);
 
     @POST
-    @Path("")
+    @Path("/records")
     @RcmsMethod(name = "支付配置.新增")
-    @RequiresPermissions("permission:page-config:create")
+    @RequiresPermissions("permission:pay-config:create")
     PayConfigVO createPayConfig(PayConfigVO payConfigVO);
 
     @PUT
-    @Path("/{pai_config_id}")
+    @Path("/records/{pai_config_id}")
     @RcmsMethod(name = "支付配置.修改")
-    @RequiresPermissions("permission:page-config:update")
+    @RequiresPermissions("permission:pay-config:update")
     PayConfigVO updatePayConfig(@PathParam("pai_config_id") String payConfigId, PayConfigVO payConfigVO);
 
     @DELETE
-    @Path("/{pai_config_id}")
+    @Path("/records/{pai_config_id}")
     @RcmsMethod(name = "支付配置.删除")
-    @RequiresPermissions("permission:page-config:delete")
+    @RequiresPermissions("permission:pay-config:delete")
     void deletePayConfig(@PathParam("pai_config_id") String payConfigId);
 
 }

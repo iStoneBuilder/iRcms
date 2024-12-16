@@ -45,4 +45,6 @@ public class PayConfigVO extends BaseVO {
     private String payPrivateKey;
     // 微信支付商户证书
     private String payCert;
+    // 支付证书路径
+    private String payCertPath;
 }

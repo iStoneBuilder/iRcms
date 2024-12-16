@@ -38,13 +38,15 @@ public class PayConfigService implements IPayConfigService {
     @Override
     public PayConfigVO createPayConfig(PayConfigVO payConfigVO) {
         payConfigVO.setPayConfigId(RandomUtil.stringGenerator(10));
-        return payConfigDao.createPayConfig(payConfigVO);
+        payConfigDao.createPayConfig(payConfigVO);
+        return payConfigVO;
     }
 
     @Override
     public PayConfigVO updatePayConfig(String payConfigId, PayConfigVO payConfigVO) {
         payConfigVO.setPayConfigId(payConfigId);
-        return payConfigDao.updatePayConfig(payConfigVO);
+        payConfigDao.updatePayConfig(payConfigVO);
+        return payConfigVO;
     }
 
     @Override
