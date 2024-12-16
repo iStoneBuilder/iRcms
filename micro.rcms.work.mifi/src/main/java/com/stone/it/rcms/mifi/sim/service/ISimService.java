@@ -37,6 +37,12 @@ public interface ISimService {
     @RequiresPermissions("permission:sim:page:query")
     PageResult<SimVO> findSimPageResult(@QueryParam("") SimVO simVO, @PathParam("") PageVO pageVO);
 
+    @GET
+    @Path("/records/{iccid}")
+    @RcmsMethod(name = "SIM卡管理.详情")
+    @RequiresPermissions("permission:sim:detail")
+    SimVO findSimDetail(@PathParam("iccid") String iccid, @QueryParam("") SimVO simVO);
+
     @POST
     @Path("/records")
     @RcmsMethod(name = "SIM卡管理.导入")

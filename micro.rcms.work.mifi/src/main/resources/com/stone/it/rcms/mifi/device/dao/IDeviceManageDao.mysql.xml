@@ -172,7 +172,7 @@
 
     <delete id="deleteDevice">
         delete from tpl_mifi_device_t
-        where device_id = #{deviceSn,jdbcType=VARCHAR}
+        where device_sn = #{deviceSn,jdbcType=VARCHAR}
     </delete>
 
     <update id="setDeviceGroup">

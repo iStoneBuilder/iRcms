@@ -31,4 +31,8 @@ public interface ISimDao {
     int updateSimRelationship(@Param("list") List<DeviceVO> noExists);
 
     void updateSimMch(@Param("list") List<DeviceVO> list, @Param("divide") DeviceDivideVO divideVO);
+
+    SimVO findSimDetail(SimVO simVO);
+
+    int updateSimDeviceInfo(DeviceVO detail);
 }

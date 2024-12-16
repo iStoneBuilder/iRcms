@@ -167,4 +167,18 @@
         </foreach>
     </update>
 
+    <select id="findSimDetail" resultType="com.stone.it.rcms.mifi.sim.vo.SimVO">
+        <include refid="query_base"/>
+        where st.iccid = #{iccid,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateSimDeviceInfo">
+        update tpl_mifi_sim_t
+        set missdn = NULL,
+        updated_time = now(),
+        updated_by = #{updateBy,jdbcType=VARCHAR}
+        where iccid = #{iccid,jdbcType=VARCHAR}
+        or iccid = #{iccid2,jdbcType=VARCHAR}
+    </update>
+
 </mapper>

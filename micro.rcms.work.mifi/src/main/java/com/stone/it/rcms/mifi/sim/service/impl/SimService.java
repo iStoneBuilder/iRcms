@@ -1,5 +1,6 @@
 package com.stone.it.rcms.mifi.sim.service.impl;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.core.common.service.ICommonService;
 import com.stone.it.rcms.core.common.vo.CommonVO;
 import com.stone.it.rcms.core.util.UserUtil;
@@ -38,6 +39,15 @@ public class SimService implements ISimService {
             list = commonService.findEnterpriseListByParentId(simVO.getCurrentEnterpriseId());
         }
         return simDao.findSimPageResult(simVO, pageVO, list);
+    }
+
+    @Override
+    public SimVO findSimDetail(String iccid, SimVO simVO) {
+        simVO.setIccid(iccid);
+        SimVO infoVO = simDao.findSimDetail(simVO);
+        // 查询运营商信息
+        infoVO.setCarrierInfo(new JSONObject());
+        return infoVO;
     }
 
     @Override

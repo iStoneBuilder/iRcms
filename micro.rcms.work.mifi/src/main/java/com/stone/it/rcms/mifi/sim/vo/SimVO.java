@@ -1,5 +1,7 @@
 package com.stone.it.rcms.mifi.sim.vo;
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.core.vo.BaseVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,5 +44,12 @@ public class SimVO extends BaseVO {
     private String flowUsedDay;
     // 备注
     private String remark;
+
+    // 运营商卡信息
+    private JSONObject carrierInfo;
+    // 用量统计信息
+    private JSONArray usageInfo;
+    // 状态变更记录
+    private JSONArray statusChangeInfo;
 
 }

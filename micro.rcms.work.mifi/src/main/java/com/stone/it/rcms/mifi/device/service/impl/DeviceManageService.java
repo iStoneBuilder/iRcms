@@ -11,6 +11,7 @@ import com.stone.it.rcms.mifi.device.dao.IDeviceManageDao;
 import com.stone.it.rcms.mifi.device.service.IDeviceManageService;
 import com.stone.it.rcms.mifi.device.vo.DeviceVO;
 import com.stone.it.rcms.mifi.sim.dao.ISimDao;
+import com.stone.it.rcms.mifi.sim.vo.SimVO;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -48,7 +49,7 @@ public class DeviceManageService implements IDeviceManageService {
     @Override
     public DeviceVO findDeviceDetail(String deviceSn) {
         DeviceVO deviceVO = deviceManageDao.findDeviceDetail(deviceSn);
-        if (deviceVO == null || !deviceVO.getTenantId().equals(UserUtil.getTenantId())) {
+        if (deviceVO == null || !deviceVO.getEnterpriseId().equals(UserUtil.getEnterpriseId())) {
             throw new RcmsApplicationException(500, "终端设备不存在");
         }
         return deviceVO;
@@ -104,7 +105,9 @@ public class DeviceManageService implements IDeviceManageService {
 
     @Override
     public int deleteDevice(String deviceSn) {
-        findDeviceDetail(deviceSn);
+        DeviceVO detail = findDeviceDetail(deviceSn);
+        detail.setUpdateBy(UserUtil.getUserId());
+        simDao.updateSimDeviceInfo(detail);
         return deviceManageDao.deleteDevice(deviceSn);
     }
 }
