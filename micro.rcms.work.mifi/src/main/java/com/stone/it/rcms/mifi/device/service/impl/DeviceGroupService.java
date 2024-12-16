@@ -8,8 +8,11 @@ import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.core.common.service.ICommonService;
 import com.stone.it.rcms.core.common.vo.CommonVO;
 import com.stone.it.rcms.mifi.device.dao.IDeviceGroupDao;
+import com.stone.it.rcms.mifi.device.dao.IDeviceManageDao;
 import com.stone.it.rcms.mifi.device.service.IDeviceGroupService;
 import com.stone.it.rcms.mifi.device.vo.DeviceGroupVO;
+import com.stone.it.rcms.mifi.device.vo.DeviceVO;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ArrayList;
@@ -29,6 +32,9 @@ public class DeviceGroupService implements IDeviceGroupService {
 
     @Inject
     private ICommonService commonService;
+
+    @Inject
+    private IDeviceManageDao manageDao;
 
     @Override
     public PageResult<DeviceGroupVO> findPageDeviceGroupResult(DeviceGroupVO groupVO, PageVO pageVO) {
@@ -75,6 +81,10 @@ public class DeviceGroupService implements IDeviceGroupService {
     @Override
     public int deleteDeviceGroup(String id) {
         DeviceGroupVO vo = findDeviceGroupDetail(id);
+        List<DeviceVO> list = manageDao.findDeviceListByGroupCode(id);
+        if (!list.isEmpty()) {
+            throw new RcmsApplicationException(500, "该设备组下有设备，不能删除");
+        }
         return deviceGroupDao.deleteDeviceGroup(vo);
     }
 }

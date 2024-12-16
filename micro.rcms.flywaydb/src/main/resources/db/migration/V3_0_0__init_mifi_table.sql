@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_merchant_t` (
 CREATE TABLE IF NOT EXISTS `tpl_mifi_merchant_carrier_t` (
   `merchant_code` VARCHAR(100) NOT NULL COMMENT '卡商编码',
   `carrier_code` VARCHAR(100) NOT NULL COMMENT '运营商编码',
+  `address` VARCHAR(500) NOT NULL COMMENT '接口地址',
   `app_key` VARCHAR(100) NOT NULL COMMENT '运营商appKey',
   `app_secret` VARCHAR(100) NOT NULL COMMENT '运营商appSecret',
   `disable_area` VARCHAR(100) COMMENT '禁用区域',

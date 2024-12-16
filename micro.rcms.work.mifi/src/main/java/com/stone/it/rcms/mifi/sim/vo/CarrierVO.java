@@ -21,6 +21,7 @@ public class CarrierVO extends BaseVO {
     // 运营商名称
     private String carrierName;
 
+    private String address;
     private String appKey;
     private String appSecret;
     private String disableArea;

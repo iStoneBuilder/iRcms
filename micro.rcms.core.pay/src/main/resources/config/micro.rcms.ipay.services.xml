@@ -6,7 +6,7 @@
 						http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 						http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
-    <jaxrs:server address="/rcms/pay" id="rcmsPayServiceRest">
+    <jaxrs:server address="/api/v1" id="rcmsPayServiceRest">
         <jaxrs:inInterceptors>
             <ref bean="jwtTokenInInterceptor"/>
         </jaxrs:inInterceptors>

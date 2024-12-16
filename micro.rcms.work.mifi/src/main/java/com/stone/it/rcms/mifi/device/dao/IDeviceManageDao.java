@@ -34,4 +34,6 @@ public interface IDeviceManageDao {
 
     /** 更新设备商户信息，清空分组信息 */
     int updateDeviceGroupMch(@Param("list") List<DeviceVO> list, @Param("divide") DeviceDivideVO divideVO);
+
+    List<DeviceVO> findDeviceListByGroupCode(@Param("groupCode") String groupCode);
 }

@@ -38,19 +38,6 @@ public interface IWeChatPayService {
     JSONObject pay(@PathParam("pay_way") String payWay, @PathParam("pay_source") String paySource, PayVO payVO);
 
     /**
-     * 支付回调
-     *
-     * @param payConfigId 支付配置ID
-     * @param request 请求
-     * @return 回调结果
-     * @throws Exception 异常
-     */
-    @POST
-    @Path("/{pay_config_id}/wx/notify")
-    @RcmsMethod(name = "支付.wx订单回调")
-    String payNotify(@PathParam("pay_config_id") String payConfigId, HttpServletRequest request) throws Exception;
-
-    /**
      * 退款
      *
      * @param payVO 订单信息
@@ -58,18 +45,5 @@ public interface IWeChatPayService {
      * @throws Exception 异常
      */
     String refund(PayVO payVO) throws Exception;
-
-    /**
-     * 退款回调
-     *
-     * @param payConfigId 支付配置ID
-     * @param request 请求
-     * @return 回调结果
-     * @throws Exception 异常
-     */
-    @POST
-    @Path("/{pay_config_id}/wx/refund/notify")
-    @RcmsMethod(name = "支付.wx退款回调")
-    String refundNotify(@PathParam("pay_config_id") String payConfigId, HttpServletRequest request) throws Exception;
 
 }

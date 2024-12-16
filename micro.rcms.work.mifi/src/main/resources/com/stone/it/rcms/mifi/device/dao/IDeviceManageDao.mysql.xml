@@ -196,4 +196,9 @@
         </foreach>
     </update>
 
+    <select id="findDeviceListByGroupCode" resultType="com.stone.it.rcms.mifi.device.vo.DeviceVO">
+        <include refid="query_base"/>
+        where device_group = #{groupCode,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

@@ -6,6 +6,7 @@ import com.stone.it.rcms.core.pay.config.WxPayCertificateConfig;
 import com.stone.it.rcms.core.pay.dao.IOrderDao;
 import com.stone.it.rcms.core.pay.dao.IPayConfigDao;
 import com.stone.it.rcms.core.pay.event.DataPlanEventPublisher;
+import com.stone.it.rcms.core.pay.service.IWePayNotifyService;
 import com.stone.it.rcms.core.pay.service.IWeChatPayService;
 import com.stone.it.rcms.core.pay.utils.HttpServletUtils;
 import com.stone.it.rcms.core.pay.vo.OrderVO;
@@ -42,7 +43,7 @@ import java.util.Map;
  * @Desc
  */
 @Named
-public class WeChatPayService extends PayBaseService implements IWeChatPayService {
+public class WeChatPayService extends PayBaseService implements IWeChatPayService, IWePayNotifyService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WeChatPayService.class);
 
