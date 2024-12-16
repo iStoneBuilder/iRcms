@@ -149,7 +149,8 @@
 
     <select id="findWxPayConfigByTpp" resultType="com.stone.it.rcms.core.pay.vo.WxConfigVO">
         <include refid="query_detail_sql"/>
-        where pt.tenant_id = #{tenantId}
+        where pt.tenant_id = #{tenantId,jdbcType=VARCHAR}
+        ant pt.pay_way = #{payWay,jdbcType=VARCHAR}
     </select>
 
     <select id="findWxPayConfigByPci" resultType="com.stone.it.rcms.core.pay.vo.WxConfigVO">

@@ -6,6 +6,8 @@ import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  *
  * @author cj.stone
@@ -29,7 +31,8 @@ public interface IPayConfigDao {
     /**
      * 根据租户ID查询支付配置详情
      */
-    WxConfigVO findWxPayConfigByTpp(@Param("tenantId") String tenantId, @Param("paySource") String paySource);
+    List<WxConfigVO> findWxPayConfigByTpp(@Param("tenantId") String tenantId, @Param("paySource") String paySource,
+        @Param("payWay") String payWay);
 
     WxConfigVO findWxPayConfigByPci(@Param("payConfigId") String payConfigId, @Param("paySource") String paySource);
 }

@@ -6,7 +6,7 @@ import com.stone.it.rcms.core.pay.config.WxPayCertificateConfig;
 import com.stone.it.rcms.core.pay.dao.IOrderDao;
 import com.stone.it.rcms.core.pay.dao.IPayConfigDao;
 import com.stone.it.rcms.core.pay.event.DataPlanEventPublisher;
-import com.stone.it.rcms.core.pay.service.IPayService;
+import com.stone.it.rcms.core.pay.service.IWeChatPayService;
 import com.stone.it.rcms.core.pay.utils.HttpServletUtils;
 import com.stone.it.rcms.core.pay.vo.OrderVO;
 import com.stone.it.rcms.core.pay.vo.PayVO;
@@ -31,6 +31,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,9 +42,9 @@ import java.util.Map;
  * @Desc
  */
 @Named
-public class PayService extends PayBaseService implements IPayService {
+public class WeChatPayService extends PayBaseService implements IWeChatPayService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PayService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WeChatPayService.class);
 
     @Inject
     private IOrderDao orderDao;
@@ -170,11 +171,11 @@ public class PayService extends PayBaseService implements IPayService {
             throw new RcmsApplicationException(500, "订单不存在");
         }
         try {
-            WxConfigVO wxPayConfig = configDao.findWxPayConfigByTpp(payVO.getTenantId(), "");
+            List<WxConfigVO> wxPayConfig = configDao.findWxPayConfigByTpp(payVO.getTenantId(), "", "wechatpay");
             // 构建退款service
             RefundService service = new RefundService.Builder()
-                .config(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig)).build();
-            CreateRequest request = getRefundRequest(orderVO, payVO, wxPayConfig);
+                .config(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig.get(0))).build();
+            CreateRequest request = getRefundRequest(orderVO, payVO, wxPayConfig.get(0));
             // 接收退款返回参数
             Refund refund = service.create(request);
             OrderVO upVO = new OrderVO();
@@ -221,12 +222,12 @@ public class PayService extends PayBaseService implements IPayService {
 
     PrepayWithRequestPaymentResponse createWxPayOrder(PayVO payVO, String payWay, String paySource) {
         // 加载支付配置信息(租户ID，支付来源)
-        WxConfigVO wxPayConfig = configDao.findWxPayConfigByTpp(payVO.getTenantId(), paySource);
+        List<WxConfigVO> wxPayConfig = configDao.findWxPayConfigByTpp(payVO.getTenantId(), paySource, payWay);
         JsapiServiceExtension service = new JsapiServiceExtension.Builder()
-            .config(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig)).signType("RSA").build();
+            .config(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig.get(0))).signType("RSA").build();
         PrepayWithRequestPaymentResponse response;
         try {
-            PrepayRequest request = getPrepayRequest(wxPayConfig, payVO);
+            PrepayRequest request = getPrepayRequest(wxPayConfig.get(0), payVO);
             LOGGER.info("请求预支付下单，请求参数：{}", JSONObject.toJSONString(request));
             // 调用预下单接口
             response = service.prepayWithRequestPayment(request);

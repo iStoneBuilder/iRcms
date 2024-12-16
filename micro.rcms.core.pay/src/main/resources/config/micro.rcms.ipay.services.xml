@@ -20,6 +20,7 @@
         <jaxrs:serviceBeans>
             <ref bean="payOrderService"/>
             <ref bean="payConfigService"/>
+            <ref bean="weChatPayService"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 

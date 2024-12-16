@@ -21,7 +21,7 @@ import javax.ws.rs.core.MediaType;
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiresAuthentication
-public interface IPayService {
+public interface IWeChatPayService {
 
     /**
      * 创建订单

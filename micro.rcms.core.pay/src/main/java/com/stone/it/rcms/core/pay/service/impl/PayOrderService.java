@@ -2,7 +2,7 @@ package com.stone.it.rcms.core.pay.service.impl;
 
 import com.stone.it.rcms.core.pay.dao.IOrderDao;
 import com.stone.it.rcms.core.pay.service.IPayOrderService;
-import com.stone.it.rcms.core.pay.service.IPayService;
+import com.stone.it.rcms.core.pay.service.IWeChatPayService;
 import com.stone.it.rcms.core.pay.vo.OrderVO;
 import com.stone.it.rcms.core.pay.vo.PayVO;
 import com.stone.it.rcms.core.util.UserUtil;
@@ -32,7 +32,7 @@ public class PayOrderService implements IPayOrderService {
     private ICommonService commonService;
 
     @Inject
-    private IPayService payService;
+    private IWeChatPayService payService;
 
     @Override
     public PageResult<OrderVO> findOrderPageResult(OrderVO orderVO, PageVO pageVO) {
