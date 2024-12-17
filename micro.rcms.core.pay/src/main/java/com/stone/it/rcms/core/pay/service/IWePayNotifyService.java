@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
  * @Date 2024/12/16
  * @Desc
  */
-@Path("/pay-notify")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes(MediaType.APPLICATION_JSON)
 public interface IWePayNotifyService {

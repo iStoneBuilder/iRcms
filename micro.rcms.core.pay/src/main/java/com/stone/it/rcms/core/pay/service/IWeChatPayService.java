@@ -17,7 +17,6 @@ import javax.ws.rs.core.MediaType;
  * @Date 2024/12/7
  * @Desc
  */
-@Path("/pay")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiresAuthentication
