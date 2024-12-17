@@ -117,8 +117,7 @@ public class WeChatPayService extends PayBaseService implements IWeChatPayServic
         RequestParam requestParam = getRequestParam(request);
         WxConfigVO wxPayConfig = configDao.findWxPayConfigByPci(payConfigId, "");
         // 初始化 NotificationParser
-        NotificationParser parser =
-            new NotificationParser(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig));
+        NotificationParser parser = new NotificationParser(WxPayCertificateConfig.getCertificateConfig(wxPayConfig));
         // 以支付通知回调为例，验签、解密并转换成 Transaction
         LOGGER.info("验签参数：{}", requestParam);
         Transaction transaction = parser.parse(requestParam, Transaction.class);
@@ -175,7 +174,7 @@ public class WeChatPayService extends PayBaseService implements IWeChatPayServic
             List<WxConfigVO> wxPayConfig = configDao.findWxPayConfigByTpp(payVO.getTenantId(), "", "wechatpay");
             // 构建退款service
             RefundService service = new RefundService.Builder()
-                .config(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig.get(0))).build();
+                .config(WxPayCertificateConfig.getCertificateConfig(wxPayConfig.get(0))).build();
             CreateRequest request = getRefundRequest(orderVO, payVO, wxPayConfig.get(0));
             // 接收退款返回参数
             Refund refund = service.create(request);
@@ -202,7 +201,7 @@ public class WeChatPayService extends PayBaseService implements IWeChatPayServic
             WxConfigVO wxPayConfig = new WxConfigVO();
             // 初始化 NotificationParser
             NotificationParser parser =
-                new NotificationParser(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig));
+                new NotificationParser(WxPayCertificateConfig.getCertificateConfig(wxPayConfig));
             // 以退款通知回调为例，验签、解密并转换成 RefundNotification
             RefundNotification parse = parser.parse(requestParam, RefundNotification.class);
             String refundStatus = parse.getRefundStatus().toString();
@@ -225,7 +224,7 @@ public class WeChatPayService extends PayBaseService implements IWeChatPayServic
         // 加载支付配置信息(租户ID，支付来源)
         List<WxConfigVO> wxPayConfig = configDao.findWxPayConfigByTpp(payVO.getTenantId(), paySource, payWay);
         JsapiServiceExtension service = new JsapiServiceExtension.Builder()
-            .config(WxPayCertificateConfig.rsaAutoCertificateConfig(wxPayConfig.get(0))).signType("RSA").build();
+            .config(WxPayCertificateConfig.getCertificateConfig(wxPayConfig.get(0))).signType("RSA").build();
         PrepayWithRequestPaymentResponse response;
         try {
             PrepayRequest request = getPrepayRequest(wxPayConfig.get(0), payVO);
