@@ -1,33 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <artifactId>micro.rcms.api.cron.start</artifactId>
-  <dependencies>
-    <dependency>
-      <artifactId>micro.rcms.scheduler</artifactId>
-      <groupId>com.stone.it</groupId>
-      <version>1.0.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <artifactId>micro.rcms.core.shiro</artifactId>
-      <groupId>com.stone.it</groupId>
-      <version>1.0.0-SNAPSHOT</version>
-    </dependency>
-  </dependencies>
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <artifactId>micro.rcms.api.cron.start</artifactId>
 
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <artifactId>micro.rcms.framework</artifactId>
-    <groupId>com.stone.it</groupId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <artifactId>micro.rcms.framework</artifactId>
+        <groupId>com.stone.it</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
-  <properties>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <artifactId>micro.rcms.scheduler</artifactId>
+            <groupId>com.stone.it</groupId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <artifactId>micro.rcms.core.shiro</artifactId>
+            <groupId>com.stone.it</groupId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.3</version>
+                <configuration>
+                    <!--  自己的启动类地址   -->
+                    <mainClass>com.stone.it.rcms.RcmsCronApiApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

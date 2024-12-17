@@ -112,7 +112,6 @@ public class UserRealm extends AuthorizingRealm {
         Map<String, String> userInfo = (Map<String, String>)principalCollection.getPrimaryPrincipal();
         // 用户角色
         Set<String> roleSets = new HashSet<>();
-        // 权限信息
         // 程序账户
         if ("app".equals(userInfo.get("type"))) {
             // 应用账户直接应用ID关联接口权限
@@ -126,7 +125,10 @@ public class UserRealm extends AuthorizingRealm {
                     roleSets.addAll(roles);
                 }
             }
-        } // 后续增加用户相关代码
+        } else if ("user".equals(userInfo.get("type"))) {
+            roleSets.add("-default-");
+        }
+        // 后续增加用户相关代码
         info.setRoles(roleSets);
         HashSet<String> auths = new HashSet<>(shiroAuthDao.findPermsByRoleCodes(new ArrayList<>(roleSets)));
         info.setStringPermissions(auths);
