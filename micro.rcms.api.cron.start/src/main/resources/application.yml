@@ -9,7 +9,7 @@ spring:
   profiles:
     active: loc
   application:
-    name: cronService
+    name: rcms-cron-api
   # 数据库信息配置
   datasource:
     name: rcms
@@ -33,11 +33,11 @@ rcms:
   api:
     register:
       token:
-        path: http://localhost:51000/test/services/rcms/user/token
+        path: http://localhost:51000/test/services/api/user/token
       service:
-        path: http://localhost:51000/test/services/rcms/base/permission/records/register
+        path: http://localhost:51000/test/services/api/base/permission/records/register
       app: app_cron_api
-      secret: TXNAMTIzNDU2Nzg=
+      secret: UkNNU18xMjM0NTY3ODk=
 
 
 

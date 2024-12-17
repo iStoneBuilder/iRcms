@@ -32,7 +32,7 @@ public interface IWeChatPayService {
      */
     @POST
     @Path("/{pay_way}/{pay_source}/order")
-    @RcmsMethod(name = "支付.创建订单")
+    @RcmsMethod(name = "支付.创建订单", type = "Y")
     @RequiresPermissions("permission:pay:create")
     JSONObject pay(@PathParam("pay_way") String payWay, @PathParam("pay_source") String paySource, PayVO payVO);
 

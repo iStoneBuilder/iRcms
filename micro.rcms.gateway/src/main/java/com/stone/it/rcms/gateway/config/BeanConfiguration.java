@@ -18,39 +18,37 @@ import org.springframework.web.util.pattern.PathPatternParser;
 @Configuration
 public class BeanConfiguration {
 
-  /**
-   * 设置允许跨越请求
-   *
-   * @return
-   */
-  @Bean
-  public CorsWebFilter corsWebFilter() {
-    CorsConfiguration config = new CorsConfiguration();
-    // 允许任何请求头
-    config.addAllowedHeader("*");
-    // 允许任何方法
-    config.addAllowedMethod("*");
-    // 允许任何域名
-    config.addAllowedOrigin("*");
-    // 允许接受cookie
-    config.setAllowCredentials(true);
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(
-        new PathPatternParser());
-    source.registerCorsConfiguration("/**", config);
-    return new CorsWebFilter(source);
-  }
+    /**
+     * 设置允许跨越请求
+     *
+     */
+    @Bean
+    public CorsWebFilter corsWebFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        // 允许任何请求头
+        config.addAllowedHeader("*");
+        // 允许任何方法
+        config.addAllowedMethod("*");
+        // 允许任何域名
+        config.addAllowedOrigin("*");
+        // 允许接受cookie
+        config.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
+        source.registerCorsConfiguration("/**", config);
+        return new CorsWebFilter(source);
+    }
 
-  /**
-   * 自定义校验Refer
-   *
-   * @param configuration
-   * @return
-   */
-  @Bean
-  @Order(50)
-  @ConditionalOnExpression("'security.gw.referer.enabled'=='true'")
-  public RefererFilter refererFilter(RefererConfiguration configuration) {
-    return new RefererFilter(configuration);
-  }
+    /**
+     * 自定义校验Refer
+     *
+     * @param configuration configuration
+     * @return configuration
+     */
+    @Bean
+    @Order(50)
+    @ConditionalOnExpression("'security.gw.referer.enabled'=='true'")
+    public RefererFilter refererFilter(RefererConfiguration configuration) {
+        return new RefererFilter(configuration);
+    }
 
 }

@@ -9,7 +9,7 @@ spring:
   profiles:
     active: loc
   application:
-    name: testService
+    name: rcms-admin-api
   # 数据库信息配置
   datasource:
     name: rcms

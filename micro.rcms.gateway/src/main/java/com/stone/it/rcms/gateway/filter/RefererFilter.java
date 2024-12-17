@@ -11,46 +11,47 @@ import reactor.core.publisher.Mono;
 
 /**
  * RefererFilter
+ * 
  * @author cj.stone
  * @Date 2023/4/27
  * @Desc
  */
 public class RefererFilter implements WebFilter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RefererFilter.class);
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(RefererFilter.class);
+    private final RefererConfiguration configuration;
 
-  private final RefererConfiguration configuration;
-
-  /**
-   * RefererFilter
-   * @param configuration configuration
-   */
-  public RefererFilter(RefererConfiguration configuration) {
-    this.configuration = configuration;
-  }
-
-  @Override
-  public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-    LOGGER.info("ReferFilter config {}", JSON.toJSONString(configuration));
-    // 获取域名
-    String domain = exchange.getRequest().getURI().getHost();
-    // 放过白名单
-    if(configuration.getWhiteList().size()>0){
-      for (String whiteHost : configuration.getWhiteList()) {
-          if(domain.endsWith(whiteHost)){
-            return chain.filter(exchange);
-          }
-      }
+    /**
+     * RefererFilter
+     * 
+     * @param configuration configuration
+     */
+    public RefererFilter(RefererConfiguration configuration) {
+        this.configuration = configuration;
     }
-    // 排除忽略的域名
-    if(configuration.getIgnoreHosts().size()>0){
-      for (String ignoredHost : configuration.getIgnoreHosts() ) {
-          if(domain.equals(ignoredHost)){
-            return chain.filter(exchange);
-          }
-      }
+
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        LOGGER.info("ReferFilter config {}", JSON.toJSONString(configuration));
+        // 获取域名
+        String domain = exchange.getRequest().getURI().getHost();
+        // 放过白名单
+        if (!configuration.getWhiteList().isEmpty()) {
+            for (String whiteHost : configuration.getWhiteList()) {
+                if (domain.endsWith(whiteHost)) {
+                    return chain.filter(exchange);
+                }
+            }
+        }
+        // 排除忽略的域名
+        if (!configuration.getIgnoreHosts().isEmpty()) {
+            for (String ignoredHost : configuration.getIgnoreHosts()) {
+                if (domain.equals(ignoredHost)) {
+                    return chain.filter(exchange);
+                }
+            }
+        }
+        return chain.filter(exchange);
     }
-    return chain.filter(exchange);
-  }
 }
