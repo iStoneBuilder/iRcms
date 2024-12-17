@@ -23,9 +23,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.lang.util.ByteSource;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -85,7 +85,7 @@ public class UserRealm extends AuthorizingRealm {
         }
         recordLoginLog(userId, authUserVO, "登录成功", true, request);
         return new SimpleAuthenticationInfo(JwtUtils.getTokenInfo(password),
-            new SimpleHash("md5", password, userId).toHex(), ByteSource.Util.bytes(userId), getName());
+                                            new SimpleHash("md5", password, userId).toHex(), ByteSource.Util.bytes(userId), getName());
     }
 
     private void recordLoginLog(String userId, AuthUserVO authUserVO, String error, boolean isLogin,

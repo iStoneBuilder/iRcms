@@ -4,8 +4,6 @@ server:
     context-path: /cron
 
 spring:
-  cache:
-    type: caffeine
   profiles:
     active: loc
   application:

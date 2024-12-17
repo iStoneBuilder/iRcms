@@ -38,6 +38,7 @@ public class DeviceDataPlanService implements IDeviceDataPlanService {
     @Inject
     private ICommonService commonService;
 
+    @Override
     @SneakyThrows
     @EventListener(DpEventVO.class)
     public int createDeviceDp(DpEventVO eventVO) {

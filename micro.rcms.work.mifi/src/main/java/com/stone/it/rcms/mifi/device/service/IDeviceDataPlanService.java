@@ -1,6 +1,7 @@
 package com.stone.it.rcms.mifi.device.service;
 
 import com.stone.it.rcms.core.annotate.RcmsMethod;
+import com.stone.it.rcms.core.common.vo.DpEventVO;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.mifi.device.vo.DeviceDpVO;
@@ -42,4 +43,7 @@ public interface IDeviceDataPlanService {
     @RcmsMethod(name = "设备套餐.设备套餐查询")
     @RequiresPermissions("permission:device-data-plan:list-query")
     List<DeviceDpVO> findDeviceDpList(@PathParam("device_sn") String deviceSn, @QueryParam("") DeviceDpVO vo);
+
+    int createDeviceDp(DpEventVO eventVO);
+
 }
