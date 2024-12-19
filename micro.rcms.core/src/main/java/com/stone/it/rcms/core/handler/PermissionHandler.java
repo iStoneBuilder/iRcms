@@ -112,7 +112,6 @@ public class PermissionHandler {
                 permissionVO.setType(apiPath.contains("/services/rcms/") ? "system" : "business");
                 // 获取是否需要权限验证
                 buildPermission(operationResource, permissionVO);
-                LOGGER.info("RCMS api info : {}", JSON.toJSONString(permissionVO));
                 permissionVO.setCreateBy("system");
                 permissionVO.setUpdateBy("system");
                 permissionVO.setCode(UUIDUtil.getUuid());

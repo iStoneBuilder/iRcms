@@ -30,13 +30,13 @@ public interface IMifiThaliService {
      */
     @GET
     @Path("/{device_sn}")
-    @RcmsMethod(name = "用户设备套餐.列表查询", type = "Y")
+    @RcmsMethod(name = "用户设备.套餐.列表查询", type = "Y")
     @RequiresPermissions("permission:user-device-thali:list-query")
     List<MifiThaliVO> findDeviceThaliList(@PathParam("device_sn") String deviceSn, @QueryParam("") MifiThaliVO vo);
 
     @GET
     @Path("/{data_plan_no}")
-    @RcmsMethod(name = "用户设备套餐.详情查询", type = "Y")
+    @RcmsMethod(name = "用户设备.套餐.详情查询", type = "Y")
     @RequiresPermissions("permission:user-device-thali:detail-query")
     MifiThaliVO findThaliDetail(@PathParam("data_plan_no") String dataPlanNo, @QueryParam("") MifiThaliVO vo);
 }
