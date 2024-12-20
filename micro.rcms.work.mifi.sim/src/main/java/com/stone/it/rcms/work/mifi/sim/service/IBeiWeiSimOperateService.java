@@ -10,13 +10,19 @@ import com.stone.it.rcms.core.http.ResponseEntity;
  * @Date 2024/12/20
  * @Desc
  */
-public interface ISimOperateService {
+public interface IBeiWeiSimOperateService {
 
     /** 停机/复机 */
     ResponseEntity operate(String iccid, String operateType, JSONObject authInfo);
 
-    /** 查询卡流量 */
-    ResponseEntity queryFlow(String iccid, String month, JSONObject authInfo);
+    /** 查询卡信息 */
+    ResponseEntity queryCardInfo(String iccid, JSONObject authInfo);
+
+    /** 查询卡日流量 */
+    ResponseEntity queryDayFlow(String iccid, String day, JSONObject authInfo);
+
+    /** 查询卡月流量 */
+    ResponseEntity queryMonthFlow(String iccid, String month, JSONObject authInfo);
 
     /** 查询实名认证地址 */
     ResponseEntity queryRealNameUrl(String iccid, JSONObject authInfo);

@@ -3,7 +3,7 @@ package com.stone.it.rcms.work.mifi.sim.service.impl;
 import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.core.http.RequestUtil;
 import com.stone.it.rcms.core.http.ResponseEntity;
-import com.stone.it.rcms.work.mifi.sim.service.ISimOperateService;
+import com.stone.it.rcms.work.mifi.sim.service.IBeiWeiSimOperateService;
 
 /**
  *
@@ -11,7 +11,7 @@ import com.stone.it.rcms.work.mifi.sim.service.ISimOperateService;
  * @Date 2024/12/20
  * @Desc
  */
-public class SimOperateService extends BeiWeiBaseService implements ISimOperateService {
+public class BeiWeiSimOperateService extends BeiWeiBaseService implements IBeiWeiSimOperateService {
 
     @Override
     public ResponseEntity operate(String iccid, String operateType, JSONObject authInfo) {
@@ -22,7 +22,22 @@ public class SimOperateService extends BeiWeiBaseService implements ISimOperateS
     }
 
     @Override
-    public ResponseEntity queryFlow(String iccid, String month, JSONObject authInfo) {
+    public ResponseEntity queryCardInfo(String iccid, JSONObject authInfo) {
+        String url = authInfo.getString("address") + "/query/cardInfo";
+        return RequestUtil.doPost(url, buildBaseBody(iccid).toJSONString(), buildHeader(authInfo));
+    }
+
+    @Override
+    public ResponseEntity queryDayFlow(String iccid, String day, JSONObject authInfo) {
+        String url = authInfo.getString("address") + "/query/flowDay";
+        JSONObject body = buildBaseBody(iccid);
+        body.put("dayStart", day);
+        body.put("dayEnd", day);
+        return RequestUtil.doPost(url, body.toJSONString(), buildHeader(authInfo));
+    }
+
+    @Override
+    public ResponseEntity queryMonthFlow(String iccid, String month, JSONObject authInfo) {
         String url = authInfo.getString("address") + "/query/flowMonthNow";
         JSONObject body = buildBaseBody(iccid);
         body.put("month", month);
