@@ -5,15 +5,15 @@
 
     <delete id="deleteApisRelationAuth">
         delete from
-        tpl_fram_role_permission_t rp
-        where rp.service_code = #{serviceCode}
-        and (rp.auth_code not in
+        tpl_fram_role_permission_t
+        where service_code = #{serviceCode}
+        and (auth_code not in
         (
         select auth_code
         from tpl_fram_permission_t p
         where p.service_code = #{serviceCode}
         and p.auth_code is not null
-        )or rp.role_code = "platformAdmin")
+        )or role_code = "platformAdmin")
     </delete>
 
     <delete id="deletePermissionNotExist">
