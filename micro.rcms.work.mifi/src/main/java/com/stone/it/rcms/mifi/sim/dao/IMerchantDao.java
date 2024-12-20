@@ -35,4 +35,6 @@ public interface IMerchantDao {
     int createMerchantCarrier(CarrierVO carrierVO);
 
     List<MerchantVO> findMerchantList(MerchantVO merchantVO);
+
+    CarrierVO findMerchantCarrierInfoByIccId(@Param("iccid") String iccid);
 }

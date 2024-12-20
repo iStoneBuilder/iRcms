@@ -67,10 +67,4 @@ public interface ISimService {
     @RequiresPermissions("permission:sim:sync")
     int syncSimDp(@PathParam("iccid") String iccid, SimVO simVO);
 
-    @PUT
-    @Path("/records/{iccid}/limit")
-    @RcmsMethod(name = "SIM卡管理.流量限速")
-    @RequiresPermissions("permission:sim:limit")
-    int limitSimDp(@PathParam("iccid") String iccid, SimVO simVO);
-
 }

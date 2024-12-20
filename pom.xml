@@ -29,7 +29,6 @@
         <module>micro.rcms.api.admin.start</module>
         <module>micro.rcms.api.mifi-app.start</module>
         <module>micro.rcms.work.mifi.app</module>
-        <module>micro.rcms.work.mifi.sim</module>
         <module>micro.rcms.core.http</module>
     </modules>
 

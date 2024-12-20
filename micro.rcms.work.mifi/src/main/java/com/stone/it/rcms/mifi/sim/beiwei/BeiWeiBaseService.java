@@ -1,6 +1,7 @@
-package com.stone.it.rcms.work.mifi.sim.service.impl;
+package com.stone.it.rcms.mifi.sim.beiwei;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.stone.it.rcms.core.http.ResponseEntity;
 import com.stone.it.rcms.core.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 /**
  * 卡商北纬公共部分
- * 
+ *
  * @author cj.stone
  * @Date 2024/12/20
  * @Desc
@@ -21,14 +22,25 @@ public class BeiWeiBaseService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BeiWeiBaseService.class);
 
-    JSONObject buildBaseBody(String iccid) {
+    static JSONObject getResBody(ResponseEntity res) {
+        if ("200".equals(res.getCode())) {
+            JSONObject resBody = JSONObject.parseObject(res.getBody());
+            if (resBody.containsKey("respStatus")
+                && "0000".equals(resBody.getJSONObject("respStatus").getString("code"))) {
+                return resBody.getJSONObject("respBody");
+            }
+        }
+        return null;
+    }
+
+    static JSONObject buildBaseBody(String iccid) {
         JSONObject body = new JSONObject();
         body.put("cardId", iccid);
         body.put("cardType", "0");
         return body;
     }
 
-    Map<String, String> buildHeader(JSONObject authInfo) {
+    static Map<String, String> buildHeader(JSONObject authInfo) {
         String timeStamp = DateUtil.formatDate("yyyyMMddHHmmss");
         Map<String, String> header = new HashMap<>();
         header.put("Content-Type", "application/json");
@@ -38,7 +50,7 @@ public class BeiWeiBaseService {
         return header;
     }
 
-    private String encryptMd5(String context) {
+    private static String encryptMd5(String context) {
         try {
             // 获取一个MD5消息摘要实例
             MessageDigest md = MessageDigest.getInstance("MD5");

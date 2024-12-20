@@ -37,11 +37,11 @@ public class SimVO extends BaseVO {
     // 物联网号
     private String msisdn;
     // 已使用流量
-    private String flowUsed;
+    private Double flowUsed;
     // 剩余流量
-    private String flowRemain;
+    private Double flowRemain;
     // 已使用流量(日)
-    private String flowUsedDay;
+    private Double flowUsedDay;
     // 备注
     private String remark;
 

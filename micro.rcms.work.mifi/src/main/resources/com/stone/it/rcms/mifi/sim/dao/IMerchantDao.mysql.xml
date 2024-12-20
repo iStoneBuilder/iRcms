@@ -176,4 +176,16 @@
         where merchant_code = #{merchantCode,jdbcType=VARCHAR}
         and enterprise_id =#{enterpriseId,jdbcType=VARCHAR}
     </update>
+
+    <select id="findMerchantCarrierInfoByIccId" resultType="com.stone.it.rcms.mifi.sim.vo.CarrierVO">
+        <include refid="query_base_carrier"/>
+        WHERE
+        CONCAT_WS('_', c.merchant_code, c.carrier_code) = (
+        SELECT
+        CONCAT_WS('_', s.merchant_code, s.carrier_code)
+        FROM
+        tpl_mifi_sim_t s
+        WHERE
+        s.iccid = #{iccid,jdbcType=VARCHAR})
+    </select>
 </mapper>
