@@ -69,15 +69,21 @@ public interface ISimService {
     int syncSimDp(@PathParam("iccid") String iccid, SimVO simVO);
 
     @POST
-    @Path("/records/{iccid}/{operate_type}")
+    @Path("/records/{iccid}/open-stop")
     @RcmsMethod(name = "SIM卡管理.停机复机")
-    @RequiresPermissions("permission:sim:openStop")
-    int operateSim(@PathParam("iccid") String iccid, @PathParam("operate_type") String operateType, SimVO simVO);
+    @RequiresPermissions("permission:sim:open-stop")
+    int operateSim(@PathParam("iccid") String iccid, SimVO simVO);
 
     @POST
     @Path("/records/{iccid}/auth-url")
     @RcmsMethod(name = "SIM卡管理.获得实名认证地址", type = "Y")
     @RequiresPermissions("permission:sim:auth.url")
     SimAuthUrlVO authSimUrl(@PathParam("iccid") String iccid, SimVO simVO);
+
+    @POST
+    @Path("/records/open-stop/sync")
+    @RcmsMethod(name = "SIM卡管理.停机复机.同步")
+    @RequiresPermissions("permission:sim:open-stop:sync")
+    int operateSimSync();
 
 }

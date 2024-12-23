@@ -13,8 +13,10 @@ import java.util.Date;
  */
 @Data
 public class SimStatusVO extends BaseVO {
+    private String requestId;
     private String iccid;
     private Date changeTime;
+    private String operateType;
     private String orgStatus;
     private String newStatus;
     private String remark;

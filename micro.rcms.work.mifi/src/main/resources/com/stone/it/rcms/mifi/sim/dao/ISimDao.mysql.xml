@@ -219,7 +219,7 @@
         (
         #{reqId,jdbcType=VARCHAR},
         #{sim.iccid,jdbcType=VARCHAR},
-        #{sim.orgStatus,jdbcType=VARCHAR},
+        #{sim.flowStatus,jdbcType=VARCHAR},
         #{operateType,jdbcType=VARCHAR},
         #{sim.remark,jdbcType=VARCHAR},
         now(),
@@ -248,6 +248,28 @@
         set name_status = #{nameStatus,jdbcType=VARCHAR},
         updated_time = now(),
         updated_by = #{currentUserId,jdbcType=VARCHAR}
+        where iccid = #{iccid,jdbcType=VARCHAR}
+    </update>
+
+    <select id="findSimStatusChangeList" resultType="com.stone.it.rcms.mifi.sim.vo.SimStatusVO">
+        SELECT
+        request_id as requestId,
+        iccid,
+        org_status as orgStatus,
+        new_status as newStatus,
+        operate_type as operateType,
+        remark
+        FROM
+        tpl_mifi_sim_status_t
+        WHERE new_status is null
+    </select>
+
+    <update id="updateSimOpenStopStatus">
+        update tpl_mifi_sim_status_t
+        set new_status = #{newStatus,jdbcType=VARCHAR}
+        where request_id = #{requestId,jdbcType=VARCHAR};
+        update tpl_mifi_sim_t
+        set flow_status = #{newStatus,jdbcType=VARCHAR}
         where iccid = #{iccid,jdbcType=VARCHAR}
     </update>
 

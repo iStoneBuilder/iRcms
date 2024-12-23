@@ -19,6 +19,7 @@ public class BeiWeiSimOperateService extends BeiWeiBaseService {
     private static final String FLOW_MONTH_NOW_ENDPOINT = "/query/flowMonthNow";
     private static final String FLOW_DAY_ENDPOINT = "/query/flowDay";
     private static final String HANDLE_ENDPOINT = "/handle/";
+    private static final String QUERY_ENDPOINT = "/query/";
     private static final String REAL_NAME_URL_ENDPOINT = "/query/getRealNameUrl";
     private static final String CARD_INFO_ENDPOINT = "/query/cardInfo";
     private static final String AUTH_ENDPOINT = "/handle/auth";
@@ -46,6 +47,16 @@ public class BeiWeiSimOperateService extends BeiWeiBaseService {
         JSONObject response = sendPostRequest(carrierVO.getAddress() + HANDLE_ENDPOINT + operateType, body, carrierVO);
         if (response != null && response.containsKey("serviceRequestId")) {
             return response.getString("serviceRequestId");
+        }
+        return null;
+    }
+
+    public static String operateSync(String requestId, String operateType, CarrierVO carrierVO) {
+        JSONObject body = new JSONObject();
+        body.put("serviceRequestId", requestId);
+        JSONObject response = sendPostRequest(carrierVO.getAddress() + QUERY_ENDPOINT + operateType, body, carrierVO);
+        if (response != null && response.containsKey("status")) {
+            return response.getString("status");
         }
         return null;
     }

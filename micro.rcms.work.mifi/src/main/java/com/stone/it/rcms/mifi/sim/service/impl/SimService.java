@@ -13,6 +13,7 @@ import com.stone.it.rcms.mifi.sim.dao.ISimDao;
 import com.stone.it.rcms.mifi.sim.service.ISimService;
 import com.stone.it.rcms.mifi.sim.vo.CarrierVO;
 import com.stone.it.rcms.mifi.sim.vo.SimAuthUrlVO;
+import com.stone.it.rcms.mifi.sim.vo.SimStatusVO;
 import com.stone.it.rcms.mifi.sim.vo.SimVO;
 
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ public class SimService implements ISimService {
 
     @Override
     public SimVO findSimDetail(String iccid, SimVO simVO) {
+        // 更新一下停复机状态
+        operateSimSync();
         simVO.setIccid(iccid);
         SimVO infoVO = simDao.findSimDetail(simVO);
         // 查询卡商信息
@@ -114,14 +117,16 @@ public class SimService implements ISimService {
     }
 
     @Override
-    public int operateSim(String iccid, String operateType, SimVO simVO) {
+    public int operateSim(String iccid, SimVO simVO) {
         simVO.setIccid(iccid);
         SimVO detailVO = simDao.findSimDetail(simVO);
-        // 查询卡商信息
+        // 查询卡商信息 openDevice stopDevice
+        String operateType = "2".equals(simVO.getFlowStatus()) ? "stopDevice" : "openDevice";
         CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
         // 停机/复机
         String reqId = BeiWeiSimOperateService.operate(iccid, operateType, carrierVO);
         if (reqId != null) {
+            detailVO.setCurrentUserId(UserUtil.getUserId());
             return simDao.createSimFlowStatus(detailVO, reqId, operateType);
         }
         return 0;
@@ -137,6 +142,33 @@ public class SimService implements ISimService {
         JSONObject urlInfo = BeiWeiSimOperateService.queryRealNameUrl(iccid, carrierVO);
         simAuthUrlVO.setRealNameInfo(urlInfo);
         return simAuthUrlVO;
+    }
+
+    @Override
+    public int operateSimSync() {
+        SimStatusVO simStatusVO = new SimStatusVO();
+        simStatusVO.setTenantId(UserUtil.getTenantId());
+        simStatusVO.setEnterpriseId(UserUtil.getEnterpriseId());
+        // 查询需要同步的数据
+        List<SimStatusVO> list = simDao.findSimStatusChangeList(simStatusVO);
+        CarrierVO carrierVO = null;
+        if (!list.isEmpty()) {
+            for (SimStatusVO item : list) {
+                carrierVO = merchantDao.findMerchantCarrierInfoByIccId(item.getIccid());
+                String operateType = item.getOperateType() + "Query";
+                String status = BeiWeiSimOperateService.operateSync(item.getRequestId(), operateType, carrierVO);
+                if (status != null) {
+                    // 办理成功
+                    if ("0".equals(status)) {
+                        item.setNewStatus("openDevice".equals(item.getOperateType()) ? "2" : "3");
+                    } else {
+                        item.setNewStatus(item.getOrgStatus());
+                    }
+                    simDao.updateSimOpenStopStatus(item);
+                }
+            }
+        }
+        return 0;
     }
 
 }
