@@ -22,6 +22,7 @@ public class BeiWeiSimOperateService extends BeiWeiBaseService {
     private static final String REAL_NAME_URL_ENDPOINT = "/query/getRealNameUrl";
     private static final String CARD_INFO_ENDPOINT = "/query/cardInfo";
     private static final String AUTH_ENDPOINT = "/handle/auth";
+    private static final String QUERY_CARD_STATUS = "/query/cardStatus";
 
     public static JSONObject queryMonthFlow(String iccid, String month, CarrierVO carrierVO) {
         JSONObject body = buildBaseBody(iccid);
@@ -50,21 +51,11 @@ public class BeiWeiSimOperateService extends BeiWeiBaseService {
     }
 
     public static JSONObject queryRealNameUrl(String iccid, CarrierVO carrierVO) {
-        JSONObject response =
-            sendPostRequest(carrierVO.getAddress() + REAL_NAME_URL_ENDPOINT, buildBaseBody(iccid), carrierVO);
-        if (response != null && response.containsKey("respBody")) {
-            return response.getJSONObject("respBody");
-        }
-        return null;
+        return sendPostRequest(carrierVO.getAddress() + REAL_NAME_URL_ENDPOINT, buildBaseBody(iccid), carrierVO);
     }
 
     public static JSONObject queryCardInfo(String iccid, CarrierVO carrierVO) {
-        JSONObject response =
-            sendPostRequest(carrierVO.getAddress() + CARD_INFO_ENDPOINT, buildBaseBody(iccid), carrierVO);
-        if (response != null && response.containsKey("respBody")) {
-            return response.getJSONObject("respBody");
-        }
-        return null;
+        return sendPostRequest(carrierVO.getAddress() + CARD_INFO_ENDPOINT, buildBaseBody(iccid), carrierVO);
     }
 
     public static String queryRealNameStatus(String iccid, CarrierVO carrierVO) {
@@ -73,6 +64,10 @@ public class BeiWeiSimOperateService extends BeiWeiBaseService {
             return response.getString("flag");
         }
         return null;
+    }
+
+    public static JSONObject queryCardStatus(String iccid, CarrierVO carrierVO) {
+        return sendPostRequest(carrierVO.getAddress() + QUERY_CARD_STATUS, buildBaseBody(iccid), carrierVO);
     }
 
     private static JSONObject sendPostRequest(String url, JSONObject body, CarrierVO carrierVO) {

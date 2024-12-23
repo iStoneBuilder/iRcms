@@ -105,11 +105,17 @@ public class SimService implements ISimService {
         // 查询当日信息
         Double dayFlow = BeiWeiSimOperateService.queryDayFlow(iccid, DateUtil.formatDate("yyyyMMdd"), carrierVO);
         simVO.setFlowUsedDay(dayFlow);
+        // 查询一下卡状态
+        JSONObject cardInfo = BeiWeiSimOperateService.queryCardStatus(iccid, carrierVO);
+        if (cardInfo != null && cardInfo.containsKey("status")) {
+            simVO.setFlowStatus(cardInfo.getString("status"));
+        }
         return simDao.syncSimDp(simVO);
     }
 
     @Override
     public int syncSimRealName(String iccid, SimVO simVO) {
+        simVO.setIccid(iccid);
         // 查询卡商信息
         CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
         String status = BeiWeiSimOperateService.queryRealNameStatus(iccid, carrierVO);

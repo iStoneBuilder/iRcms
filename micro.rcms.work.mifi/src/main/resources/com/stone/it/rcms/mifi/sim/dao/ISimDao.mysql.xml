@@ -193,6 +193,9 @@
         <if test="flowUsedDay != null">
             flow_used_day = #{flowUsedDay,jdbcType=DOUBLE},
         </if>
+        <if test="flowStatus != null">
+            flow_status = #{flowStatus,jdbcType=VARCHAR},
+        </if>
         updated_time = now(),
         updated_by = #{currentUserId,jdbcType=VARCHAR}
         where iccid = #{iccid,jdbcType=VARCHAR}
@@ -242,7 +245,7 @@
 
     <update id="updateSimStatus">
         update tpl_mifi_sim_t
-        set status = #{status,jdbcType=VARCHAR},
+        set name_status = #{nameStatus,jdbcType=VARCHAR},
         updated_time = now(),
         updated_by = #{currentUserId,jdbcType=VARCHAR}
         where iccid = #{iccid,jdbcType=VARCHAR}
