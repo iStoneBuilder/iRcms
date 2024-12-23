@@ -65,7 +65,10 @@
         updated_time = now(),
         updated_by = #{currentUserId,jdbcType=VARCHAR}
         WHERE iccid = #{iccid,jdbcType=VARCHAR}
-        AND clean_apply_time IS NULL
+        AND clean_apply_time IS NULL;
+        update tpl_mifi_sim_t
+        set name_status = #{authStatus,jdbcType=VARCHAR}
+        where iccid = #{iccid,jdbcType=VARCHAR}
     </update>
 
     <update id="cleanSimName">

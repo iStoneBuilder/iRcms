@@ -47,5 +47,4 @@ public interface ISimDao {
 
     int updateSimStatus(SimVO simVO);
 
-    PageResult<SimNameVO> findSimNamePageResult(SimNameVO simNameVO, PageVO pageVO);
 }

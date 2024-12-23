@@ -48,8 +48,8 @@ public class DeviceRealNameService implements IDeviceRealNameService {
         if (nameStatus != null) {
             if (nameStatus.containsKey("flag") && nameStatus.getString("flag") != null) {
                 simNameVO.setAuthStatus(nameStatus.getString("flag"));
+                return deviceRealNameDao.syncSimName(simNameVO);
             }
-            return deviceRealNameDao.syncSimName(simNameVO);
         }
         return 0;
     }
