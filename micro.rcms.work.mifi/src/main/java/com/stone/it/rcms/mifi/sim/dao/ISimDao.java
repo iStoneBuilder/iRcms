@@ -5,6 +5,7 @@ import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.mifi.device.vo.DeviceDivideVO;
 import com.stone.it.rcms.mifi.device.vo.DeviceVO;
+import com.stone.it.rcms.mifi.sim.vo.SimNameVO;
 import com.stone.it.rcms.mifi.sim.vo.SimStatusVO;
 import com.stone.it.rcms.mifi.sim.vo.SimVO;
 import java.util.List;
@@ -45,4 +46,6 @@ public interface ISimDao {
     List<SimStatusVO> findSimStatusChangeInfo(@Param("iccid") String iccid);
 
     int updateSimStatus(SimVO simVO);
+
+    PageResult<SimNameVO> findSimNamePageResult(SimNameVO simNameVO, PageVO pageVO);
 }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.mifi.device.dao.IDeviceRealNameDao">
+
+    <sql id="query_sim_name_condition">
+        <where>
+            tenant_id = #{param1.tenantId,jdbcType=VARCHAR}
+            AND enterprise_id = #{param1.currentEnterpriseId,jdbcType=VARCHAR}
+            AND clean_apply_time IS NULL
+            <if test="param1.deviceSn != null and param1.deviceSn != ''">
+                AND device_sn like concat('%',#{param1.deviceSn,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.iccid != null and param1.iccid != ''">
+                AND iccid like concat('%',#{param1.iccid,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.realName != null and param1.realName != ''">
+                AND real_name like concat('%',#{param1.realName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="findSimNamePageResult" resultType="com.stone.it.rcms.mifi.sim.vo.SimNameVO">
+        SELECT
+        tenant_id as tenantId,
+        enterprise_id as enterpriseId,
+        device_sn as deviceSn,
+        id,
+        iccid,
+        real_name as realName,
+        auth_way as authWay,
+        auth_status as authStatus,
+        auth_apply_time as authApplyTime,
+        auth_pass_time as authPassTime,
+        clean_apply_time as cleanApplyTime,
+        clean_pass_time as cleanPassTime,
+        CREATED_TIME as createDate,
+        CREATED_BY as createBy,
+        UPDATED_TIME as updateDate,
+        UPDATED_BY as updateBy
+        FROM
+        tpl_mifi_sim_real_name_t
+        <include refid="query_sim_name_condition"/>
+        limit #{param2.startIndex,jdbcType=INTEGER},#{param2.endIndex,jdbcType=INTEGER}
+    </select>
+
+    <select id="findSimNamePageResultCount" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        tpl_mifi_sim_real_name_t
+        <include refid="query_sim_name_condition"/>
+    </select>
+
+    <insert id="createSimName">
+
+    </insert>
+
+    <update id="syncSimName">
+        UPDATE tpl_mifi_sim_real_name_t
+        SET
+        <if test="authStatus != null and authStatus != ''">
+            auth_status = #{authStatus,jdbcType=VARCHAR},
+        </if>
+        updated_time = now(),
+        updated_by = #{currentUserId,jdbcType=VARCHAR}
+        WHERE iccid = #{iccid,jdbcType=VARCHAR}
+        AND clean_apply_time IS NULL
+    </update>
+
+    <update id="cleanSimName">
+
+    </update>
+
+</mapper>

@@ -58,12 +58,8 @@ public class BeiWeiSimOperateService extends BeiWeiBaseService {
         return sendPostRequest(carrierVO.getAddress() + CARD_INFO_ENDPOINT, buildBaseBody(iccid), carrierVO);
     }
 
-    public static String queryRealNameStatus(String iccid, CarrierVO carrierVO) {
-        JSONObject response = sendPostRequest(carrierVO.getAddress() + AUTH_ENDPOINT, buildBaseBody(iccid), carrierVO);
-        if (response != null && response.containsKey("flag")) {
-            return response.getString("flag");
-        }
-        return null;
+    public static JSONObject queryRealNameStatus(String iccid, CarrierVO carrierVO) {
+        return sendPostRequest(carrierVO.getAddress() + AUTH_ENDPOINT, buildBaseBody(iccid), carrierVO);
     }
 
     public static JSONObject queryCardStatus(String iccid, CarrierVO carrierVO) {

@@ -69,6 +69,27 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_status_t` (
   PRIMARY KEY (`request_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
+-- 设备SIM实名记录
+CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_real_name_t` (
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
+  `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
+  `device_sn` VARCHAR(100) NOT NULL COMMENT '设备SN',
+  `id` VARCHAR(100) NOT NULL COMMENT 'UUID',
+  `iccid` VARCHAR(100) NOT NULL COMMENT 'ICCID',
+  `real_name` VARCHAR(100) NOT NULL COMMENT '实名用户',
+  `auth_way` VARCHAR(100) NOT NULL COMMENT '认证方式',
+  `auth_status` VARCHAR(100) COMMENT '认证状态',
+  `auth_apply_time` TIMESTAMP COMMENT '认证申请时间',
+  `auth_pass_time` TIMESTAMP COMMENT '认证通过时间',
+  `clean_apply_time` TIMESTAMP  COMMENT '清除认证申请时间',
+  `clean_pass_time` TIMESTAMP COMMENT '清除认证通过时间',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
 -- 设备类型(租户级)
 CREATE TABLE IF NOT EXISTS `tpl_mifi_device_type_t` (
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',

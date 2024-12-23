@@ -114,19 +114,6 @@ public class SimService implements ISimService {
     }
 
     @Override
-    public int syncSimRealName(String iccid, SimVO simVO) {
-        simVO.setIccid(iccid);
-        // 查询卡商信息
-        CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
-        String status = BeiWeiSimOperateService.queryRealNameStatus(iccid, carrierVO);
-        if (status != null) {
-            simVO.setNameStatus(status);
-            return simDao.updateSimStatus(simVO);
-        }
-        return 0;
-    }
-
-    @Override
     public int operateSim(String iccid, String operateType, SimVO simVO) {
         simVO.setIccid(iccid);
         SimVO detailVO = simDao.findSimDetail(simVO);
@@ -143,7 +130,6 @@ public class SimService implements ISimService {
     @Override
     public SimAuthUrlVO authSimUrl(String iccid, SimVO simVO) {
         simVO.setIccid(iccid);
-        SimVO detailVO = simDao.findSimDetail(simVO);
         // 查询卡商信息
         CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
         SimAuthUrlVO simAuthUrlVO = new SimAuthUrlVO();

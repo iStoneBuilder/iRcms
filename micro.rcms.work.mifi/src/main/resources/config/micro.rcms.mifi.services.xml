@@ -26,6 +26,7 @@
             <ref bean="dataPlanSettingService"/>
             <ref bean="deviceDataPlanService"/>
             <ref bean="deviceDivideService"/>
+            <ref bean="deviceRealNameService"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 

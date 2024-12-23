@@ -1,6 +1,7 @@
 package com.stone.it.rcms.core.util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,5 +35,14 @@ public class DateUtil {
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_YEAR, validDuration);
         return calendar.getTime();
+    }
+
+    public static Date parseDate(String dateStr, String format) {
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        try {
+            return formatter.parse(dateStr);
+        } catch (ParseException ignored) {
+        }
+        return null;
     }
 }

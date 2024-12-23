@@ -69,12 +69,6 @@ public interface ISimService {
     int syncSimDp(@PathParam("iccid") String iccid, SimVO simVO);
 
     @POST
-    @Path("/records/{iccid}/sync-real-name")
-    @RcmsMethod(name = "SIM卡管理.实名状态查询", type = "Y")
-    @RequiresPermissions("permission:sim:sync-real-name")
-    int syncSimRealName(@PathParam("iccid") String iccid, SimVO simVO);
-
-    @POST
     @Path("/records/{iccid}/{operate_type}")
     @RcmsMethod(name = "SIM卡管理.停机复机")
     @RequiresPermissions("permission:sim:openStop")
