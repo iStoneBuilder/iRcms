@@ -181,4 +181,71 @@
         or iccid = #{iccid2,jdbcType=VARCHAR}
     </update>
 
+    <update id="syncSimDp">
+        update tpl_mifi_sim_t
+        set
+        <if test="flowRemain != null">
+            flow_remain = #{flowRemain,jdbcType=DOUBLE},
+        </if>
+        <if test="flowUsed != null">
+            flow_used = #{flowUsed,jdbcType=DOUBLE},
+        </if>
+        <if test="flowUsedDay != null">
+            flow_used_day = #{flowUsedDay,jdbcType=DOUBLE},
+        </if>
+        updated_time = now(),
+        updated_by = #{currentUserId,jdbcType=VARCHAR}
+        where iccid = #{iccid,jdbcType=VARCHAR}
+    </update>
+
+    <update id="createSimFlowStatus">
+        INSERT INTO
+        tpl_mifi_sim_status_t
+        (
+        request_id,
+        iccid,
+        org_status,
+        operate_type,
+        remark,
+        CREATED_TIME,
+        CREATED_BY,
+        UPDATED_TIME,
+        UPDATED_BY
+        )
+        VALUES
+        (
+        #{reqId,jdbcType=VARCHAR},
+        #{sim.iccid,jdbcType=VARCHAR},
+        #{sim.orgStatus,jdbcType=VARCHAR},
+        #{operateType,jdbcType=VARCHAR},
+        #{sim.remark,jdbcType=VARCHAR},
+        now(),
+        #{sim.currentUserId,jdbcType=VARCHAR},
+        now(),
+        #{sim.currentUserId,jdbcType=VARCHAR}
+        )
+    </update>
+
+    <select id="findSimStatusChangeInfo" resultType="com.stone.it.rcms.mifi.sim.vo.SimStatusVO">
+        SELECT
+        iccid,
+        org_status as orgStatus,
+        new_status as newStatus,
+        remark,
+        CREATED_TIME as changeTime
+        FROM
+        tpl_mifi_sim_status_t
+        WHERE
+        iccid = #{iccid,jdbcType=VARCHAR}
+        ORDER BY CREATED_TIME ASC
+    </select>
+
+    <update id="updateSimStatus">
+        update tpl_mifi_sim_t
+        set status = #{status,jdbcType=VARCHAR},
+        updated_time = now(),
+        updated_by = #{currentUserId,jdbcType=VARCHAR}
+        where iccid = #{iccid,jdbcType=VARCHAR}
+    </update>
+
 </mapper>

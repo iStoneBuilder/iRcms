@@ -6,6 +6,8 @@ import com.stone.it.rcms.core.vo.BaseVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 /**
  * SIM 卡对象
  * 
@@ -48,8 +50,8 @@ public class SimVO extends BaseVO {
     // 运营商卡信息
     private JSONObject carrierInfo;
     // 用量统计信息
-    private JSONArray usageInfo;
+    private List<SimDataPlanVO> usageInfo;
     // 状态变更记录
-    private JSONArray statusChangeInfo;
+    private List<SimStatusVO> statusChangeInfo;
 
 }

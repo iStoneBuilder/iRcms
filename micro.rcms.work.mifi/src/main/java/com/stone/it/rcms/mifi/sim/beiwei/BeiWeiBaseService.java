@@ -3,6 +3,7 @@ package com.stone.it.rcms.mifi.sim.beiwei;
 import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.core.http.ResponseEntity;
 import com.stone.it.rcms.core.util.DateUtil;
+import com.stone.it.rcms.mifi.sim.vo.CarrierVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,13 +23,9 @@ public class BeiWeiBaseService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BeiWeiBaseService.class);
 
-    static JSONObject getResBody(ResponseEntity res) {
-        if ("200".equals(res.getCode())) {
-            JSONObject resBody = JSONObject.parseObject(res.getBody());
-            if (resBody.containsKey("respStatus")
-                && "0000".equals(resBody.getJSONObject("respStatus").getString("code"))) {
-                return resBody.getJSONObject("respBody");
-            }
+    static JSONObject getSimResBody(JSONObject resBody) {
+        if (resBody.containsKey("respStatus") && "0000".equals(resBody.getJSONObject("respStatus").getString("code"))) {
+            return resBody.getJSONObject("respBody");
         }
         return null;
     }
@@ -40,13 +37,13 @@ public class BeiWeiBaseService {
         return body;
     }
 
-    static Map<String, String> buildHeader(JSONObject authInfo) {
+    static Map<String, String> buildHeader(CarrierVO carrierVO) {
         String timeStamp = DateUtil.formatDate("yyyyMMddHHmmss");
         Map<String, String> header = new HashMap<>();
         header.put("Content-Type", "application/json");
         header.put("timestamp", timeStamp);
-        header.put("appid", authInfo.getString("appKey"));
-        header.put("sign", encryptMd5(authInfo.getString("appKey") + authInfo.getString("appSecret") + timeStamp));
+        header.put("appid", carrierVO.getAppKey());
+        header.put("sign", encryptMd5(carrierVO.getAppKey() + carrierVO.getAppSecret() + timeStamp));
         return header;
     }
 

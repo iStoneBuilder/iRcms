@@ -12,6 +12,7 @@ import com.stone.it.rcms.mifi.sim.dao.IMerchantDao;
 import com.stone.it.rcms.mifi.sim.dao.ISimDao;
 import com.stone.it.rcms.mifi.sim.service.ISimService;
 import com.stone.it.rcms.mifi.sim.vo.CarrierVO;
+import com.stone.it.rcms.mifi.sim.vo.SimAuthUrlVO;
 import com.stone.it.rcms.mifi.sim.vo.SimVO;
 
 import java.util.ArrayList;
@@ -50,8 +51,12 @@ public class SimService implements ISimService {
     public SimVO findSimDetail(String iccid, SimVO simVO) {
         simVO.setIccid(iccid);
         SimVO infoVO = simDao.findSimDetail(simVO);
+        // 查询卡商信息
+        CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
         // 查询运营商信息
-        infoVO.setCarrierInfo(new JSONObject());
+        infoVO.setCarrierInfo(BeiWeiSimOperateService.queryCardInfo(iccid, carrierVO));
+        infoVO.setStatusChangeInfo(simDao.findSimStatusChangeInfo(iccid));
+        // 查询状态变更信息
         return infoVO;
     }
 
@@ -100,7 +105,46 @@ public class SimService implements ISimService {
         // 查询当日信息
         Double dayFlow = BeiWeiSimOperateService.queryDayFlow(iccid, DateUtil.formatDate("yyyyMMdd"), carrierVO);
         simVO.setFlowUsedDay(dayFlow);
+        return simDao.syncSimDp(simVO);
+    }
+
+    @Override
+    public int syncSimRealName(String iccid, SimVO simVO) {
+        // 查询卡商信息
+        CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
+        String status = BeiWeiSimOperateService.queryRealNameStatus(iccid, carrierVO);
+        if (status != null) {
+            simVO.setNameStatus(status);
+            return simDao.updateSimStatus(simVO);
+        }
         return 0;
+    }
+
+    @Override
+    public int operateSim(String iccid, String operateType, SimVO simVO) {
+        simVO.setIccid(iccid);
+        SimVO detailVO = simDao.findSimDetail(simVO);
+        // 查询卡商信息
+        CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
+        // 停机/复机
+        String reqId = BeiWeiSimOperateService.operate(iccid, operateType, carrierVO);
+        if (reqId != null) {
+            return simDao.createSimFlowStatus(detailVO, reqId, operateType);
+        }
+        return 0;
+    }
+
+    @Override
+    public SimAuthUrlVO authSimUrl(String iccid, SimVO simVO) {
+        simVO.setIccid(iccid);
+        SimVO detailVO = simDao.findSimDetail(simVO);
+        // 查询卡商信息
+        CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
+        SimAuthUrlVO simAuthUrlVO = new SimAuthUrlVO();
+        simAuthUrlVO.setIccid(iccid);
+        JSONObject urlInfo = BeiWeiSimOperateService.queryRealNameUrl(iccid, carrierVO);
+        simAuthUrlVO.setRealNameInfo(urlInfo);
+        return simAuthUrlVO;
     }
 
 }

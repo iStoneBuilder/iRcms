@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_t` (
   `net_type` VARCHAR(100) NOT NULL COMMENT '网络类型', -- 4G，5G，6G
   `name_status` VARCHAR(100) COMMENT '实名状态', -- 1:已实名 2:未实名 3:待实名 4:实名失败
   `online_status` VARCHAR(100)  COMMENT '是否在线', -- 1:在线 2:离线
-  `flow_status` VARCHAR(100)  COMMENT '卡流量状态', -- 1:正常 2:欠费 3:停机 4:销号 5:待激活 6:未知
+  `flow_status` VARCHAR(100)  COMMENT '卡流量状态', -- 0=测试，1=待激活(沉默期)，2=正常使用，3=停机，6=注销，11=空卡
   `sim_type` VARCHAR(100) COMMENT '卡类型', -- 1:本地卡 2:云卡
   `msisdn` VARCHAR(100)  COMMENT '物联网号',
   `flow_used` VARCHAR(100)  COMMENT '已使用流量', -- 单位：MB
@@ -52,6 +52,21 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_t` (
   `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   PRIMARY KEY (`iccid`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- SIM卡状态变更
+CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_status_t` (
+  `request_id` VARCHAR(100) NOT NULL COMMENT '停复机请求号',
+  `iccid` VARCHAR(100) NOT NULL COMMENT 'ICCID',
+  `org_status` VARCHAR(100) NOT NULL  COMMENT '卡旧状态', -- 0=测试，1=待激活(沉默期)，2=正常使用，3=停机，6=注销，11=空卡
+  `new_status` VARCHAR(100)  COMMENT '卡新状态', -- 0=测试，1=待激活(沉默期)，2=正常使用，3=停机，6=注销，11=空卡
+  `operate_type` VARCHAR(100) NOT NULL COMMENT '操作类型',
+  `remark` VARCHAR(100) COMMENT '备注',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`request_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 -- 设备类型(租户级)

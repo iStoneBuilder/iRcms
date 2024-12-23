@@ -5,6 +5,7 @@ import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.mifi.device.vo.DeviceDivideVO;
 import com.stone.it.rcms.mifi.device.vo.DeviceVO;
+import com.stone.it.rcms.mifi.sim.vo.SimStatusVO;
 import com.stone.it.rcms.mifi.sim.vo.SimVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -35,4 +36,13 @@ public interface ISimDao {
     SimVO findSimDetail(SimVO simVO);
 
     int updateSimDeviceInfo(DeviceVO detail);
+
+    int syncSimDp(SimVO simVO);
+
+    int createSimFlowStatus(@Param("sim") SimVO simVO, @Param("reqId") String reqId,
+        @Param("operateType") String operateType);
+
+    List<SimStatusVO> findSimStatusChangeInfo(@Param("iccid") String iccid);
+
+    int updateSimStatus(SimVO simVO);
 }

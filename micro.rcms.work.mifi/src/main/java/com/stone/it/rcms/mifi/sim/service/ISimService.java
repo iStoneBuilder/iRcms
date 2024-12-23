@@ -3,6 +3,7 @@ package com.stone.it.rcms.mifi.sim.service;
 import com.stone.it.rcms.core.annotate.RcmsMethod;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
+import com.stone.it.rcms.mifi.sim.vo.SimAuthUrlVO;
 import com.stone.it.rcms.mifi.sim.vo.SimVO;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -62,9 +63,27 @@ public interface ISimService {
     int deleteSim(@PathParam("iccid") String iccid);
 
     @PUT
-    @Path("/records/{iccid}/sync")
+    @Path("/records/{iccid}/sync-dp")
     @RcmsMethod(name = "SIM卡管理.流量校准")
-    @RequiresPermissions("permission:sim:sync")
+    @RequiresPermissions("permission:sim:sync-dp")
     int syncSimDp(@PathParam("iccid") String iccid, SimVO simVO);
+
+    @POST
+    @Path("/records/{iccid}/sync-real-name")
+    @RcmsMethod(name = "SIM卡管理.实名同步", type = "Y")
+    @RequiresPermissions("permission:sim:sync-real-name")
+    int syncSimRealName(@PathParam("iccid") String iccid, SimVO simVO);
+
+    @POST
+    @Path("/records/{iccid}/{operate_type}")
+    @RcmsMethod(name = "SIM卡管理.停机复机")
+    @RequiresPermissions("permission:sim:openStop")
+    int operateSim(@PathParam("iccid") String iccid, @PathParam("operate_type") String operateType, SimVO simVO);
+
+    @POST
+    @Path("/records/{iccid}/auth-url")
+    @RcmsMethod(name = "SIM卡管理.获得实名认证地址", type = "Y")
+    @RequiresPermissions("permission:sim:auth.url")
+    SimAuthUrlVO authSimUrl(@PathParam("iccid") String iccid, SimVO simVO);
 
 }
