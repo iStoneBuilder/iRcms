@@ -154,7 +154,7 @@
             #{item.flowMode,jdbcType=VARCHAR},
             #{item.batchNo,jdbcType=VARCHAR},
             #{item.checkStatus,jdbcType=VARCHAR},
-            #{item.deviceStatus,jdbcType=VARCHAR},
+            '2',
             #{item.testFlow,jdbcType=VARCHAR},
             #{item.remark,jdbcType=VARCHAR},
             now(),

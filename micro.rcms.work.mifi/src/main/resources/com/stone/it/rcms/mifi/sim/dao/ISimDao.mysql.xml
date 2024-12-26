@@ -12,19 +12,20 @@
 
     <insert id="createSim">
         INSERT INTO tpl_mifi_sim_t
-        (tenant_id, iccid, enterprise_id, merchant_code, carrier_code, net_type,
+        (batch_no,tenant_id, iccid, enterprise_id, merchant_code, carrier_code, net_type,
         name_status, online_status, flow_status, sim_type, msisdn, flow_used, flow_remain,
         flow_used_day, remark, CREATED_TIME, CREATED_BY, UPDATED_TIME, UPDATED_BY)
         VALUES
         <foreach collection="list" item="item" separator=",">
             (
+            #{item.batchNo,jdbcType=VARCHAR},
             #{item.tenantId,jdbcType=VARCHAR},#{item.iccid,jdbcType=VARCHAR},
             #{item.currentEnterpriseId,jdbcType=VARCHAR},
             #{item.merchantCode,jdbcType=VARCHAR},
             #{item.carrierCode,jdbcType=VARCHAR},
             #{item.netType,jdbcType=VARCHAR},#{item.nameStatus,jdbcType=VARCHAR},
             #{item.onlineStatus,jdbcType=VARCHAR},
-            #{item.flowStatus,jdbcType=VARCHAR},#{item.simType},
+            #{item.flowStatus,jdbcType=VARCHAR},#{item.simType,jdbcType=VARCHAR},
             #{item.msisdn,jdbcType=VARCHAR},
             #{item.flowUsed,jdbcType=VARCHAR},#{item.flowRemain,jdbcType=VARCHAR},
             #{item.flowUsedDay,jdbcType=VARCHAR},#{item.remark,jdbcType=VARCHAR},

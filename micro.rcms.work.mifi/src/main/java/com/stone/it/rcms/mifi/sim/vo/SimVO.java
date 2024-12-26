@@ -18,7 +18,8 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SimVO extends BaseVO {
-
+    // 入库批次号
+    private String batchNo;
     private String iccid;
     // 卡商
     private String merchantCode;

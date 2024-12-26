@@ -69,7 +69,10 @@ public class SimService implements ISimService {
         List<String> existList = simDao.findNotExistIccid(list, UserUtil.getTenantId());
         // 排除已存在的数据
         if (!existList.isEmpty()) {
-            list.removeIf(item -> existList.contains(item.getIccid()));
+            list.removeIf(item -> {
+                item.setBatchNo(DateUtil.formatDate());
+                return existList.contains(item.getIccid());
+            });
         }
         if (!list.isEmpty()) {
             return simDao.createSim(list);
@@ -120,14 +123,16 @@ public class SimService implements ISimService {
     public int operateSim(String iccid, SimVO simVO) {
         simVO.setIccid(iccid);
         SimVO detailVO = simDao.findSimDetail(simVO);
-        // 查询卡商信息 openDevice stopDevice
-        String operateType = "2".equals(simVO.getFlowStatus()) ? "stopDevice" : "openDevice";
-        CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
-        // 停机/复机
-        String reqId = BeiWeiSimOperateService.operate(iccid, operateType, carrierVO);
-        if (reqId != null) {
-            detailVO.setCurrentUserId(UserUtil.getUserId());
-            return simDao.createSimFlowStatus(detailVO, reqId, operateType);
+        if ("2".equals(simVO.getFlowStatus()) || "3".equals(simVO.getFlowStatus())) {
+            // 查询卡商信息 openDevice stopDevice
+            String operateType = "2".equals(simVO.getFlowStatus()) ? "stopDevice" : "openDevice";
+            CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
+            // 停机/复机
+            String reqId = BeiWeiSimOperateService.operate(iccid, operateType, carrierVO);
+            if (reqId != null) {
+                detailVO.setCurrentUserId(UserUtil.getUserId());
+                return simDao.createSimFlowStatus(detailVO, reqId, operateType);
+            }
         }
         return 0;
     }

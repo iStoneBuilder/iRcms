@@ -4,6 +4,7 @@ import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.core.common.vo.CommonVO;
 import com.stone.it.rcms.mifi.dataplan.vo.DataPlanVO;
+import com.stone.it.rcms.mifi.device.vo.DeviceVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,4 +30,6 @@ public interface IDataPlanSettingDao {
     DataPlanVO createDataPlan(DataPlanVO deviceTypeVO);
 
     int updateDataPlanSell(DataPlanVO vo);
+
+    List<DataPlanVO> findDeviceOptionalDpList(@Param("dv") DeviceVO deviceInfo, @Param("dp") DataPlanVO vo);
 }
