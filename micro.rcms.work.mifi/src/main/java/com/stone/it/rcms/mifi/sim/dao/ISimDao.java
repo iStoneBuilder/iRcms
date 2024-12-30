@@ -21,7 +21,7 @@ public interface ISimDao {
     PageResult<SimVO> findSimPageResult(@Param("param1") SimVO simVO, @Param("param2") PageVO pageVO,
         @Param("param3") List<CommonVO> list);
 
-    int createSim(@Param("list") List<SimVO> list);
+    int createSim(@Param("list") List<SimVO> list, @Param("batchNo") String batchNo);
 
     int updateSim(SimVO simVO);
 

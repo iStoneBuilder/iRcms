@@ -18,7 +18,7 @@
         VALUES
         <foreach collection="list" item="item" separator=",">
             (
-            #{item.batchNo,jdbcType=VARCHAR},
+            #{batchNo,jdbcType=VARCHAR},
             #{item.tenantId,jdbcType=VARCHAR},#{item.iccid,jdbcType=VARCHAR},
             #{item.currentEnterpriseId,jdbcType=VARCHAR},
             #{item.merchantCode,jdbcType=VARCHAR},

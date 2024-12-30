@@ -23,6 +23,18 @@ import java.util.List;
 public interface IMifiDeviceService {
 
     /**
+     * 查询设备详情
+     *
+     * @param deviceVO deviceVO
+     * @return MifiDeviceVO
+     */
+    @GET
+    @Path("/used")
+    @RcmsMethod(name = "用户设备.当前使用", type = "Y")
+    @RequiresPermissions("permission:user-device:detail-query")
+    MifiDeviceVO findUserUsedDevice(@QueryParam("") MifiDeviceVO deviceVO);
+
+    /**
      * 查询用户设备列表
      * 
      * @param deviceVO deviceVO
@@ -33,18 +45,5 @@ public interface IMifiDeviceService {
     @RcmsMethod(name = "用户设备.列表查询", type = "Y")
     @RequiresPermissions("permission:user-device:list-query")
     List<MifiDeviceVO> findUserDevices(@QueryParam("") MifiDeviceVO deviceVO);
-
-    /**
-     * 查询设备详情
-     *
-     * @param deviceSn deviceSn
-     * @param deviceVO deviceVO
-     * @return MifiDeviceVO
-     */
-    @GET
-    @Path("/{device_sn}")
-    @RcmsMethod(name = "用户设备.详情查询", type = "Y")
-    @RequiresPermissions("permission:user-device:detail-query")
-    MifiDeviceVO findDeviceDetailBySn(@PathParam("device_sn") String deviceSn, @QueryParam("") MifiDeviceVO deviceVO);
 
 }

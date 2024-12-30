@@ -30,6 +30,8 @@
         <module>micro.rcms.api.mifi-app.start</module>
         <module>micro.rcms.work.mifi.app</module>
         <module>micro.rcms.core.http</module>
+        <module>micro.rcms.api.mifi-api.start</module>
+        <module>micro.rcms.work.mifi.api</module>
     </modules>
 
     <packaging>pom</packaging>

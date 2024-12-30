@@ -103,6 +103,8 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_type_t` (
   `devi_pic` VARCHAR(100) COMMENT '设备图',
   `status` VARCHAR(2) NOT NULL COMMENT '状态',
   `remark` VARCHAR(100) COMMENT '备注',
+  `heart_Beat_Time` VARCHAR(50) COMMENT '心跳时长 单位s' DEFAULT '60',
+  `flow_Upload_Time` VARCHAR(50) COMMENT '流量上报间隔时长 单位s' DEFAULT '180',
   `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -129,6 +131,7 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_t` (
   `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
   `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
   `device_sn` VARCHAR(100) NOT NULL COMMENT '设备sn',
+  `is_current` VARCHAR(10) NOT NULL COMMENT '是否当前设备:1是0否',
   `imei` VARCHAR(100)  COMMENT '移动设备识别码',
   `msisdn1` VARCHAR(100)  COMMENT '物联网号1',
   `msisdn2` VARCHAR(100)  COMMENT '物联网号2',
@@ -146,12 +149,41 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_t` (
   `active_user` VARCHAR(100)  COMMENT '激活用户',
   `active_time` datetime  COMMENT '激活时间',
   `device_ability` VARCHAR(100)  COMMENT '设备能力',
+  `signal` VARCHAR(100)  COMMENT '信号强度',
+  `electric` VARCHAR(100)  COMMENT 'electric',
+  `connect_num` VARCHAR(100)  COMMENT '设备连接数',
+  `report_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `wifi_name` VARCHAR(100)  COMMENT 'wifi名称',
+  `wifi_pwd` VARCHAR(100)  COMMENT 'wifi密码',
+  `wifi_name_5G` VARCHAR(100)  COMMENT 'wifi名称5G',
+  `wifi_pwd_5G` VARCHAR(100)  COMMENT 'wifi密码5G',
+  `hard_ver` VARCHAR(100)  COMMENT '软件版本',
+  `is_Active` VARCHAR(100)  COMMENT '是否激活 0 未激活 1 激活' DEFAULT '1',
+  `open_Wifi` VARCHAR(100)  COMMENT '设备是否开启 WiFi 0 关闭 1 开启' DEFAULT '1',
+  `hide_Wifi` VARCHAR(100)  COMMENT '是否隐藏wifi 0 隐藏 1 不隐藏' DEFAULT '1',
+  `open_Quick_Net` VARCHAR(10)  COMMENT '设备是否开启极速上网 0 关闭 1 开启' DEFAULT '1',
   `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   PRIMARY KEY (`device_sn`)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- 设备控制
+CREATE TABLE IF NOT EXISTS `tpl_mifi_device_control_t` (
+  `control_id` VARCHAR(100) NOT NULL COMMENT '控制记录ID',
+  `device_sn` VARCHAR(100) NOT NULL COMMENT '设备sn',
+  `cmd` INT(11) NOT NULL COMMENT '控制命令',
+  `param` VARCHAR(128)  COMMENT '控制参数',
+  `source` VARCHAR(32) NOT NULL COMMENT '来源app/ops',
+  `remark` VARCHAR(100) NOT NULL COMMENT '控制名称',
+  `is_handle` VARCHAR(100)  COMMENT '是否下发',
+  `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
+  PRIMARY KEY (`control_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 -- 套餐配置 (商户级)
 CREATE TABLE IF NOT EXISTS `tpl_mifi_data_plan_t` (
@@ -227,7 +259,29 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_divide_t` (
   PRIMARY KEY (`divide_id`)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
+-- 原始数据 iccid（设备）
+CREATE TABLE IF NOT EXISTS `tpl_mifi_device_iccid_flow_t` (
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
+  `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
+  `device_sn` VARCHAR(100) NOT NULL COMMENT '设备sn',
+  `using_iccid` VARCHAR(100) NOT NULL COMMENT '当前使用的卡 ICCID',
+  `seed_iccid` VARCHAR(100) NOT NULL COMMENT '种子卡ICCID',
+  `isp` VARCHAR(10) NOT NULL COMMENT '运营商',
+  `device_con_num` VARCHAR(100) NOT NULL COMMENT '种子卡ICCID',
+  `electric` VARCHAR(100) NOT NULL COMMENT '电量',
+  `signal` VARCHAR(100) NOT NULL COMMENT '信号强度',
+  `seed_Total_Flow` VARCHAR(100) NOT NULL COMMENT '当前使用卡总流量 （一个流量上报周期内）',
+  `device_Total_Flow` VARCHAR(100) NOT NULL COMMENT '设备使用总流量 （一个流量上报周期内）',
+  `report_str` VARCHAR(5000) NOT NULL COMMENT '上报原始数据',
+  `report_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
--- 原始数据 iccid（设备）,时间（5分钟上报），用量
+-- 上报设备数据
+CREATE TABLE IF NOT EXISTS `tpl_mifi_device_report_t` (
+  `tenant_id` VARCHAR(100) NOT NULL COMMENT '租户ID',
+  `enterprise_id` VARCHAR(100) NOT NULL COMMENT '商户ID',
+  `report_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `device_sn` VARCHAR(100) NOT NULL COMMENT '设备sn',
+  `report_str` VARCHAR(5000) NOT NULL COMMENT '上报原始数据'
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
--- 第二数据 套餐，iccid（设备）, 时间（5分钟上报），用量

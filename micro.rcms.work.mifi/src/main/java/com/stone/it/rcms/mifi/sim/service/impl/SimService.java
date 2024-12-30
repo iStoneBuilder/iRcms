@@ -70,12 +70,11 @@ public class SimService implements ISimService {
         // 排除已存在的数据
         if (!existList.isEmpty()) {
             list.removeIf(item -> {
-                item.setBatchNo(DateUtil.formatDate());
                 return existList.contains(item.getIccid());
             });
         }
         if (!list.isEmpty()) {
-            return simDao.createSim(list);
+            return simDao.createSim(list, DateUtil.formatDate());
         }
         return 0;
     }

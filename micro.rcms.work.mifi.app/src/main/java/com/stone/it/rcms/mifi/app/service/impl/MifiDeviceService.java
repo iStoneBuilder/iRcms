@@ -17,8 +17,4 @@ public class MifiDeviceService implements IMifiDeviceService {
         return List.of();
     }
 
-    @Override
-    public MifiDeviceVO findDeviceDetailBySn(String deviceSn, MifiDeviceVO deviceVO) {
-        return null;
-    }
 }
