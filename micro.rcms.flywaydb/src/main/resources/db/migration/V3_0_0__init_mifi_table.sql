@@ -178,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_control_t` (
   `param` VARCHAR(128)  COMMENT '控制参数',
   `source` VARCHAR(32) NOT NULL COMMENT '来源app/ops',
   `remark` VARCHAR(100) NOT NULL COMMENT '控制名称',
-  `is_handle` VARCHAR(100)  COMMENT '是否下发',
+  `is_handle` VARCHAR(10)  COMMENT '是否下发',
   `CREATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `CREATED_BY` varchar(100) NOT NULL DEFAULT 'UNKNOWN',
   `UPDATED_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

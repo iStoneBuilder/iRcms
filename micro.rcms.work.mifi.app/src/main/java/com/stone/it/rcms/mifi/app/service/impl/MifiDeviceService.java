@@ -1,5 +1,6 @@
 package com.stone.it.rcms.mifi.app.service.impl;
 
+import com.stone.it.rcms.core.util.UUIDUtil;
 import com.stone.it.rcms.mifi.app.dao.IMifiDeviceDao;
 import com.stone.it.rcms.mifi.app.dao.IMifiThaliDao;
 import com.stone.it.rcms.mifi.app.service.IMifiDeviceService;
@@ -70,21 +71,35 @@ public class MifiDeviceService implements IMifiDeviceService {
 
     @Override
     public List<MifiDeviceVO> findUserDevices(MifiDeviceVO deviceVO) {
-        return List.of();
+        return mifiDeviceDao.findUserDevices(deviceVO);
     }
 
     @Override
     public int changeCurrentDevice(String deviceSn, MifiDeviceVO deviceVO) {
-        return 0;
+        return mifiDeviceDao.changeCurrentDevice(deviceSn, deviceVO);
     }
 
     @Override
     public int changeCurrentDeviceWifi(String deviceSn, MifiWifiVO wifiVO) {
-        return 0;
+        MifiControlVO controlVO = new MifiControlVO();
+        controlVO.setOperateId(UUIDUtil.getUuid());
+        controlVO.setDeviceSn(deviceSn);
+        controlVO.setCmd("101");
+        controlVO.setParam(wifiVO.getWifiName() + ">>>" + wifiVO.getWifiPwd());
+        controlVO.setSource("app");
+        controlVO.setCurrentUserId(wifiVO.getCurrentUserId());
+        return mifiDeviceDao.createChangeRecord(controlVO);
     }
 
     @Override
     public int changeCurrentDeviceIccid(String deviceSn, MifiIccidVO iccidVO) {
+        MifiControlVO controlVO = new MifiControlVO();
+        controlVO.setOperateId(UUIDUtil.getUuid());
+        controlVO.setDeviceSn(deviceSn);
+        controlVO.setCmd("100");
+        controlVO.setParam(iccidVO.getIccid());
+        controlVO.setSource("app");
+        controlVO.setCurrentUserId(iccidVO.getCurrentUserId());
         return 0;
     }
 

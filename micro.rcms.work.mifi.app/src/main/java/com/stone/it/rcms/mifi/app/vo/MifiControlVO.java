@@ -12,8 +12,10 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MifiWifiVO extends BaseVO {
-    private String operatorId;
-    private String wifiName;
-    private String wifiPwd;
+public class MifiControlVO extends BaseVO {
+    private String operateId;
+    private String deviceSn;
+    private String cmd;
+    private String param;
+    private String source;
 }
