@@ -1,5 +1,6 @@
 package com.stone.it.rcms.mifi.api.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  * @Desc
  */
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FlowReportVO {
 
     private String deviceSn;

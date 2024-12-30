@@ -1,6 +1,7 @@
 package com.stone.it.rcms.mifi.api.vo;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 /**
@@ -11,6 +12,7 @@ import lombok.Data;
  * @Desc
  */
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DeviceControlVO {
 
     // 请求成功标志 true/false

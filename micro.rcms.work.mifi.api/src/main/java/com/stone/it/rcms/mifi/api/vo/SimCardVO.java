@@ -1,5 +1,8 @@
 package com.stone.it.rcms.mifi.api.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+
 /**
  * SIM 卡信息
  * 
@@ -7,6 +10,8 @@ package com.stone.it.rcms.mifi.api.vo;
  * @Date 2024/12/27
  * @Desc
  */
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SimCardVO {
 
     private String iccid;
