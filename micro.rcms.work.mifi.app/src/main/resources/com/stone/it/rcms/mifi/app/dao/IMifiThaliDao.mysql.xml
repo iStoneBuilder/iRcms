@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.mifi.app.dao.IMifiThaliDao">
+
+    <select id="findDeviceCanUseThali" resultType="com.stone.it.rcms.mifi.app.vo.MifiThaliVO">
+        SELECT
+        device_dp_id as dpId,
+        device_dp_name as thaliName,
+        total_flow as totalFlow,
+        remain_flow as remainFlow,
+        used_flow as usedFlow,
+        total_used_flow as totalUsedFlow,
+        effective_time as effectiveTime,
+        expire_time as expireTime,
+        charge_type as chargeType,
+        valid_duration as validDuration
+        from tpl_mifi_device_dp_t,
+        tpl_mifi_data_plan_t
+        where data_plan_no = data_plan_no
+        device_sn = #{deviceSn,jdbcType=VARCHAR}
+        <![CDATA[
+            and effective_time >= now()
+            and expire_time <= now()
+        ]]>
+    </select>
+
+</mapper>

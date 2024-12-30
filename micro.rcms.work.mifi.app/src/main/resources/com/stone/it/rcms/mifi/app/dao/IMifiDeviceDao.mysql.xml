@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.mifi.app.dao.IMifiDeviceDao">
+
+    <select id="findUserUsedDevice" resultType="com.stone.it.rcms.mifi.app.vo.MifiDeviceVO">
+        select
+        is_current as currSelect,
+        device_sn as deviceSn,
+        current_iccid as currIccid,
+        signal,
+        electric,
+        connect_num as wifiNum,
+        device_Status as deviceStatus,
+        wifi_name as wifiName,
+        wifi_pwd as wifiPwd,
+        from tpl_mifi_device_t
+        where active_user = #{currentUserId,jdbcType=VARCHAR}
+        and is_current = 1
+    </select>
+
+</mapper>

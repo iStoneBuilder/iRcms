@@ -1,5 +1,6 @@
 package com.stone.it.rcms.mifi.app.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.stone.it.rcms.core.vo.BaseVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MifiDeviceVO extends BaseVO {
 
     // 当前选中设备
@@ -25,6 +27,8 @@ public class MifiDeviceVO extends BaseVO {
     private String deviceImg;
     // 设备套餐数
     private Integer thaliNum;
+    // 套餐剩余天数
+    private Integer thaliSurplusDay;
     // 设备套餐总流量
     private Long thaliTotal;
     // 设备套餐剩余流量
@@ -37,9 +41,17 @@ public class MifiDeviceVO extends BaseVO {
     private List<MifiDeviceSimVO> simInfo;
     // 设备状态
     private String deviceStatus;
-    // 设备SIM卡类型（主卡，副卡）
-    private String simType;
     // 设备接入Wi-Fi数量
     private Integer wifiNum;
+    // 设备电量
+    private Integer electric;
+    // 设备信号
+    private Integer signal;
+    // 当前iccid
+    private String currIccid;
+    // wifi名称
+    private String wifiName;
+    // wifi密码
+    private String wifiPwd;
 
 }
