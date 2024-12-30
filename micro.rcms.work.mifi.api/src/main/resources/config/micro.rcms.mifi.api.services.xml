@@ -6,12 +6,14 @@
 						http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 						http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
+
+    <bean class="com.stone.it.rcms.mifi.api.interceptor.ParamLogInInterceptor"
+          id="paramLogInInterceptor"/>
+
     <jaxrs:server address="/api/device" id="rcmsMifiApiServiceRest">
         <jaxrs:inInterceptors>
-            <ref bean="jwtTokenInInterceptor"/>
+            <ref bean="paramLogInInterceptor"/>
         </jaxrs:inInterceptors>
-        <jaxrs:outInterceptors>
-        </jaxrs:outInterceptors>
         <jaxrs:providers>
             <ref bean="jsonProvider"/>
         </jaxrs:providers>

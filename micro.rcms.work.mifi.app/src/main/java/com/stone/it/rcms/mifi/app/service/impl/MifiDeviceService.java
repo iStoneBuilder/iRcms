@@ -13,6 +13,11 @@ import java.util.List;
  */
 public class MifiDeviceService implements IMifiDeviceService {
     @Override
+    public MifiDeviceVO findUserUsedDevice(MifiDeviceVO deviceVO) {
+        return null;
+    }
+
+    @Override
     public List<MifiDeviceVO> findUserDevices(MifiDeviceVO deviceVO) {
         return List.of();
     }

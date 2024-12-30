@@ -23,8 +23,7 @@ public class JwtTokenInInterceptor extends RequestParamsInterceptor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenInInterceptor.class);
 
-    private static final String[] ANON_PATHS =
-        {"/user/login", "/user/refresh/login", "/user/register", "/user/token", "/api/device/v1"};
+    private static final String[] ANON_PATHS = {"/user/login", "/user/refresh/login", "/user/register", "/user/token"};
 
     public JwtTokenInInterceptor() {
         super(Phase.RECEIVE);
