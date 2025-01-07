@@ -1,6 +1,5 @@
 package com.stone.it.rcms.core.handler;
 
-import com.alibaba.fastjson2.JSON;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.util.UUIDUtil;
 import com.stone.it.rcms.core.vo.PermissionVO;

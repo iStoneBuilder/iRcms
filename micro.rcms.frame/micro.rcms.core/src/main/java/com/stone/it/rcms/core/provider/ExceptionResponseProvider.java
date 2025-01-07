@@ -3,11 +3,12 @@ package com.stone.it.rcms.core.provider;
 import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.exception.RcmsExceptionEnum;
-import com.stone.it.rcms.core.util.ResponseUtil;
 import java.util.Arrays;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
+
+import com.stone.it.rcms.core.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +38,7 @@ public class ExceptionResponseProvider implements ExceptionMapper<Throwable> {
         if (Arrays.stream(RcmsExceptionEnum.values()).anyMatch(e -> e.name().equals(name))) {
             String message = RcmsExceptionEnum.valueOf(name).getMessage();
             response = ResponseUtil.responseBuild(RcmsExceptionEnum.valueOf(name).getCode(),
-                "".equals(message) ? exception.getMessage() : message, exception.getMessage());
+                                                  "".equals(message) ? exception.getMessage() : message, exception.getMessage());
             return Response.status(RcmsExceptionEnum.valueOf(name).getCode()).entity(response).type("application/json")
                 .build();
         }

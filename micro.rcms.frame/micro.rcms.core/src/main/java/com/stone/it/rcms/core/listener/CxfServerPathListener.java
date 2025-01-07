@@ -2,12 +2,13 @@ package com.stone.it.rcms.core.listener;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.stone.it.rcms.core.handler.PermissionHandler;
-import com.stone.it.rcms.core.http.RequestUtil;
-import com.stone.it.rcms.core.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+
+import com.stone.it.rcms.core.http.RequestUtil;
+import com.stone.it.rcms.core.http.ResponseEntity;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;

@@ -1,7 +1,6 @@
 package com.stone.it.rcms.admin.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.stone.it.rcms.user.vo.EnterpriseDetailVO;
 import lombok.Data;
 
 import java.util.List;
