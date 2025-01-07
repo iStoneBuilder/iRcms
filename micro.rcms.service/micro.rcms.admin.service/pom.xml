@@ -38,6 +38,16 @@
             <groupId>com.stone.it</groupId>
             <version>1.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <artifactId>micro.rcms.mifi.sim</artifactId>
+            <groupId>com.stone.it</groupId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <artifactId>micro.rcms.mifi.flow</artifactId>
+            <groupId>com.stone.it</groupId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 

@@ -15,6 +15,7 @@ import javax.ws.rs.PathParam;
  * @Date 2025/1/7
  * @Desc
  */
+@Path("/common")
 public interface IMifiCommonService {
     /**
      * 根据ICCID查询运营商信息

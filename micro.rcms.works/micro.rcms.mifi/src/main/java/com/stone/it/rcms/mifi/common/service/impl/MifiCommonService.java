@@ -8,6 +8,7 @@ import com.stone.it.rcms.mifi.common.vo.CarrierVO;
 import com.stone.it.rcms.mifi.common.vo.SimAuthUrlVO;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
@@ -15,6 +16,7 @@ import javax.inject.Inject;
  * @Date 2025/1/7
  * @Desc
  */
+@Named
 public class MifiCommonService implements IMifiCommonService {
 
     @Inject

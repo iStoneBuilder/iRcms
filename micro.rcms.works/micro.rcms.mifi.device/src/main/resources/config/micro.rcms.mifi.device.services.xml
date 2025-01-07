@@ -6,7 +6,7 @@
 						http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 						http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
-    <jaxrs:server address="/api/mifi" id="rcmsMifiServiceRest">
+    <jaxrs:server address="/api/device" id="rcmsMifiDeviceServiceRest">
         <jaxrs:inInterceptors>
             <ref bean="jwtTokenInInterceptor"/>
         </jaxrs:inInterceptors>
@@ -18,12 +18,9 @@
             <ref bean="exceptionProvider"/>
         </jaxrs:providers>
         <jaxrs:serviceBeans>
-            <ref bean="merchantService"/>
-            <ref bean="simService"/>
             <ref bean="deviceTypeService"/>
             <ref bean="deviceGroupService"/>
             <ref bean="deviceManageService"/>
-            <ref bean="dataPlanSettingService"/>
             <ref bean="deviceDataPlanService"/>
             <ref bean="deviceDivideService"/>
             <ref bean="deviceRealNameService"/>

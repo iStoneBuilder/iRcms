@@ -24,8 +24,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
  * @Date 2024/11/19
  * @Desc
  */
-
-@Path("/sim")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiresAuthentication
