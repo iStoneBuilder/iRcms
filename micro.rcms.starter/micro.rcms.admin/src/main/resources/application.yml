@@ -1,0 +1,30 @@
+server:
+  port: 51000
+  servlet:
+    context-path: /test
+
+spring:
+  profiles:
+    active: loc
+  application:
+    name: rcms-admin-api
+  # 数据库信息配置
+  datasource:
+    name: rcms
+    url: jdbc:mysql://rm-wz9mm7xv3r2q4v71m.mysql.rds.aliyuncs.com:3306/ms_admin?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    username: wheat_shark
+    password: mm@13265044565
+    driver-class-name: com.mysql.jdbc.Driver
+
+# 指定日志文件
+logging:
+  config: classpath:log4j2.xml
+
+# mybatis 配置
+mybatis:
+  # mybatis sql 文件扫描路径
+  mapper-locations: classpath*:com/stone/it/**/dao/*.mysql.xml
+  # 指定实体类的路径
+  type-aliases-package: com.stone.it.**.vo
+
+

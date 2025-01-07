@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.core.pay.dao.IPayConfigDao">
+
+    <sql id="query_detail_sql">
+        select
+        <if test="paySource != null and paySource != '' and paySource == 'miniApp'">
+            pt.mini_app_id as appId,
+        </if>
+        <if test="paySource != null and paySource != '' and paySource == 'publicApp'">
+            pt.public_app_id as appId,
+        </if>
+        pt.mch_id as merchantId,
+        pt.app_secret as privateKey,
+        pt.mch_serial_number as merchantSerialNumber,
+        pt.mch_pay_v3key as apiV3Key,
+        pt.notify_Url as payNotifyUrl,
+        pt.refund_Notify_Url as refundNotifyUrl
+        from tpl_fram_pay_t pt
+    </sql>
+
+    <select id="findWxPayConfigByTpp" resultType="com.stone.it.rcms.core.pay.vo.WxConfigVO">
+        <include refid="query_detail_sql"/>
+        where pt.tenant_id = #{tenantId,jdbcType=VARCHAR}
+        ant pt.pay_way = #{payWay,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findWxPayConfigByPci" resultType="com.stone.it.rcms.core.pay.vo.WxConfigVO">
+        <include refid="query_detail_sql"/>
+        where pt.pay_config_id = #{payConfigId,jdbcType=VARCHAR}
+    </select>
+</mapper>

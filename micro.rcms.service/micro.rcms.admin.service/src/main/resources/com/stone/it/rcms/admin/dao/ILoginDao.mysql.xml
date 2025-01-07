@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.admin.dao.ILoginDao">
+
+
+  <select id="findAccountInfoById" resultType="com.stone.it.rcms.admin.vo.AuthAccountVO">
+    SELECT
+    a.account_code as accountCode,
+    a.account_name as accountName,
+    a.account_type as accountType,
+    a.password as password,
+    a.account_roles as accountRoles,
+    a.enterprise_id as enterpriseId,
+    e.tenant_id as tenantId
+    FROM
+    tpl_fram_account_t a
+    left join
+    tpl_fram_enterprise_t e
+    on a.enterprise_id = e.id
+    WHERE
+    account_code = #{account}
+  </select>
+
+  <select id="findPermsByRoles" resultType="java.lang.String">
+    select auth_code from tpl_fram_role_permission_t where role_code in
+    <foreach close=")" collection="list" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="findEnterpriseDetailById"
+    resultType="com.stone.it.rcms.admin.vo.EnterpriseDetailVO">
+    select
+    tenant_id as tenantId,
+    id,
+    type,
+    name,
+    tenant_id as tenantId
+    from tpl_fram_enterprise_t
+    where id = #{enterpriseId}
+  </select>
+
+</mapper>

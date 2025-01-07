@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.stone.it</groupId>
+        <artifactId>micro.rcms.frame</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>micro.rcms.core.coms</artifactId>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mybatis-s-starter>2.3.0</mybatis-s-starter>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <artifactId>javax.inject</artifactId>
+            <groupId>javax.inject</groupId>
+            <scope>compile</scope>
+            <version>1</version>
+        </dependency>
+        <dependency>
+            <artifactId>lombok</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <scope>compile</scope>
+            <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-core</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <version>${mybatis-s-starter}</version>
+        </dependency>
+    </dependencies>
+
+</project>

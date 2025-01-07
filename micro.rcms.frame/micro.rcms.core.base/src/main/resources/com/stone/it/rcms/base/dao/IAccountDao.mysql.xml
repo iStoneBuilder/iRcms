@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.base.dao.IAccountDao">
+
+  <delete id="deleteAccount">
+    delete from tpl_fram_account_t
+    where
+    account_code = #{code,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="createAccount">
+    insert into tpl_fram_account_t(
+    account_code,
+    account_name,
+    account_type,
+    password,
+    account_roles,
+    status,
+    enterprise_id,
+    tenant_id,
+    description,
+    CREATED_BY,
+    UPDATED_BY,
+    CREATED_TIME,
+    UPDATED_TIME
+    )
+    values(
+    #{code,jdbcType=VARCHAR},
+    #{name,jdbcType=VARCHAR},
+    #{type,jdbcType=VARCHAR},
+    #{password,jdbcType=VARCHAR},
+    #{roles,jdbcType=VARCHAR},
+    #{status,jdbcType=VARCHAR},
+    #{enterpriseId,jdbcType=VARCHAR},
+    #{tenantId,jdbcType=VARCHAR},
+    #{description,jdbcType=VARCHAR},
+    #{currentUserId,jdbcType=VARCHAR},
+    #{currentUserId,jdbcType=VARCHAR},
+    now(),
+    now()
+    )
+  </insert>
+
+  <select id="findAccountList" resultType="com.stone.it.rcms.base.vo.AccountVO">
+    <include refid="query_base_sql"/>
+    <where>
+      a.enterprise_id in
+      <foreach close=")" collection="param2" item="item" open="(" separator=",">
+        #{item.id}
+      </foreach>
+      <if test="param1.code !=null and param1.code !=''">
+        and a.account_code = #{param1.code,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.name !=null and param1.name !=''">
+        and a.account_name = #{param1.name,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <select id="findAccountPageResult" resultType="com.stone.it.rcms.base.vo.AccountVO">
+    <include refid="query_base_sql"/>
+    <include refid="query_page_condition"/>
+    limit #{param2.startIndex},#{param2.endIndex}
+  </select>
+
+  <select id="findAccountPageResultCount" resultType="int">
+    select count(*)
+    from tpl_fram_account_t a
+    left join tpl_fram_enterprise_t e
+    on a.enterprise_id = e.id
+    <include refid="query_page_condition"/>
+  </select>
+
+  <sql id="query_base_sql">
+    select
+    a.enterprise_id as enterpriseId,
+    a.account_code as code,
+    a.account_name as name,
+    a.account_type as type,
+    a.status as status,
+    a.account_roles as roles,
+    a.description as description,
+    e.name as merchant,
+    a.CREATED_TIME,
+    a.CREATED_BY,
+    a.UPDATED_TIME,
+    a.UPDATED_BY
+    from tpl_fram_account_t a left join
+    tpl_fram_enterprise_t e
+    on a.enterprise_id = e.id
+  </sql>
+
+  <sql id="query_page_condition">
+    <where>
+      a.enterprise_id in
+      <foreach close=")" collection="param3" item="item" open="(" separator=",">
+        #{item.id}
+      </foreach>
+      <if test="param1.code !=null and param1.code !=''">
+        and a.account_code = #{param1.code,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.name !=null and param1.name !=''">
+        and a.account_name = #{param1.name,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.status !=null and param1.status !=''">
+        and a.status = #{param1.status,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.type !=null and param1.type !=''">
+        and a.account_type = #{param1.type,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <update id="updateAccount">
+    update tpl_fram_account_t
+    set
+    <if test="name !=null and name !=''">
+      account_name = #{name,jdbcType=VARCHAR},
+    </if>
+    <if test="password !=null and password !=''">
+      password = #{password,jdbcType=VARCHAR},
+    </if>
+    <if test="roles !=null and roles !=''">
+      account_roles = #{roles,jdbcType=VARCHAR},
+    </if>
+    <if test="status !=null and status !=''">
+      status = #{status,jdbcType=VARCHAR},
+    </if>
+    <if test="description !=null and description !=''">
+      description = #{description,jdbcType=VARCHAR},
+    </if>
+    UPDATED_BY = #{currentUserId,jdbcType=VARCHAR},
+    UPDATED_TIME = now()
+    where account_code = #{code,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

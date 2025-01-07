@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.base.dao.IEnterpriseDao">
+
+    <delete id="deleteEnterpriseMerchant">
+        delete from tpl_fram_enterprise_t where id = #{enterpriseId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="createEnterpriseMerchant">
+        insert into
+        tpl_fram_enterprise_t (
+        id,
+        name,
+        tenant_id,
+        parent_id,
+        level,
+        type,
+        sort,
+        status,
+        remark,
+        principal,
+        email,
+        phone,
+        created_by,
+        created_time,
+        updated_by,
+        updated_time
+        )
+        values
+        ( #{id,jdbcType=BIGINT},
+        #{name,jdbcType=VARCHAR},
+        #{tenantId,jdbcType=VARCHAR},
+        #{parentId,jdbcType=BIGINT},
+        #{level,jdbcType=INTEGER},
+        #{type,jdbcType=VARCHAR},
+        #{sort,jdbcType=INTEGER},
+        #{status,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR},
+        #{principal,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{phone,jdbcType=VARCHAR},
+        #{currentUserId,jdbcType=VARCHAR},
+        now(),
+        #{currentUserId,jdbcType=VARCHAR},
+        now()
+        )
+    </insert>
+
+    <select id="findEnterpriseList" resultType="com.stone.it.rcms.base.vo.EnterpriseVO">
+        <include refid="query_sql"/>
+        order by created_time asc
+    </select>
+
+    <select id="findEnterpriseMerchantById"
+            resultType="com.stone.it.rcms.base.vo.EnterpriseVO">
+        <include refid="query_sql"/>
+        where id = #{enterpriseId,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="findEnterpriseListByPid" resultType="com.stone.it.rcms.base.vo.EnterpriseVO">
+        <include refid="query_sql"/>
+        where parent_id = #{parentId,jdbcType=VARCHAR}
+    </select>
+
+    <sql id="query_sql">
+        select
+        id,
+        name,
+        tenant_id as tenantId,
+        parent_id as parentId,
+        level,
+        type,
+        sort,
+        status,
+        remark,
+        principal,
+        email,
+        phone,
+        created_time as createDate,
+        created_by as createBy,
+        updated_time as updateDate,
+        updated_by as updateBy
+        from
+        tpl_fram_enterprise_t
+    </sql>
+
+    <update id="updateEnterpriseMerchant">
+        update tpl_fram_enterprise_t
+        set
+        <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+        <if test="sort != null">sort = #{sort,jdbcType=INTEGER},</if>
+        <if test="status != null">status = #{status,jdbcType=VARCHAR},</if>
+        <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>
+        <if test="principal != null">principal = #{principal,jdbcType=VARCHAR},</if>
+        <if test="email != null">email = #{email,jdbcType=VARCHAR},</if>
+        <if test="phone != null">phone = #{phone,jdbcType=VARCHAR},</if>
+        updated_by = #{currentUserId,jdbcType=VARCHAR},
+        updated_time = now()
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

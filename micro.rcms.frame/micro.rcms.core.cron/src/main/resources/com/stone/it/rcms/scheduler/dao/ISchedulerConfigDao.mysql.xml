@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.scheduler.dao.ISchedulerConfigDao">
+
+  <delete id="deleteQuartz">
+    delete from tpl_cron_quartz_t
+    where quartz_id = #{quartzId,jdbcType=VARCHAR}
+    and tenant_id = #{tenantId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="createQuartz">
+    insert into tpl_cron_quartz_t (tenant_id,
+    quartz_group_code,quartz_id,quartz_name,quartz_desc,quartz_cron,
+    quartz_cron_zh,enabled_flag,quartz_status,next_exec_time,auth_key,
+    request_type,request_path,request_params,request_header,
+    created_time,created_by,updated_time,updated_by)
+    values (
+    #{tenantId,jdbcType=VARCHAR},
+    #{quartzGroupCode,jdbcType=VARCHAR},
+    #{quartzId,jdbcType=VARCHAR},
+    #{quartzName,jdbcType=VARCHAR},
+    #{quartzDesc,jdbcType=VARCHAR},
+    #{quartzCron,jdbcType=VARCHAR},
+    #{quartzCronZh,jdbcType=VARCHAR},
+    #{enabledFlag,jdbcType=VARCHAR},
+    #{quartzStatus,jdbcType=VARCHAR},
+    #{nextExecTime,jdbcType=TIMESTAMP},
+    #{authKey,jdbcType=VARCHAR},
+    #{requestType,jdbcType=VARCHAR},
+    #{requestPath,jdbcType=VARCHAR},
+    #{requestParams,jdbcType=VARCHAR},
+    #{requestHeaders,jdbcType=VARCHAR},
+    now(),
+    #{currentUserId,jdbcType=VARCHAR},
+    now(),
+    #{currentUserId,jdbcType=VARCHAR}
+    )
+  </insert>
+  <select id="findQuartzPageResult"
+    resultType="com.stone.it.rcms.scheduler.vo.SchedulerVO">
+    <include refid="query_base_sql"/>
+    <include refid="query_condition_sql"/>
+    limit #{param2.startIndex},#{param2.endIndex}
+  </select>
+
+  <select id="findQuartzPageResultCount" resultType="integer">
+    select count(1) FROM
+    tpl_cron_quartz_t qt
+    left join tpl_cron_quartz_group_t qgt
+    on qt.QUARTZ_GROUP_CODE = qgt.QUARTZ_GROUP_CODE
+    <include refid="query_condition_sql"/>
+  </select>
+
+  <select id="findQuartzInfoById"
+    resultType="com.stone.it.rcms.scheduler.vo.SchedulerVO">
+    <include refid="query_base_sql"/>
+    where qt.quartz_id = #{quartzId}
+    and qt.tenant_id = #{tenantId}
+  </select>
+
+  <select id="findQuartzList"
+    resultType="com.stone.it.rcms.scheduler.vo.SchedulerVO">
+    <include refid="query_base_sql"/>
+    where qt.enabled_flag = #{enabledFlag}
+  </select>
+
+  <select id="findQuartzListByGroupId"
+    resultType="com.stone.it.rcms.scheduler.vo.SchedulerVO">
+    <include refid="query_base_sql"/>
+    where qgt.QUARTZ_GROUP_ID = #{groupId}
+  </select>
+
+  <sql id="query_base_sql">
+    SELECT
+    qt.tenant_id as tenantId,
+    qgt.IS_AUTHORIZED as isAuthorized,
+    qt.QUARTZ_GROUP_CODE as quartzGroupCode,
+    qt.quartz_id as quartzId,
+    qt.quartz_name as quartzName,
+    qt.quartz_desc as quartzDesc,
+    qt.quartz_cron as quartzCron,
+    qt.quartz_cron_zh as quartzCronZh,
+    qt.enabled_flag as enabledFlag,
+    qt.QUARTZ_STATUS as quartzStatus,
+    qt.NEXT_EXEC_TIME as nextExecTime,
+    qt.AUTH_KEY as authKey,
+    qt.request_type as requestType,
+    qt.REQUEST_PATH as requestPath,
+    qt.REQUEST_PARAMS as requestParams,
+    qt.REQUEST_HEADER as requestHeaders,
+    qt.created_time as createDate,
+    qt.created_by as createBy,
+    qt.updated_time as updateDate,
+    qt.updated_by as updateBy
+    FROM
+    tpl_cron_quartz_t qt
+    left join tpl_cron_quartz_group_t qgt
+    on qt.QUARTZ_GROUP_CODE = qgt.QUARTZ_GROUP_CODE
+  </sql>
+
+  <sql id="query_condition_sql">
+    <where>
+      1 = 1
+      <if test="param1.quartzId != null and param1.quartzId != ''">
+        and qt.quartz_id = #{param1.quartzId,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.quartzGroupCode != null and param1.quartzGroupCode != ''">
+        and qt.quartz_group_code = #{param1.quartzGroupCode,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.isAuthorized != null and param1.isAuthorized != ''">
+        and qgt.IS_AUTHORIZED = #{param1.isAuthorized,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.quartzName != null and param1.quartzName != ''">
+        and qt.quartz_name = #{param1.quartzName,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.enabledFlag != null and param1.enabledFlag != ''">
+        and qt.enabled_flag = #{param1.enabledFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="param1.quartzStatus != null and param1.quartzStatus != ''">
+        and qt.QUARTZ_STATUS = #{param1.quartzStatus,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <update id="updateQuartz">
+    update tpl_cron_quartz_t
+    set
+    <if test="quartzGroupCode != null and quartzGroupCode != ''">
+      quartz_group_code = #{quartzGroupCode,jdbcType=VARCHAR},
+    </if>
+    <if test="quartzName != null">
+      quartz_name = #{quartzName,jdbcType=VARCHAR},
+    </if>
+    <if test="quartzCron != null">
+      quartz_cron = #{quartzCron,jdbcType=VARCHAR},
+    </if>
+    <if test="quartzCronZh != null">
+      quartz_cron_zh = #{quartzCronZh,jdbcType=VARCHAR},
+    </if>
+    <if test="enabledFlag != null">
+      enabled_flag = #{enabledFlag,jdbcType=VARCHAR},
+    </if>
+    <if test="quartzDesc != null">
+      quartz_desc = #{quartzDesc,jdbcType=VARCHAR},
+    </if>
+    <if test="authKey != null">
+      auth_key = #{authKey,jdbcType=VARCHAR},
+    </if>
+    <if test="requestType != null">
+      request_type = #{requestType,jdbcType=VARCHAR},
+    </if>
+    <if test="requestPath != null">
+      request_path = #{requestPath,jdbcType=VARCHAR},
+    </if>
+    <if test="requestParams != null">
+      request_params = #{requestParams,jdbcType=VARCHAR},
+    </if>
+    <if test="requestHeaders != null">
+      request_headers = #{requestHeaders,jdbcType=VARCHAR},
+    </if>
+    updated_time = now(),
+    updated_by = #{currentUserId,jdbcType=VARCHAR}
+    where quartz_id = #{quartzId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.mifi.device.dao.IDeviceDivideDao">
+
+    <sql id="query_page_condition">
+        <where>
+            tenant_id = #{param1.tenantId,jdbcType=VARCHAR}
+            <if test="param1.enterpriseId != null and param1.enterpriseId != ''">
+                and enterprise_id = #{param1.enterpriseId,jdbcType=VARCHAR}
+            </if>
+            <if test="param3.size() != 0">
+                and enterprise_id in
+                <foreach close=")" collection="param3" item="item" open="(" separator=",">
+                    #{item.id,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+            <if test="param1.divideId != null and param1.divideId != ''">
+                and divide_id like concat('%',#{param1.divideId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.divideUser != null and param1.divideUser != ''">
+                and created_by like concat('%',#{param1.divideUser,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="findPageDivideResult" resultType="com.stone.it.rcms.mifi.device.vo.DeviceDivideVO">
+        select tenant_id as tenantId,
+        enterprise_id as enterpriseId,
+        divide_id as divideId,
+        device_sn as deviceSns,
+        divide_num as divideNum,
+        org_mch as orgMch,
+        target_mch as targetMch,
+        divide_status as divideStatus,
+        remark,
+        created_time as divideTime,
+        created_by as divideUser
+        from tpl_mifi_device_divide_t
+        <include refid="query_page_condition"/>
+        order by created_time desc
+        limit #{param2.startIndex}, #{param2.endIndex}
+    </select>
+
+    <select id="findPageDivideResultCount" resultType="int">
+        select count(1)
+        from tpl_mifi_device_divide_t
+        <include refid="query_page_condition"/>
+    </select>
+
+    <insert id="createDivideRecord">
+        insert into tpl_mifi_device_divide_t
+        (tenant_id, enterprise_id,
+        divide_id, device_sn, divide_num,
+        org_mch, target_mch,
+        divide_status, remark,
+        created_time, created_by,
+        updated_time, updated_by)
+        values
+        (#{divide.tenantId,jdbcType=VARCHAR},
+        #{divide.currentEnterpriseId,jdbcType=VARCHAR},
+        #{divide.divideId,jdbcType=VARCHAR},
+        <foreach collection="list" item="item" separator=",">
+            #{item.deviceSn,jdbcType=VARCHAR}
+        </foreach>,
+        #{divide.divideNum,jdbcType=INTEGER},
+        #{divide.orgMch,jdbcType=VARCHAR},
+        #{divide.targetMch,jdbcType=VARCHAR},
+        #{divide.divideStatus,jdbcType=VARCHAR},
+        #{divide.remark,jdbcType=VARCHAR},
+        now(),
+        #{divide.currentUserId,jdbcType=VARCHAR},
+        now(),
+        #{divide.currentUserId,jdbcType=VARCHAR}
+        )
+    </insert>
+
+</mapper>

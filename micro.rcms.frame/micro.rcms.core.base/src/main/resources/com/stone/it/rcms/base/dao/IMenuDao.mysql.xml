@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.base.dao.IMenuDao">
+
+    <delete id="deleteMenu">
+        delete from tpl_fram_menu_t
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+
+    <insert id="createMenu">
+        insert into tpl_fram_menu_t(
+        id,
+        parent_id,
+        title,
+        name,
+        path,
+        component,
+        redirect,
+        icon,
+        extra_icon,
+        active_path,
+        show_link,
+        rank_sort,
+        created_by,
+        created_time,
+        updated_by,
+        updated_time
+        )
+        values(
+        #{id,jdbcType=VARCHAR},
+        #{parentId,jdbcType=VARCHAR},
+        #{title,jdbcType=VARCHAR},
+        #{name,jdbcType=VARCHAR},
+        #{path,jdbcType=VARCHAR},
+        #{component,jdbcType=VARCHAR},
+        #{redirect,jdbcType=VARCHAR},
+        #{icon,jdbcType=VARCHAR},
+        #{extraIcon,jdbcType=VARCHAR},
+        #{activePath,jdbcType=VARCHAR},
+        #{showLink,jdbcType=BIT},
+        #{rankSort,jdbcType=INTEGER},
+        #{currentUserId,jdbcType=VARCHAR},
+        now(),
+        #{currentUserId,jdbcType=VARCHAR},
+        now()
+        )
+    </insert>
+
+    <select id="findMenuListByPid" resultType="com.stone.it.rcms.core.vo.MenuVO">
+        <include refid="query_base_menu"/>
+        where parent_id = #{pid,jdbcType=VARCHAR}
+        order by mt.rank_sort
+    </select>
+
+    <select id="getMenuList" resultType="com.stone.it.rcms.core.vo.MenuVO">
+        <include refid="query_base_menu"/>
+        order by mt.rank_sort
+    </select>
+
+    <sql id="query_base_menu">
+        select
+        mt.parent_id as parentId,
+        mt.id,
+        mt.title,
+        mt.name,
+        mt.path,
+        mt.component,
+        mt.redirect,
+        mt.icon,
+        mt.extra_icon as extraIcon,
+        mt.active_path as activePath,
+        mt.show_link as showLink,
+        mt.rank_sort as rankSort,
+        mt.created_by as createBy,
+        mt.created_time as createTime,
+        mt.updated_by as updateBy,
+        mt.updated_time as updateTime
+        from tpl_fram_menu_t mt
+    </sql>
+
+    <update id="updateMenu">
+        update tpl_fram_menu_t
+        set
+        <if test="title !=null and title !=''">
+            title = #{title,jdbcType=VARCHAR},
+        </if>
+        <if test="name !=null and name !=''">
+            name = #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="path !=null and path !=''">
+            path = #{path,jdbcType=VARCHAR},
+        </if>
+        parent_id = #{parentId,jdbcType=VARCHAR},
+        component = #{component,jdbcType=VARCHAR},
+        redirect = #{redirect,jdbcType=VARCHAR},
+        icon = #{icon,jdbcType=VARCHAR},
+        extra_icon = #{extraIcon,jdbcType=VARCHAR},
+        active_path = #{activePath,jdbcType=VARCHAR},
+        show_link = #{showLink,jdbcType=BIT},
+        rank_sort = #{rankSort,jdbcType=INTEGER},
+        updated_by = #{currentUserId,jdbcType=VARCHAR},
+        updated_time = now()
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="findMenuListByRoleCode" resultType="com.stone.it.rcms.core.vo.MenuVO">
+        select t.* from (
+        <include refid="query_base_menu"/>
+        LEFT JOIN tpl_fram_role_menu_t rm
+        ON mt.id = rm.menu_id
+        WHERE rm.menu_id IS NOT NULL
+        and rm.role_code = #{code,jdbcType=VARCHAR}
+        ) t ORDER by t.parentId, t.rankSort ASC
+    </select>
+
+</mapper>

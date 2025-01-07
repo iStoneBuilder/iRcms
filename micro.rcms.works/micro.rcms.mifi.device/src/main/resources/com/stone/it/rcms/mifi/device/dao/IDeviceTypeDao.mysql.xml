@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.it.rcms.mifi.device.dao.IDeviceTypeDao">
+
+    <delete id="deleteDeviceType">
+        delete from tpl_mifi_device_type_t
+        where type_id = #{typeId,jdbcType=VARCHAR}
+        and tenant_id = #{tenantId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="createDeviceType">
+        insert into tpl_mifi_device_type_t
+        (type_id, type_name, type_code, sell_name, device_no, card_mode, main_pic, devi_pic, remark,
+        created_time, created_by, updated_time, updated_by, tenant_id,status)
+        values
+        (#{typeId,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR},
+        #{sellName,jdbcType=VARCHAR},
+        #{deviceNo,jdbcType=VARCHAR}, #{localCardMode,jdbcType=VARCHAR}, #{mainPic,jdbcType=VARCHAR},
+        #{deviPic,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}, now(), #{currentUserId,jdbcType=VARCHAR}, now(),
+        #{currentUserId,jdbcType=VARCHAR},
+        #{tenantId,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="findDeviceTypePageResult"
+            resultType="com.stone.it.rcms.mifi.device.vo.DeviceTypeVO">
+        <include refid="query_base"/>
+        <include refid="query_page_condition"/>
+        order by created_time desc
+        limit #{param2.startIndex},#{param2.endIndex}
+    </select>
+
+    <select id="findDeviceTypePageResultCount" resultType="int">
+        select count(1) from tpl_mifi_device_type_t
+        <include refid="query_page_condition"/>
+    </select>
+
+    <select id="findDeviceTypeDetail"
+            resultType="com.stone.it.rcms.mifi.device.vo.DeviceTypeVO">
+        <include refid="query_base"/>
+        where type_id = #{typeId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findDeviceTypeList" resultType="com.stone.it.rcms.mifi.device.vo.DeviceTypeVO">
+        <include refid="query_base"/>
+        where tenant_id = #{tenantId,jdbcType=VARCHAR}
+        <if test="status != null and status != ''">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <sql id="query_page_condition">
+        <where>
+            tenant_id = #{param1.tenantId,jdbcType=VARCHAR}
+            <if test="param1.typeId != null">
+                and type_id = #{param1.typeId,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.typeName != null and param1.typeName != ''">
+                and type_name like CONCAT('%',#{param1.typeName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.typeCode != null and param1.typeCode != ''">
+                and type_code = #{param1.typeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="param1.sellName != null and param1.sellName != ''">
+                and sell_name like CONCAT('%',#{param1.sellName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.deviceNo != null and param1.deviceNo != ''">
+                and device_no like CONCAT('%',#{param1.deviceNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param1.localCardMode != null and param1.localCardMode != ''">
+                and card_mode = #{param1.localCardMode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="query_base">
+        select
+        tenant_id as tenantId,
+        type_id as typeId,
+        type_name as typeName,
+        type_code as typeCode,
+        sell_name as sellName,
+        device_no as deviceNo,
+        card_mode as localCardMode,
+        main_pic as mainPic,
+        devi_pic as deviPic,
+        status,
+        remark,
+        created_time as createDate,
+        created_by as createBy,
+        updated_time as updateDate,
+        updated_by as updateBy
+        from tpl_mifi_device_type_t
+    </sql>
+
+    <update id="updateDeviceType">
+        update tpl_mifi_device_type_t
+        set
+        <if test="typeName != null and typeName != ''">
+            type_name = #{typeName,jdbcType=VARCHAR},
+        </if>
+        <if test="sellName != null and sellName != ''">
+            sell_name = #{sellName,jdbcType=VARCHAR},
+        </if>
+        <if test="deviceNo != null and deviceNo != ''">
+            device_no = #{deviceNo,jdbcType=VARCHAR},
+        </if>
+        <if test="localCardMode != null and localCardMode != ''">
+            card_mode = #{localCardMode,jdbcType=VARCHAR},
+        </if>
+        <if test="mainPic != null and mainPic != ''">
+            main_pic = #{mainPic,jdbcType=VARCHAR},
+        </if>
+        <if test="deviPic != null and deviPic != ''">
+            devi_pic = #{deviPic,jdbcType=VARCHAR},
+        </if>
+        <if test="remark != null and remark != ''">
+            remark = #{remark,jdbcType=VARCHAR},
+        </if>
+        updated_time = now(),
+        updated_by = #{updateBy,jdbcType=VARCHAR}
+        where tenant_id = #{tenantId,jdbcType=VARCHAR}
+        and type_id = #{typeId,jdbcType=VARCHAR}
+    </update>
+
+</mapper>
