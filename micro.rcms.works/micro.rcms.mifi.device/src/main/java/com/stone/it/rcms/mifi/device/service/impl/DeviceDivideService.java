@@ -9,7 +9,6 @@ import com.stone.it.rcms.mifi.device.dao.IDeviceDivideDao;
 import com.stone.it.rcms.mifi.device.dao.IDeviceManageDao;
 import com.stone.it.rcms.mifi.device.service.IDeviceDivideService;
 import com.stone.it.rcms.mifi.device.vo.DeviceDivideVO;
-import com.stone.it.rcms.mifi.sim.dao.ISimDao;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,9 +31,6 @@ public class DeviceDivideService implements IDeviceDivideService {
     private IDeviceDivideDao deviceDivideDao;
 
     @Inject
-    private ISimDao simDao;
-
-    @Inject
     private ICommonService commonService;
 
     @Override
@@ -51,8 +47,6 @@ public class DeviceDivideService implements IDeviceDivideService {
     public void divideDevice(DeviceDivideVO divideVO) {
         // 更新设备商户，分组信息
         deviceManageDao.updateDeviceGroupMch(divideVO.getList(), divideVO);
-        // 更新设备ICCID信息
-        simDao.updateSimMch(divideVO.getList(), divideVO);
         divideVO.setDivideId(DateUtil.formatDate());
         divideVO.setDivideNum(divideVO.getList().size());
         divideVO.setDivideStatus("SUCCESS");

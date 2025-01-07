@@ -1,14 +1,13 @@
-package com.stone.it.rcms.mifi.sim.vo;
+package com.stone.it.rcms.mifi.common.vo;
 
 import com.stone.it.rcms.core.vo.BaseVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 运营商配置
- * 
+ *
  * @author cj.stone
- * @Date 2024/11/19
+ * @Date 2025/1/7
  * @Desc
  */
 @Data

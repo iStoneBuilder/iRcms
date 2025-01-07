@@ -44,6 +44,4 @@ public interface IDeviceDataPlanService {
     @RequiresPermissions("permission:device-data-plan:list-query")
     List<DeviceDpVO> findDeviceDpList(@PathParam("device_sn") String deviceSn, @QueryParam("") DeviceDpVO vo);
 
-    int createDeviceDp(DpEventVO eventVO);
-
 }

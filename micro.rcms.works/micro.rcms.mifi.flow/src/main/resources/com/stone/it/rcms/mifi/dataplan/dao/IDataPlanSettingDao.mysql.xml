@@ -258,7 +258,4 @@
         and data_plan_no = #{dataPlanNo,jdbcType=VARCHAR}
     </update>
 
-    <select id="findDeviceOptionalDpList" resultType="com.stone.it.rcms.mifi.dataplan.vo.DataPlanVO">
-        
-    </select>
 </mapper>

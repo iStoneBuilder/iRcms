@@ -1,4 +1,4 @@
-package com.stone.it.rcms.mifi.sim.vo;
+package com.stone.it.rcms.mifi.common.vo;
 
 import com.alibaba.fastjson2.JSONObject;
 import lombok.Data;

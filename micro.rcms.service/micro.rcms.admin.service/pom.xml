@@ -34,13 +34,8 @@
             <version>1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <artifactId>micro.rcms.work.mifi</artifactId>
+            <artifactId>micro.rcms.mifi.device</artifactId>
             <groupId>com.stone.it</groupId>
-            <version>1.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.stone.it</groupId>
-            <artifactId>micro.rcms.core.pay</artifactId>
             <version>1.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

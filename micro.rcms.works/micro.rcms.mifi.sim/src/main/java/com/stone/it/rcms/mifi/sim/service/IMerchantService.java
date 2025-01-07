@@ -3,7 +3,7 @@ package com.stone.it.rcms.mifi.sim.service;
 import com.stone.it.rcms.core.annotate.RcmsMethod;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
-import com.stone.it.rcms.mifi.sim.vo.CarrierVO;
+import com.stone.it.rcms.mifi.common.vo.CarrierVO;
 import com.stone.it.rcms.mifi.sim.vo.MerchantVO;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -68,7 +68,7 @@ public interface IMerchantService {
     @RcmsMethod(name = "卡商管理.运营商-分页查询")
     @RequiresPermissions("permission:merchant:carrier:page:query")
     PageResult<CarrierVO> findMerchantCarrierPageResult(@QueryParam("") CarrierVO carrierVO,
-        @PathParam("") PageVO pageVO);
+                                                        @PathParam("") PageVO pageVO);
 
     @POST
     @Path("/carrier/records")

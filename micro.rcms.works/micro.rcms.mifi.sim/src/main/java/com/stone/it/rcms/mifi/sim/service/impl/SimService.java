@@ -7,12 +7,12 @@ import com.stone.it.rcms.core.util.DateUtil;
 import com.stone.it.rcms.core.util.UserUtil;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
-import com.stone.it.rcms.mifi.sim.beiwei.BeiWeiSimOperateService;
+import com.stone.it.rcms.mifi.common.beiwai.BeiWeiSimOperateService;
+import com.stone.it.rcms.mifi.common.service.IMifiCommonService;
+import com.stone.it.rcms.mifi.common.vo.CarrierVO;
 import com.stone.it.rcms.mifi.sim.dao.IMerchantDao;
 import com.stone.it.rcms.mifi.sim.dao.ISimDao;
 import com.stone.it.rcms.mifi.sim.service.ISimService;
-import com.stone.it.rcms.mifi.sim.vo.CarrierVO;
-import com.stone.it.rcms.mifi.sim.vo.SimAuthUrlVO;
 import com.stone.it.rcms.mifi.sim.vo.SimStatusVO;
 import com.stone.it.rcms.mifi.sim.vo.SimVO;
 
@@ -37,6 +37,8 @@ public class SimService implements ISimService {
     private IMerchantDao merchantDao;
     @Inject
     private ICommonService commonService;
+    @Inject
+    private IMifiCommonService mifiCommonService;
 
     @Override
     public PageResult<SimVO> findSimPageResult(SimVO simVO, PageVO pageVO) {
@@ -55,7 +57,7 @@ public class SimService implements ISimService {
         simVO.setIccid(iccid);
         SimVO infoVO = simDao.findSimDetail(simVO);
         // 查询卡商信息
-        CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
+        CarrierVO carrierVO = mifiCommonService.findMerchantCarrierInfoByIccId(iccid);
         // 查询运营商信息
         infoVO.setCarrierInfo(BeiWeiSimOperateService.queryCardInfo(iccid, carrierVO));
         infoVO.setStatusChangeInfo(simDao.findSimStatusChangeInfo(iccid));
@@ -96,7 +98,7 @@ public class SimService implements ISimService {
     public int syncSimDp(String iccid, SimVO simVO) {
         simVO.setIccid(iccid);
         // 查询卡商信息
-        CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
+        CarrierVO carrierVO = mifiCommonService.findMerchantCarrierInfoByIccId(iccid);
         // 查询当月信息
         JSONObject monthFlow = BeiWeiSimOperateService.queryMonthFlow(iccid, DateUtil.formatDate("yyyyMM"), carrierVO);
         if (monthFlow != null) {
@@ -125,7 +127,7 @@ public class SimService implements ISimService {
         if ("2".equals(simVO.getFlowStatus()) || "3".equals(simVO.getFlowStatus())) {
             // 查询卡商信息 openDevice stopDevice
             String operateType = "2".equals(simVO.getFlowStatus()) ? "stopDevice" : "openDevice";
-            CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
+            CarrierVO carrierVO = mifiCommonService.findMerchantCarrierInfoByIccId(iccid);
             // 停机/复机
             String reqId = BeiWeiSimOperateService.operate(iccid, operateType, carrierVO);
             if (reqId != null) {
@@ -134,18 +136,6 @@ public class SimService implements ISimService {
             }
         }
         return 0;
-    }
-
-    @Override
-    public SimAuthUrlVO authSimUrl(String iccid, SimVO simVO) {
-        simVO.setIccid(iccid);
-        // 查询卡商信息
-        CarrierVO carrierVO = merchantDao.findMerchantCarrierInfoByIccId(iccid);
-        SimAuthUrlVO simAuthUrlVO = new SimAuthUrlVO();
-        simAuthUrlVO.setIccid(iccid);
-        JSONObject urlInfo = BeiWeiSimOperateService.queryRealNameUrl(iccid, carrierVO);
-        simAuthUrlVO.setRealNameInfo(urlInfo);
-        return simAuthUrlVO;
     }
 
     @Override
@@ -158,7 +148,7 @@ public class SimService implements ISimService {
         CarrierVO carrierVO = null;
         if (!list.isEmpty()) {
             for (SimStatusVO item : list) {
-                carrierVO = merchantDao.findMerchantCarrierInfoByIccId(item.getIccid());
+                carrierVO = mifiCommonService.findMerchantCarrierInfoByIccId(item.getIccid());
                 String operateType = item.getOperateType() + "Query";
                 String status = BeiWeiSimOperateService.operateSync(item.getRequestId(), operateType, carrierVO);
                 if (status != null) {

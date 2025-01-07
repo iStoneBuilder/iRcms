@@ -37,12 +37,6 @@ public interface IDataPlanSettingService {
     List<DataPlanVO> findDataPlanList(@QueryParam("") DataPlanVO vo);
 
     @GET
-    @Path("/records/{device_sn}/optional")
-    @RcmsMethod(name = "套餐配置.设备可选套餐查询")
-    @RequiresPermissions("permission:data-plan:optional-query")
-    List<DataPlanVO> findDeviceOptionalDpList(@PathParam("device_sn") String deviceSn, @QueryParam("") DataPlanVO vo);
-
-    @GET
     @Path("/records/{data_plan_no}")
     @RcmsMethod(name = "套餐配置.详情查询")
     @RequiresPermissions("permission:data-plan:detail")

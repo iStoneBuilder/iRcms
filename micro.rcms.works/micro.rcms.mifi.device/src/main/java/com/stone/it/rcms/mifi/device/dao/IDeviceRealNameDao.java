@@ -2,7 +2,7 @@ package com.stone.it.rcms.mifi.device.dao;
 
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
-import com.stone.it.rcms.mifi.sim.vo.SimNameVO;
+import com.stone.it.rcms.mifi.device.vo.DeviceNameVO;
 
 /**
  *
@@ -11,11 +11,12 @@ import com.stone.it.rcms.mifi.sim.vo.SimNameVO;
  * @Desc
  */
 public interface IDeviceRealNameDao {
-    PageResult<SimNameVO> findSimNamePageResult(SimNameVO simNameVO, PageVO pageVO);
 
-    int createSimName(SimNameVO simNameVO);
+    PageResult<DeviceNameVO> findSimNamePageResult(DeviceNameVO deviceNameVO, PageVO pageVO);
 
-    int syncSimName(SimNameVO simNameVO);
+    int createSimName(DeviceNameVO deviceNameVO);
 
-    int cleanSimName(SimNameVO simNameVO);
+    int syncSimName(DeviceNameVO deviceNameVO);
+
+    int cleanSimName(DeviceNameVO deviceNameVO);
 }

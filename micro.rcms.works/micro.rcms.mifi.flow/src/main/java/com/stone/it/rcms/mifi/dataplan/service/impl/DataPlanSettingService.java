@@ -1,17 +1,15 @@
 package com.stone.it.rcms.mifi.dataplan.service.impl;
 
+import com.stone.it.rcms.core.common.service.ICommonService;
+import com.stone.it.rcms.core.common.vo.CommonVO;
 import com.stone.it.rcms.core.exception.RcmsApplicationException;
 import com.stone.it.rcms.core.util.RandomUtil;
 import com.stone.it.rcms.core.util.UserUtil;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
-import com.stone.it.rcms.core.common.service.ICommonService;
-import com.stone.it.rcms.core.common.vo.CommonVO;
 import com.stone.it.rcms.mifi.dataplan.dao.IDataPlanSettingDao;
 import com.stone.it.rcms.mifi.dataplan.service.IDataPlanSettingService;
 import com.stone.it.rcms.mifi.dataplan.vo.DataPlanVO;
-import com.stone.it.rcms.mifi.device.service.IDeviceManageService;
-import com.stone.it.rcms.mifi.device.vo.DeviceVO;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,9 +31,6 @@ public class DataPlanSettingService implements IDataPlanSettingService {
     @Inject
     private ICommonService commonService;
 
-    @Inject
-    private IDeviceManageService deviceManageService;
-
     @Override
     public PageResult<DataPlanVO> findPageDataPlanResult(DataPlanVO vo, PageVO pageVO) {
         // 没有传商户过滤，获取商户及商户下的所有商户
@@ -54,12 +49,6 @@ public class DataPlanSettingService implements IDataPlanSettingService {
             list = commonService.findEnterpriseListByParentId(vo.getCurrentEnterpriseId());
         }
         return dataPlanSettingDao.findDataPlanList(vo, list);
-    }
-
-    @Override
-    public List<DataPlanVO> findDeviceOptionalDpList(String deviceSn, DataPlanVO vo) {
-        DeviceVO deviceInfo = deviceManageService.findDeviceDetail(deviceSn);
-        return dataPlanSettingDao.findDeviceOptionalDpList(deviceInfo, vo);
     }
 
     @Override

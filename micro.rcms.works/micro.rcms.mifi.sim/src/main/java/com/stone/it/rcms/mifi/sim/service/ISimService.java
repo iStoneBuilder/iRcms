@@ -3,7 +3,6 @@ package com.stone.it.rcms.mifi.sim.service;
 import com.stone.it.rcms.core.annotate.RcmsMethod;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
-import com.stone.it.rcms.mifi.sim.vo.SimAuthUrlVO;
 import com.stone.it.rcms.mifi.sim.vo.SimVO;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -73,12 +72,6 @@ public interface ISimService {
     @RcmsMethod(name = "SIM卡管理.停机复机")
     @RequiresPermissions("permission:sim:open-stop")
     int operateSim(@PathParam("iccid") String iccid, SimVO simVO);
-
-    @POST
-    @Path("/records/{iccid}/auth-url")
-    @RcmsMethod(name = "SIM卡管理.获得实名认证地址", type = "Y")
-    @RequiresPermissions("permission:sim:auth.url")
-    SimAuthUrlVO authSimUrl(@PathParam("iccid") String iccid, SimVO simVO);
 
     @POST
     @Path("/records/open-stop/sync")

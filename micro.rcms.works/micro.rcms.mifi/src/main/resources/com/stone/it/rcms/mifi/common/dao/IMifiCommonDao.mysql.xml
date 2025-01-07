@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stone.it.rcms.mifi.common.dao.IMifiCommonDao">
+
+
+    <sql id="query_base_carrier">
+        SELECT
+        c.carrier_code as carrierCode,
+        c.address,
+        c.app_key as appKey,
+        c.app_secret as appSecret,
+        c.created_by as createBy,
+        c.updated_by as updateBy,
+        c.created_time as createDate,
+        c.updated_time as updateDate
+        FROM
+        tpl_mifi_merchant_carrier_t c
+    </sql>
+
+    <select id="findMerchantCarrierInfoByIccId" resultType="com.stone.it.rcms.mifi.common.vo.CarrierVO">
+        <include refid="query_base_carrier"/>
+        WHERE
+        CONCAT_WS('_', c.merchant_code, c.carrier_code) = (
+        SELECT
+        CONCAT_WS('_', s.merchant_code, s.carrier_code)
+        FROM
+        tpl_mifi_sim_t s
+        WHERE
+        s.iccid = #{iccid,jdbcType=VARCHAR})
+    </select>
+</mapper>

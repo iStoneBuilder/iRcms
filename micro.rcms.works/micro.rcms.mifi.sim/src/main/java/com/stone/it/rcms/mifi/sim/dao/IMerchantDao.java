@@ -2,7 +2,7 @@ package com.stone.it.rcms.mifi.sim.dao;
 
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
-import com.stone.it.rcms.mifi.sim.vo.CarrierVO;
+import com.stone.it.rcms.mifi.common.vo.CarrierVO;
 import com.stone.it.rcms.mifi.sim.vo.MerchantVO;
 import java.util.List;
 import javax.ws.rs.PathParam;
@@ -36,5 +36,4 @@ public interface IMerchantDao {
 
     List<MerchantVO> findMerchantList(MerchantVO merchantVO);
 
-    CarrierVO findMerchantCarrierInfoByIccId(@Param("iccid") String iccid);
 }

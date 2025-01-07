@@ -3,8 +3,6 @@ package com.stone.it.rcms.mifi.sim.dao;
 import com.stone.it.rcms.core.common.vo.CommonVO;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
-import com.stone.it.rcms.mifi.device.vo.DeviceDivideVO;
-import com.stone.it.rcms.mifi.device.vo.DeviceVO;
 import com.stone.it.rcms.mifi.sim.vo.SimStatusVO;
 import com.stone.it.rcms.mifi.sim.vo.SimVO;
 import java.util.List;
@@ -29,13 +27,7 @@ public interface ISimDao {
 
     List<String> findNotExistIccid(@Param("list") List<SimVO> list, @Param("tenantId") String tenantId);
 
-    int updateSimRelationship(@Param("list") List<DeviceVO> noExists);
-
-    void updateSimMch(@Param("list") List<DeviceVO> list, @Param("divide") DeviceDivideVO divideVO);
-
     SimVO findSimDetail(SimVO simVO);
-
-    int updateSimDeviceInfo(DeviceVO detail);
 
     int syncSimDp(SimVO simVO);
 

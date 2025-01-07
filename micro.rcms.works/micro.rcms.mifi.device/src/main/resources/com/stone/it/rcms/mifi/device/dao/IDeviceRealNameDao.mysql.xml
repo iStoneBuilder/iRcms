@@ -20,7 +20,7 @@
         </where>
     </sql>
 
-    <select id="findSimNamePageResult" resultType="com.stone.it.rcms.mifi.sim.vo.SimNameVO">
+    <select id="findSimNamePageResult" resultType="com.stone.it.rcms.mifi.device.vo.DeviceNameVO">
         SELECT
         tenant_id as tenantId,
         enterprise_id as enterpriseId,

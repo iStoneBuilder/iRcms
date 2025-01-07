@@ -42,7 +42,6 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_sim_t` (
   `online_status` VARCHAR(100)  COMMENT '是否在线', -- 1:在线 2:离线
   `flow_status` VARCHAR(100)  COMMENT '卡流量状态', -- 0=测试，1=待激活(沉默期)，2=正常使用，3=停机，6=注销，11=空卡
   `sim_type` VARCHAR(100) COMMENT '卡类型', -- 1:本地卡 2:云卡
-  `msisdn` VARCHAR(100)  COMMENT '物联网号',
   `flow_used` VARCHAR(100)  COMMENT '已使用流量', -- 单位：MB
   `flow_remain` VARCHAR(100)  COMMENT '剩余流量', -- 单位：MB
   `flow_used_day` VARCHAR(100) COMMENT '今日已使用流量', -- 单位：MB
@@ -136,6 +135,8 @@ CREATE TABLE IF NOT EXISTS `tpl_mifi_device_t` (
   `imei` VARCHAR(100)  COMMENT '移动设备识别码',
   `msisdn1` VARCHAR(100)  COMMENT '物联网号1',
   `msisdn2` VARCHAR(100)  COMMENT '物联网号2',
+  `iccid1` VARCHAR(100)  COMMENT 'iccid1',
+  `iccid2` VARCHAR(100)  COMMENT 'iccid2',
   `net_mode` VARCHAR(100) NOT NULL COMMENT '上网模式',
   `on_line` VARCHAR(100)  COMMENT '在线？',
   `device_type` VARCHAR(100) NOT NULL COMMENT '设备类型',
