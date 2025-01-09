@@ -63,7 +63,7 @@
         from tpl_fram_order_t
     </sql>
 
-    <select id="findOrderDetail" resultType="com.stone.it.rcms.core.pay.vo.OrderVO">
+    <select id="findOrderDetail" resultType="com.stone.it.rcms.core.pay.vo.PayOrderVO">
         <include refid="query_base_sql"/>
         where order_no = #{orderNo,jdbcType=VARCHAR}
         <if test="tenantId != null and tenantId != ''">

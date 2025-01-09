@@ -7,9 +7,10 @@
         <groupId>com.stone.it</groupId>
         <artifactId>micro.rcms.framework</artifactId>
         <version>1.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>micro.rcms.starter</artifactId>
+    <artifactId>micro.rcms.core.sms</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -17,14 +18,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>micro.rcms.admin</module>
-        <module>micro.rcms.h5web</module>
-        <module>micro.rcms.timed</module>
-        <module>micro.rcms.iothub</module>
-    </modules>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -21,6 +21,7 @@
         <module>micro.rcms.core.base</module>
         <module>micro.rcms.core.cron</module>
         <module>micro.rcms.core.coms</module>
+        <module>micro.rcms.core.sms</module>
     </modules>
 
     <properties>

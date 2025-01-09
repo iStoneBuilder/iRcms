@@ -5,11 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.stone.it</groupId>
-        <artifactId>micro.rcms.starter</artifactId>
+        <artifactId>micro.rcms.framework</artifactId>
         <version>1.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>micro.rcms.admin</artifactId>
+    <artifactId>micro.rcms.iothub</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -20,14 +21,13 @@
     <dependencies>
         <dependency>
             <groupId>com.stone.it</groupId>
-            <artifactId>micro.rcms.admin.service</artifactId>
+            <artifactId>micro.rcms.core</artifactId>
             <version>1.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
-
     <build>
-        <finalName>admin-api</finalName>
+        <finalName>iot-hub-api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -35,7 +35,7 @@
                 <version>2.2.6.RELEASE</version>
                 <configuration>
                     <layout>ZIP</layout>
-                    <mainClass>com.stone.it.rcms.RcmsAdminApiApplication</mainClass>
+                    <mainClass>com.stone.it.rcms.RcmsIotHubApiApplication</mainClass>
                     <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
                 </configuration>
                 <executions>
@@ -64,6 +64,5 @@
             </resource>
         </resources>
     </build>
-
 
 </project>

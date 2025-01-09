@@ -36,7 +36,7 @@ public class ShiroConfig {
 
     private static final String[] AUTHC_PATHS = {"/rcms/**"};
     private static final Logger LOGGER = LoggerFactory.getLogger(ShiroConfig.class);
-    private static final String[] ANON_PATHS = {"/user/login", "/user/refresh/login", "/user/register", "/user/token"};
+    private static final String[] ANON_PATHS = {"/login", "/refresh/login", "/register", "/token"};
     /**
      * 不需要认证授权的路径
      */

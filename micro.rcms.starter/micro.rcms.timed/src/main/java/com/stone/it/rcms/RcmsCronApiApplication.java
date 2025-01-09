@@ -15,12 +15,12 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.stone.it"})
-public class RcmsMifiApiApplication {
+public class RcmsCronApiApplication {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RcmsMifiApiApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RcmsCronApiApplication.class);
 
     public static void main(String[] args) {
         LOGGER.info("Rcms Mifi Api Application Start now ........");
-        SpringApplication.run(RcmsMifiApiApplication.class, args);
+        SpringApplication.run(RcmsCronApiApplication.class, args);
     }
 }

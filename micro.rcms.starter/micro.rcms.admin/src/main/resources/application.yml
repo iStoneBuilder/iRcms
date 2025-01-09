@@ -11,9 +11,9 @@ spring:
   # 数据库信息配置
   datasource:
     name: rcms
-    url: jdbc:mysql://rm-wz9mm7xv3r2q4v71m.mysql.rds.aliyuncs.com:3306/ms_admin?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
-    username: wheat_shark
-    password: mm@13265044565
+    url: jdbc:mysql://127.0.0.1:3306/rcms
+    username: root
+    password: max756423
     driver-class-name: com.mysql.jdbc.Driver
 
 # 指定日志文件

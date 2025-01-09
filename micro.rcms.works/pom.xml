@@ -24,5 +24,6 @@
         <module>micro.rcms.mifi.sim</module>
         <module>micro.rcms.mifi.device</module>
         <module>micro.rcms.mifi.flow</module>
+        <module>micro.rcms.mifi.tcp</module>
     </modules>
 </project>
