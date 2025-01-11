@@ -21,10 +21,6 @@ public class TcpSession {
         return channel.id().asLongText();
     }
 
-    public static TcpSession buildSession(Channel channel) {
-        return buildSession(channel, null);
-    }
-
     public static TcpSession buildSession(Channel channel, String sn) {
         TcpSession session = new TcpSession();
         session.setChannel(channel);

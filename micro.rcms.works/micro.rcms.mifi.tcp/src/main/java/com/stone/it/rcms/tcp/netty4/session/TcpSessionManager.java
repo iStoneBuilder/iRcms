@@ -1,5 +1,8 @@
 package com.stone.it.rcms.tcp.netty4.session;
 
+import com.stone.it.rcms.tcp.netty4.service.DeviceStateManager;
+import com.stone.it.rcms.tcp.netty4.utils.SpringContextUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import org.slf4j.Logger;
@@ -38,9 +41,9 @@ public class TcpSessionManager {
         return instance;
     }
 
-    // public void addTcpSession(TcpSession session) {
-    // this.put(session.getId(), session);
-    // }
+    public void addTcpSession(TcpSession session) {
+        this.put(session.getId(), session);
+    }
 
     public boolean containsKey(String sessionId) {
         return this.sessionIdMap.containsKey(sessionId);
@@ -59,41 +62,38 @@ public class TcpSessionManager {
         return sessionId == null ? null : this.findBySessionId(sessionId);
     }
 
-    // public synchronized TcpSession put(String key, TcpSession session) {
-    // if (StringUtils.isNotBlank(session.getSn())) {
-    // this.snMap.put(session.getSn(), session.getId());
-    // }
-    //
-    // return this.sessionIdMap.put(key, session);
-    // }
+    public synchronized TcpSession put(String key, TcpSession session) {
+        if (StringUtils.isNotBlank(session.getSn())) {
+            this.snMap.put(session.getSn(), session.getId());
+        }
+        return this.sessionIdMap.put(key, session);
+    }
 
-    // public synchronized TcpSession removeBySessionId(String sessionId) {
-    // if (sessionId == null) {
-    // return null;
-    // } else {
-    // TcpSession session = this.sessionIdMap.remove(sessionId);
-    // if (session == null) {
-    // return null;
-    // } else {
-    // String sn = session.getSn();
-    // if (sn != null) {
-    // this.snMap.remove(sn);
-    // this.offline(sn);
-    // }
-    //
-    // return session;
-    // }
-    // }
-    // }
+    public synchronized TcpSession removeBySessionId(String sessionId) {
+        if (sessionId == null) {
+            return null;
+        } else {
+            TcpSession session = this.sessionIdMap.remove(sessionId);
+            if (session == null) {
+                return null;
+            } else {
+                String sn = session.getSn();
+                if (sn != null) {
+                    this.snMap.remove(sn);
+                    this.offline(sn);
+                }
 
-    // private void offline(String sn) {
-    // DeviceStateManager deviceStateManager =
-    // (DeviceStateManager)SpringContextUtils.getBean(DeviceStateManager.class);
-    // if (deviceStateManager != null) {
-    // deviceStateManager.remove(sn);
-    // }
-    //
-    // }
+                return session;
+            }
+        }
+    }
+
+    private void offline(String sn) {
+        DeviceStateManager deviceStateManager = SpringContextUtils.getBean(DeviceStateManager.class);
+        if (deviceStateManager != null) {
+            deviceStateManager.remove(sn);
+        }
+    }
 
     public Set<String> keySet() {
         return this.sessionIdMap.keySet();

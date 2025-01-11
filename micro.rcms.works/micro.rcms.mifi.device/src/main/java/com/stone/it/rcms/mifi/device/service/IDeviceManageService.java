@@ -4,6 +4,7 @@ import com.stone.it.rcms.core.annotate.RcmsMethod;
 import com.stone.it.rcms.core.vo.PageResult;
 import com.stone.it.rcms.core.vo.PageVO;
 import com.stone.it.rcms.mifi.device.vo.DeviceVO;
+import com.stone.it.rcms.tcp.netty4.vo.DeviceSetupVO;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
@@ -59,4 +60,10 @@ public interface IDeviceManageService {
     @RcmsMethod(name = "终端设备.删除")
     @RequiresPermissions("permission:device-manage:delete")
     int deleteDevice(@PathParam("device_sn") String deviceSn);
+
+    @POST
+    @Path("/records/{device_sn}/{cmd_id}")
+    @RcmsMethod(name = "终端设备.控制")
+    @RequiresPermissions("permission:device-manage:control")
+    int controlDevice(@PathParam("device_sn") String deviceSn, DeviceSetupVO vo);
 }

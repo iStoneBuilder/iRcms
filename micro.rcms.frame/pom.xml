@@ -22,14 +22,16 @@
         <module>micro.rcms.core.cron</module>
         <module>micro.rcms.core.coms</module>
         <module>micro.rcms.core.sms</module>
+        <module>micro.rcms.core.redis</module>
     </modules>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <packaging>pom</packaging>
+
 
 </project>
