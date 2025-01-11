@@ -115,15 +115,16 @@ public class TreeUtil {
         for (String key : META_KEYS) {
             if (node.containsKey(key) && node.get(key) != null && node.get(key) != "") {
                 switch (key) {
-                    case "roles", "auths" -> {
+                    case "roles":
+                    case "auths": {
                         meta.put(key, (node.getString(key)).split(","));
                         continue;
                     }
-                    case "rank" -> {
+                    case "rank": {
                         meta.put(key, node.getIntValue("rankSort"));
                         continue;
                     }
-                    case "showLink" -> {
+                    case "showLink": {
                         meta.put(key, node.getBoolean(key));
                         continue;
                     }

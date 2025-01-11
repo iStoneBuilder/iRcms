@@ -104,7 +104,8 @@ public class RequestExecute extends RequestClient {
                     ((HttpPost)base).setEntity(httpEntity);
                 }
                 break;
-            case PUT, PATCH:
+            case PUT:
+            case PATCH:
                 base = new HttpPut(url);
                 if (body != null) {
                     StringEntity httpEntity = new StringEntity(body);

@@ -25,6 +25,7 @@ import java.util.function.BiConsumer;
 public class TcpSessionManager {
 
     private static final Logger logger = LoggerFactory.getLogger(TcpSessionManager.class);
+
     private static volatile TcpSessionManager instance = null;
     private final Map<String, TcpSession> sessionIdMap = new ConcurrentHashMap<>();
     private final Map<String, String> snMap = new ConcurrentHashMap<>();
@@ -90,9 +91,7 @@ public class TcpSessionManager {
 
     private void offline(String sn) {
         DeviceStateManager deviceStateManager = SpringContextUtils.getBean(DeviceStateManager.class);
-        if (deviceStateManager != null) {
-            deviceStateManager.remove(sn);
-        }
+        deviceStateManager.remove(sn);
     }
 
     public Set<String> keySet() {
