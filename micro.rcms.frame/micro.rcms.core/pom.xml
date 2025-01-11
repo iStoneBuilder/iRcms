@@ -12,14 +12,14 @@
     <artifactId>micro.rcms.core</artifactId>
 
     <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <cxf.core.jaxrs>3.5.10</cxf.core.jaxrs>
         <fastjson.version>2.0.15</fastjson.version>
         <httpclient.version>4.5.13</httpclient.version>
         <jackson.annotations>2.13.4</jackson.annotations>
         <jackson.json.provider>2.13.4</jackson.json.provider>
         <lombok.version>1.18.24</lombok.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
         <mybatis-s-starter>2.3.0</mybatis-s-starter>
         <mysql-c-version>8.0.32</mysql-c-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -152,5 +152,17 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>16</source>
+                    <target>16</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
